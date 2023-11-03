@@ -12,14 +12,14 @@
 
 ### Type
 
-- chore: Changes to our CI configuration files and scripts.
-- docs: Documentation only changes.
-- feat: A new feature.
-- fix: A bug fix.
-- perf: A code change that improves performance.
-- refactor: A code change that neither fixes a bug nor adds a feature.
-- style: Format correction, not css changes.
-- test: Adding missing tests or correcting existing tests.
+-   chore: Changes to our CI configuration files and scripts.
+-   docs: Documentation only changes.
+-   feat: A new feature.
+-   fix: A bug fix.
+-   perf: A code change that improves performance.
+-   refactor: A code change that neither fixes a bug nor adds a feature.
+-   style: Format correction, not css changes.
+-   test: Adding missing tests or correcting existing tests.
 
 ### Scope
 
@@ -29,10 +29,10 @@ The scope could be anything specifying the microservice of the commit change.
 
 The subject contains a succinct description of the change:
 
-- max 50 characters
-- use the imperative, present tense: "change" not "changed" nor "changes"
-- don't capitalize the first letter
-- no dot (.) at the end
+-   max 50 characters
+-   use the imperative, present tense: "change" not "changed" nor "changes"
+-   don't capitalize the first letter
+-   no dot (.) at the end
 
 ### Body
 
@@ -60,7 +60,7 @@ This reverts commit 667ecc1.
 #!/bin/sh
 
 commit_types="(chore|docs|feat|fix|perf|refactor|revert|style|test)"
-convetional_commit_regex="^${commit_types}(\([a-z \-]+\))?!?: .{1,50}(\n.+)+$"
+convetional_commit_regex="^${commit_types}(\([a-z \-]+\))?!?: .{1,50}(\n.+)*$"
 commit_message=$(cat "$1")
 
 if [[ "$commit_message" =~ $convetional_commit_regex ]]; then
