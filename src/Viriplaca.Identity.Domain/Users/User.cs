@@ -56,7 +56,7 @@ public class User : AggregateRoot
 
     public bool IsEnabled { get; private set; }
 
-    public DateTimeOffset CreatedOn { get; private init; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset CreatedAt { get; private init; } = DateTimeOffset.UtcNow;
 
     public IReadOnlyCollection<UserRole> UserRoles => _userRoles.AsReadOnly();
 
@@ -128,7 +128,7 @@ public class User : AggregateRoot
 
     public bool IsValidRefreshToken(string refreshToken)
     {
-        return _userRefreshTokens.Any(x => x.RefreshToken == refreshToken && !x.IsExpired);
+        return _userRefreshTokens.Any(x => x.RefreshToken == refreshToken && x.IsActive);
     }
 
     public void AddRefreshToken(string refreshToken, TimeSpan expiry)

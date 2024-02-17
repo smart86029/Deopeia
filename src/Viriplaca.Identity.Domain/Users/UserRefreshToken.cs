@@ -6,23 +6,36 @@ public class UserRefreshToken : Entity
     {
     }
 
-    internal UserRefreshToken(string refreshToken, DateTimeOffset expireOn, Guid userId)
+    internal UserRefreshToken(string refreshToken, DateTimeOffset expiredAt, Guid userId)
     {
-        if (expireOn < DateTimeOffset.UtcNow)
+        if (expiredAt < DateTimeOffset.UtcNow)
         {
-            throw new DomainException("Expired on must be greater than now");
+            throw new DomainException("Expired at must be greater than now");
         }
 
         UserId = userId;
         RefreshToken = refreshToken;
-        ExpireOn = expireOn;
+        ExpiredAt = expiredAt;
     }
 
     public Guid UserId { get; private init; }
 
     public string RefreshToken { get; private init; } = string.Empty;
 
-    public DateTimeOffset ExpireOn { get; private init; }
+    public DateTimeOffset IssuedAt { get; private init; } = DateTimeOffset.UtcNow;
 
-    public bool IsExpired => DateTimeOffset.UtcNow > ExpireOn;
+    public DateTimeOffset ExpiredAt { get; private init; }
+
+    public DateTimeOffset? RevokedAt { get; private set; }
+
+    public bool IsExpired => DateTimeOffset.UtcNow > ExpiredAt;
+
+    public bool IsRevoked => RevokedAt is not null;
+
+    public bool IsActive => !IsExpired && !IsRevoked;
+
+    public void Revoke()
+    {
+        RevokedAt = DateTimeOffset.UtcNow;
+    }
 }

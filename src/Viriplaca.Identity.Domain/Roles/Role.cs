@@ -3,7 +3,7 @@ using Viriplaca.Identity.Domain.Users;
 
 namespace Viriplaca.Identity.Domain.Roles;
 
-public class Role :AggregateRoot
+public class Role : AggregateRoot
 {
     private readonly List<UserRole> _userRoles = [];
     private readonly List<RolePermission> _rolePermissions = [];
