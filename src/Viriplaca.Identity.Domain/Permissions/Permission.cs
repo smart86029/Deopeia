@@ -2,39 +2,35 @@ using Viriplaca.Identity.Domain.Roles;
 
 namespace Viriplaca.Identity.Domain.Permissions;
 
-public class Permission : AggregateRoot
+public class Permission : AggregateRoot, ILocalizable<PermissionLocale>
 {
+    private readonly EntityLocaleCollection<PermissionLocale> _locales = [];
     private readonly List<RolePermission> _rolePermissions = [];
 
     private Permission()
     {
     }
 
-    public Permission(string code, string name, string description, bool isEnabled)
+    public Permission(string code, bool isEnabled)
     {
         if (string.IsNullOrWhiteSpace(code))
         {
             throw new DomainException("Code can not be null");
         }
 
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new DomainException("Name can not be null");
-        }
-
         Code = code.Trim();
-        Name = name.Trim();
-        Description = description?.Trim();
         IsEnabled = isEnabled;
     }
 
     public string Code { get; private set; } = string.Empty;
 
-    public string Name { get; private set; } = string.Empty;
+    public string Name => _locales[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
 
-    public string? Description { get; private set; }
+    public string? Description => _locales[CultureInfo.CurrentCulture]?.Description;
 
     public bool IsEnabled { get; private set; }
+
+    public IReadOnlyCollection<PermissionLocale> Locales => _locales;
 
     public IReadOnlyCollection<RolePermission> RolePermissions => _rolePermissions;
 
@@ -48,19 +44,14 @@ public class Permission : AggregateRoot
         Code = code.Trim();
     }
 
-    public void UpdateName(string name)
+    public void UpdateName(string name, CultureInfo culture)
     {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new DomainException("Name can not be null");
-        }
-
-        Name = name.Trim();
+        _locales[culture].UpdateName(name);
     }
 
-    public void UpdateDescription(string description)
+    public void UpdateDescription(string description, CultureInfo culture)
     {
-        Description = description?.Trim();
+        _locales[culture].UpdateDescription(description);
     }
 
     public void Enable()
