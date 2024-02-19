@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Viriplaca.Common.UnitTests"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Viriplaca.Identity", "Viriplaca.Identity", "{A6096633-FACF-4154-9F72-2317CBD19930}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viriplaca.Identity.Api", "src\Viriplaca.Identity.Api\Viriplaca.Identity.Api.csproj", "{CA3BCE84-3CE6-4942-9B02-948320E6F8B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Viriplaca.Identity.Api", "src\Viriplaca.Identity.Api\Viriplaca.Identity.Api.csproj", "{CA3BCE84-3CE6-4942-9B02-948320E6F8B9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Viriplaca.Identity.App", "src\Viriplaca.Identity.App\Viriplaca.Identity.App.csproj", "{A41819F8-DBAE-4E47-A1C6-427D7F7C03B6}"
 EndProject
@@ -23,6 +23,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Viriplaca.Identity.Domain", "src\Viriplaca.Identity.Domain\Viriplaca.Identity.Domain.csproj", "{2BCE026E-4978-4B0D-BB89-C55E3C6C18F7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Viriplaca.Identity.Domain.UnitTests", "tests\Viriplaca.Identity.Domain.UnitTests\Viriplaca.Identity.Domain.UnitTests.csproj", "{37B7CB5D-A793-4172-92AC-E24548360344}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viriplaca.Common.EntityFrameworkCore", "src\Viriplaca.Common.EntityFrameworkCore\Viriplaca.Common.EntityFrameworkCore.csproj", "{D8A299DB-6B6A-4F64-BA87-1B7874A3531A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,10 @@ Global
 		{37B7CB5D-A793-4172-92AC-E24548360344}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37B7CB5D-A793-4172-92AC-E24548360344}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37B7CB5D-A793-4172-92AC-E24548360344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8A299DB-6B6A-4F64-BA87-1B7874A3531A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8A299DB-6B6A-4F64-BA87-1B7874A3531A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8A299DB-6B6A-4F64-BA87-1B7874A3531A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8A299DB-6B6A-4F64-BA87-1B7874A3531A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
