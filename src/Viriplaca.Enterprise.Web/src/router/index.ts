@@ -8,6 +8,25 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
+      children: [
+        {
+          path: 'leave',
+          name: 'leave.manage',
+          redirect: { name: '' },
+          children: [
+            {
+              path: '',
+              name: 'leave.list',
+              component: () => import('../views/leave/LeaveList.vue'),
+            },
+            {
+              path: 'create',
+              name: 'leave.create',
+              component: () => import('../views/leave/LeaveForm.vue'),
+            },
+          ],
+        },
+      ],
     },
   ],
 });

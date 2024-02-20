@@ -1,0 +1,37 @@
+<template>
+  <el-menu
+    :default-active="
+      $route.matched.length > 2 ? $route.matched[2] : $route.path
+    "
+    router
+  >
+    <template v-for="menu in menus" :key="menu.name">
+      <el-sub-menu v-if="menu.children" :index="menu.name">
+        <template #title>
+          {{ $t(menu.name) }}
+        </template>
+        <el-menu-item
+          v-for="child in menu.children"
+          :key="child.name"
+          :index="child.path"
+        >
+          {{ $t(child.name) }}
+        </el-menu-item>
+      </el-sub-menu>
+      <el-menu-item v-else :index="menu.path">
+        {{ $t(menu.name) }}
+      </el-menu-item>
+    </template>
+  </el-menu>
+</template>
+
+<script setup lang="ts">
+import type { Menu } from '@/models/menu';
+
+const menus = [
+  {
+    name: 'route.leave.manage',
+    children: [{ name: 'route.leave.list', path: '/leave' }],
+  },
+] as Menu[];
+</script>

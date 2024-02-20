@@ -3,7 +3,7 @@
     <el-header>
       <h1>{{ $t('common.title') }}</h1>
       <NavBreadcrumb />
-      <span class="divider"></span>
+      <FlexDivider />
       <el-switch
         v-model="isDark"
         inline-prompt
@@ -42,30 +42,9 @@
     </el-header>
     <el-container>
       <el-aside width="256px">
-        <el-menu
-          :default-active="
-            $route.matched.length > 2 ? $route.matched[2] : $route.path
-          "
-          router
-        >
-          <template v-for="menu in menus" :key="menu.name">
-            <el-sub-menu v-if="menu.children" :index="menu.name">
-              <template #title>
-                {{ $t(menu.name) }}
-              </template>
-              <el-menu-item
-                v-for="child in menu.children"
-                :key="child.name"
-                :index="child.path"
-              >
-                {{ $t(child.name) }}
-              </el-menu-item>
-            </el-sub-menu>
-            <el-menu-item v-else :index="menu.path">
-              {{ $t(menu.name) }}
-            </el-menu-item>
-          </template>
-        </el-menu>
+        <el-scrollbar view-class="scrollbar-view">
+          <NavAside />
+        </el-scrollbar>
       </el-aside>
       <el-main>
         <el-scrollbar view-class="scrollbar-view">
@@ -79,16 +58,14 @@
 
 <script setup lang="ts">
 // import { useAuthStore } from '@/stores/auth';
-import { usePreferencesStore } from '@/stores/preferences';
 import { type AppLocale } from '@/models/app-locale';
+import { usePreferencesStore } from '@/stores/preferences';
 
 const isDark = useDark();
 // const authStore = useAuthStore();
 const { t } = useI18n();
 const { locales, locale } = storeToRefs(usePreferencesStore());
 const dialogVisible = ref(false);
-
-const menus = [] as Menu[];
 
 const changeLocale = (command: AppLocale) => {
   locale.value = command;
@@ -109,7 +86,7 @@ const memberRoute = (command: string) => {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 h1 {
   width: 240px;
 }
@@ -119,12 +96,9 @@ h1 {
   align-items: center;
   gap: 16px;
   border-bottom: 1px solid var(--el-border-color);
-
-  .divider {
-    flex: 1;
-  }
 }
 
+.el-aside,
 .el-main {
   height: calc(100vh - 60px);
 
@@ -138,7 +112,7 @@ h1 {
   margin-top: 10px;
 }
 
-.scrollbar-view {
+:deep(.scrollbar-view) {
   padding: 20px;
 }
 </style>
