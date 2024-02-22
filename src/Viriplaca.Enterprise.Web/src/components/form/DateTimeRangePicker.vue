@@ -2,8 +2,8 @@
   <el-date-picker
     type="datetimerange"
     range-separator="~"
-    :start-placeholder="$t('timer.startDate')"
-    :end-placeholder="$t('timer.endDate')"
+    :start-placeholder="$t('common.startTime')"
+    :end-placeholder="$t('common.endTime')"
     :default-time="defaultTime"
   />
 </template>

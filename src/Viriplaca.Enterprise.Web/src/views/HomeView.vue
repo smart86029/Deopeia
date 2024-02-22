@@ -98,21 +98,25 @@ h1 {
   border-bottom: 1px solid var(--el-border-color);
 }
 
-.el-aside,
+.el-aside {
+  height: calc(100vh - 60px);
+}
+
 .el-main {
   height: calc(100vh - 60px);
+  padding: 0;
 
   > .el-scrollbar {
-    margin: -20px;
+    height: 100%;
   }
-}
 
-.el-main > *:not(:first-child) {
-  background-color: var(--el-bg-color);
-  margin-top: 10px;
-}
+  > *:not(:first-child) {
+    background-color: var(--el-bg-color);
+    margin-top: 10px;
+  }
 
-:deep(.scrollbar-view) {
-  padding: 20px;
+  :deep(.scrollbar-view) {
+    padding: var(--el-main-padding);
+  }
 }
 </style>

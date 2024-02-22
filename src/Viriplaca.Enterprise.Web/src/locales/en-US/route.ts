@@ -4,6 +4,7 @@ export default {
     leave: {
       manage: 'Leave Management',
       list: 'Leave List',
+      apply: 'Apply Leave',
     },
   },
 };

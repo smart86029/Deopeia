@@ -20,8 +20,8 @@ const router = createRouter({
               component: () => import('../views/leave/LeaveList.vue'),
             },
             {
-              path: 'create',
-              name: 'leave.create',
+              path: 'apply',
+              name: 'leave.apply',
               component: () => import('../views/leave/LeaveForm.vue'),
             },
           ],

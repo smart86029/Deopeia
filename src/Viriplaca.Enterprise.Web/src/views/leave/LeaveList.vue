@@ -6,13 +6,14 @@
       </el-form-item>
     </el-form>
     <FlexDivider />
-    <ButtonCreate route="leave.create" />
+    <ButtonCreate route="leave.apply" :text="$t('operation.apply')" />
   </div>
   <el-table v-loading="loading" :data="leaves">
     <el-table-column prop="type" :label="$t('common.type')" />
-    <el-table-column prop="startedAt" :label="$t('common.nickname')" />
-    <el-table-column prop="endedAt" :label="$t('common.status')" />
-    <el-table-column prop="status" :label="$t('operator.role')" />
+    <el-table-column prop="startedAt" :label="$t('common.startTime')" />
+    <el-table-column prop="endedAt" :label="$t('common.endTime')" />
+    <el-table-column prop="duration" :label="$t('common.duration')" />
+    <el-table-column prop="status" :label="$t('common.status')" />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
         <TextLink
