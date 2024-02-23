@@ -26,21 +26,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Viriplaca.Identity.Domain.U
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Viriplaca.HR", "Viriplaca.HR", "{93B9F9FA-19EB-4BFD-B5B1-3DB75B1B3CA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viriplaca.HR.Api", "src\Viriplaca.HR.Api\Viriplaca.HR.Api.csproj", "{9DEE949E-9CDA-4EA2-A829-304F87591EAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Viriplaca.HR.Api", "src\Viriplaca.HR.Api\Viriplaca.HR.Api.csproj", "{9DEE949E-9CDA-4EA2-A829-304F87591EAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viriplaca.HR.App", "src\Viriplaca.HR.App\Viriplaca.HR.App.csproj", "{F359FDC9-53E3-4933-B595-34B0C6034AB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Viriplaca.HR.App", "src\Viriplaca.HR.App\Viriplaca.HR.App.csproj", "{F359FDC9-53E3-4933-B595-34B0C6034AB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viriplaca.HR.Data", "src\Viriplaca.HR.Data\Viriplaca.HR.Data.csproj", "{3A88A7C1-F6EF-4EEC-8A3E-EA66E82F2CC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Viriplaca.HR.Data", "src\Viriplaca.HR.Data\Viriplaca.HR.Data.csproj", "{3A88A7C1-F6EF-4EEC-8A3E-EA66E82F2CC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viriplaca.HR.Domain", "src\Viriplaca.HR.Domain\Viriplaca.HR.Domain.csproj", "{FC8A72B1-EE80-48EA-990A-70CB7EA29727}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Viriplaca.HR.Domain", "src\Viriplaca.HR.Domain\Viriplaca.HR.Domain.csproj", "{FC8A72B1-EE80-48EA-990A-70CB7EA29727}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viriplaca.HR.Domain.UnitTests", "tests\Viriplaca.HR.Domain.UnitTests\Viriplaca.HR.Domain.UnitTests.csproj", "{C139CCAA-5888-4352-A78C-807282280ABF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Viriplaca.HR.Domain.UnitTests", "tests\Viriplaca.HR.Domain.UnitTests\Viriplaca.HR.Domain.UnitTests.csproj", "{C139CCAA-5888-4352-A78C-807282280ABF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viriplaca.Common.Api", "src\Viriplaca.Common.Api\Viriplaca.Common.Api.csproj", "{1BF7A3E7-D997-4F9C-B994-9D0F9B2DD088}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Viriplaca.Common.Api", "src\Viriplaca.Common.Api\Viriplaca.Common.Api.csproj", "{1BF7A3E7-D997-4F9C-B994-9D0F9B2DD088}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viriplaca.Common.App", "src\Viriplaca.Common.App\Viriplaca.Common.App.csproj", "{074D81DC-0B84-4B8A-BCF8-6F9CCF1E5ACF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Viriplaca.Common.App", "src\Viriplaca.Common.App\Viriplaca.Common.App.csproj", "{074D81DC-0B84-4B8A-BCF8-6F9CCF1E5ACF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Viriplaca.Common.Data", "src\Viriplaca.Common.Data\Viriplaca.Common.Data.csproj", "{536CEBDC-69AE-4B8C-ACC6-0DD1C9E59689}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Viriplaca.Common.Data", "src\Viriplaca.Common.Data\Viriplaca.Common.Data.csproj", "{536CEBDC-69AE-4B8C-ACC6-0DD1C9E59689}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{6233E9F8-6CB4-429E-94C2-BD594E98CE66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -108,6 +110,10 @@ Global
 		{536CEBDC-69AE-4B8C-ACC6-0DD1C9E59689}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{536CEBDC-69AE-4B8C-ACC6-0DD1C9E59689}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{536CEBDC-69AE-4B8C-ACC6-0DD1C9E59689}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6233E9F8-6CB4-429E-94C2-BD594E98CE66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6233E9F8-6CB4-429E-94C2-BD594E98CE66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6233E9F8-6CB4-429E-94C2-BD594E98CE66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6233E9F8-6CB4-429E-94C2-BD594E98CE66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

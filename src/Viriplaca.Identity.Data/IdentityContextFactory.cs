@@ -7,7 +7,7 @@ internal class IdentityContextFactory : IDesignTimeDbContextFactory<IdentityCont
     public IdentityContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<IdentityContext>();
-        optionsBuilder.UseSqlServer("Server=localhost;Database=PudicitiaIdentity;User Id=sa;Password=Pass@word;MultipleActiveResultSets=True;");
+        optionsBuilder.UseSqlServer("Server=localhost;Database=ViriplacaHR;User Id=sa;Password=Pass@word;MultipleActiveResultSets=True;");
 
         return new IdentityContext(optionsBuilder.Options);
     }

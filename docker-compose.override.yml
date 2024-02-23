@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  mssql:
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Pass@word
+    ports:
+      - "1433:1433"
+    volumes:
+      - viriplaca-mssql:/var/opt/mssql
+
+  viriplaca.hr.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ConnectionStrings__Database=Server=mssql;Database=ViriplacaHR;User Id=sa;Password=Pass@word;MultipleActiveResultSets=True;Encrypt=False;
+    ports:
+      - "8080"
+
+volumes:
+  viriplaca-mssql: {}
