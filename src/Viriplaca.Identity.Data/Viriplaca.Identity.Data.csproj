@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Viriplaca.Common.EntityFrameworkCore\Viriplaca.Common.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\Viriplaca.Identity.Domain\Viriplaca.Identity.Domain.csproj" />
   </ItemGroup>
 

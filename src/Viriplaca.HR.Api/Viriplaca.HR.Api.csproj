@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Viriplaca.Common.Api\Viriplaca.Common.Api.csproj" />
+    <ProjectReference Include="..\Viriplaca.HR.App\Viriplaca.HR.App.csproj" />
+    <ProjectReference Include="..\Viriplaca.HR.Data\Viriplaca.HR.Data.csproj" />
+  </ItemGroup>
+
+</Project>
