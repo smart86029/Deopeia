@@ -8,18 +8,18 @@
     <template v-for="menu in menus" :key="menu.name">
       <el-sub-menu v-if="menu.children" :index="menu.name">
         <template #title>
-          {{ $t(menu.name) }}
+          {{ $t(`route.${menu.name}`) }}
         </template>
         <el-menu-item
           v-for="child in menu.children"
           :key="child.name"
           :index="child.path"
         >
-          {{ $t(child.name) }}
+          {{ $t(`route.${child.name}`) }}
         </el-menu-item>
       </el-sub-menu>
       <el-menu-item v-else :index="menu.path">
-        {{ $t(menu.name) }}
+        {{ $t(`route.${menu.name}`) }}
       </el-menu-item>
     </template>
   </el-menu>
@@ -30,8 +30,8 @@ import type { Menu } from '@/models/menu';
 
 const menus = [
   {
-    name: 'route.leave.manage',
-    children: [{ name: 'route.leave.list', path: '/leave' }],
+    name: 'leave.manage',
+    children: [{ name: 'leave.list', path: '/leaves' }],
   },
 ] as Menu[];
 </script>

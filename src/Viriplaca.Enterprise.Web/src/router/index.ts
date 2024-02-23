@@ -10,7 +10,7 @@ const router = createRouter({
       component: HomeView,
       children: [
         {
-          path: 'leave',
+          path: 'leaves',
           name: 'leave.manage',
           redirect: { name: '' },
           children: [
