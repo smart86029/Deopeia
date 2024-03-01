@@ -59,8 +59,8 @@ This reverts commit 667ecc1.
 ```bash
 #!/bin/sh
 
-commit_types="(chore|docs|feat|fix|perf|refactor|revert|style|test)"
-convetional_commit_regex="^${commit_types}(\([a-z \-]+\))?!?: .{1,50}(\n.+)*$"
+commit_types="(chore|docs|feat|fix|perf|refactor|style|test)"
+convetional_commit_regex="^(revert: )?${commit_types}(\([a-z \-]+\))?: .{1,50}(.|\r|\n)*$"
 commit_message=$(cat "$1")
 
 if [[ "$commit_message" =~ $convetional_commit_regex ]]; then
