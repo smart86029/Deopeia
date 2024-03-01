@@ -1,9 +1,18 @@
 {
   "profiles": {
-    "Docker Compose": {
+    "Infrastructure": {
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
+        "mssql": "StartWithoutDebugging",
+        "viriplaca.hr.api": "DoNotStart"
+      }
+    },
+    "API": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "mssql": "DoNotStart",
         "viriplaca.hr.api": "StartDebugging"
       }
     }

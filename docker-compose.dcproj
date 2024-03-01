@@ -6,7 +6,7 @@
     <DockerPublishLocally>False</DockerPublishLocally>
     <ProjectGuid>6233e9f8-6cb4-429e-94c2-bd594e98ce66</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/weatherforecast</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/leaves</DockerServiceUrl>
     <DockerServiceName>viriplaca.hr.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>

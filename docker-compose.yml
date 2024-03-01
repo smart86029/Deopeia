@@ -6,7 +6,8 @@ services:
     container_name: mssql
 
   viriplaca.hr.api:
-    image: ${DOCKER_REGISTRY-}viriplacahrapi
+    image: ${DOCKER_REGISTRY-}viriplaca-hr-api
     build:
       context: .
       dockerfile: src/Viriplaca.HR.Api/Dockerfile
+
