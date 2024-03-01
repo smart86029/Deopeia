@@ -5,7 +5,7 @@ namespace Viriplaca.HR.Api.Controllers;
 
 public class LeavesController : ApiController<LeavesController>
 {
-    [HttpGet("Leaves")]
+    [HttpGet]
     public async Task<IActionResult> GetLeaves([FromQuery] GetLeavesQuery query)
     {
         var result = await Sender.Send(query);
