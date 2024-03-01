@@ -1,3 +1,4 @@
+import type { PageResult } from '@/models/page';
 import httpClient from './http-client';
 
 export interface Leave {
@@ -6,7 +7,7 @@ export interface Leave {
 
 export default {
   getList: (account: string) => {
-    return httpClient.get<Leave>('/Leave', {
+    return httpClient.get<PageResult<Leave>>('/Leaves', {
       params: { account },
     });
   },

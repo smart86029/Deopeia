@@ -1,8 +1,8 @@
-import { dayjs } from 'element-plus';
 import en from 'dayjs/locale/en';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import updateLocale from 'dayjs/plugin/updateLocale';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { dayjs } from 'element-plus';
 
 dayjs.locale(en);
 dayjs.extend(localizedFormat);
@@ -15,16 +15,20 @@ dayjs.updateLocale('en', {
   },
 });
 
-export function dateFormatter(row: any, column: any, cellValue: any): string {
-  const date = dayjs(cellValue);
-  return date.isValid() ? date.format('L') : cellValue.toString();
-}
-
-export function dateTimeFormatter(
+export const dateFormatter = (
   row: any,
   column: any,
   cellValue: any,
-): string {
+): string => {
+  const date = dayjs(cellValue);
+  return date.isValid() ? date.format('L') : cellValue.toString();
+};
+
+export const dateTimeFormatter = (
+  row: any,
+  column: any,
+  cellValue: any,
+): string => {
   const date = dayjs(cellValue);
   return date.isValid() ? date.format('LLLL') : cellValue.toString();
-}
+};

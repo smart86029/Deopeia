@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { type Leave } from '@/api/leave-api';
+import leaveApi, { type Leave } from '@/api/leave-api';
 import { type Option } from '@/models/option';
 
 const loading = ref(false);
@@ -36,12 +36,15 @@ const form = reactive({
   accounts: '  ',
 });
 
-// watch(form, async (form) => {
-//   loading.value = true;
-//   leaves.value = await leaveApi
-//     .getList('')
-//     .finally(() => (loading.value = false));
-// });
+watch(form, (form) => {
+  loading.value = true;
+  leaveApi
+    .getList('')
+    .then((x) => {
+      leaves.value = x.data.items;
+    })
+    .finally(() => (loading.value = false));
+});
 
 form.accounts = '';
 </script>
