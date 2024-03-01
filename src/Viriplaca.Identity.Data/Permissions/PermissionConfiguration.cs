@@ -1,4 +1,3 @@
-using Viriplaca.Common.Data.Configurations;
 using Viriplaca.Identity.Domain.Permissions;
 
 namespace Viriplaca.Identity.Data.Configurations;
