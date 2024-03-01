@@ -1,3 +1,4 @@
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Reflection;
@@ -14,13 +15,12 @@ public static class ServiceCollectionExtensions
             var connectionStringOptions = serviceProvider.GetRequiredService<IOptions<ConnectionStringOptions>>().Value;
             optionsBuilder.UseSqlServer(connectionStringOptions.Database);
         });
-        //services.AddScoped<IHRUnitOfWork, HRUnitOfWork>();
-        //services.AddScoped(x =>
-        //{
-        //    var connectionStringOptions = x.GetRequiredService<IOptions<ConnectionStringOptions>>().Value;
+        services.AddScoped((serviceProvider) =>
+        {
+            var connectionStringOptions = serviceProvider.GetRequiredService<IOptions<ConnectionStringOptions>>().Value;
 
-        //    return new MySqlConnection(connectionStringOptions.Gaming);
-        //});
+            return new SqlConnection(connectionStringOptions.Database);
+        });
 
         services.AddMediatR(options =>
         {

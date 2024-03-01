@@ -1,4 +1,4 @@
-namespace Viriplaca.Common.Data;
+namespace Viriplaca.Common;
 
 public class ConnectionStringOptions
 {

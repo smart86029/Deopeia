@@ -27,7 +27,7 @@ public class PageResult<TItem>
 
     public int ItemCount { get; set; }
 
-    public ICollection<TItem> Items { get; set; } = new List<TItem>();
+    public ICollection<TItem> Items { get; set; } = [];
 
     [JsonIgnore]
     public int Offset => (PageIndex - 1) * PageSize;
