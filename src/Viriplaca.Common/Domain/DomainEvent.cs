@@ -1,5 +1,5 @@
-﻿namespace Viriplaca.Common.Domain;
+namespace Viriplaca.Common.Domain;
 
-public abstract class DomainEvent
+public abstract record DomainEvent
 {
 }

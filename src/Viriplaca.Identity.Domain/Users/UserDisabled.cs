@@ -1,7 +1,6 @@
 namespace Viriplaca.Identity.Domain.Users;
 
-public class UserDisabled(Guid userId)
+public record UserDisabled(Guid UserId)
     : DomainEvent
 {
-    public Guid UserId { get; private init; } = userId;
 }
