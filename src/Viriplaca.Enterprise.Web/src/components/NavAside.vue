@@ -30,6 +30,10 @@ import type { Menu } from '@/models/menu';
 
 const menus = [
   {
+    name: 'department.manage',
+    children: [{ name: 'department.list', path: '/departments' }],
+  },
+  {
     name: 'leave.manage',
     children: [{ name: 'leave.list', path: '/leaves' }],
   },
