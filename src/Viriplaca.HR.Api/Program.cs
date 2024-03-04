@@ -12,7 +12,7 @@ try
     var services = builder.Services;
     services.AddControllers();
     services.AddApi();
-    services.AddData<HRContext>(Assembly.Load("Viriplaca.HR.Data"));
+    services.AddData<HRContext, HRSeeder>(Assembly.Load("Viriplaca.HR.Data"));
 
     var app = builder.Build();
     app.UseAuthorization();

@@ -7,10 +7,11 @@ namespace Viriplaca.Common.Data;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddData<TDbContext>(this IServiceCollection services, Assembly assembly)
-        where TDbContext : DbContext
+    public static IServiceCollection AddData<TContext, TSeeder>(this IServiceCollection services, Assembly assembly)
+        where TContext : DbContext
+        where TSeeder : class, IDbSeeder<TContext>
     {
-        services.AddDbContext<TDbContext>((serviceProvider, optionsBuilder) =>
+        services.AddDbContext<TContext>((serviceProvider, optionsBuilder) =>
         {
             var connectionStringOptions = serviceProvider.GetRequiredService<IOptions<ConnectionStringOptions>>().Value;
             optionsBuilder.UseSqlServer(connectionStringOptions.Database);
@@ -26,6 +27,9 @@ public static class ServiceCollectionExtensions
         {
             options.RegisterServicesFromAssembly(assembly);
         });
+
+        services.AddScoped<IDbSeeder<TContext>, TSeeder>();
+        services.AddHostedService<MigrationWorker<TContext>>();
 
         var repositoryTypes = assembly
             .GetTypes()
