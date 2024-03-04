@@ -13,8 +13,12 @@
   </div>
   <el-table v-loading="loading" :data="departments">
     <el-table-column prop="name" :label="$t('common.name')" />
-    <el-table-column prop="isEnabled" :label="$t('common.status')" />
-    <el-table-column prop="head" :label="$t('department.head')" />
+    <el-table-column :label="$t('common.status')">
+      <template #default="{ row }">
+        <TextBoolean :value="row.isEnabled" localeKey="status.isEnabled" />
+      </template>
+    </el-table-column>
+    <el-table-column prop="headName" :label="$t('department.head')" />
     <el-table-column
       prop="employeeCount"
       :label="$t('department.employeeCount')"
@@ -39,19 +43,23 @@ const form = reactive({
   isEnabled: undefined as boolean | undefined,
 });
 
-watch(form, (form) => {
-  loading.value = true;
-  departmentApi
-    .getList(form.isEnabled)
-    .then((x) => {
-      departments.value = x.data.items;
-    })
-    .finally(() => (loading.value = false));
-});
+watch(
+  form,
+  (form) => {
+    loading.value = true;
+    departmentApi
+      .getList(form.isEnabled)
+      .then((x) => {
+        departments.value = x.data.items;
+      })
+      .finally(() => (loading.value = false));
+  },
+  { immediate: true },
+);
 </script>
 
 <style scoped lang="scss">
 .el-select {
-  min-width: var(--el-input-width);
+  min-width: var(--el-form-inline-content-width);
 }
 </style>
