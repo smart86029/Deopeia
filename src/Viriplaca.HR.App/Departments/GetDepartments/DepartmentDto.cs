@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace Viriplaca.HR.App.Departments.GetDepartments;
 
 public class DepartmentDto
@@ -10,7 +12,13 @@ public class DepartmentDto
 
     public Guid? ParentId { get; set; }
 
-    public string HeadName { get; set; } = string.Empty;
+    [JsonIgnore]
+    public string FirstName { get; set; } = string.Empty;
+
+    [JsonIgnore]
+    public string? LastName { get; set; } = string.Empty;
+
+    public string HeadName => $"{FirstName} {LastName}";
 
     public int EmployeeCount { get; set; }
 }
