@@ -16,8 +16,7 @@ services:
       - ASPNETCORE_HTTP_PORTS=8080
       - ConnectionStrings__Database=Server=mssql;Database=ViriplacaHR;User Id=sa;Password=Pass@word;MultipleActiveResultSets=True;Encrypt=False;
     ports:
-      - "8080"
+      - "9000:8080"
 
 volumes:
   viriplaca-mssql: {}
-
