@@ -16,4 +16,9 @@ public abstract record PageQuery<TItem> : IRequest<PageResult<TItem>>
         get => _pageSize;
         set => _pageSize = value.IsBetween(1, 100) ? value : _pageSize;
     }
+
+    public PageResult<TItem> ToResult(int itemCount)
+    {
+        return new PageResult<TItem>(this , itemCount);
+    }
 }

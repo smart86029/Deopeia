@@ -17,7 +17,7 @@ internal class GetDepartmentsQueryHandler(SqlConnection connection)
 
         var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM HR.Department AS A /**where**/");
         var count = await _connection.ExecuteScalarAsync<int>(sqlCount.RawSql, sqlCount.Parameters);
-        var result = new PageResult<DepartmentDto>(request, count);
+        var result = request.ToResult(count);
 
         if (count == 0)
         {

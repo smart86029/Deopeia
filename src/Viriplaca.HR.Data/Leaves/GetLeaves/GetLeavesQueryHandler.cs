@@ -19,7 +19,7 @@ public class GetLeavesQueryHandler(SqlConnection connection)
 
         var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM HR.Leave /**where**/");
         var count = await _connection.ExecuteScalarAsync<int>(sqlCount.RawSql, sqlCount.Parameters);
-        var result = new PageResult<LeaveDto>(request, count);
+        var result = request.ToResult(count);
 
         if (count == 0)
         {
