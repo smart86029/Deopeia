@@ -2,10 +2,7 @@
   <div class="toolbar">
     <el-form :inline="true" :model="form">
       <el-form-item :label="$t('common.status')">
-        <el-select v-model="form.isEnabled" clearable>
-          <el-option :label="$t('status.isEnabled.true')" :value="true" />
-          <el-option :label="$t('status.isEnabled.false')" :value="false" />
-        </el-select>
+        <SelectBoolean v-model="form.isEnabled" localeKey="status.isEnabled" />
       </el-form-item>
     </el-form>
     <FlexDivider />
@@ -57,9 +54,3 @@ watch(
   { immediate: true },
 );
 </script>
-
-<style scoped lang="scss">
-.el-select {
-  min-width: var(--el-form-inline-content-width);
-}
-</style>
