@@ -6,19 +6,18 @@
       </el-form-item>
     </el-form>
     <FlexDivider />
-    <ButtonCreate route="leave.apply" :text="$t('operation.apply')" />
+    <ButtonCreate route="leave.apply" />
   </div>
-  <el-table v-loading="loading" :data="departments">
-    <el-table-column prop="name" :label="$t('common.name')" />
-    <el-table-column :label="$t('common.status')">
+  <el-table v-loading="loading" :data="jobs">
+    <el-table-column prop="title" :label="$t('organization.jobTitle')" />
+    <el-table-column prop="isEnabled" :label="$t('common.status')">
       <template #default="{ row }">
         <TextBoolean :value="row.isEnabled" localeKey="status.isEnabled" />
       </template>
     </el-table-column>
-    <el-table-column prop="headName" :label="$t('department.head')" />
     <el-table-column
       prop="employeeCount"
-      :label="$t('department.employeeCount')"
+      :label="$t('organization.employeeCount')"
     />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
@@ -32,10 +31,10 @@
 </template>
 
 <script setup lang="ts">
-import departmentApi, { type Department } from '@/api/department-api';
+import jobApi, { type Job } from '@/api/job-api';
 
 const loading = ref(false);
-const departments: Ref<Department[]> = ref([]);
+const jobs: Ref<Job[]> = ref([]);
 const form = reactive({
   isEnabled: undefined as boolean | undefined,
 });
@@ -44,10 +43,10 @@ watch(
   form,
   (form) => {
     loading.value = true;
-    departmentApi
+    jobApi
       .getList(form.isEnabled)
       .then((x) => {
-        departments.value = x.data.items;
+        jobs.value = x.data.items;
       })
       .finally(() => (loading.value = false));
   },

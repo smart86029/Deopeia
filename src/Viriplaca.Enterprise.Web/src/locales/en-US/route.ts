@@ -1,14 +1,17 @@
 export default {
   route: {
     home: 'Home',
+    organization: 'Organization',
     department: {
-      manage: 'Department Management',
       list: 'Department List',
     },
     leave: {
       manage: 'Leave Management',
       list: 'Leave List',
       apply: 'Apply Leave',
+    },
+    job: {
+      list: 'Job List',
     },
   },
 };

@@ -30,8 +30,11 @@ import type { Menu } from '@/models/menu';
 
 const menus = [
   {
-    name: 'department.manage',
-    children: [{ name: 'department.list', path: '/departments' }],
+    name: 'organization',
+    children: [
+      { name: 'department.list', path: '/organization/departments' },
+      { name: 'job.list', path: '/organization/jobs' },
+    ],
   },
   {
     name: 'leave.manage',

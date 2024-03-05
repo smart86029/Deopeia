@@ -1,8 +1,8 @@
 <template>
   <div class="toolbar">
     <el-form :inline="true" :model="form">
-      <el-form-item :label="$t('common.account')">
-        <el-input v-model="form.accounts" />
+      <el-form-item :label="$t('common.status')">
+        <SelectBoolean v-model="form.isEnabled" localeKey="status.isEnabled" />
       </el-form-item>
     </el-form>
     <FlexDivider />

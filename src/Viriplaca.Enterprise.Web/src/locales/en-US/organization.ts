@@ -1,6 +1,7 @@
 export default {
-  department: {
+  organization: {
     head: 'Head',
     employeeCount: 'Employee Count',
+    jobTitle: 'Job Title',
   },
 };
