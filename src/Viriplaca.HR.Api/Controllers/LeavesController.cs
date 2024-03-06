@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Viriplaca.HR.App.Leaves.GetLeaves;
 
 namespace Viriplaca.HR.Api.Controllers;

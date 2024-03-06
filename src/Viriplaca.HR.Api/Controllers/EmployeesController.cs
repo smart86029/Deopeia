@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Viriplaca.HR.App.Employees.GetEmployees;
 
 namespace Viriplaca.HR.Api.Controllers;
