@@ -32,6 +32,7 @@ const menus = [
   {
     name: 'organization',
     children: [
+      { name: 'employee.list', path: '/organization/employees' },
       { name: 'department.list', path: '/organization/departments' },
       { name: 'job.list', path: '/organization/jobs' },
     ],

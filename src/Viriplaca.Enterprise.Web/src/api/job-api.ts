@@ -1,4 +1,5 @@
 import type { Guid } from '@/models/guid';
+import type { OptionResult } from '@/models/option-result';
 import type { PageResult } from '@/models/page';
 import httpClient from './http-client';
 
@@ -10,6 +11,7 @@ export interface Job {
 }
 
 export default {
+  getOptions: () => httpClient.get<OptionResult<Guid>[]>('/Jobs/Options'),
   getList: (isEnabled?: boolean) => {
     return httpClient.get<PageResult<Job>>('/Jobs', {
       params: { isEnabled },

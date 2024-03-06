@@ -5,7 +5,7 @@ export class Guid {
   );
   static empty = new Guid('00000000-0000-0000-0000-000000000000');
 
-  private value: string;
+  value: string = '00000000-0000-0000-0000-000000000000';
 
   constructor(value: string) {
     if (!value) {

@@ -2,8 +2,13 @@ export default [
   {
     path: 'organization',
     name: 'organization',
-    redirect: { name: 'department.list' },
+    redirect: { name: 'employee.list' },
     children: [
+      {
+        path: 'employees',
+        name: 'employee.list',
+        component: () => import('../views/organization/EmployeeList.vue'),
+      },
       {
         path: 'departments',
         name: 'department.list',
