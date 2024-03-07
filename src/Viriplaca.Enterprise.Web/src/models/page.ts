@@ -9,3 +9,15 @@ export interface PageResult<TItem> {
   itemCount: number;
   items: TItem[];
 }
+
+export const defaultQuery: PageQuery = {
+  pageIndex: 1,
+  pageSize: 10,
+};
+
+export const defaultResult = <TItem>(): PageResult<TItem> => ({
+  pageIndex: 1,
+  pageSize: 10,
+  itemCount: 0,
+  items: [],
+});

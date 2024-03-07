@@ -1,7 +1,11 @@
 import type { Guid } from '@/models/guid';
-import type { PageResult } from '@/models/page';
 import type { OptionResult } from '@/models/option-result';
+import type { PageQuery, PageResult } from '@/models/page';
 import httpClient from './http-client';
+
+export interface GetDepartmentQuery extends PageQuery {
+  isEnabled?: boolean;
+}
 
 export interface Department {
   id: Guid;
@@ -15,9 +19,9 @@ export interface Department {
 export default {
   getOptions: () =>
     httpClient.get<OptionResult<Guid>[]>('/Departments/Options'),
-  getList: (isEnabled?: boolean) => {
+  getList: (query: GetDepartmentQuery) => {
     return httpClient.get<PageResult<Department>>('/Departments', {
-      params: { isEnabled },
+      params: query,
     });
   },
 };

@@ -1,6 +1,11 @@
 import type { Guid } from '@/models/guid';
-import type { PageResult } from '@/models/page';
+import type { PageQuery, PageResult } from '@/models/page';
 import httpClient from './http-client';
+
+export interface GetEmployeesQuery extends PageQuery {
+  departmentId?: Guid;
+  jobId?: Guid;
+}
 
 export interface Employee {
   id: Guid;
@@ -10,9 +15,9 @@ export interface Employee {
 }
 
 export default {
-  getList: (departmentId?: Guid, jobId?: Guid) => {
+  getList: (query: GetEmployeesQuery) => {
     return httpClient.get<PageResult<Employee>>('/Employees', {
-      params: { departmentId, jobId },
+      params: query,
     });
   },
 };

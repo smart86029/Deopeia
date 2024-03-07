@@ -1,14 +1,18 @@
 <template>
   <div class="toolbar">
-    <el-form :inline="true" :model="form">
+    <el-form :inline="true" :model="query">
       <el-form-item :label="$t('common.status')">
-        <SelectBoolean v-model="form.isEnabled" localeKey="status.isEnabled" />
+        <SelectEnum
+          v-model="query.approvalStatus"
+          :enum="ApprovalStatus"
+          localeKey="status.approval"
+        />
       </el-form-item>
     </el-form>
     <FlexDivider />
     <ButtonCreate route="leave.apply" :text="$t('operation.apply')" />
   </div>
-  <el-table v-loading="loading" :data="leaves">
+  <el-table v-loading="loading" :data="result.items">
     <el-table-column prop="type" :label="$t('common.type')" />
     <el-table-column prop="startedAt" :label="$t('common.startTime')" />
     <el-table-column prop="endedAt" :label="$t('common.endTime')" />
@@ -26,25 +30,29 @@
 </template>
 
 <script setup lang="ts">
-import leaveApi, { type Leave } from '@/api/leave-api';
-import { type Option } from '@/models/option';
+import leaveApi, { type GetLeavesQuery, type Leave } from '@/api/leave-api';
+import { ApprovalStatus } from '@/models/approval-status';
+import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
+import { dayjs } from 'element-plus';
 
 const loading = ref(false);
-const leaves: Ref<Leave[]> = ref([]);
-const types: Ref<Option<number>[]> = ref([]);
-const form = reactive({
-  accounts: '  ',
+const query: GetLeavesQuery = reactive({
+  startedAt: dayjs(),
+  endedAt: dayjs(),
+  approvalStatus: undefined,
+  ...defaultQuery,
 });
+const result: PageResult<Leave> = reactive(defaultResult());
 
-watch(form, (form) => {
-  loading.value = true;
-  leaveApi
-    .getList('')
-    .then((x) => {
-      leaves.value = x.data.items;
-    })
-    .finally(() => (loading.value = false));
-});
-
-form.accounts = '';
+watch(
+  query,
+  (query) => {
+    loading.value = true;
+    leaveApi
+      .getList(query)
+      .then((x) => Object.assign(result, x.data))
+      .finally(() => (loading.value = false));
+  },
+  { immediate: true },
+);
 </script>

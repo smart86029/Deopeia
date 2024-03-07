@@ -5,5 +5,11 @@ export default {
       false: 'Disabled',
       true: 'Enabled',
     },
+    approval: {
+      name: 'Approval Status',
+      '0': 'Pending',
+      '1': 'Approved',
+      '2': 'Rejected',
+    },
   },
 };

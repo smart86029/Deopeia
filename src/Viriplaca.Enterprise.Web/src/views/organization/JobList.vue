@@ -1,14 +1,14 @@
 <template>
   <div class="toolbar">
-    <el-form :inline="true" :model="form">
+    <el-form :inline="true" :model="query">
       <el-form-item :label="$t('common.status')">
-        <SelectBoolean v-model="form.isEnabled" localeKey="status.isEnabled" />
+        <SelectBoolean v-model="query.isEnabled" localeKey="status.isEnabled" />
       </el-form-item>
     </el-form>
     <FlexDivider />
     <ButtonCreate route="leave.apply" />
   </div>
-  <el-table v-loading="loading" :data="jobs">
+  <el-table v-loading="loading" :data="result.items">
     <el-table-column prop="title" :label="$t('organization.jobTitle')" />
     <el-table-column prop="isEnabled" :label="$t('common.status')">
       <template #default="{ row }">
@@ -28,26 +28,31 @@
       </template>
     </el-table-column>
   </el-table>
+  <TablePagination
+    v-model:current-page="query.pageIndex"
+    v-model:page-size="query.pageSize"
+    :total="result.itemCount"
+  />
 </template>
 
 <script setup lang="ts">
-import jobApi, { type Job } from '@/api/job-api';
+import jobApi, { type GetJobsQuery, type Job } from '@/api/job-api';
+import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
 
 const loading = ref(false);
-const jobs: Ref<Job[]> = ref([]);
-const form = reactive({
+const query: GetJobsQuery = reactive({
   isEnabled: undefined as boolean | undefined,
+  ...defaultQuery,
 });
+const result: PageResult<Job> = reactive(defaultResult());
 
 watch(
-  form,
-  (form) => {
+  query,
+  (query) => {
     loading.value = true;
     jobApi
-      .getList(form.isEnabled)
-      .then((x) => {
-        jobs.value = x.data.items;
-      })
+      .getList(query)
+      .then((x) => Object.assign(result, x.data))
       .finally(() => (loading.value = false));
   },
   { immediate: true },

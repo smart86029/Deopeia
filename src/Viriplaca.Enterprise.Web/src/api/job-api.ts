@@ -1,7 +1,11 @@
 import type { Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
-import type { PageResult } from '@/models/page';
+import type { PageQuery, PageResult } from '@/models/page';
 import httpClient from './http-client';
+
+export interface GetJobsQuery extends PageQuery {
+  isEnabled?: boolean;
+}
 
 export interface Job {
   id: Guid;
@@ -12,9 +16,9 @@ export interface Job {
 
 export default {
   getOptions: () => httpClient.get<OptionResult<Guid>[]>('/Jobs/Options'),
-  getList: (isEnabled?: boolean) => {
+  getList: (query: GetJobsQuery) => {
     return httpClient.get<PageResult<Job>>('/Jobs', {
-      params: { isEnabled },
+      params: query,
     });
   },
 };

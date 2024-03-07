@@ -1,10 +1,6 @@
 <template>
   <el-breadcrumb>
-    <el-breadcrumb-item
-      v-for="location in locations"
-      :key="location.path"
-      class="router-link"
-    >
+    <el-breadcrumb-item v-for="location in locations" :key="location.path">
       <router-link :to="location.path">
         {{ $t(`route.${location.name?.toString()}`, { id }) }}
       </router-link>
@@ -19,7 +15,7 @@ const id = computed(() => route.params.id);
 </script>
 
 <style scoped lang="scss">
-.router-link:last-child {
+.el-breadcrumb-item:last-child {
   pointer-events: none;
 }
 </style>
