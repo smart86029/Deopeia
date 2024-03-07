@@ -16,6 +16,14 @@ body {
     sans-serif;
 }
 
+svg {
+  fill: currentColor;
+}
+
+svg:focus {
+  outline: none;
+}
+
 .toolbar {
   display: flex;
 }

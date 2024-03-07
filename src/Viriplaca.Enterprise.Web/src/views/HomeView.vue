@@ -25,9 +25,7 @@
         </template>
       </el-dropdown>
       <el-dropdown @command="memberRoute">
-        <el-icon size="24">
-          <User />
-        </el-icon>
+        <IconPerson />
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item command="changePassword">
