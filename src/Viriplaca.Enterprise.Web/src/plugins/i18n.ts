@@ -5,14 +5,14 @@ import zhTW from '../locales/zh-TW';
 
 const i18n = createI18n({
   legacy: false,
-  locale: localStorage.getItem('locale')?.replace('-', '') || 'enUS',
-  fallbackLocale: 'enUS',
+  locale: localStorage.getItem('locale') || 'en-US',
+  fallbackLocale: 'en-US',
   allowComposition: true,
   globalInjection: true,
   silentTranslationWarn: true,
   messages: {
-    enUS,
-    zhTW,
+    'en-US': enUS,
+    'zh-TW': zhTW,
   },
 });
 

@@ -1,6 +1,9 @@
 <template>
   <div class="toolbar">
     <el-form :inline="true" :model="query">
+      <el-form-item :label="$t('common.time')">
+        <DateTimeRangePicker v-model="range" />
+      </el-form-item>
       <el-form-item :label="$t('common.status')">
         <SelectEnum
           v-model="query.approvalStatus"
@@ -13,17 +16,37 @@
     <ButtonCreate route="leave.apply" :text="$t('operation.apply')" />
   </div>
   <el-table v-loading="loading" :data="result.items">
-    <el-table-column prop="type" :label="$t('common.type')" />
-    <el-table-column prop="startedAt" :label="$t('common.startTime')" />
-    <el-table-column prop="endedAt" :label="$t('common.endTime')" />
-    <el-table-column prop="duration" :label="$t('common.duration')" />
-    <el-table-column prop="status" :label="$t('common.status')" />
+    <el-table-column prop="type" :label="$t('common.type')">
+      <template #default="{ row }">
+        {{ types.get(row.type) }}
+      </template>
+    </el-table-column>
+    <el-table-column
+      prop="startedAt"
+      :label="$t('common.startTime')"
+      :formatter="dateTimeFormatter"
+    />
+    <el-table-column
+      prop="endedAt"
+      :label="$t('common.endTime')"
+      :formatter="dateTimeFormatter"
+    />
+    <el-table-column prop="duration" :label="$t('common.duration')">
+      <template #default="{ row }">
+        {{ durationFormatter(row.startedAt, row.endedAt) }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="approvalStatus" :label="$t('common.status')">
+      <template #default="{ row }">
+        {{ $t(`status.approval.${row.approvalStatus}`) }}
+      </template>
+    </el-table-column>
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
-        <TextLink
+        <!-- <TextLink
           :to="{ name: 'operator.edit', params: { id: row.id } }"
           :text="$t('operation.edit')"
-        />
+        /> -->
       </template>
     </el-table-column>
   </el-table>
@@ -33,9 +56,12 @@
 import leaveApi, { type GetLeavesQuery, type Leave } from '@/api/leave-api';
 import { ApprovalStatus } from '@/models/approval-status';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
+import { dateTimeFormatter, durationFormatter } from '@/plugins/dayjs';
 import { dayjs } from 'element-plus';
 
 const loading = ref(false);
+const types = new Map<number, string>();
+const range = ref([] as dayjs.Dayjs[]);
 const query: GetLeavesQuery = reactive({
   startedAt: dayjs(),
   endedAt: dayjs(),
@@ -44,12 +70,16 @@ const query: GetLeavesQuery = reactive({
 });
 const result: PageResult<Leave> = reactive(defaultResult());
 
+leaveApi
+  .getTypes()
+  .then((x) => x.data.forEach((y) => types.set(y.value, y.name)));
+
 watch(
-  query,
-  (query) => {
+  [query, range],
+  ([query, [startedAt, endedAt]]) => {
     loading.value = true;
     leaveApi
-      .getList(query)
+      .getList(Object.assign(query, { startedAt, endedAt }))
       .then((x) => Object.assign(result, x.data))
       .finally(() => (loading.value = false));
   },

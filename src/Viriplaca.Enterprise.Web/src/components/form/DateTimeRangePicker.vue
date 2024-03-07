@@ -4,13 +4,12 @@
     range-separator="~"
     :start-placeholder="$t('common.startTime')"
     :end-placeholder="$t('common.endTime')"
-    :default-time="defaultTime"
+    :default-value="defaultValue"
   />
 </template>
 
 <script setup lang="ts">
-const defaultTime: [Date, Date] = [
-  new Date(2000, 1, 1, 0, 0, 0),
-  new Date(2000, 2, 1, 23, 59, 59),
-];
+import { dayjs } from 'element-plus';
+
+const defaultValue: Date = dayjs().add(-1, 'month').toDate();
 </script>

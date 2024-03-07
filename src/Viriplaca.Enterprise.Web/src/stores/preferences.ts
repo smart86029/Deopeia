@@ -1,6 +1,6 @@
-import { ref, reactive, watch } from 'vue';
-import { defineStore } from 'pinia';
 import type { AppLocale } from '@/models/app-locale';
+import { defineStore } from 'pinia';
+import { reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 export const usePreferencesStore = defineStore('preferences', () => {
@@ -9,13 +9,11 @@ export const usePreferencesStore = defineStore('preferences', () => {
     {
       name: 'English',
       key: 'en-US',
-      value: 'enUS',
       languageCode: 'en',
     },
     {
       name: '繁體中文',
       key: 'zh-TW',
-      value: 'zhTW',
       languageCode: 'zh-Hant',
     },
   ]);
@@ -28,7 +26,7 @@ export const usePreferencesStore = defineStore('preferences', () => {
   const { locale: vueLocale } = useI18n();
   watch(locale, (appLocale) => {
     localStorage.setItem(localeKey, appLocale.key);
-    vueLocale.value = appLocale.value;
+    vueLocale.value = appLocale.key;
 
     document
       .querySelector('html')!
