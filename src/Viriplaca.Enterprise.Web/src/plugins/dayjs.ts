@@ -35,7 +35,6 @@ export const dateTimeFormatter = (
   column: any,
   cellValue: any,
 ): string => {
-  console.log(column);
   const date = dayjs(cellValue);
   return date.isValid() ? date.format('LLLL') : cellValue.toString();
 };
