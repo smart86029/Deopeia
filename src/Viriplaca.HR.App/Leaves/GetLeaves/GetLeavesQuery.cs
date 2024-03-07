@@ -1,12 +1,9 @@
-using Viriplaca.HR.Domain;
-
 namespace Viriplaca.HR.App.Leaves.GetLeaves;
 
-public record GetLeavesQuery : PageQuery<LeaveDto>
+public record GetLeavesQuery(
+    DateTimeOffset StartedAt,
+    DateTimeOffset EndedAt,
+    ApprovalStatus? ApprovalStatus)
+    : PageQuery<LeaveDto>
 {
-    public DateTimeOffset StartedAt { get; init; }
-
-    public DateTimeOffset EndedAt { get; init; }
-
-    public ApprovalStatus? ApprovalStatus { get; init; }
 }

@@ -26,7 +26,7 @@ public class GetLeavesQueryHandler(SqlConnection connection)
             return result;
         }
 
-        var sql = $@"
+        var sql = builder.AddTemplate(@"
 SELECT
     Id,
     Type,
@@ -36,11 +36,11 @@ SELECT
 FROM HR.Leave
 /**where**/
 ORDER BY Id
-LIMIT @Limit
-OFFSET @Offset
-";
+OFFSET @Offset ROWS
+FETCH NEXT @Limit ROWS ONLY
+");
         builder.AddParameters(new { result.Limit, result.Offset });
-        var leaves = await _connection.QueryAsync<LeaveDto>(sql, request);
+        var leaves = await _connection.QueryAsync<LeaveDto>(sql.RawSql, sql.Parameters);
         result.Items = leaves.ToList();
 
         return result;
