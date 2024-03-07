@@ -23,11 +23,6 @@ public static class ServiceCollectionExtensions
             return new SqlConnection(connectionStringOptions.Database);
         });
 
-        services.AddMediatR(options =>
-        {
-            options.RegisterServicesFromAssembly(assembly);
-        });
-
         services.AddScoped<IDbSeeder<TContext>, TSeeder>();
         services.AddHostedService<MigrationWorker<TContext>>();
 
