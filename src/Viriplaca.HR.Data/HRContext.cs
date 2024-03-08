@@ -1,5 +1,3 @@
-using Viriplaca.Common.Domain;
-
 namespace Viriplaca.HR.Data;
 
 public class HRContext(DbContextOptions<HRContext> options)
@@ -15,6 +13,6 @@ public class HRContext(DbContextOptions<HRContext> options)
         modelBuilder
             .HasDefaultSchema("HR")
             .ApplyConfigurationsFromAssembly(GetType().Assembly)
-            .Ignore<DomainEvent>();
+            .ApplyCommonConfigurations();
     }
 }

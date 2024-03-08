@@ -14,6 +14,9 @@ namespace Viriplaca.HR.Data.Migrations
             migrationBuilder.EnsureSchema(
                 name: "HR");
 
+            migrationBuilder.EnsureSchema(
+                name: "Common");
+
             migrationBuilder.CreateTable(
                 name: "Department",
                 schema: "HR",
@@ -61,6 +64,21 @@ namespace Viriplaca.HR.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Leave", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LocaleResource",
+                schema: "Common",
+                columns: table => new
+                {
+                    Culture = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LocaleResource", x => new { x.Culture, x.Type, x.Code });
                 });
 
             migrationBuilder.CreateTable(
@@ -176,6 +194,10 @@ namespace Viriplaca.HR.Data.Migrations
             migrationBuilder.DropTable(
                 name: "Leave",
                 schema: "HR");
+
+            migrationBuilder.DropTable(
+                name: "LocaleResource",
+                schema: "Common");
 
             migrationBuilder.DropTable(
                 name: "Person",

@@ -23,6 +23,29 @@ namespace Viriplaca.HR.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Viriplaca.Common.Localization.LocaleResource", b =>
+                {
+                    b.Property<string>("Culture")
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
+                    b.HasKey("Culture", "Type", "Code");
+
+                    b.ToTable("LocaleResource", "Common");
+                });
+
             modelBuilder.Entity("Viriplaca.HR.Domain.Departments.Department", b =>
                 {
                     b.Property<Guid>("Id")

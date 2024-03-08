@@ -1,5 +1,5 @@
 using Bogus;
-using Viriplaca.Common.Extensions;
+using Viriplaca.Common.Localization;
 using Viriplaca.HR.Domain.Departments;
 using Viriplaca.HR.Domain.Employees;
 using Viriplaca.HR.Domain.Jobs;
@@ -28,6 +28,9 @@ public class HRSeeder : IDbSeeder<HRContext>
         context.Set<Department>().AddRange(departments);
         context.Set<Job>().AddRange(jobs);
         context.Set<Leave>().AddRange(leaves);
+
+        var localeResources = GetLocaleResources();
+        context.Set<LocaleResource>().AddRange(localeResources);
 
         await context.SaveChangesAsync();
     }
@@ -119,5 +122,19 @@ public class HRSeeder : IDbSeeder<HRContext>
             var isHead = jobs.IndexOf(job) < managerCount;
             employee.AssignJob(department, job, isHead, faker.Date.PastOffset());
         }
+    }
+
+    private List<LocaleResource> GetLocaleResources()
+    {
+        var enUS = CultureInfo.GetCultureInfo("en-US");
+        var results = new List<LocaleResource>
+        {
+            new(enUS, LocaleResourceType.Enum, $"{nameof(Gender)}.{Gender.NotKnown:D}", "Not Known"),
+            new(enUS, LocaleResourceType.Enum, $"{nameof(Gender)}.{Gender.Male:D}", "Male"),
+            new(enUS, LocaleResourceType.Enum, $"{nameof(Gender)}.{Gender.Female:D}", "Female"),
+            new(enUS, LocaleResourceType.Enum, $"{nameof(Gender)}.{Gender.NotApplicable:D}", "Not Applicable"),
+        };
+
+        return results;
     }
 }
