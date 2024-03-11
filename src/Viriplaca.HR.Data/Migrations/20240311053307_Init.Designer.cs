@@ -12,7 +12,7 @@ using Viriplaca.HR.Data;
 namespace Viriplaca.HR.Data.Migrations
 {
     [DbContext(typeof(HRContext))]
-    [Migration("20240308095006_Init")]
+    [Migration("20240311053307_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -183,14 +183,14 @@ namespace Viriplaca.HR.Data.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
-
                     b.Property<string>("LastName")
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
                     b.Property<int>("MaritalStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Sex")
                         .HasColumnType("int");
 
                     b.Property<Guid?>("UserId")

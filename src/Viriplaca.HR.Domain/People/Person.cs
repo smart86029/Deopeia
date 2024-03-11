@@ -6,7 +6,7 @@ public abstract class Person : AggregateRoot
     {
     }
 
-    protected Person(string firstName, string? lastName, DateOnly birthDate, Gender gender, MaritalStatus maritalStatus)
+    protected Person(string firstName, string? lastName, DateOnly birthDate, Sex sex, MaritalStatus maritalStatus)
     {
         if (string.IsNullOrWhiteSpace(firstName))
         {
@@ -21,7 +21,7 @@ public abstract class Person : AggregateRoot
         FirstName = firstName.Trim();
         LastName = lastName?.Trim();
         BirthDate = birthDate;
-        Gender = gender;
+        Sex = sex;
         MaritalStatus = maritalStatus;
     }
 
@@ -31,7 +31,7 @@ public abstract class Person : AggregateRoot
 
     public DateOnly BirthDate { get; private set; }
 
-    public Gender Gender { get; private set; }
+    public Sex Sex { get; private set; }
 
     public MaritalStatus MaritalStatus { get; private set; }
 
@@ -62,9 +62,9 @@ public abstract class Person : AggregateRoot
         BirthDate = birthDate;
     }
 
-    public void UpdateGender(Gender gender)
+    public void UpdateSex(Sex sex)
     {
-        Gender = gender;
+        Sex = sex;
     }
 
     public void UpdateMaritalStatus(MaritalStatus maritalStatus)

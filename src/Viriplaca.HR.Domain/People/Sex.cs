@@ -1,6 +1,6 @@
 namespace Viriplaca.HR.Domain.People;
 
-public enum Gender
+public enum Sex
 {
     NotKnown = 0,
 

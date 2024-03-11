@@ -10,7 +10,7 @@ public enum LeaveType
 
     Sick = 3,
 
-    OccupationalSick = 4,
+    Official = 4,
 
     Menstrual = 5,
 

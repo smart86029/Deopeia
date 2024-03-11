@@ -40,7 +40,7 @@ public class HRSeeder : IDbSeeder<HRContext>
         var results = new Faker<Employee>()
             .CustomInstantiator(x =>
             {
-                var gender = x.PickRandom(Gender.Male, Gender.Female);
+                var gender = x.PickRandom(Sex.Male, Sex.Female);
                 var employee = new Employee(
                     x.Name.FirstName((Bogus.DataSets.Name.Gender?)gender),
                     x.Name.LastName(),
@@ -127,14 +127,55 @@ public class HRSeeder : IDbSeeder<HRContext>
     private List<LocaleResource> GetLocaleResources()
     {
         var enUS = CultureInfo.GetCultureInfo("en-US");
+        var zhTW = CultureInfo.GetCultureInfo("zh-TW");
         var results = new List<LocaleResource>
         {
-            new(enUS, LocaleResourceType.Enum, $"{nameof(Gender)}.{Gender.NotKnown:D}", "Not Known"),
-            new(enUS, LocaleResourceType.Enum, $"{nameof(Gender)}.{Gender.Male:D}", "Male"),
-            new(enUS, LocaleResourceType.Enum, $"{nameof(Gender)}.{Gender.Female:D}", "Female"),
-            new(enUS, LocaleResourceType.Enum, $"{nameof(Gender)}.{Gender.NotApplicable:D}", "Not Applicable"),
+            FromEnum(enUS, MaritalStatus.NotKnown, "Not Known"),
+            FromEnum(enUS, MaritalStatus.Married, "Married"),
+            FromEnum(enUS, MaritalStatus.Single, "Single"),
+            FromEnum(enUS, Sex.NotKnown, "Not Known"),
+            FromEnum(enUS, Sex.Male, "Male"),
+            FromEnum(enUS, Sex.Female, "Female"),
+            FromEnum(enUS, Sex.NotApplicable, "Not Applicable"),
+            FromEnum(enUS, LeaveType.Other, "Other"),
+            FromEnum(enUS, LeaveType.Personal, "Personal"),
+            FromEnum(enUS, LeaveType.Annual, "Annual"),
+            FromEnum(enUS, LeaveType.Sick, "Sick"),
+            FromEnum(enUS, LeaveType.Official, "Official"),
+            FromEnum(enUS, LeaveType.Menstrual, "Menstrual"),
+            FromEnum(enUS, LeaveType.Marriage, "Marriage"),
+            FromEnum(enUS, LeaveType.Maternity, "Maternity"),
+            FromEnum(enUS, LeaveType.Paternity, "Paternity"),
+            FromEnum(enUS, LeaveType.Parental, "Parental"),
+            FromEnum(enUS, LeaveType.Funeral, "Funeral"),
+            FromEnum(enUS, LeaveType.Compensatory, "Compensatory"),
+
+            FromEnum(zhTW, MaritalStatus.NotKnown, "未知"),
+            FromEnum(zhTW, MaritalStatus.Married, "已婚"),
+            FromEnum(zhTW, MaritalStatus.Single, "未婚"),
+            FromEnum(zhTW, Sex.NotKnown, "未知"),
+            FromEnum(zhTW, Sex.Male, "男性"),
+            FromEnum(zhTW, Sex.Female, "女性"),
+            FromEnum(zhTW, Sex.NotApplicable, "不適用"),
+            FromEnum(zhTW, LeaveType.Other, "其他"),
+            FromEnum(zhTW, LeaveType.Personal, "事假"),
+            FromEnum(zhTW, LeaveType.Annual, "年假"),
+            FromEnum(zhTW, LeaveType.Sick, "病假"),
+            FromEnum(zhTW, LeaveType.Official, "公假"),
+            FromEnum(zhTW, LeaveType.Menstrual, "生理假"),
+            FromEnum(zhTW, LeaveType.Marriage, "婚假"),
+            FromEnum(zhTW, LeaveType.Maternity, "產嫁"),
+            FromEnum(zhTW, LeaveType.Paternity, "陪產假"),
+            FromEnum(zhTW, LeaveType.Parental, "育嬰假"),
+            FromEnum(zhTW, LeaveType.Funeral, "喪假"),
+            FromEnum(zhTW, LeaveType.Compensatory, "補休"),
         };
 
         return results;
+
+        LocaleResource FromEnum<TEnum>(CultureInfo culture, TEnum @enum, string content)
+        {
+            return new LocaleResource(culture, LocaleResourceType.Enum, $"{typeof(TEnum).Name}.{@enum:D}", content);
+        }
     }
 }

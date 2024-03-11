@@ -90,7 +90,7 @@ namespace Viriplaca.HR.Data.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
                     BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    Gender = table.Column<int>(type: "int", nullable: false),
+                    Sex = table.Column<int>(type: "int", nullable: false),
                     MaritalStatus = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),

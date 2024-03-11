@@ -8,7 +8,7 @@ internal class StringLocalizer(
     : IStringLocalizer
 {
     private readonly Dictionary<(CultureInfo Culture, string Code), string> _contents =
-        contents.ToDictionary(x => (x.Culture, x.Code), x => x.Content);
+        contents.ToDictionary(x => (x.Culture, $"{x.Type}.{x.Code}"), x => x.Content);
 
     private readonly CultureInfo _fallbackCulture = options.FallbackCulture;
 
