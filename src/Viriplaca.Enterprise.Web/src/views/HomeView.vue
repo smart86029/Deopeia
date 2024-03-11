@@ -10,33 +10,8 @@
         active-icon="moon"
         inactive-icon="sunny"
       />
-      <el-dropdown @command="changeLocale">
-        <IconTranslate />
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item
-              v-for="locale in locales"
-              :key="locale.key"
-              :command="locale"
-            >
-              {{ locale.name }}
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-      <el-dropdown @command="memberRoute">
-        <IconPerson />
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item command="changePassword">
-              {{ $t('route.auth.changePassword') }}
-            </el-dropdown-item>
-            <el-dropdown-item command="signOut">
-              {{ $t('auth.signOut') }}
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
+      <DropdownLocale />
+      <DropdownRoute />
     </el-header>
     <el-container>
       <el-aside width="256px">
@@ -51,37 +26,10 @@
       </el-main>
     </el-container>
   </el-container>
-  <ChangePasswordDialog v-model="dialogVisible" />
 </template>
 
 <script setup lang="ts">
-// import { useAuthStore } from '@/stores/auth';
-import { type AppLocale } from '@/models/app-locale';
-import { usePreferencesStore } from '@/stores/preferences';
-
 const isDark = useDark();
-// const authStore = useAuthStore();
-const { t } = useI18n();
-const { locales, locale } = storeToRefs(usePreferencesStore());
-const dialogVisible = ref(false);
-
-const changeLocale = (command: AppLocale) => {
-  locale.value = command;
-};
-
-const memberRoute = (command: string) => {
-  switch (command) {
-    case 'changePassword':
-      dialogVisible.value = true;
-      break;
-
-    case 'signOut':
-      // ElMessageBox.confirm(t('auth.signOutConfirm')).then(() =>
-      //    authStore.signOut().then(() => router.push({ name: 'auth.signIn' })),
-      // );
-      break;
-  }
-};
 </script>
 
 <style scoped lang="scss">

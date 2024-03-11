@@ -14,8 +14,4 @@ export default {
     endTime: 'End Time',
     reason: 'Reason',
   },
-  operation: {
-    apply: 'Apply',
-    create: 'Create',
-  },
 };
