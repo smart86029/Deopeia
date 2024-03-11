@@ -15,6 +15,7 @@ try
     services.AddData<HRContext, HRSeeder>(Assembly.Load("Viriplaca.HR.Data"));
 
     var app = builder.Build();
+    app.UseRequestLocalization("en-US", "zh-TW");
     app.UseAuthorization();
 
     app.MapControllers();
