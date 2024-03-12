@@ -5,6 +5,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 using Viriplaca.Common.Data.Localization;
+using Viriplaca.Common.Data.TypeHandlers;
 
 namespace Viriplaca.Common.Data;
 
@@ -31,6 +32,9 @@ public static class ServiceCollectionExtensions
 
         services.AddRepositories(assembly);
         services.AddLocalization<TContext>(options => options.FallbackCulture = CultureInfo.GetCultureInfo("en-US"));
+
+        SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
+        SqlMapper.AddTypeHandler(new TimeOnlyTypeHandler());
 
         return services;
     }

@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Viriplaca.Common.Data.Converters;
 
 namespace Viriplaca.Common.Data.Configurations;
 
