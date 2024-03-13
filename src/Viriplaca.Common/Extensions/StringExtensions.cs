@@ -2,7 +2,7 @@ namespace Viriplaca.Common.Extensions;
 
 public static class StringExtensions
 {
-    public static bool IsNullOrWhiteSpace(this string value)
+    public static bool IsNullOrWhiteSpace(this string? value)
     {
         return string.IsNullOrWhiteSpace(value);
     }
