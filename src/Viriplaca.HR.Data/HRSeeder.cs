@@ -130,9 +130,11 @@ public class HRSeeder : IDbSeeder<HRContext>
         var zhTW = CultureInfo.GetCultureInfo("zh-TW");
         var results = new List<LocaleResource>
         {
-            FromEnum(enUS, MaritalStatus.NotKnown, "Not Known"),
-            FromEnum(enUS, MaritalStatus.Married, "Married"),
+            FromEnum(enUS, MaritalStatus.Unknown, "Unknown"),
             FromEnum(enUS, MaritalStatus.Single, "Single"),
+            FromEnum(enUS, MaritalStatus.Married, "Married"),
+            FromEnum(enUS, MaritalStatus.Divorced, "Divorced"),
+            FromEnum(enUS, MaritalStatus.Widowed, "Widowed"),
             FromEnum(enUS, Sex.NotKnown, "Not Known"),
             FromEnum(enUS, Sex.Male, "Male"),
             FromEnum(enUS, Sex.Female, "Female"),
@@ -150,9 +152,11 @@ public class HRSeeder : IDbSeeder<HRContext>
             FromEnum(enUS, LeaveType.Funeral, "Funeral"),
             FromEnum(enUS, LeaveType.Compensatory, "Compensatory"),
 
-            FromEnum(zhTW, MaritalStatus.NotKnown, "未知"),
-            FromEnum(zhTW, MaritalStatus.Married, "已婚"),
+            FromEnum(zhTW, MaritalStatus.Unknown, "未知"),
             FromEnum(zhTW, MaritalStatus.Single, "未婚"),
+            FromEnum(zhTW, MaritalStatus.Married, "已婚"),
+            FromEnum(zhTW, MaritalStatus.Divorced, "離婚"),
+            FromEnum(zhTW, MaritalStatus.Widowed, "鰥寡"),
             FromEnum(zhTW, Sex.NotKnown, "未知"),
             FromEnum(zhTW, Sex.Male, "男性"),
             FromEnum(zhTW, Sex.Female, "女性"),

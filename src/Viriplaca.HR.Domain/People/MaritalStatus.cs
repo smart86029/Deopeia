@@ -2,9 +2,13 @@ namespace Viriplaca.HR.Domain.People;
 
 public enum MaritalStatus
 {
-    NotKnown = 0,
+    Unknown = 0,
 
-    Married = 1,
+    Single = 1,
 
-    Single = 2,
+    Married = 2,
+
+    Divorced = 3,
+
+    Widowed = 4,
 }

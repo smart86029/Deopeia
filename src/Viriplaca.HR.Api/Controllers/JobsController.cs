@@ -1,3 +1,4 @@
+using Viriplaca.HR.App.Jobs.GetJob;
 using Viriplaca.HR.App.Jobs.GetJobOptions;
 using Viriplaca.HR.App.Jobs.GetJobs;
 
@@ -17,6 +18,14 @@ public class JobsController : ApiController<JobsController>
     public async Task<IActionResult> GetJobs([FromQuery] GetJobsQuery query)
     {
         var result = await Sender.Send(query);
+
+        return Ok(result);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetJob([FromRoute] Guid id)
+    {
+        var result = await Sender.Send(new GetJobQuery(id));
 
         return Ok(result);
     }
