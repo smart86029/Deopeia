@@ -4,9 +4,13 @@ export default {
     organization: 'Organization',
     employee: {
       list: 'Employee List',
+      create: 'Create Employee',
+      edit: 'Edit Employee',
     },
     department: {
       list: 'Department List',
+      create: 'Create Department',
+      edit: 'Edit Department',
     },
     leave: {
       manage: 'Leave Management',
@@ -15,6 +19,8 @@ export default {
     },
     job: {
       list: 'Job List',
+      create: 'Create Job',
+      edit: 'Edit Job',
     },
   },
 };

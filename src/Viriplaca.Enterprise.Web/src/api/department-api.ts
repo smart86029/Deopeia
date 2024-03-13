@@ -7,7 +7,7 @@ export interface GetDepartmentQuery extends PageQuery {
   isEnabled?: boolean;
 }
 
-export interface Department {
+export interface DepartmentRow {
   id: Guid;
   name: string;
   isEnabled: boolean;
@@ -16,12 +16,20 @@ export interface Department {
   employeeCount: number;
 }
 
+export interface Department {
+  id: Guid;
+  name: string;
+  isEnabled: boolean;
+  parentId?: Guid;
+}
+
 export default {
   getOptions: () =>
     httpClient.get<OptionResult<Guid>[]>('/Departments/Options'),
-  getList: (query: GetDepartmentQuery) => {
-    return httpClient.get<PageResult<Department>>('/Departments', {
+  getList: (query: GetDepartmentQuery) =>
+    httpClient.get<PageResult<DepartmentRow>>('/Departments', {
       params: query,
-    });
-  },
+    }),
+  get: (id: Guid) => httpClient.get<Department>(`/Departments/${id}`),
+  create: (command: DepartmentRow) => httpClient.post('/Departments'),
 };

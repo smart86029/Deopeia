@@ -1,13 +1,13 @@
 <template>
-  <el-select clearable>
-    <el-option
+  <el-radio-group>
+    <el-radio
       v-for="option in options"
       :key="option.value"
       :label="option.name"
       :value="option.value"
       :disabled="!option.isEnabled"
     />
-  </el-select>
+  </el-radio-group>
 </template>
 
 <script setup lang="ts" generic="TValue">
@@ -17,9 +17,3 @@ defineProps<{
   options: OptionResult<TValue>[];
 }>();
 </script>
-
-<style scoped lang="scss">
-.el-select {
-  min-width: var(--el-form-inline-content-width);
-}
-</style>

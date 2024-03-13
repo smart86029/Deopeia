@@ -9,7 +9,7 @@
       </el-form-item>
     </el-form>
     <FlexDivider />
-    <ButtonCreate route="leave.apply" />
+    <ButtonCreate route="employee.create" />
   </div>
   <el-table v-loading="loading" :data="result.items">
     <el-table-column prop="name" :label="$t('common.name')" />
@@ -20,10 +20,7 @@
     <el-table-column prop="jobTitle" :label="$t('organization.jobTitle')" />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
-        <TextLink
-          :to="{ name: 'operator.edit', params: { id: row.id } }"
-          :text="$t('operation.edit')"
-        />
+        <TextLink :to="{ name: 'employee.edit', params: { id: row.id } }" />
       </template>
     </el-table-column>
   </el-table>
@@ -37,7 +34,7 @@
 <script setup lang="ts">
 import departmentApi from '@/api/department-api';
 import employeeApi, {
-  type Employee,
+  type EmployeeRow,
   type GetEmployeesQuery,
 } from '@/api/employee-api';
 import jobApi from '@/api/job-api';
@@ -53,7 +50,7 @@ const query: GetEmployeesQuery = reactive({
   jobId: undefined as Guid | undefined,
   ...defaultQuery,
 });
-const result: PageResult<Employee> = reactive(defaultResult());
+const result: PageResult<EmployeeRow> = reactive(defaultResult());
 
 departmentApi.getOptions().then((x) => (departments.value = x.data));
 jobApi.getOptions().then((x) => (jobs.value = x.data));

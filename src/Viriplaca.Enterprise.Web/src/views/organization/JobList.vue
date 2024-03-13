@@ -21,10 +21,7 @@
     />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
-        <TextLink
-          :to="{ name: 'operator.edit', params: { id: row.id } }"
-          :text="$t('operation.edit')"
-        />
+        <TextLink :to="{ name: 'job.edit', params: { id: row.id } }" />
       </template>
     </el-table-column>
   </el-table>
@@ -36,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import jobApi, { type GetJobsQuery, type Job } from '@/api/job-api';
+import jobApi, { type GetJobsQuery, type JobRow } from '@/api/job-api';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
 
 const loading = ref(false);
@@ -44,7 +41,7 @@ const query: GetJobsQuery = reactive({
   isEnabled: undefined as boolean | undefined,
   ...defaultQuery,
 });
-const result: PageResult<Job> = reactive(defaultResult());
+const result: PageResult<JobRow> = reactive(defaultResult());
 
 watch(
   query,

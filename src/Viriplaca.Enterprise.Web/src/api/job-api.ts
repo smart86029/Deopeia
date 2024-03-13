@@ -7,18 +7,22 @@ export interface GetJobsQuery extends PageQuery {
   isEnabled?: boolean;
 }
 
-export interface Job {
+export interface JobRow {
   id: Guid;
   title: string;
   isEnabled: boolean;
   employeeCount: number;
 }
 
+export interface Job {
+  id: Guid;
+  title: string;
+  isEnabled: boolean;
+}
+
 export default {
   getOptions: () => httpClient.get<OptionResult<Guid>[]>('/Jobs/Options'),
-  getList: (query: GetJobsQuery) => {
-    return httpClient.get<PageResult<Job>>('/Jobs', {
-      params: query,
-    });
-  },
+  getList: (query: GetJobsQuery) =>
+    httpClient.get<PageResult<JobRow>>('/Jobs', { params: query }),
+  get: (id: Guid) => httpClient.get<Job>(`/Jobs/${id}`),
 };

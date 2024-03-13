@@ -6,7 +6,7 @@
       </el-form-item>
     </el-form>
     <FlexDivider />
-    <ButtonCreate route="leave.apply" :text="$t('operation.apply')" />
+    <ButtonCreate route="department.create" :text="$t('operation.create')" />
   </div>
   <el-table v-loading="loading" :data="result.items">
     <el-table-column prop="name" :label="$t('common.name')" />
@@ -22,10 +22,7 @@
     />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
-        <TextLink
-          :to="{ name: 'operator.edit', params: { id: row.id } }"
-          :text="$t('operation.edit')"
-        />
+        <TextLink :to="{ name: 'department.edit', params: { id: row.id } }" />
       </template>
     </el-table-column>
   </el-table>
@@ -38,7 +35,7 @@
 
 <script setup lang="ts">
 import departmentApi, {
-  type Department,
+  type DepartmentRow,
   type GetDepartmentQuery,
 } from '@/api/department-api';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
@@ -48,7 +45,7 @@ const query: GetDepartmentQuery = reactive({
   isEnabled: undefined as boolean | undefined,
   ...defaultQuery,
 });
-const result: PageResult<Department> = reactive(defaultResult());
+const result: PageResult<DepartmentRow> = reactive(defaultResult());
 
 watch(
   query,
