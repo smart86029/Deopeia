@@ -4,15 +4,15 @@ export default [
   {
     path: 'organization',
     name: 'organization',
-    redirect: { name: 'employee.list' },
+    redirect: { name: 'employee.default' },
     children: [
       {
         path: 'employees',
         name: 'employee.list',
-        redirect: { name: '' },
         children: [
           {
             path: '',
+            name: 'employee.default',
             component: () => import('../views/organization/EmployeeList.vue'),
           },
           {
@@ -32,10 +32,10 @@ export default [
       {
         path: 'departments',
         name: 'department.list',
-        redirect: { name: '' },
         children: [
           {
             path: '',
+            name: 'department.default',
             component: () => import('../views/organization/DepartmentList.vue'),
           },
           {
@@ -55,10 +55,10 @@ export default [
       {
         path: 'jobs',
         name: 'job.list',
-        redirect: { name: '' },
         children: [
           {
             path: '',
+            name: 'job.default',
             component: () => import('../views/organization/JobList.vue'),
           },
           {

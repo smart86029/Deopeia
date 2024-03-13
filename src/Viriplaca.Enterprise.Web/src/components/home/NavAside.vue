@@ -1,7 +1,7 @@
 <template>
   <el-menu
     :default-active="
-      $route.matched.length > 2 ? $route.matched[2] : $route.path
+      $route.matched.length > 2 ? $route.matched[2].path : $route.path
     "
     router
   >
@@ -39,7 +39,7 @@ const menus = [
   },
   {
     name: 'leave.manage',
-    children: [{ name: 'leave.list', path: '/leaves' }],
+    children: [{ name: 'leave.list', path: '/leave-management/leaves' }],
   },
 ] as Menu[];
 </script>

@@ -1,18 +1,24 @@
 export default [
   {
-    path: 'leaves',
+    path: 'leave-management',
     name: 'leave.manage',
-    redirect: { name: '' },
+    redirect: { name: 'leave.default' },
     children: [
       {
-        path: '',
+        path: 'leaves',
         name: 'leave.list',
-        component: () => import('../views/leave/LeaveList.vue'),
-      },
-      {
-        path: 'apply',
-        name: 'leave.apply',
-        component: () => import('../views/leave/LeaveForm.vue'),
+        children: [
+          {
+            path: '',
+            name: 'leave.default',
+            component: () => import('../views/leave/LeaveList.vue'),
+          },
+          {
+            path: 'apply',
+            name: 'leave.apply',
+            component: () => import('../views/leave/LeaveForm.vue'),
+          },
+        ],
       },
     ],
   },

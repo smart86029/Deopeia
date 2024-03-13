@@ -5,8 +5,8 @@ import type { dayjs } from 'element-plus';
 import httpClient from './http-client';
 
 export interface GetLeavesQuery extends PageQuery {
-  startedAt: dayjs.Dayjs;
-  endedAt: dayjs.Dayjs;
+  startedAt?: dayjs.Dayjs;
+  endedAt?: dayjs.Dayjs;
   approvalStatus?: ApprovalStatus;
 }
 

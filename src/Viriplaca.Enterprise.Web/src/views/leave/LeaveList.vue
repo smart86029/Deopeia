@@ -2,7 +2,7 @@
   <div class="toolbar">
     <el-form :inline="true" :model="query">
       <el-form-item :label="$t('common.time')">
-        <DateTimeRangePicker v-model="range" />
+        <DateTimeRangePicker />
       </el-form-item>
       <el-form-item :label="$t('common.status')">
         <SelectEnum
@@ -56,15 +56,16 @@
 import leaveApi, { type GetLeavesQuery, type Leave } from '@/api/leave-api';
 import { ApprovalStatus } from '@/models/approval-status';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
-import { dateTimeFormatter, durationFormatter } from '@/plugins/dayjs';
-import { dayjs } from 'element-plus';
+import {
+  dateTimeFormatter,
+  defaultRange,
+  durationFormatter,
+} from '@/plugins/dayjs';
 
 const loading = ref(false);
 const types = new Map<number, string>();
-const range = ref([] as dayjs.Dayjs[]);
+const range = ref(defaultRange());
 const query: GetLeavesQuery = reactive({
-  startedAt: dayjs(),
-  endedAt: dayjs(),
   approvalStatus: undefined,
   ...defaultQuery,
 });

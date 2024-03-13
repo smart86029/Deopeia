@@ -21,6 +21,12 @@ dayjs.updateLocale('en', {
   },
 });
 
+export const defaultRange = (): dayjs.Dayjs[] => {
+  const now = dayjs();
+  const today = dayjs(now.format('YYYY-MM-DD'));
+  return [today, today.add(1, 'day')];
+};
+
 export const dateFormatter = (
   row: any,
   column: any,

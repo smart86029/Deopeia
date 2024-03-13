@@ -10,7 +10,11 @@
 
 <script setup lang="ts">
 const route = useRoute();
-const locations = computed(() => route.matched.filter((x) => !!x.name));
+const locations = computed(() =>
+  route.matched.filter(
+    (x) => !!x.name && !x.name.toString().endsWith('default'),
+  ),
+);
 const id = computed(() => route.params.id);
 </script>
 
