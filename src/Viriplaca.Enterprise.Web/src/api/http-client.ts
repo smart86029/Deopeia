@@ -1,7 +1,6 @@
-import router from '@/router';
-// import { useAuthStore } from '@/stores/auth';
+import { usePreferencesStore } from '@/stores/preferences';
 import axios from 'axios';
-import { ElMessage, ElMessageBox, dayjs } from 'element-plus';
+import { ElMessageBox, dayjs } from 'element-plus';
 import 'element-plus/theme-chalk/index.css';
 
 const instance = axios.create({
@@ -10,6 +9,8 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (config) => {
+    const preferencesStore = usePreferencesStore();
+    config.headers.set('Accept-Language', preferencesStore.locale.key);
     return config;
   },
   (error) => Promise.reject(error),
@@ -17,29 +18,23 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    // const authStore = useAuthStore();
-    switch (response.data.status) {
-      case 1:
+    switch (response.status) {
+      case 200:
         handleDates(response.data.data);
         return response.data;
-      case 2:
-        ElMessageBox.close();
-        ElMessageBox.alert(response.data.message);
-        return Promise.reject();
-      case 3:
-        ElMessageBox.close();
-        ElMessage.closeAll();
-        // authStore.initInfo();
-        router.replace({ name: 'auth.signIn' });
-        return Promise.reject();
+    }
+    return response;
+  },
+  ({ response }) => {
+    switch (response.status) {
+      case 400:
       case 500:
         ElMessageBox.close();
         ElMessageBox.alert(response.data.message);
         return Promise.reject();
     }
-    return response;
+    return Promise.reject();
   },
-  (error) => Promise.reject(error),
 );
 
 const handleDates = (body: any) => {
