@@ -13,10 +13,7 @@ public class Permission : AggregateRoot, ILocalizable<PermissionLocale>
 
     public Permission(string code, bool isEnabled)
     {
-        if (string.IsNullOrWhiteSpace(code))
-        {
-            throw new DomainException("Code can not be null");
-        }
+        code.MustNotBeNullOrWhiteSpace();
 
         Code = code.Trim();
         IsEnabled = isEnabled;
@@ -36,11 +33,7 @@ public class Permission : AggregateRoot, ILocalizable<PermissionLocale>
 
     public void UpdateCode(string code)
     {
-        if (string.IsNullOrWhiteSpace(code))
-        {
-            throw new DomainException("Code can not be null");
-        }
-
+        code.MustNotBeNullOrWhiteSpace();
         Code = code.Trim();
     }
 

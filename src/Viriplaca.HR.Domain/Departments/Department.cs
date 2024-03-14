@@ -8,10 +8,7 @@ public class Department : AggregateRoot
 
     public Department(string name, bool isEnabled, Guid? parentId)
     {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new DomainException("Name can not be null");
-        }
+        name.MustNotBeNullOrWhiteSpace();
 
         Name = name.Trim();
         IsEnabled = isEnabled;
@@ -26,11 +23,7 @@ public class Department : AggregateRoot
 
     public void UpdateName(string name)
     {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new DomainException("Name can not be null");
-        }
-
+        name.MustNotBeNullOrWhiteSpace();
         Name = name.Trim();
     }
 

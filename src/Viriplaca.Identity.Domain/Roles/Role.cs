@@ -14,10 +14,7 @@ public class Role : AggregateRoot
 
     public Role(string name, bool isEnabled)
     {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new DomainException("Name can not be null");
-        }
+        name.MustNotBeNullOrWhiteSpace();
 
         Name = name;
         IsEnabled = isEnabled;
@@ -33,11 +30,7 @@ public class Role : AggregateRoot
 
     public void UpdateName(string name)
     {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new DomainException("Name can not be null");
-        }
-
+        name.MustNotBeNullOrWhiteSpace();
         Name = name;
     }
 

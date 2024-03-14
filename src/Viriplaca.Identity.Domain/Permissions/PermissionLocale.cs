@@ -8,11 +8,7 @@ public class PermissionLocale : EntityLocale
 
     public void UpdateName(string name)
     {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new DomainException("Name can not be null");
-        }
-
+        name.MustNotBeNullOrWhiteSpace();
         Name = name.Trim();
     }
 

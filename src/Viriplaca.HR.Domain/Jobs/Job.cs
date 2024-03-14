@@ -8,10 +8,7 @@ public class Job : AggregateRoot
 
     public Job(string title, bool isEnabled)
     {
-        if (string.IsNullOrWhiteSpace(title))
-        {
-            throw new DomainException("Title can not be null");
-        }
+        title.MustNotBeNullOrWhiteSpace();
 
         Title = title.Trim();
         IsEnabled = isEnabled;
@@ -25,11 +22,7 @@ public class Job : AggregateRoot
 
     public void UpdateTitle(string title)
     {
-        if (string.IsNullOrWhiteSpace(title))
-        {
-            throw new DomainException("Title can not be null");
-        }
-
+        title.MustNotBeNullOrWhiteSpace();
         Title = title.Trim();
     }
 

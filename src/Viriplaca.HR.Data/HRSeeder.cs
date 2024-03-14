@@ -151,6 +151,10 @@ public class HRSeeder : IDbSeeder<HRContext>
             FromEnum(enUS, LeaveType.Parental, "Parental"),
             FromEnum(enUS, LeaveType.Funeral, "Funeral"),
             FromEnum(enUS, LeaveType.Compensatory, "Compensatory"),
+            FromError(enUS, "String.NotEmpty", "{Name} must not be empty."),
+            FromError(enUS, "Date.OnOrBeforeNow", "{Name} must be on or before now."),
+            FromError(enUS, "Date.AfterNow", "{Name} must be after now."),
+            FromError(enUS, "Enum.Defined", "{Name} must be defined."),
 
             FromEnum(zhTW, MaritalStatus.Unknown, "未知"),
             FromEnum(zhTW, MaritalStatus.Single, "未婚"),
@@ -173,6 +177,10 @@ public class HRSeeder : IDbSeeder<HRContext>
             FromEnum(zhTW, LeaveType.Parental, "育嬰假"),
             FromEnum(zhTW, LeaveType.Funeral, "喪假"),
             FromEnum(zhTW, LeaveType.Compensatory, "補休"),
+            FromError(zhTW, "String.NotEmpty", "{Name}不可為空。"),
+            FromError(zhTW, "Date.OnOrBeforeNow", "{Name}必須等於或早於現在。"),
+            FromError(zhTW, "Date.AfterNow", "{Name}必須晚於現在。"),
+            FromError(zhTW, "Enum.Defined", "{Name}必須被定義。"),
         };
 
         return results;
@@ -180,6 +188,11 @@ public class HRSeeder : IDbSeeder<HRContext>
         LocaleResource FromEnum<TEnum>(CultureInfo culture, TEnum @enum, string content)
         {
             return new LocaleResource(culture, LocaleResourceType.Enum, $"{typeof(TEnum).Name}.{@enum:D}", content);
+        }
+
+        LocaleResource FromError(CultureInfo culture, string code, string content)
+        {
+            return new LocaleResource(culture, LocaleResourceType.Enum, code, content);
         }
     }
 }

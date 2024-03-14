@@ -1,5 +1,4 @@
 using System.Security.Cryptography;
-using Viriplaca.Common.Extensions;
 using Viriplaca.Identity.Domain.Roles;
 
 namespace Viriplaca.Identity.Domain.Users;
@@ -15,25 +14,10 @@ public class User : AggregateRoot
 
     public User(string userName, string password, string name, string displayName, bool isEnabled)
     {
-        if (string.IsNullOrWhiteSpace(userName))
-        {
-            throw new DomainException("User name can not be null");
-        }
-
-        if (string.IsNullOrWhiteSpace(password))
-        {
-            throw new DomainException("Password can not be null");
-        }
-
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new DomainException("Name can not be null");
-        }
-
-        if (string.IsNullOrWhiteSpace(displayName))
-        {
-            throw new DomainException("Display name can not be null");
-        }
+        userName.MustNotBeNullOrWhiteSpace();
+        password.MustNotBeNullOrWhiteSpace();
+        name.MustNotBeNullOrWhiteSpace();
+        displayName.MustNotBeNullOrWhiteSpace();
 
         UserName = userName.ToLower().Trim();
         UpdateSalt();
@@ -75,21 +59,13 @@ public class User : AggregateRoot
 
     public void UpdateName(string name)
     {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            throw new DomainException("Name can not be null");
-        }
-
+        name.MustNotBeNullOrWhiteSpace();
         Name = name.Trim();
     }
 
     public void UpdateDisplayName(string displayName)
     {
-        if (string.IsNullOrWhiteSpace(displayName))
-        {
-            throw new DomainException("Display name can not be null");
-        }
-
+        displayName.MustNotBeNullOrWhiteSpace();
         DisplayName = displayName.Trim();
     }
 

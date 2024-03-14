@@ -8,15 +8,10 @@ public abstract class Person : AggregateRoot
 
     protected Person(string firstName, string? lastName, DateOnly birthDate, Sex sex, MaritalStatus maritalStatus)
     {
-        if (string.IsNullOrWhiteSpace(firstName))
-        {
-            throw new DomainException("First name can not bet null");
-        }
-
-        if (birthDate > DateOnly.FromDateTime(DateTime.UtcNow))
-        {
-            throw new DomainException("Birth date must less than now");
-        }
+        firstName.MustNotBeNullOrWhiteSpace();
+        birthDate.MustBeOnOrBeforeNow();
+        sex.MustBeDefined();
+        maritalStatus.MustBeDefined();
 
         FirstName = firstName.Trim();
         LastName = lastName?.Trim();
@@ -39,11 +34,7 @@ public abstract class Person : AggregateRoot
 
     public void UpdateFirstName(string firstName)
     {
-        if (string.IsNullOrWhiteSpace(firstName))
-        {
-            throw new DomainException("First name can not be null");
-        }
-
+        firstName.MustNotBeNullOrWhiteSpace();
         FirstName = firstName.Trim();
     }
 
@@ -54,21 +45,19 @@ public abstract class Person : AggregateRoot
 
     public void UpdateBirthDate(DateOnly birthDate)
     {
-        if (birthDate > DateOnly.FromDateTime(DateTime.UtcNow))
-        {
-            throw new DomainException("Birth date must less than now");
-        }
-
+        birthDate.MustBeOnOrBeforeNow();
         BirthDate = birthDate;
     }
 
     public void UpdateSex(Sex sex)
     {
+        sex.MustBeDefined();
         Sex = sex;
     }
 
     public void UpdateMaritalStatus(MaritalStatus maritalStatus)
     {
+        maritalStatus.MustBeDefined();
         MaritalStatus = maritalStatus;
     }
 

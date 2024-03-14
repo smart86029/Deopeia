@@ -8,10 +8,7 @@ public class UserRefreshToken : Entity
 
     internal UserRefreshToken(string refreshToken, DateTimeOffset expiredAt, Guid userId)
     {
-        if (expiredAt < DateTimeOffset.UtcNow)
-        {
-            throw new DomainException("Expired at must be greater than now");
-        }
+        expiredAt.MustBeAfterNow();
 
         UserId = userId;
         RefreshToken = refreshToken;

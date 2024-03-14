@@ -8,6 +8,8 @@ public class Leave : AggregateRoot
 
     public Leave(LeaveType type, DateTimeOffset startedAt, DateTimeOffset endedAt, string reason, Guid employeeId)
     {
+        type.MustBeDefined();
+
         Type = type;
         StartedAt = startedAt;
         EndedAt = endedAt;
