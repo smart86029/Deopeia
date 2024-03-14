@@ -22,7 +22,15 @@ internal class StringLocalizer(
         }
     }
 
-    public LocalizedString this[string name, params object[] arguments] => throw new NotImplementedException();
+    public LocalizedString this[string name, params object[] arguments]
+    {
+        get
+        {
+            var found = TryGetContent(name, out var value);
+
+            return new LocalizedString(name, value ?? string.Empty, !found);
+        }
+    }
 
     public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures)
     {

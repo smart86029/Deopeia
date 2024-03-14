@@ -11,6 +11,16 @@ public static class StringLocalizerExtensions
         return localizer.GetString(LocaleResourceType.Enum, $"{typeof(TEnum).Name}.{@enum:D}");
     }
 
+    public static string GetErrorString(this IStringLocalizer localizer, string code)
+    {
+        return localizer.GetString($"{LocaleResourceType.Error}.{code}");
+    }
+
+    public static string GetErrorString(this IStringLocalizer localizer, string code, object argument)
+    {
+        return localizer.GetString($"{LocaleResourceType.Error}.{code}", argument);
+    }
+
     public static string GetString(this IStringLocalizer localizer, LocaleResourceType type, string code)
     {
         return localizer.GetString($"{type}.{code}");

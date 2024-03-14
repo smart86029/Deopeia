@@ -41,14 +41,14 @@ public static class ServiceCollectionExtensions
 
     private static IServiceCollection AddRepositories(this IServiceCollection services, Assembly assembly)
     {
-        var repositoryTypes = assembly
+        var types = assembly
             .GetTypes()
-            .Where(x => x.Name.EndsWith("Repository"));
-        foreach (var repositoryType in repositoryTypes)
+            .Where(x => x.Name.EndsWith("Repository") || x.Name.EndsWith("UnitOfWork"));
+        foreach (var type in types)
         {
-            foreach (var interfaceType in repositoryType.GetInterfaces())
+            foreach (var interfaceType in type.GetInterfaces())
             {
-                services.AddScoped(interfaceType, repositoryType);
+                services.AddScoped(interfaceType, type);
             }
         }
 
