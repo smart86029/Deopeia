@@ -192,7 +192,7 @@ public class HRSeeder : IDbSeeder<HRContext>
 
         LocaleResource FromError(CultureInfo culture, string code, string content)
         {
-            return new LocaleResource(culture, LocaleResourceType.Enum, code, content);
+            return new LocaleResource(culture, LocaleResourceType.Error, code, content);
         }
     }
 }

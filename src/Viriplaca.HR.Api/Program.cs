@@ -16,6 +16,7 @@ try
 
     var app = builder.Build();
     app.UseRequestLocalization("en-US", "zh-TW");
+    app.UseExceptionHandler();
     app.UseAuthorization();
 
     app.MapControllers();
