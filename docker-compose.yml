@@ -7,6 +7,7 @@ services:
 
   viriplaca.hr.api:
     image: ${DOCKER_REGISTRY-}viriplaca-hr-api
+    container_name: viriplaca-hr-api
     build:
       context: .
       dockerfile: src/Viriplaca.HR.Api/Dockerfile

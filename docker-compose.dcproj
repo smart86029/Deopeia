@@ -5,9 +5,8 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
     <ProjectGuid>6233e9f8-6cb4-429e-94c2-bd594e98ce66</ProjectGuid>
-    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/leaves</DockerServiceUrl>
-    <DockerServiceName>viriplaca.hr.api</DockerServiceName>
+    <DockerLaunchAction>None</DockerLaunchAction>
+    <DockerComposeProjectName>viriplaca</DockerComposeProjectName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
