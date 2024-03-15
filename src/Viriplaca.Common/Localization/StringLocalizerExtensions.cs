@@ -42,7 +42,13 @@ public static class StringLocalizerExtensions
             return modelString;
         }
 
-        return localizer.GetString(LocaleResourceType.None, propertyName);
+        var noneString = localizer.GetString(LocaleResourceType.None, propertyName);
+        if (!modelString.ResourceNotFound)
+        {
+            return noneString;
+        }
+
+        return propertyName;
     }
 
     public static string GetErrorString(this IStringLocalizer localizer, string code, object argument)
