@@ -1,8 +1,9 @@
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace Viriplaca.Common.Extensions;
 
-public static class StringExtensions
+public static partial class StringExtensions
 {
     public static bool IsNullOrWhiteSpace(this string? value)
     {
@@ -16,9 +17,7 @@ public static class StringExtensions
             return string.Empty;
         }
 
-        var camelCase = value.ToCamelCase();
-
-        return char.ToUpperInvariant(camelCase[0]) + camelCase[1..];
+        return FirstLetterRegex().Replace(value, x => x.Value.ToUpper());
     }
 
     public static string ToCamelCase(this string? value)
@@ -30,4 +29,7 @@ public static class StringExtensions
 
         return JsonNamingPolicy.CamelCase.ConvertName(value);
     }
+
+    [GeneratedRegex(@"\b\w")]
+    private static partial Regex FirstLetterRegex();
 }

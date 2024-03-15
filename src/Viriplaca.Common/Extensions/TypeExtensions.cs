@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Viriplaca.Common.Extensions;
 
-public  static class TypeExtensions
+public static class TypeExtensions
 {
     public static bool IsAssignableToGenericType(this Type type, Type genericType)
     {
