@@ -21,7 +21,6 @@ instance.interceptors.response.use(
     switch (response.status) {
       case 200:
         handleDates(response.data.data);
-        return response.data;
     }
     return response;
   },
