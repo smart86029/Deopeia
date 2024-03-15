@@ -130,6 +130,7 @@ public class HRSeeder : IDbSeeder<HRContext>
         var zhTW = CultureInfo.GetCultureInfo("zh-TW");
         var results = new List<LocaleResource>
         {
+            FromNone(enUS, "Name", "Name"),
             FromEnum(enUS, MaritalStatus.Unknown, "Unknown"),
             FromEnum(enUS, MaritalStatus.Single, "Single"),
             FromEnum(enUS, MaritalStatus.Married, "Married"),
@@ -151,11 +152,12 @@ public class HRSeeder : IDbSeeder<HRContext>
             FromEnum(enUS, LeaveType.Parental, "Parental"),
             FromEnum(enUS, LeaveType.Funeral, "Funeral"),
             FromEnum(enUS, LeaveType.Compensatory, "Compensatory"),
-            FromError(enUS, "String.NotEmpty", "{Name} must not be empty."),
-            FromError(enUS, "Date.OnOrBeforeNow", "{Name} must be on or before now."),
-            FromError(enUS, "Date.AfterNow", "{Name} must be after now."),
-            FromError(enUS, "Enum.Defined", "{Name} must be defined."),
+            FromError(enUS, "String.NotEmpty", "{Property} must not be empty."),
+            FromError(enUS, "Date.OnOrBeforeNow", "{Property} must be on or before now."),
+            FromError(enUS, "Date.AfterNow", "{Property} must be after now."),
+            FromError(enUS, "Enum.Defined", "{Property} must be defined."),
 
+            FromNone(zhTW, "Name", "名稱"),
             FromEnum(zhTW, MaritalStatus.Unknown, "未知"),
             FromEnum(zhTW, MaritalStatus.Single, "未婚"),
             FromEnum(zhTW, MaritalStatus.Married, "已婚"),
@@ -177,13 +179,18 @@ public class HRSeeder : IDbSeeder<HRContext>
             FromEnum(zhTW, LeaveType.Parental, "育嬰假"),
             FromEnum(zhTW, LeaveType.Funeral, "喪假"),
             FromEnum(zhTW, LeaveType.Compensatory, "補休"),
-            FromError(zhTW, "String.NotEmpty", "{Name}不可為空。"),
-            FromError(zhTW, "Date.OnOrBeforeNow", "{Name}必須等於或早於現在。"),
-            FromError(zhTW, "Date.AfterNow", "{Name}必須晚於現在。"),
-            FromError(zhTW, "Enum.Defined", "{Name}必須被定義。"),
+            FromError(zhTW, "String.NotEmpty", "{Property}不可為空。"),
+            FromError(zhTW, "Date.OnOrBeforeNow", "{Property}必須等於或早於現在。"),
+            FromError(zhTW, "Date.AfterNow", "{Property}必須晚於現在。"),
+            FromError(zhTW, "Enum.Defined", "{Property}必須被定義。"),
         };
 
         return results;
+
+        LocaleResource FromNone(CultureInfo culture, string code, string content)
+        {
+            return new LocaleResource(culture, LocaleResourceType.None, code, content);
+        }
 
         LocaleResource FromEnum<TEnum>(CultureInfo culture, TEnum @enum, string content)
         {
