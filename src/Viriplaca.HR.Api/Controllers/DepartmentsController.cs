@@ -1,6 +1,8 @@
+using Viriplaca.HR.App.Departments.CreateDepartment;
 using Viriplaca.HR.App.Departments.GetDepartment;
 using Viriplaca.HR.App.Departments.GetDepartmentOptions;
 using Viriplaca.HR.App.Departments.GetDepartments;
+using Viriplaca.HR.App.Departments.UpdateDepartment;
 
 namespace Viriplaca.HR.Api.Controllers;
 
@@ -28,5 +30,26 @@ public class DepartmentsController : ApiController<DepartmentsController>
         var result = await Sender.Send(new GetDepartmentQuery(id));
 
         return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateDepartment([FromBody] CreateDepartmentCommand command)
+    {
+        var result = await Sender.Send(command);
+
+        return Ok(result);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateDepartment([FromRoute] Guid id, [FromBody] UpdateDepartmentCommand command)
+    {
+        if (id != command.Id)
+        {
+            return BadRequest();
+        }
+
+        await Sender.Send(command);
+
+        return Ok();
     }
 }

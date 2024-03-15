@@ -38,7 +38,7 @@ public abstract class Person : AggregateRoot
         FirstName = firstName.Trim();
     }
 
-    public void UpdateLastName(string lastName)
+    public void UpdateLastName(string? lastName)
     {
         LastName = lastName?.Trim();
     }
