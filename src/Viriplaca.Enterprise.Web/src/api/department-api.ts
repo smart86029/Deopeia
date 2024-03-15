@@ -31,5 +31,8 @@ export default {
       params: query,
     }),
   get: (id: Guid) => httpClient.get<Department>(`/Departments/${id}`),
-  create: (command: DepartmentRow) => httpClient.post('/Departments'),
+  create: (department: Department) =>
+    httpClient.post('/Departments', department),
+  update: (department: Department) =>
+    httpClient.put(`/Departments/${department.id}`, department),
 };

@@ -6,7 +6,7 @@
       </el-form-item>
     </el-form>
     <FlexDivider />
-    <ButtonCreate route="leave.apply" />
+    <ButtonCreate route="job.create" />
   </div>
   <el-table v-loading="loading" :data="result.items">
     <el-table-column prop="title" :label="$t('organization.jobTitle')" />

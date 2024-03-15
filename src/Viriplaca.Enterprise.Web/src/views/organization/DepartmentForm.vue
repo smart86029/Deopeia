@@ -17,20 +17,19 @@
 </template>
 
 <script setup lang="ts">
-import departmentApi from '@/api/department-api';
-import type { Guid } from '@/models/guid';
+import departmentApi, { type Department } from '@/api/department-api';
+import { Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
+import { success } from '@/plugins/element';
 
 const props = defineProps<{
   action: 'create' | 'edit';
   id: Guid;
 }>();
 const loading = ref(true);
-const { t } = useI18n();
-const router = useRouter();
 const departments = ref([] as OptionResult<Guid>[]);
 const form = reactive({
-  id: 0,
+  id: Guid.empty,
   name: '',
   isEnabled: true,
   parentId: undefined as Guid | undefined,
@@ -46,20 +45,14 @@ if (props.action === 'edit') {
 }
 
 const save = () => {
-  // const post =
-  //   props.action === 'create' ? operatorApi.create : operatorApi.update;
-  // post(form as Operator).then(() => {
-  //   ElNotification.success({
-  //     message: t(`message.${props.action}Success`),
-  //     position: 'bottom-left',
-  //   });
-  //   router.go(-1);
-  // });
+  const post =
+    props.action === 'create' ? departmentApi.create : departmentApi.update;
+  post(form as Department).then(() => success(props.action));
 };
 </script>
 
 <style scoped lang="scss">
 .el-form {
-  max-width: 700px;
+  max-width: 1000px;
 }
 </style>

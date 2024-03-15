@@ -25,4 +25,6 @@ export default {
   getList: (query: GetJobsQuery) =>
     httpClient.get<PageResult<JobRow>>('/Jobs', { params: query }),
   get: (id: Guid) => httpClient.get<Job>(`/Jobs/${id}`),
+  create: (job: Job) => httpClient.post('/Jobs', job),
+  update: (job: Job) => httpClient.put(`/Jobs/${job.id}`, job),
 };

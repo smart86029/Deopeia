@@ -15,17 +15,16 @@
 
 <script setup lang="ts">
 import departmentApi from '@/api/department-api';
-import jobApi from '@/api/job-api';
+import jobApi, { type Job } from '@/api/job-api';
 import { Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
+import { success } from '@/plugins/element';
 
 const props = defineProps<{
   action: 'create' | 'edit';
   id: Guid;
 }>();
 const loading = ref(true);
-const { t } = useI18n();
-const router = useRouter();
 const departments = ref([] as OptionResult<Guid>[]);
 const form = reactive({
   id: Guid.empty,
@@ -43,15 +42,8 @@ if (props.action === 'edit') {
 }
 
 const save = () => {
-  // const post =
-  //   props.action === 'create' ? operatorApi.create : operatorApi.update;
-  // post(form as Operator).then(() => {
-  //   ElNotification.success({
-  //     message: t(`message.${props.action}Success`),
-  //     position: 'bottom-left',
-  //   });
-  //   router.go(-1);
-  // });
+  const post = props.action === 'create' ? jobApi.create : jobApi.update;
+  post(form as Job).then(() => success(props.action));
 };
 </script>
 

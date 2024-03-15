@@ -28,29 +28,28 @@
 
 <script setup lang="ts">
 import departmentApi from '@/api/department-api';
-import employeeApi from '@/api/employee-api';
+import employeeApi, { type Employee } from '@/api/employee-api';
 import { Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import { MaritalStatus } from '@/models/organization/marital-status';
 import { Sex } from '@/models/organization/sex';
-import { dayjs } from 'element-plus';
+import { success } from '@/plugins/element';
 
 const props = defineProps<{
   action: 'create' | 'edit';
   id: Guid;
 }>();
 const loading = ref(true);
-const { t } = useI18n();
-const router = useRouter();
 const departments = ref([] as OptionResult<Guid>[]);
 const form = reactive({
   id: Guid.empty,
   firstName: '',
   lastName: undefined as string | undefined,
-  birthDate: dayjs.Dayjs,
+  birthDate: new Date(),
   sex: Sex.NotKnown,
   maritalStatus: MaritalStatus.Unknown,
-  parentId: undefined as Guid | undefined,
+  departmentId: Guid.empty,
+  jobId: Guid.empty,
 });
 
 departmentApi.getOptions().then((x) => (departments.value = x.data));
@@ -63,15 +62,9 @@ if (props.action === 'edit') {
 }
 
 const save = () => {
-  // const post =
-  //   props.action === 'create' ? operatorApi.create : operatorApi.update;
-  // post(form as Operator).then(() => {
-  //   ElNotification.success({
-  //     message: t(`message.${props.action}Success`),
-  //     position: 'bottom-left',
-  //   });
-  //   router.go(-1);
-  // });
+  const post =
+    props.action === 'create' ? employeeApi.create : employeeApi.update;
+  post(form as Employee).then(() => success(props.action));
 };
 </script>
 

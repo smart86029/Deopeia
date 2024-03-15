@@ -13,5 +13,10 @@ export default {
     startTime: 'Start Time',
     endTime: 'End Time',
     reason: 'Reason',
+    message: {
+      success: '{action} Successfully',
+      createSuccess: 'Created Successfully',
+      editSuccess: 'Updated Successfully',
+    },
   },
 };
