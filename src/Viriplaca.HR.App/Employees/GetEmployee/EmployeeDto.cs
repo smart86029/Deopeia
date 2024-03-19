@@ -18,5 +18,5 @@ public class EmployeeDto
 
     public Guid DepartmentId { get; set; }
 
-    public Guid Job { get; set; }
+    public Guid JobId { get; set; }
 }

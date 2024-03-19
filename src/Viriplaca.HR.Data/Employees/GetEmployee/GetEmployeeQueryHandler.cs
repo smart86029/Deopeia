@@ -17,6 +17,8 @@ SELECT
     BirthDate,
     Sex,
     MaritalStatus,
+    DepartmentId,
+    JobId,
     UserId
 FROM HR.Person
 WHERE Id = @Id AND Discriminator = N'Employee'
