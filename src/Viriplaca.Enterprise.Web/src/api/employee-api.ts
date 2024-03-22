@@ -20,6 +20,7 @@ export interface Employee {
   id: Guid;
   firstName: string;
   lastName?: string;
+  imageId?: Guid;
   birthDate: Date;
   sex: Sex;
   maritalStatus: MaritalStatus;

@@ -6,6 +6,9 @@
     <el-form-item :label="$t('organization.lastName')">
       <el-input v-model="form.lastName" />
     </el-form-item>
+    <el-form-item>
+      <UploadImage v-model:imageId="form.imageId" />
+    </el-form-item>
     <el-form-item :label="$t('organization.birthDate')">
       <el-date-picker type="date" v-model="form.birthDate" />
     </el-form-item>
@@ -45,6 +48,7 @@ const form = reactive({
   id: Guid.empty,
   firstName: '',
   lastName: undefined as string | undefined,
+  imageId: Guid.empty,
   birthDate: new Date(),
   sex: Sex.NotKnown,
   maritalStatus: MaritalStatus.Unknown,
