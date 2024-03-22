@@ -4,7 +4,9 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
+        "minio": "StartWithoutDebugging",
         "mssql": "StartWithoutDebugging",
+        "nginx": "StartWithoutDebugging",
         "viriplaca.hr.api": "DoNotStart"
       }
     },
@@ -12,7 +14,9 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "serviceActions": {
+        "minio": "DoNotStart",
         "mssql": "DoNotStart",
+        "nginx": "DoNotStart",
         "viriplaca.hr.api": "StartDebugging"
       }
     }

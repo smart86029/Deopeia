@@ -1,9 +1,17 @@
 version: '3.8'
 
 services:
+  minio:
+    image: minio/minio
+    container_name: minio
+  
   mssql:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: mssql
+
+  nginx:
+    image: nginx
+    container_name: nginx
 
   viriplaca.hr.api:
     image: ${DOCKER_REGISTRY-}viriplaca-hr-api
@@ -11,4 +19,3 @@ services:
     build:
       context: .
       dockerfile: src/Viriplaca.HR.Api/Dockerfile
-

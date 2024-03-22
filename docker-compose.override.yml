@@ -1,6 +1,17 @@
 version: '3.8'
 
 services:
+  minio:
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=admin123
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - viriplaca-minio:/data
+    command: server --console-address ':9001' --json /data
+
   mssql:
     environment:
       - ACCEPT_EULA=Y
@@ -10,13 +21,23 @@ services:
     volumes:
       - viriplaca-mssql:/var/opt/mssql
 
+  nginx:
+    ports:
+      - "8080:80"
+    volumes:
+      - ./build/nginx/conf.d:/etc/nginx/conf.d
+
   viriplaca.hr.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ConnectionStrings__Database=Server=mssql;Database=ViriplacaHR;User Id=sa;Password=Pass@word;MultipleActiveResultSets=True;Encrypt=False;
+      - MinIO__Endpoint=minio:9000
+      - MinIO__AccessKey=3H5VDramzIBQeb7P3oZk
+      - MinIO__SecretKey=Re0bAZyZnn9Oh2XvimrPo16vYgqZlWJxD2HtcBNW
     ports:
-      - "9000:8080"
+      - "7000:8080"
 
 volumes:
+  viriplaca-minio: {}
   viriplaca-mssql: {}
