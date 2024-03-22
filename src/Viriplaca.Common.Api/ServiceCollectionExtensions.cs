@@ -14,10 +14,7 @@ public static class ServiceCollectionExtensions
             .Where(x => x.Name!.StartsWith("Viriplaca."))
             .Select(Assembly.Load)
             .ToArray();
-        services.AddMediatR(options =>
-        {
-            options.RegisterServicesFromAssemblies(assemblies);
-        });
+        services.AddMediatR(options => options.RegisterServicesFromAssemblies(assemblies));
 
         return services;
     }

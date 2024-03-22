@@ -1,5 +1,5 @@
 using Serilog;
-using System.Reflection;
+using Viriplaca.Common;
 using Viriplaca.Common.Api;
 using Viriplaca.Common.Data;
 using Viriplaca.HR.Data;
@@ -12,7 +12,7 @@ try
     var services = builder.Services;
     services.AddControllers();
     services.AddApi();
-    services.AddData<HRContext, HRSeeder>(Assembly.Load("Viriplaca.HR.Data"));
+    services.AddData<HRContext, HRSeeder>(configuration.GetSection("MinIO").Get<MinIOOptions>()!);
 
     var app = builder.Build();
     app.UseRequestLocalization("en-US", "zh-TW");

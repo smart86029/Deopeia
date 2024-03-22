@@ -1,4 +1,4 @@
-namespace Viriplaca.Identity.Data;
+namespace Viriplaca.HR.Data;
 
 public class HRUnitOfWork(HRContext context)
     : IHRUnitOfWork

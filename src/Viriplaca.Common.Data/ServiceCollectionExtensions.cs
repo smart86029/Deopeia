@@ -3,15 +3,18 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using Minio;
 using System.Reflection;
+using Viriplaca.Common.Data.Files;
 using Viriplaca.Common.Data.Localization;
 using Viriplaca.Common.Data.TypeHandlers;
+using Viriplaca.Common.Files;
 
 namespace Viriplaca.Common.Data;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddData<TContext, TSeeder>(this IServiceCollection services, Assembly assembly)
+    public static IServiceCollection AddData<TContext, TSeeder>(this IServiceCollection services, MinIOOptions minIOOptions)
         where TContext : DbContext
         where TSeeder : class, IDbSeeder<TContext>
     {
@@ -20,7 +23,7 @@ public static class ServiceCollectionExtensions
             var connectionStringOptions = serviceProvider.GetRequiredService<IOptions<ConnectionStringOptions>>().Value;
             optionsBuilder.UseSqlServer(connectionStringOptions.Database);
         });
-        services.AddScoped((serviceProvider) =>
+        services.AddScoped(serviceProvider =>
         {
             var connectionStringOptions = serviceProvider.GetRequiredService<IOptions<ConnectionStringOptions>>().Value;
 
@@ -29,8 +32,12 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IDbSeeder<TContext>, TSeeder>();
         services.AddHostedService<MigrationWorker<TContext>>();
+        services.AddMinio(client => client
+            .WithEndpoint(minIOOptions.Endpoint)
+            .WithCredentials(minIOOptions.AccessKey, minIOOptions.SecretKey)
+            .WithSSL(false));
 
-        services.AddRepositories(assembly);
+        services.AddRepositories<TContext>();
         services.AddLocalization<TContext>(options => options.FallbackCulture = CultureInfo.GetCultureInfo("en-US"));
 
         SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
@@ -39,18 +46,28 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    private static IServiceCollection AddRepositories(this IServiceCollection services, Assembly assembly)
+    private static IServiceCollection AddRepositories<TContext>(this IServiceCollection services)
+        where TContext : DbContext
     {
-        var types = assembly
-            .GetTypes()
-            .Where(x => x.Name.EndsWith("Repository") || x.Name.EndsWith("UnitOfWork"));
+        var types = Assembly.GetEntryAssembly()!
+            .GetReferencedAssemblies()
+            .Where(x => x.Name!.StartsWith("Viriplaca.") && x.Name.EndsWith(".Data"))
+            .Select(Assembly.Load)
+            .SelectMany(x => x.GetTypes())
+            .Where(x => x.IsClass && !x.IsAbstract && !x.IsGenericType)
+            .Where(x => x.IsAssignableToGenericType(typeof(IRepository<>)) || x.IsAssignableTo(typeof(IUnitOfWork)));
         foreach (var type in types)
         {
-            foreach (var interfaceType in type.GetInterfaces())
+            var interfaceTypes = type
+                .GetInterfaces()
+                .Where(x => x != typeof(IRepository<>) && x != typeof(IUnitOfWork));
+            foreach (var interfaceType in interfaceTypes)
             {
                 services.AddScoped(interfaceType, type);
             }
         }
+
+        services.TryAddScoped<IImageRepository, ImageRepository<TContext>>();
 
         return services;
     }

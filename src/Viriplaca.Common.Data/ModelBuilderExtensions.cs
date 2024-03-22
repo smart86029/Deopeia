@@ -8,6 +8,8 @@ public static class ModelBuilderExtensions
     {
         builder
             .ApplyConfiguration(new LocaleResourceConfiguration())
+            .ApplyConfiguration(new FileResourceConfiguration())
+            .ApplyConfiguration(new ImageConfiguration())
             .Ignore<DomainEvent>();
 
         return builder;

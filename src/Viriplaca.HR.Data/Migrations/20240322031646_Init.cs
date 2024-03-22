@@ -33,6 +33,22 @@ namespace Viriplaca.HR.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FileResource",
+                schema: "Common",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Extension = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
+                    Size = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FileResource", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Job",
                 schema: "HR",
                 columns: table => new
@@ -134,6 +150,12 @@ namespace Viriplaca.HR.Data.Migrations
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FileResource_Type",
+                schema: "Common",
+                table: "FileResource",
+                column: "Type");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_JobChange_DepartmentId",
                 schema: "HR",
                 table: "JobChange",
@@ -182,6 +204,10 @@ namespace Viriplaca.HR.Data.Migrations
             migrationBuilder.DropTable(
                 name: "Department",
                 schema: "HR");
+
+            migrationBuilder.DropTable(
+                name: "FileResource",
+                schema: "Common");
 
             migrationBuilder.DropTable(
                 name: "Job",

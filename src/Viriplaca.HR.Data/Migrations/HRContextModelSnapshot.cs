@@ -18,10 +18,43 @@ namespace Viriplaca.HR.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("HR")
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Viriplaca.Common.Files.FileResource", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Extension")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<int>("Size")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Type");
+
+                    b.ToTable("FileResource", "Common");
+
+                    b.HasDiscriminator<int>("Type");
+
+                    b.UseTphMappingStrategy();
+                });
 
             modelBuilder.Entity("Viriplaca.Common.Localization.LocaleResource", b =>
                 {
@@ -202,6 +235,13 @@ namespace Viriplaca.HR.Data.Migrations
                     b.HasDiscriminator<string>("Discriminator").HasValue("Person");
 
                     b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("Viriplaca.Common.Files.Image", b =>
+                {
+                    b.HasBaseType("Viriplaca.Common.Files.FileResource");
+
+                    b.HasDiscriminator().HasValue(1);
                 });
 
             modelBuilder.Entity("Viriplaca.HR.Domain.Employees.Employee", b =>
