@@ -8,6 +8,8 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddApi(this IServiceCollection services)
     {
         services.AddOptions<ConnectionStringOptions>().BindConfiguration("ConnectionStrings");
+        services.AddProblemDetails();
+        services.AddExceptionHandler<ExceptionHandler>();
 
         var assemblies = Assembly.GetEntryAssembly()!
             .GetReferencedAssemblies()

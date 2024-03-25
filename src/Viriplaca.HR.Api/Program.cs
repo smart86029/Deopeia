@@ -15,8 +15,8 @@ try
     services.AddData<HRContext, HRSeeder>(configuration.GetSection("MinIO").Get<MinIOOptions>()!);
 
     var app = builder.Build();
-    app.UseRequestLocalization("en-US", "zh-TW");
     app.UseExceptionHandler();
+    app.UseRequestLocalization("en-US", "zh-TW");
     app.UseAuthorization();
 
     app.MapControllers();
