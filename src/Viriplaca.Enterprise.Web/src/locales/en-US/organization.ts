@@ -15,8 +15,8 @@ export default {
     maritalStatus: {
       name: 'Marital Status',
       '0': 'Unknown',
-      '1': 'Married',
-      '2': 'Single',
+      '1': 'Single',
+      '2': 'Married',
       '3': 'Divorced',
       '4': 'Widowed',
     },
