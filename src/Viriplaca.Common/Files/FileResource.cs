@@ -30,7 +30,7 @@ public abstract class FileResource : AggregateRoot
 
     public byte[] Content { get; private set; } = [];
 
-    public Uri PresignedUri { get; private set; }
+    public Uri? PresignedUri { get; private set; }
 
     public string BucketName => Type.ToString().ToLower();
 

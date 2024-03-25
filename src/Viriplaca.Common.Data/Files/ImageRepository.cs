@@ -8,7 +8,7 @@ internal class ImageRepository<TContext>(TContext context, IMinioClient client)
     : IImageRepository
     where TContext : DbContext
 {
-    private readonly Uri _baseUri = new Uri("http://localhost:8080");
+    private readonly Uri _baseUri = new("http://localhost:8080");
     private readonly DbSet<Image> _images = context.Set<Image>();
     private readonly IMinioClient _client = client;
 
@@ -21,6 +21,14 @@ internal class ImageRepository<TContext>(TContext context, IMinioClient client)
         }
 
         return results;
+    }
+
+    public async Task<Image> GetImageAsync(Guid imageId)
+    {
+        var result = await _images.FirstAsync(x => x.Id == imageId);
+        await SetPresignedUrlAsync(result);
+
+        return result;
     }
 
     public async Task AddAsync(Image image)
