@@ -9,6 +9,7 @@ public record UpdateEmployeeCommand(
     DateOnly BirthDate,
     Sex Sex,
     MaritalStatus MaritalStatus,
+    Guid? AvatarId,
     Guid DepartmentId,
     Guid Job)
    : IRequest

@@ -19,7 +19,7 @@ internal class UploadImageCommandHandler(
         var result = new UploadImageDto
         {
             Id = image.Id,
-            Url = image.PresignedUri.ToString(),
+            Url = image.PresignedUri?.ToString() ?? string.Empty,
         };
 
         return result;

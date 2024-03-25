@@ -12,7 +12,7 @@ using Viriplaca.HR.Data;
 namespace Viriplaca.HR.Data.Migrations
 {
     [DbContext(typeof(HRContext))]
-    [Migration("20240322031646_Init")]
+    [Migration("20240325064648_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -206,11 +206,6 @@ namespace Viriplaca.HR.Data.Migrations
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("date");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(32)
@@ -226,6 +221,9 @@ namespace Viriplaca.HR.Data.Migrations
                     b.Property<int>("Sex")
                         .HasColumnType("int");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -235,7 +233,7 @@ namespace Viriplaca.HR.Data.Migrations
 
                     b.ToTable("Person", "HR");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Person");
+                    b.HasDiscriminator<int>("Type");
 
                     b.UseTphMappingStrategy();
                 });
@@ -251,6 +249,9 @@ namespace Viriplaca.HR.Data.Migrations
                 {
                     b.HasBaseType("Viriplaca.HR.Domain.People.Person");
 
+                    b.Property<Guid?>("AvatarId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("DepartmentId")
                         .HasColumnType("uniqueidentifier");
 
@@ -261,7 +262,7 @@ namespace Viriplaca.HR.Data.Migrations
 
                     b.HasIndex("JobId");
 
-                    b.HasDiscriminator().HasValue("Employee");
+                    b.HasDiscriminator().HasValue(1);
                 });
 
             modelBuilder.Entity("Viriplaca.HR.Domain.Employees.JobChange", b =>

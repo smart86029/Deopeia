@@ -1,4 +1,5 @@
 using Viriplaca.HR.App.Employees.GetEmployees;
+using Viriplaca.HR.Domain.People;
 
 namespace Viriplaca.HR.Data.Employees.GetEmployees;
 
@@ -10,7 +11,7 @@ public class GetEmployeesQueryHandler(SqlConnection connection)
     public async Task<PageResult<EmployeeDto>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
     {
         var builder = new SqlBuilder();
-        builder.Where("A.Discriminator = N'Employee'");
+        builder.Where("A.Type = @Employee", new { PersonType.Employee });
         if (request.DepartmentId.HasValue)
         {
             builder.Where("A.DepartmentId = @DepartmentId", new { request.DepartmentId });

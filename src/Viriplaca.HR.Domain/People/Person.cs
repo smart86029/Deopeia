@@ -6,19 +6,23 @@ public abstract class Person : AggregateRoot
     {
     }
 
-    protected Person(string firstName, string? lastName, DateOnly birthDate, Sex sex, MaritalStatus maritalStatus)
+    protected Person(PersonType type, string firstName, string? lastName, DateOnly birthDate, Sex sex, MaritalStatus maritalStatus)
     {
+        type.MustBeDefined();
         firstName.MustNotBeNullOrWhiteSpace();
         birthDate.MustBeOnOrBeforeNow();
         sex.MustBeDefined();
         maritalStatus.MustBeDefined();
 
+        Type = type;
         FirstName = firstName.Trim();
         LastName = lastName?.Trim();
         BirthDate = birthDate;
         Sex = sex;
         MaritalStatus = maritalStatus;
     }
+
+    public PersonType Type { get; private set; }
 
     public string FirstName { get; private set; } = string.Empty;
 

@@ -1,3 +1,4 @@
+using Viriplaca.Common.Files;
 using Viriplaca.HR.Domain.Departments;
 using Viriplaca.HR.Domain.Jobs;
 using Viriplaca.HR.Domain.People;
@@ -12,14 +13,13 @@ public class Employee : Person
     {
     }
 
-    public Employee(string firstName, string? lastName, DateOnly birthDate, Sex gender, MaritalStatus maritalStatus)
-        : base(firstName, lastName, birthDate, gender, maritalStatus)
+    public Employee(string firstName, string? lastName, DateOnly birthDate, Sex sex, MaritalStatus maritalStatus)
+        : base(PersonType.Employee, firstName, lastName, birthDate, sex, maritalStatus)
     {
         AddDomainEvent(new EmployeeCreated(Id));
     }
 
-    private JobChange LastJobChange =>
-        _jobChanges.SingleOrDefault(x => DateTimeOffset.UtcNow.IsBetween(x.StartedAt, x.EndedAt)) ?? _jobChanges.Last();
+    public Guid? AvatarId { get; private set; }
 
     public Guid DepartmentId { get; private set; }
 
@@ -28,6 +28,11 @@ public class Employee : Person
     public bool IsEmployed => _jobChanges.Any(x => DateTimeOffset.UtcNow.IsBetween(x.StartedAt, x.EndedAt));
 
     public IReadOnlyCollection<JobChange> JobChanges => _jobChanges.AsReadOnly();
+
+    public void UpdateAvatar(Image image)
+    {
+        AvatarId = image.Id;
+    }
 
     public void AssignJob(Department department, Job job, bool isHead, DateTimeOffset startedAt)
     {

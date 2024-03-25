@@ -103,13 +103,14 @@ namespace Viriplaca.HR.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
                     BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Sex = table.Column<int>(type: "int", nullable: false),
                     MaritalStatus = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Discriminator = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
+                    AvatarId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     DepartmentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     JobId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },

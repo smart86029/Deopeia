@@ -16,6 +16,10 @@ public class EmployeeDto
 
     public MaritalStatus MaritalStatus { get; set; }
 
+    public Guid? AvatarId { get; set; }
+
+    public string? AvatarUrl { get; set; }
+
     public Guid DepartmentId { get; set; }
 
     public Guid JobId { get; set; }
