@@ -24,6 +24,8 @@ export interface Employee {
   birthDate: Date;
   sex: Sex;
   maritalStatus: MaritalStatus;
+  avatarId?: Guid;
+  avatarUrl?: string;
   departmentId: Guid;
   jobId: Guid;
 }

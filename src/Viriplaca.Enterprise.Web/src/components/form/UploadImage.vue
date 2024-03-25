@@ -1,7 +1,9 @@
 <template>
   <el-upload ref="upload" :show-file-list="false" :http-request="post">
-    <el-image v-if="url" :src="url" class="image" />
-    <div v-else class="icon"><IconAdd /> {{ imageUrl }}</div>
+    <el-image v-if="imageUrl" :src="imageUrl" class="image" />
+    <div v-else class="icon">
+      <IconAdd />
+    </div>
   </el-upload>
 </template>
 
@@ -12,7 +14,7 @@ import type { UploadInstance } from 'element-plus';
 
 const props = defineProps<{
   imageId: Guid;
-  imageUrl?: string;
+  imageUrl: string;
 }>();
 
 const emits = defineEmits<{
@@ -21,7 +23,10 @@ const emits = defineEmits<{
 }>();
 
 const upload = ref<UploadInstance>();
-const url = ref(props.imageUrl);
+const imageUrl = computed({
+  get: () => props.imageUrl,
+  set: (value) => emits('update:imageUrl', value),
+});
 
 const post = (option: any) => {
   const command: UploadImageCommand = {
@@ -30,7 +35,7 @@ const post = (option: any) => {
 
   imageApi.upload(command).then((x) => {
     emits('update:imageId', x.data.id);
-    url.value = x.data.url;
+    imageUrl.value = x.data.url;
     upload.value?.clearFiles();
   });
 };

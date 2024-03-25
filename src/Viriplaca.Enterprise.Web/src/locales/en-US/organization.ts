@@ -20,6 +20,7 @@ export default {
       '3': 'Divorced',
       '4': 'Widowed',
     },
+    avatar: 'Avatar',
     department: 'Department',
     jobTitle: 'Job Title',
   },

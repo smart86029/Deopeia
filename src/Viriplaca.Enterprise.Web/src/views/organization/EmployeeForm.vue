@@ -6,9 +6,6 @@
     <el-form-item :label="$t('organization.lastName')">
       <el-input v-model="form.lastName" />
     </el-form-item>
-    <el-form-item>
-      <UploadImage v-model:imageId="form.imageId" />
-    </el-form-item>
     <el-form-item :label="$t('organization.birthDate')">
       <el-date-picker type="date" v-model="form.birthDate" />
     </el-form-item>
@@ -20,6 +17,12 @@
         :enum="MaritalStatus"
         v-model="form.maritalStatus"
         localeKey="organization.maritalStatus"
+      />
+    </el-form-item>
+    <el-form-item :label="$t('organization.avatar')">
+      <UploadImage
+        v-model:imageId="form.avatarId"
+        v-model:imageUrl="avatarUrl"
       />
     </el-form-item>
     <el-form-item>
@@ -48,20 +51,24 @@ const form = reactive({
   id: Guid.empty,
   firstName: '',
   lastName: undefined as string | undefined,
-  imageId: Guid.empty,
   birthDate: new Date(),
   sex: Sex.NotKnown,
   maritalStatus: MaritalStatus.Unknown,
+  avatarId: Guid.empty,
   departmentId: Guid.empty,
   jobId: Guid.empty,
 });
+const avatarUrl = ref('');
 
 departmentApi.getOptions().then((x) => (departments.value = x.data));
 
 if (props.action === 'edit') {
   employeeApi
     .get(props.id)
-    .then((x) => Object.assign(form, x.data))
+    .then((x) => {
+      Object.assign(form, x.data);
+      avatarUrl.value = x.data.avatarUrl || '';
+    })
     .finally(() => (loading.value = false));
 }
 
