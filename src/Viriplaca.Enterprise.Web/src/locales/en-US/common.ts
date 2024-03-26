@@ -17,6 +17,7 @@ export default {
       success: '{action} Successfully',
       createSuccess: 'Created Successfully',
       editSuccess: 'Updated Successfully',
+      error: 'Temporary server error. Please try again later.',
     },
   },
 };

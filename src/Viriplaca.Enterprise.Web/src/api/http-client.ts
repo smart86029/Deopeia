@@ -2,7 +2,9 @@ import { usePreferencesStore } from '@/stores/preferences';
 import axios from 'axios';
 import { ElMessageBox, dayjs } from 'element-plus';
 import 'element-plus/theme-chalk/index.css';
+import i18n from '../plugins/i18n';
 
+const { t } = i18n.global;
 const instance = axios.create({
   baseURL: '/api',
 });
@@ -20,7 +22,7 @@ instance.interceptors.response.use(
   (response) => {
     switch (response.status) {
       case 200:
-        handleDates(response.data.data);
+        handleDates(response.data);
     }
     return response;
   },
@@ -29,7 +31,7 @@ instance.interceptors.response.use(
       case 400:
       case 500:
         ElMessageBox.close();
-        ElMessageBox.alert(response.data.message);
+        ElMessageBox.alert(response.data.title || t('common.message.error'));
         return Promise.reject();
     }
     return Promise.reject();

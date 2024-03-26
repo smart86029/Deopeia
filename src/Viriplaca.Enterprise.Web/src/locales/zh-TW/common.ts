@@ -17,6 +17,7 @@ export default {
       success: '{action}成功',
       createSuccess: '建立成功',
       editSuccess: '更新成功',
+      error: '伺服器臨時錯誤，請稍後重試。',
     },
   },
 };
