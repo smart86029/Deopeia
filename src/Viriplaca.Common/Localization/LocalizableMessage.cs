@@ -1,13 +1,13 @@
 namespace Viriplaca.Common.Localization;
 
-public class LocalizedMessage
+public class LocalizableMessage
 {
-    public LocalizedMessage(string code)
+    public LocalizableMessage(string code)
     {
         Code = code;
     }
 
-    public LocalizedMessage(string code, object argument)
+    public LocalizableMessage(string code, object argument)
     {
         Code = code;
         Argument = argument;

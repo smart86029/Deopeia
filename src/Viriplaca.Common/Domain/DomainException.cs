@@ -2,7 +2,7 @@ using Viriplaca.Common.Localization;
 
 namespace Viriplaca.Common.Domain;
 
-public class DomainException : LocalizedMessageException
+public class DomainException : LocalizableMessageException
 {
     public DomainException(string code)
         : base(code)
@@ -14,7 +14,7 @@ public class DomainException : LocalizedMessageException
     {
     }
 
-    public DomainException(IEnumerable<LocalizedMessage> messages)
+    public DomainException(IEnumerable<LocalizableMessage> messages)
         : base(messages)
     {
     }
