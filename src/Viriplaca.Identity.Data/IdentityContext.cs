@@ -13,6 +13,6 @@ public class IdentityContext(DbContextOptions<IdentityContext> options)
         modelBuilder
             .HasDefaultSchema("Identity")
             .ApplyConfigurationsFromAssembly(GetType().Assembly)
-            .Ignore<DomainEvent>();
+            .ApplyCommonConfigurations();
     }
 }

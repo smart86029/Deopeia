@@ -1,0 +1,21 @@
+@page
+@model Pudicitia.Identity.Api.Pages.Authentication.SignOutModel
+@{
+    ViewData["Title"] = "Sign Out";
+}
+
+<form asp-controller="Authentication" asp-action="SignIn" method="post">
+    <p>Would you like to sign out?</p>
+    <input type="hidden" asp-for="SignOutId" />
+    <div class="field">
+        <button type="submit" class="button is-primary">Yes</button>
+    </div>
+</form>
+
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -12,20 +12,16 @@ public class User : AggregateRoot
     {
     }
 
-    public User(string userName, string password, string name, string displayName, bool isEnabled)
+    public User(string userName, string password, bool isEnabled)
     {
         userName.MustNotBeNullOrWhiteSpace();
         password.MustNotBeNullOrWhiteSpace();
-        name.MustNotBeNullOrWhiteSpace();
-        displayName.MustNotBeNullOrWhiteSpace();
 
         UserName = userName.ToLower().Trim();
         UpdateSalt();
         PasswordHash = CryptographyUtility.SHA256Hash(password.Trim(), Salt);
-        Name = name.Trim();
-        DisplayName = displayName.Trim();
         IsEnabled = isEnabled;
-        AddDomainEvent(new UserCreated(Id, Name, DisplayName));
+        AddDomainEvent(new UserCreated(Id, UserName));
     }
 
     public string UserName { get; private init; } = string.Empty;
@@ -33,10 +29,6 @@ public class User : AggregateRoot
     public string Salt { get; private set; } = string.Empty;
 
     public string PasswordHash { get; private set; } = string.Empty;
-
-    public string Name { get; private set; } = string.Empty;
-
-    public string DisplayName { get; private set; } = string.Empty;
 
     public bool IsEnabled { get; private set; }
 
@@ -55,18 +47,6 @@ public class User : AggregateRoot
 
         UpdateSalt();
         PasswordHash = CryptographyUtility.SHA256Hash(password.Trim(), Salt);
-    }
-
-    public void UpdateName(string name)
-    {
-        name.MustNotBeNullOrWhiteSpace();
-        Name = name.Trim();
-    }
-
-    public void UpdateDisplayName(string displayName)
-    {
-        displayName.MustNotBeNullOrWhiteSpace();
-        DisplayName = displayName.Trim();
     }
 
     public void Enable()

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Viriplaca.Common.App\Viriplaca.Common.App.csproj" />
     <ProjectReference Include="..\Viriplaca.Identity.Domain\Viriplaca.Identity.Domain.csproj" />
   </ItemGroup>
 
