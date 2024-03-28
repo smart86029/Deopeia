@@ -19,3 +19,11 @@ services:
     build:
       context: .
       dockerfile: src/Viriplaca.HR.Api/Dockerfile
+
+  viriplaca.identity.api:
+    image: ${DOCKER_REGISTRY-}viriplaca-identity-api
+    container_name: viriplaca-identity-api
+    build:
+      context: .
+      dockerfile: src/Viriplaca.Identity.Api/Dockerfile
+

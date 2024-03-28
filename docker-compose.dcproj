@@ -7,6 +7,8 @@
     <ProjectGuid>6233e9f8-6cb4-429e-94c2-bd594e98ce66</ProjectGuid>
     <DockerLaunchAction>None</DockerLaunchAction>
     <DockerComposeProjectName>viriplaca</DockerComposeProjectName>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
+    <DockerServiceName>viriplaca.identity.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

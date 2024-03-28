@@ -7,7 +7,8 @@
         "minio": "StartWithoutDebugging",
         "mssql": "StartWithoutDebugging",
         "nginx": "StartWithoutDebugging",
-        "viriplaca.hr.api": "DoNotStart"
+        "viriplaca.hr.api": "DoNotStart",
+        "viriplaca.identity.api": "DoNotStart"
       }
     },
     "API": {
@@ -17,7 +18,8 @@
         "minio": "DoNotStart",
         "mssql": "DoNotStart",
         "nginx": "DoNotStart",
-        "viriplaca.hr.api": "StartDebugging"
+        "viriplaca.hr.api": "StartDebugging",
+        "viriplaca.identity.api": "StartDebugging"
       }
     }
   }
