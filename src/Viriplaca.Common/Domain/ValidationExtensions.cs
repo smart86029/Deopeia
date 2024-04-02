@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Viriplaca.Common.Localization;
@@ -45,9 +46,20 @@ public static partial class ValidationExtensions
         [CallerArgumentExpression(nameof(value))] string? valueName = null)
         where TEnum : Enum
     {
-        if (!Enum.IsDefined(typeof(TEnum), value))
+        if (value.IsFlags())
         {
-            throw new DomainException("Enum.Defined", new { Property = GetProperty(filePath, valueName) });
+            var all = Enum.GetValues(typeof(TEnum)).OfType<dynamic>().Aggregate((e1, e2) => e1 | e2);
+            if ((all & value) != value)
+            {
+                throw new DomainException("Enum.Defined", new { Property = GetProperty(filePath, valueName) });
+            }
+        }
+        else
+        {
+            if (!value.IsDefined())
+            {
+                throw new DomainException("Enum.Defined", new { Property = GetProperty(filePath, valueName) });
+            }
         }
     }
 

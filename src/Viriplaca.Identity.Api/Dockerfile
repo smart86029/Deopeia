@@ -9,13 +9,14 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["src/Viriplaca.Common/Viriplaca.Common.csproj", "src/Viriplaca.Common/"]
+COPY ["src/Viriplaca.Common.Api/Viriplaca.Common.Api.csproj", "src/Viriplaca.Common.Api/"]
+COPY ["src/Viriplaca.Common.App/Viriplaca.Common.App.csproj", "src/Viriplaca.Common.App/"]
+COPY ["src/Viriplaca.Common.Data/Viriplaca.Common.Data.csproj", "src/Viriplaca.Common.Data/"]
 COPY ["src/Viriplaca.Identity.Api/Viriplaca.Identity.Api.csproj", "src/Viriplaca.Identity.Api/"]
 COPY ["src/Viriplaca.Identity.App/Viriplaca.Identity.App.csproj", "src/Viriplaca.Identity.App/"]
-COPY ["src/Viriplaca.Common.App/Viriplaca.Common.App.csproj", "src/Viriplaca.Common.App/"]
-COPY ["src/Viriplaca.Common/Viriplaca.Common.csproj", "src/Viriplaca.Common/"]
-COPY ["src/Viriplaca.Identity.Domain/Viriplaca.Identity.Domain.csproj", "src/Viriplaca.Identity.Domain/"]
 COPY ["src/Viriplaca.Identity.Data/Viriplaca.Identity.Data.csproj", "src/Viriplaca.Identity.Data/"]
-COPY ["src/Viriplaca.Common.Data/Viriplaca.Common.Data.csproj", "src/Viriplaca.Common.Data/"]
+COPY ["src/Viriplaca.Identity.Domain/Viriplaca.Identity.Domain.csproj", "src/Viriplaca.Identity.Domain/"]
 RUN dotnet restore "./src/Viriplaca.Identity.Api/Viriplaca.Identity.Api.csproj"
 COPY . .
 WORKDIR "/src/src/Viriplaca.Identity.Api"

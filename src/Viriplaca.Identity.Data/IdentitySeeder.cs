@@ -1,5 +1,6 @@
 using Bogus;
 using System.Globalization;
+using Viriplaca.Identity.Domain.Clients;
 using Viriplaca.Identity.Domain.Permissions;
 using Viriplaca.Identity.Domain.Roles;
 using Viriplaca.Identity.Domain.Users;
@@ -10,10 +11,12 @@ public class IdentitySeeder : IDbSeeder<IdentityContext>
 {
     public async Task SeedAsync(IdentityContext context)
     {
-        if (context.Set<User>().Any())
+        if (context.Set<Client>().Any())
         {
             return;
         }
+
+        context.Set<Client>().AddRange(GetClients());
 
         var users = GetUsers();
         var roles = GetRoles();
@@ -42,12 +45,32 @@ public class IdentitySeeder : IDbSeeder<IdentityContext>
         await context.SaveChangesAsync();
     }
 
+    private IEnumerable<Client> GetClients()
+    {
+        var results = new Client[]
+        {
+            new(
+                "Enterprise",
+                null,
+                GrantTypes.Code,
+                new[] { "openid", "profile", "email", "api" },
+                new Uri[]
+                {
+                    new("http://localhost:5173/auth/sign-in-callback"),
+                    //new("http://localhost:5173/auth/refresh-callback"),
+                }),
+        };
+
+        return results;
+    }
+
     private IEnumerable<User> GetUsers()
     {
         var password = "123fff";
         var results = new Faker<User>()
             .CustomInstantiator(x => new User(x.Internet.UserName(), password, true))
             .GenerateBetween(10, 50);
+        results.Add(new User("admin", password, true));
 
         return results;
     }
@@ -65,7 +88,7 @@ public class IdentitySeeder : IDbSeeder<IdentityContext>
 
     private IEnumerable<Permission> GetPermissions()
     {
-        var result = new Permission[]
+        var results = new Permission[]
         {
             new("SignIn", true),
             new("HumanResources", true),
@@ -73,11 +96,11 @@ public class IdentitySeeder : IDbSeeder<IdentityContext>
 
         var enUS = CultureInfo.GetCultureInfo("en-US");
         var zhTW = CultureInfo.GetCultureInfo("zh-TW");
-        result[0].UpdateName("Sign In", enUS);
-        result[0].UpdateName("登入", zhTW);
-        result[1].UpdateName("Human Resources", enUS);
-        result[1].UpdateName("人力資源", zhTW);
+        results[0].UpdateName("Sign In", enUS);
+        results[0].UpdateName("登入", zhTW);
+        results[1].UpdateName("Human Resources", enUS);
+        results[1].UpdateName("人力資源", zhTW);
 
-        return result;
+        return results;
     }
 }

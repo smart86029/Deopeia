@@ -2,7 +2,7 @@ using Viriplaca.Identity.Domain.Users;
 
 namespace Viriplaca.Identity.Data.Users;
 
-public class UserRefreshTokenConfiguration : EntityConfiguration<UserRefreshToken>
+internal class UserRefreshTokenConfiguration : EntityConfiguration<UserRefreshToken>
 {
     public override void Configure(EntityTypeBuilder<UserRefreshToken> builder)
     {

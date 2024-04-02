@@ -12,10 +12,28 @@ namespace Viriplaca.Identity.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "Common");
+                name: "Identity");
 
             migrationBuilder.EnsureSchema(
-                name: "Identity");
+                name: "Common");
+
+            migrationBuilder.CreateTable(
+                name: "Client",
+                schema: "Identity",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    Secret = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
+                    IsEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    GrantTypes = table.Column<int>(type: "int", nullable: false),
+                    Scopes = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+                    RedirectUris = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Client", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "FileResource",
@@ -256,6 +274,10 @@ namespace Viriplaca.Identity.Data.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Client",
+                schema: "Identity");
+
             migrationBuilder.DropTable(
                 name: "FileResource",
                 schema: "Common");

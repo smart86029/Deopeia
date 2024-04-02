@@ -7,6 +7,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddApi(this IServiceCollection services)
     {
+        services.AddOptions<JwtOptions>().BindConfiguration("Jwt");
         services.AddOptions<ConnectionStringOptions>().BindConfiguration("ConnectionStrings");
         services.AddProblemDetails();
         services.AddExceptionHandler<ExceptionHandler>();

@@ -1,13 +1,11 @@
 using Viriplaca.Identity.Domain.Permissions;
 
-namespace Viriplaca.Identity.Data.Configurations;
+namespace Viriplaca.Identity.Data.Permissions;
 
 internal class PermissionConfiguration : EntityConfiguration<Permission>
 {
     public override void Configure(EntityTypeBuilder<Permission> builder)
     {
-        base.Configure(builder);
-
         builder
             .Property(x => x.Code)
             .IsRequired()

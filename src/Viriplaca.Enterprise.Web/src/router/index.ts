@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+import auth from './auth';
 import leave from './leave';
 import organization from './organization';
 
@@ -10,7 +11,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      children: [...leave, ...organization],
+      children: [...auth, ...leave, ...organization],
     },
   ],
 });

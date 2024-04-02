@@ -1,10 +1,10 @@
-using MediatR;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using Viriplaca.Identity.App.Authentication.SignIn;
+using Viriplaca.Identity.App.Connect.GenerateToken;
 
 namespace Viriplaca.Identity.Api.Pages.Authentication;
 
@@ -22,12 +22,14 @@ public class SignInModel(ISender sender)
     public string Password { get; set; } = string.Empty;
 
     [BindProperty]
+    public string Code { get; set; } = string.Empty;
+
+    [BindProperty]
     public string ReturnUrl { get; set; } = string.Empty;
 
-    public async Task<IActionResult> OnGetAsync(string returnUrl)
+    public IActionResult OnGet(string code, string returnUrl)
     {
-        await Task.CompletedTask;
-        UserName = string.Empty;
+        Code = code;
         ReturnUrl = returnUrl;
 
         return Page();
@@ -41,25 +43,32 @@ public class SignInModel(ISender sender)
         }
 
         var command = new SignInCommand(UserName, Password);
-        var token = await _sender.Send(command);
-        //var user = await _accountApp.GetUserAsync(UserName, Password);
-        //if (user is null)
-        //{
-        //    ModelState.AddModelError(string.Empty, "Invalid username or password");
-        //    return Page();
-        //}
-
-        var claims = new List<Claim>
+        var signInResult = await _sender.Send(command);
+        if (signInResult.SubjectId.IsNullOrWhiteSpace())
         {
-            new(ClaimTypes.Sid, token.SubjectId),
+            ModelState.AddModelError(string.Empty, "Invalid username or password");
+            return Page();
+        }
+
+        var claims = new Claim[]
+        {
+            new(ClaimTypes.NameIdentifier, signInResult.SubjectId),
         };
-        var user = new ClaimsPrincipal(new ClaimsIdentity(claims));
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        var principal = new ClaimsPrincipal(identity);
         var properties = new AuthenticationProperties
         {
             IsPersistent = true,
             ExpiresUtc = DateTimeOffset.UtcNow.Add(TimeSpan.FromDays(30)),
         };
-        await HttpContext.SignInAsync(user, properties);
+        await HttpContext.SignInAsync(principal, properties);
+
+        var token = await _sender.Send(new GenerateTokenCommand(Code, principal));
+        if (token is not null)
+        {
+            var url = $"{ReturnUrl}#{token.QueryString}";
+            return Redirect(url);
+        }
 
         if (Url.IsLocalUrl(ReturnUrl))
         {

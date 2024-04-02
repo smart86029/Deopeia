@@ -1,6 +1,6 @@
 using Viriplaca.Identity.Domain.Permissions;
 
-namespace Viriplaca.Identity.Data.Configurations;
+namespace Viriplaca.Identity.Data.Permissions;
 
 internal class PermissionLocaleConfiguration : EntityLocaleConfiguration<Permission, PermissionLocale>
 {

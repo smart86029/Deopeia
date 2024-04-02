@@ -12,7 +12,7 @@ using Viriplaca.Identity.Data;
 namespace Viriplaca.Identity.Data.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20240327081324_Init")]
+    [Migration("20240401071438_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -82,9 +82,46 @@ namespace Viriplaca.Identity.Data.Migrations
                     b.ToTable("LocaleResource", "Common");
                 });
 
+            modelBuilder.Entity("Viriplaca.Identity.Domain.Clients.Client", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("GrantTypes")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.Property<string>("RedirectUris")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
+
+                    b.Property<string>("Scopes")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Secret")
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Client", "Identity");
+                });
+
             modelBuilder.Entity("Viriplaca.Identity.Domain.Permissions.Permission", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")

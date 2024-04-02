@@ -16,6 +16,7 @@
     "@vueuse/core": "^10.7.2",
     "axios": "^1.6.7",
     "element-plus": "^2.6.0",
+    "oidc-client-ts": "^3.0.1",
     "pinia": "^2.1.7",
     "vue": "^3.4.15",
     "vue-i18n": "^9.9.1",

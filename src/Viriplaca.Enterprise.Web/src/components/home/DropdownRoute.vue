@@ -16,6 +16,9 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth';
+
+const authStore = useAuthStore();
 const dialogVisible = ref(false);
 
 const memberRoute = (command: string) => {
@@ -25,6 +28,7 @@ const memberRoute = (command: string) => {
       break;
 
     case 'signOut':
+      authStore.signIn();
       break;
   }
 };
