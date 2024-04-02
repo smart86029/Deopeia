@@ -23,7 +23,7 @@ public class Client : AggregateRoot
         Secret = secret;
         GrantTypes = grantTypes;
         _scopes.AddRange(scopes.OrderBy(x => x));
-        _redirectUris.AddRange(redirectUris.OrderBy(x => x));
+        _redirectUris.AddRange(redirectUris.OrderBy(x => x.ToString()));
     }
 
     public string Name { get; private set; } = string.Empty;

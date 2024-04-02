@@ -57,7 +57,7 @@ public class IdentitySeeder : IDbSeeder<IdentityContext>
                 new Uri[]
                 {
                     new("http://localhost:5173/auth/sign-in-callback"),
-                    //new("http://localhost:5173/auth/refresh-callback"),
+                    new("http://localhost:5173/auth/refresh-callback"),
                 }),
         };
 
