@@ -1,6 +1,7 @@
 using Bogus;
 using System.Globalization;
 using Viriplaca.Identity.Domain.Clients;
+using Viriplaca.Identity.Domain.Grants;
 using Viriplaca.Identity.Domain.Permissions;
 using Viriplaca.Identity.Domain.Roles;
 using Viriplaca.Identity.Domain.Users;
@@ -52,7 +53,7 @@ public class IdentitySeeder : IDbSeeder<IdentityContext>
             new(
                 "Enterprise",
                 null,
-                GrantTypes.Code,
+                GrantTypes.AuthorizationCode,
                 new[] { "openid", "profile", "email", "api" },
                 new Uri[]
                 {

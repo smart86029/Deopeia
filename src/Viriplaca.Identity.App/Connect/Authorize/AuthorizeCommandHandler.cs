@@ -1,12 +1,17 @@
 using Viriplaca.Identity.Domain.Clients;
+using Viriplaca.Identity.Domain.Grants.AuthorizationCodes;
 
 namespace Viriplaca.Identity.App.Connect.Authorize;
 
 internal class AuthorizeCommandHandler(
-    IClientRepository clientRepository)
+    IIdentityUnitOfWork unitOfWork,
+    IClientRepository clientRepository,
+    IAuthorizationCodeRepository authorizationCodeRepository)
     : IRequestHandler<AuthorizeCommand, AuthorizeResult>
 {
+    private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
     private readonly IClientRepository _clientRepository = clientRepository;
+    private readonly IAuthorizationCodeRepository _authorizationCodeRepository = authorizationCodeRepository;
 
     public async Task<AuthorizeResult> Handle(AuthorizeCommand request, CancellationToken cancellationToken)
     {
@@ -21,6 +26,11 @@ internal class AuthorizeCommandHandler(
             throw new Exception("UnAuthoriazedClient");
         }
 
+        if (request.CodeChallenge.IsNullOrWhiteSpace())
+        {
+            throw new Exception("code challenge required");
+        }
+
         if (!client.RedirectUris.Contains(request.RedirectUri))
         {
             throw new Exception("redirect uri is not matched the one in the client store");
@@ -32,11 +42,17 @@ internal class AuthorizeCommandHandler(
             throw new Exception("invalid scopes");
         }
 
-        var result = new AuthorizeResult
-        {
-            Code = Guid.NewGuid().ToString("N"),
-            State = request.State,
-        };
+        var authorizationCode = new AuthorizationCode(
+            client,
+            request.RedirectUri!,
+            clientScopes,
+            string.Empty,
+            request.CodeChallenge,
+            request.CodeChallengeMethod);
+        _authorizationCodeRepository.Add(authorizationCode);
+        await _unitOfWork.CommitAsync();
+
+        var result = new AuthorizeResult(authorizationCode, request.State);
 
         return result;
     }

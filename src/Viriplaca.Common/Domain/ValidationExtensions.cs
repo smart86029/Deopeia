@@ -40,6 +40,17 @@ public static partial class ValidationExtensions
         }
     }
 
+    public static void MustNotBeEmpty(
+        this Guid value,
+        [CallerFilePath] string filePath = "",
+        [CallerArgumentExpression(nameof(value))] string? valueName = null)
+        {
+            if (value == Guid.Empty)
+            {
+                throw new DomainException("String.NotEmpty", new { Property = GetProperty(filePath, valueName) });
+            }
+        }
+
     public static void MustBeDefined<TEnum>(
         this TEnum value,
         [CallerFilePath] string filePath = "",

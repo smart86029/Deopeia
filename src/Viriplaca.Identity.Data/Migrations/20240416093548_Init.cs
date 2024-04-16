@@ -52,6 +52,30 @@ namespace Viriplaca.Identity.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Grant",
+                schema: "Identity",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Key = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    SubjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ConsumedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RedirectUri = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Scopes = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Nonce = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CodeChallenge = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    CodeChallengeMethod = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grant", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LocaleResource",
                 schema: "Common",
                 columns: table => new
@@ -220,6 +244,19 @@ namespace Viriplaca.Identity.Data.Migrations
                 column: "Type");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Grant_ClientId",
+                schema: "Identity",
+                table: "Grant",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Grant_Key",
+                schema: "Identity",
+                table: "Grant",
+                column: "Key",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Permission_Code",
                 schema: "Identity",
                 table: "Permission",
@@ -281,6 +318,10 @@ namespace Viriplaca.Identity.Data.Migrations
             migrationBuilder.DropTable(
                 name: "FileResource",
                 schema: "Common");
+
+            migrationBuilder.DropTable(
+                name: "Grant",
+                schema: "Identity");
 
             migrationBuilder.DropTable(
                 name: "LocaleResource",

@@ -1,3 +1,5 @@
+using Viriplaca.Identity.Domain.Grants;
+
 namespace Viriplaca.Identity.Domain.Clients;
 
 public class Client : AggregateRoot

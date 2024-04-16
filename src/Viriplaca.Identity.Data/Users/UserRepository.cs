@@ -1,4 +1,3 @@
-using Viriplaca.Common.Utilities;
 using Viriplaca.Identity.Domain.Users;
 
 namespace Viriplaca.Identity.Data.Users;
@@ -18,15 +17,15 @@ public class UserRepository(IdentityContext context)
         return result;
     }
 
-    public async Task<User> GetUserAsync(string userName, string password)
+    public async Task<User?> GetUserAsync(string userName, string password)
     {
         var result = await _users
             .Include(x => x.UserRoles)
             .Include(x => x.UserRefreshTokens)
-            .FirstAsync(x => x.UserName == userName);
-        if (result.PasswordHash != CryptographyUtility.SHA256Hash(password.Trim(), result.Salt))
+            .FirstOrDefaultAsync(x => x.UserName == userName);
+        if (result is not null && result.PasswordHash != result.Hash(password))
         {
-            throw new Exception("Not found.");
+            return null;
         }
 
         return result;

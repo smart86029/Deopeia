@@ -1,8 +1,11 @@
 namespace Viriplaca.Identity.App.Connect.GenerateToken;
 
 public record GenerateTokenCommand(
+    string ClientId,
+    Uri? RedirectUri,
+    string GrantType,
     string Code,
-    ClaimsPrincipal Subject)
+    string CodeVerifier)
     : IRequest<TokenResult>
 {
 }

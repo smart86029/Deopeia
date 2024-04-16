@@ -1,3 +1,5 @@
+using Viriplaca.Identity.App.Connect.Authorize;
+
 namespace Viriplaca.Identity.Api.Models.Connect;
 
 public class AuthorizeRequest
@@ -15,5 +17,24 @@ public class AuthorizeRequest
 
     public string State { get; init; } = string.Empty;
 
+    [ModelBinder(Name = "code_challenge")]
+    public string CodeChallenge { get; init; } = string.Empty;
+
+    [ModelBinder(Name = "code_challenge_method")]
+    public string CodeChallengeMethod { get; init; } = string.Empty;
+
     public ICollection<string> Scopes => Scope.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? [];
+
+    public AuthorizeCommand ToCommand()
+    {
+        var result = new AuthorizeCommand(
+            ResponseType,
+            ClientId,
+            RedirectUri,
+            Scopes, State,
+            CodeChallenge,
+            CodeChallengeMethod);
+
+        return result;
+    }
 }

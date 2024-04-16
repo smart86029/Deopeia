@@ -4,7 +4,7 @@ public interface IUserRepository : IRepository<User>
 {
     Task<User> GetUserAsync(Guid userId);
 
-    Task<User> GetUserAsync(string userName, string password);
+    Task<User?> GetUserAsync(string userName, string password);
 
     Task<bool> ContainsAsync(Guid userId);
 

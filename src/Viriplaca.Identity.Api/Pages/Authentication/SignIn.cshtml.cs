@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using Viriplaca.Identity.App.Authentication.SignIn;
-using Viriplaca.Identity.App.Connect.GenerateToken;
 
 namespace Viriplaca.Identity.Api.Pages.Authentication;
 
@@ -27,7 +26,7 @@ public class SignInModel(ISender sender)
     [BindProperty]
     public string ReturnUrl { get; set; } = string.Empty;
 
-    public IActionResult OnGet(string code, string returnUrl)
+    public IActionResult OnGet(string returnUrl, string code)
     {
         Code = code;
         ReturnUrl = returnUrl;
@@ -42,7 +41,7 @@ public class SignInModel(ISender sender)
             return Page();
         }
 
-        var command = new SignInCommand(UserName, Password);
+        var command = new SignInCommand(UserName, Password, Code);
         var signInResult = await _sender.Send(command);
         if (signInResult.SubjectId.IsNullOrWhiteSpace())
         {
@@ -63,12 +62,7 @@ public class SignInModel(ISender sender)
         };
         await HttpContext.SignInAsync(principal, properties);
 
-        var token = await _sender.Send(new GenerateTokenCommand(Code, principal));
-        if (token is not null)
-        {
-            var url = $"{ReturnUrl}#{token.QueryString}";
-            return Redirect(url);
-        }
+        return Redirect(ReturnUrl);
 
         if (Url.IsLocalUrl(ReturnUrl))
         {

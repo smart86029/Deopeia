@@ -5,7 +5,9 @@ public record AuthorizeCommand(
     string ClientId,
     Uri? RedirectUri,
     ICollection<string> Scopes,
-    string State)
+    string State,
+    string CodeChallenge,
+    string CodeChallengeMethod)
     : IRequest<AuthorizeResult>
 {
 }

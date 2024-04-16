@@ -1,10 +1,10 @@
 using Viriplaca.Identity.Api.Models.Connect;
-using Viriplaca.Identity.App.Connect.Authorize;
 using Viriplaca.Identity.App.Connect.GenerateToken;
 
 namespace Viriplaca.Identity.Api.Controllers;
 
 [Route("[controller]")]
+[EnableCors(CorsPolicies.Oidc)]
 public class ConnectController : ApiController<ConnectController>
 {
     [HttpGet("Authorize")]
@@ -12,29 +12,15 @@ public class ConnectController : ApiController<ConnectController>
     {
         try
         {
-            var command = new AuthorizeCommand(
-                request.ResponseType,
-                request.ClientId,
-                request.RedirectUri,
-                request.Scopes,
-                request.State);
+            var command = request.ToCommand();
             var authorizeResult = await Sender.Send(command);
 
             if (User.Identity?.IsAuthenticated ?? false)
             {
-                var token = await Sender.Send(new GenerateTokenCommand(authorizeResult.Code, User));
-                var url = $"{request.RedirectUri}#{token}";
-
-                return Redirect(url);
+                return Redirect(authorizeResult.ReturnUrl);
             }
 
-            var model = new
-            {
-                ReturnUrl = request.RedirectUri,
-                authorizeResult.Code,
-            };
-
-            return RedirectToPage("/Authentication/SignIn", model);
+            return RedirectToPage("/Authentication/SignIn", new { authorizeResult.Code, authorizeResult.ReturnUrl });
         }
         catch (Exception exception)
         {
@@ -45,11 +31,22 @@ public class ConnectController : ApiController<ConnectController>
     }
 
     [HttpPost("Token")]
-    public async Task<IActionResult> Token([FromQuery] TokenRequest request)
+    public async Task<IActionResult> GenerateToken([FromForm] GenerateTokenRequest request)
     {
-        var command = new GenerateTokenCommand(request.Code, User);
-        var result = await Sender.Send(command);
+        try
+        {
+            var command = request.ToCommand();
+            var result = await Sender.Send(command);
+            if (result.Error is not null)
+            {
+                return BadRequest(result.Error);
+            }
 
-        return Ok(result);
+            return Ok(result);
+        }
+        catch (Exception)
+        {
+            return BadRequest(new ErrorDto());
+        }
     }
 }

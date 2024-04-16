@@ -9,7 +9,6 @@ const route = useRoute();
 const router = useRouter();
 
 if (route.params.error) {
-  console.log(1);
   console.log(route.params.error);
   router.replace('/');
 } else {

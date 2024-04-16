@@ -15,7 +15,9 @@ try
     services.AddControllers();
     services.AddApi();
     services.AddData<IdentityContext, IdentitySeeder>(configuration.GetSection("MinIO").Get<MinIOOptions>()!);
-    services.AddAuthentication().AddCookie();
+    services
+        .AddAuthentication()
+        .AddCookie();
     services.AddCors(options =>
     {
         options.AddPolicy(CorsPolicies.Oidc, policy =>

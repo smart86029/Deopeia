@@ -19,7 +19,7 @@ public class User : AggregateRoot
 
         UserName = userName.ToLower().Trim();
         UpdateSalt();
-        PasswordHash = CryptographyUtility.SHA256Hash(password.Trim(), Salt);
+        PasswordHash = Hash(password);
         IsEnabled = isEnabled;
         AddDomainEvent(new UserCreated(Id, UserName));
     }
@@ -46,7 +46,7 @@ public class User : AggregateRoot
         }
 
         UpdateSalt();
-        PasswordHash = CryptographyUtility.SHA256Hash(password.Trim(), Salt);
+        PasswordHash = Hash(password);
     }
 
     public void Enable()
@@ -97,6 +97,11 @@ public class User : AggregateRoot
     {
         var token = _userRefreshTokens.First(t => t.RefreshToken == refreshToken);
         _userRefreshTokens.Remove(token);
+    }
+
+    public string Hash(string password)
+    {
+        return (password.Trim() + Salt).Sha256();
     }
 
     private void UpdateSalt()

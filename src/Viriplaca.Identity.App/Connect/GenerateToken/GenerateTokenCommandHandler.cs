@@ -1,35 +1,88 @@
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Viriplaca.Identity.Domain.Clients;
+using Viriplaca.Identity.Domain.Grants;
+using Viriplaca.Identity.Domain.Grants.AuthorizationCodes;
 
 namespace Viriplaca.Identity.App.Connect.GenerateToken;
 
-internal class GenerateTokenCommandHandler(IOptions<JwtOptions> jwtOptions)
+internal class GenerateTokenCommandHandler(
+    IOptions<JwtOptions> jwtOptions,
+    IClientRepository clientRepository,
+    IAuthorizationCodeRepository authorizationCodeRepository)
     : IRequestHandler<GenerateTokenCommand, TokenResult>
 {
     private readonly TimeSpan _expired = TimeSpan.FromMinutes(5);
     private readonly JwtOptions _jwtOptions = jwtOptions.Value;
+    private readonly IClientRepository _clientRepository = clientRepository;
+    private readonly IAuthorizationCodeRepository _authorizationCodeRepository = authorizationCodeRepository;
 
     public async Task<TokenResult> Handle(GenerateTokenCommand request, CancellationToken cancellationToken)
     {
-        if (!request.Subject.Identity!.IsAuthenticated)
+        var client = await _clientRepository.GetClientAsync(request.ClientId);
+        if (!client.GrantTypes.HasFlag(GrantTypes.AuthorizationCode))
         {
-            throw new Exception("InvalidGrant");
+            return TokenResult.FromError(Errors.UnauthorizedClient);
         }
 
-        var userId = request.Subject.GetUserId();
-        if (userId == Guid.Empty)
+        if (request.Code.IsNullOrWhiteSpace())
         {
-            throw new Exception("InvalidGrant");
+            return TokenResult.FromError(Errors.InvalidGrant);
+        }
+
+        var authorizationCode = await _authorizationCodeRepository.GetAuthorizationCodeAsync(request.Code);
+        if (authorizationCode is null)
+        {
+            return TokenResult.FromError(Errors.InvalidGrant);
+        }
+
+        if (authorizationCode.ClientId != client.Id)
+        {
+            return TokenResult.FromError(Errors.InvalidGrant);
+        }
+
+        _authorizationCodeRepository.Remove(authorizationCode);
+
+        if (authorizationCode.ExpiresAt > DateTimeOffset.UtcNow)
+        {
+            return TokenResult.FromError(Errors.InvalidGrant);
+        }
+
+        if (request.RedirectUri is null)
+        {
+            return TokenResult.FromError(Errors.UnauthorizedClient);
+        }
+
+        if (request.RedirectUri != authorizationCode.RedirectUri)
+        {
+            return TokenResult.FromError(Errors.InvalidGrant);
+        }
+
+        if (authorizationCode.Scopes.Count == 0)
+        {
+            return TokenResult.FromError(Errors.InvalidRequest);
+        }
+
+        var isFromClient = IsFromClient(request.CodeVerifier, authorizationCode.CodeChallenge, authorizationCode.CodeChallengeMethod);
+        if (!isFromClient)
+        {
+            return TokenResult.FromError(Errors.InvalidGrant);
+        }
+
+        var subjectId = authorizationCode.SubjectId;
+        if (subjectId is null)
+        {
+            return TokenResult.FromError(Errors.InvalidGrant);
         }
 
         var issuedAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, userId.ToString(), ClaimValueTypes.String),
+            new(JwtRegisteredClaimNames.Sub, subjectId.ToString(), ClaimValueTypes.String),
             new(JwtRegisteredClaimNames.GivenName, string.Empty, ClaimValueTypes.String),
             new(JwtRegisteredClaimNames.Iat, issuedAt.ToString(), ClaimValueTypes.Integer),
-            //new (JwtRegisteredClaimNames.Nonce, clientCodeChecker.Nonce, ClaimValueTypes.String)
+            new(JwtRegisteredClaimNames.Nonce, authorizationCode.Nonce, ClaimValueTypes.String),
             new(JwtRegisteredClaimNames.Amr, "pwd", ClaimValueTypes.String),
         };
 
@@ -60,14 +113,11 @@ internal class GenerateTokenCommandHandler(IOptions<JwtOptions> jwtOptions)
 
         //result.access_token = accessTokenResult.AccessToken;
 
-
         //access_token = SlAV32hkKG
         //& token_type = bearer
         //& id_token = eyJ0... NiJ9.eyJ1c... I6IjIifX0.DeWt4Qu... ZXso
         //& expires_in = 3600
         //& state = af0ifjsldkj
-
-
 
         await Task.CompletedTask;
         var result = new TokenResult
@@ -75,6 +125,18 @@ internal class GenerateTokenCommandHandler(IOptions<JwtOptions> jwtOptions)
             IdToken = idToken,
             State = string.Empty,
             Expired = _expired,
+        };
+
+        return result;
+    }
+
+    private bool IsFromClient(string codeVerifier, string codeChallenge, string codeChallengeMethod)
+    {
+        var result = codeChallengeMethod switch
+        {
+            ChallengeMethods.Plain => codeChallenge == codeVerifier,
+            ChallengeMethods.Sha256 => codeChallenge == Base64UrlEncoder.Encode(Encoding.ASCII.GetBytes(codeVerifier).Sha256()),
+            _ => false,
         };
 
         return result;

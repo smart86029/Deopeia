@@ -6,6 +6,8 @@ public class TokenResult
 
     public string TokenType { get; private set; } = "bearer";
 
+    public string RefreshToken { get; set; } = string.Empty;
+
     public string IdToken { get; set; } = string.Empty;
 
     public string State { get; set; } = string.Empty;
@@ -17,4 +19,18 @@ public class TokenResult
 
     [JsonIgnore]
     public string QueryString => $"access_token={AccessToken}&token_type={TokenType}&id_token={IdToken}&state={State}&expires_in={ExpiresIn}";
+
+    [JsonIgnore]
+    public ErrorDto? Error { get; set; }
+
+    public static TokenResult FromError(string error)
+    {
+        return new TokenResult
+        {
+            Error = new ErrorDto
+            {
+                Error = error
+            }
+        };
+    }
 }

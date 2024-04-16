@@ -12,7 +12,7 @@ using Viriplaca.Identity.Data;
 namespace Viriplaca.Identity.Data.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20240401071438_Init")]
+    [Migration("20240416093548_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -116,6 +116,49 @@ namespace Viriplaca.Identity.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Client", "Identity");
+                });
+
+            modelBuilder.Entity("Viriplaca.Identity.Domain.Grants.Grant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ConsumedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<Guid?>("SubjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("Key")
+                        .IsUnique();
+
+                    b.ToTable("Grant", "Identity");
+
+                    b.HasDiscriminator<int>("Type");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Viriplaca.Identity.Domain.Permissions.Permission", b =>
@@ -296,6 +339,37 @@ namespace Viriplaca.Identity.Data.Migrations
             modelBuilder.Entity("Viriplaca.Common.Files.Image", b =>
                 {
                     b.HasBaseType("Viriplaca.Common.Files.FileResource");
+
+                    b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("Viriplaca.Identity.Domain.Grants.AuthorizationCodes.AuthorizationCode", b =>
+                {
+                    b.HasBaseType("Viriplaca.Identity.Domain.Grants.Grant");
+
+                    b.Property<string>("CodeChallenge")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("CodeChallengeMethod")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
+
+                    b.Property<string>("Nonce")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RedirectUri")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Scopes")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasDiscriminator().HasValue(1);
                 });
