@@ -2,14 +2,17 @@
 
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
-import { ElLoading } from 'element-plus';
+import { ElLoading, ElMessageBox } from 'element-plus';
 
 const authStore = useAuthStore();
 const route = useRoute();
 const router = useRouter();
 
-if (route.params.error) {
-  console.log(route.params.error);
+const error = route.params.error;
+if (error) {
+  console.log(error);
+  ElMessageBox.close();
+  ElMessageBox.alert(error.toString());
   router.replace('/');
 } else {
   const loading = ElLoading.service({

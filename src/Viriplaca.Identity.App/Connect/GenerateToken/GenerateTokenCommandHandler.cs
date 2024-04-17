@@ -12,7 +12,7 @@ internal class GenerateTokenCommandHandler(
     IAuthorizationCodeRepository authorizationCodeRepository)
     : IRequestHandler<GenerateTokenCommand, TokenResult>
 {
-    private readonly TimeSpan _expired = TimeSpan.FromMinutes(5);
+    private readonly TimeSpan _lifetime = TimeSpan.FromMinutes(5);
     private readonly JwtOptions _jwtOptions = jwtOptions.Value;
     private readonly IClientRepository _clientRepository = clientRepository;
     private readonly IAuthorizationCodeRepository _authorizationCodeRepository = authorizationCodeRepository;
@@ -22,101 +22,83 @@ internal class GenerateTokenCommandHandler(
         var client = await _clientRepository.GetClientAsync(request.ClientId);
         if (!client.GrantTypes.HasFlag(GrantTypes.AuthorizationCode))
         {
-            return TokenResult.FromError(Errors.UnauthorizedClient);
+            return new TokenResult(TokenError.UnauthorizedClient);
         }
 
         if (request.Code.IsNullOrWhiteSpace())
         {
-            return TokenResult.FromError(Errors.InvalidGrant);
+            return new TokenResult(TokenError.InvalidGrant);
         }
 
         var authorizationCode = await _authorizationCodeRepository.GetAuthorizationCodeAsync(request.Code);
         if (authorizationCode is null)
         {
-            return TokenResult.FromError(Errors.InvalidGrant);
+            return new TokenResult(TokenError.InvalidGrant);
         }
 
         if (authorizationCode.ClientId != client.Id)
         {
-            return TokenResult.FromError(Errors.InvalidGrant);
+            return new TokenResult(TokenError.InvalidGrant);
         }
 
         _authorizationCodeRepository.Remove(authorizationCode);
 
         if (DateTimeOffset.UtcNow > authorizationCode.ExpiresAt)
         {
-            return TokenResult.FromError(Errors.InvalidGrant);
+            return new TokenResult(TokenError.InvalidGrant);
         }
 
         if (request.RedirectUri is null)
         {
-            return TokenResult.FromError(Errors.UnauthorizedClient);
+            return new TokenResult(TokenError.UnauthorizedClient);
         }
 
         if (request.RedirectUri != authorizationCode.RedirectUri)
         {
-            return TokenResult.FromError(Errors.InvalidGrant);
+            return new TokenResult(TokenError.InvalidGrant);
         }
 
         if (authorizationCode.Scopes.Count == 0)
         {
-            return TokenResult.FromError(Errors.InvalidRequest);
+            return new TokenResult(TokenError.InvalidRequest);
         }
 
         var isFromClient = IsFromClient(request.CodeVerifier, authorizationCode.CodeChallenge, authorizationCode.CodeChallengeMethod);
         if (!isFromClient)
         {
-            return TokenResult.FromError(Errors.InvalidGrant);
+            return new TokenResult(TokenError.InvalidGrant);
         }
 
         var subjectId = authorizationCode.SubjectId.ToString();
         if (subjectId is null)
         {
-            return TokenResult.FromError(Errors.InvalidGrant);
+            return new TokenResult(TokenError.InvalidGrant);
         }
 
         var issuedAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        var claims = new List<Claim>
+
+        // Jti, aud, permission
+        var accessToken = GenerateJwtToken(new List<Claim>
+        {
+            new(JwtRegisteredClaimNames.Sub, subjectId, ClaimValueTypes.String),
+            new(JwtRegisteredClaimNames.Iat, issuedAt.ToString(), ClaimValueTypes.Integer),
+            new("scope", string.Join(' ', authorizationCode.Scopes)),
+        });
+        var idToken = GenerateJwtToken(new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, subjectId, ClaimValueTypes.String),
             new(JwtRegisteredClaimNames.GivenName, string.Empty, ClaimValueTypes.String),
             new(JwtRegisteredClaimNames.Iat, issuedAt.ToString(), ClaimValueTypes.Integer),
             new(JwtRegisteredClaimNames.Nonce, authorizationCode.Nonce, ClaimValueTypes.String),
             new(JwtRegisteredClaimNames.Amr, "pwd", ClaimValueTypes.String),
-        };
-        var idToken = GenerateJwtToken(claims);
+        });
 
-        // save
-        //var idptoken = new OAuthTokenEntity
-        //    {
-        //        ClientId = checkClientResult.Client.ClientId,
-        //        CreationDate = DateTime.Now,
-        //        ReferenceId = Guid.NewGuid().ToString(),
-        //        Status = Constants.Statuses.Valid,
-        //        Token = idToken,
-        //        TokenType = Constants.TokenTypes.JWTIdentityToken,
-        //        ExpirationDate = token.ValidTo,
-        //        SubjectId = userId,
-        //        Revoked = false,
-        //    };
-        //_context.OAuthTokens.Add(idptoken);
-        //_context.SaveChanges();
-
-        // access token
-        //var scopesinJWtAccessToken = from m in clientCodeChecker.RequestedScopes.ToList()
-        //                             where !OAuth2ServerHelpers.OpenIdConnectScopes.Contains(m)
-        //                             select m;
-        //var accessTokenResult = generateJWTTokne(scopesinJWtAccessToken, Constants.TokenTypes.JWTAcceseccToken, checkClientResult.Client, userId);
-        //SaveJWTTokenInBackStore(checkClientResult.Client.ClientId, accessTokenResult.AccessToken, accessTokenResult.ExpirationDate);
-
-        //result.access_token = accessTokenResult.AccessToken;
-
-        await Task.CompletedTask;
         var result = new TokenResult
         {
+            AccessToken = accessToken,
+            RefreshToken = Guid.NewGuid().ToString("N"),
             IdToken = idToken,
-            State = string.Empty,
-            Expired = _expired,
+            Lifetime = _lifetime,
         };
 
         return result;
@@ -142,7 +124,7 @@ internal class GenerateTokenCommandHandler(
         var securityToken = new JwtSecurityToken(
             issuer: _jwtOptions.Issuer,
             claims: claims,
-            expires: DateTime.Now.Add(_expired),
+            expires: DateTime.Now.Add(_lifetime),
             signingCredentials: signingCredentials);
         var result = handler.WriteToken(securityToken);
 

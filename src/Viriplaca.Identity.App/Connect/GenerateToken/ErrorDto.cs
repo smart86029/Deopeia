@@ -3,7 +3,7 @@ namespace Viriplaca.Identity.App.Connect.GenerateToken;
 public class ErrorDto
 {
     [JsonPropertyName("error")]
-    public string Error { get; set; } = Errors.InvalidGrant;
+    public string Error { get; set; } = TokenError.InvalidGrant.ToString().ToSnakeCaseLower();
 
     [JsonPropertyName("error_description")]
     public string ErrorDescription { get; set; } = string.Empty;

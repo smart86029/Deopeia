@@ -30,6 +30,16 @@ public static partial class StringExtensions
         return JsonNamingPolicy.CamelCase.ConvertName(value);
     }
 
+    public static string ToSnakeCaseLower(this string? value)
+    {
+        if (value is null)
+        {
+            return string.Empty;
+        }
+
+        return JsonNamingPolicy.SnakeCaseLower.ConvertName(value);
+    }
+
     [GeneratedRegex(@"\b\w")]
     private static partial Regex FirstLetterRegex();
 }
