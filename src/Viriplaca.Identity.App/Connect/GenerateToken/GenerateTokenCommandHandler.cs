@@ -43,7 +43,7 @@ internal class GenerateTokenCommandHandler(
 
         _authorizationCodeRepository.Remove(authorizationCode);
 
-        if (authorizationCode.ExpiresAt > DateTimeOffset.UtcNow)
+        if (DateTimeOffset.UtcNow > authorizationCode.ExpiresAt)
         {
             return TokenResult.FromError(Errors.InvalidGrant);
         }
@@ -69,23 +69,21 @@ internal class GenerateTokenCommandHandler(
             return TokenResult.FromError(Errors.InvalidGrant);
         }
 
-        var subjectId = authorizationCode.SubjectId;
+        var subjectId = authorizationCode.SubjectId.ToString();
         if (subjectId is null)
         {
             return TokenResult.FromError(Errors.InvalidGrant);
         }
 
         var issuedAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, subjectId.ToString(), ClaimValueTypes.String),
+            new(JwtRegisteredClaimNames.Sub, subjectId, ClaimValueTypes.String),
             new(JwtRegisteredClaimNames.GivenName, string.Empty, ClaimValueTypes.String),
             new(JwtRegisteredClaimNames.Iat, issuedAt.ToString(), ClaimValueTypes.Integer),
             new(JwtRegisteredClaimNames.Nonce, authorizationCode.Nonce, ClaimValueTypes.String),
             new(JwtRegisteredClaimNames.Amr, "pwd", ClaimValueTypes.String),
         };
-
         var idToken = GenerateJwtToken(claims);
 
         // save
@@ -112,12 +110,6 @@ internal class GenerateTokenCommandHandler(
         //SaveJWTTokenInBackStore(checkClientResult.Client.ClientId, accessTokenResult.AccessToken, accessTokenResult.ExpirationDate);
 
         //result.access_token = accessTokenResult.AccessToken;
-
-        //access_token = SlAV32hkKG
-        //& token_type = bearer
-        //& id_token = eyJ0... NiJ9.eyJ1c... I6IjIifX0.DeWt4Qu... ZXso
-        //& expires_in = 3600
-        //& state = af0ifjsldkj
 
         await Task.CompletedTask;
         var result = new TokenResult
