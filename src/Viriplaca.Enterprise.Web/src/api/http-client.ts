@@ -1,3 +1,4 @@
+import { useAuthStore } from '@/stores/auth';
 import { usePreferencesStore } from '@/stores/preferences';
 import axios from 'axios';
 import { ElMessageBox, dayjs } from 'element-plus';
@@ -10,9 +11,20 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-  (config) => {
+  async (config) => {
     const preferencesStore = usePreferencesStore();
     config.headers.set('Accept-Language', preferencesStore.locale.key);
+
+    const authStore = useAuthStore();
+    const user = await authStore.getUser();
+    if (user?.access_token) {
+      config.headers.setAuthorization(`Bearer ${user.access_token}`);
+    } else if (user) {
+      await authStore.refresh().then((user) => {
+        config.headers.setAuthorization(`Bearer ${user!.access_token}`);
+      });
+    }
+
     return config;
   },
   (error) => Promise.reject(error),

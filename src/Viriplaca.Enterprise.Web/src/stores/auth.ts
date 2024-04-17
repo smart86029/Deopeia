@@ -12,6 +12,8 @@ export const useAuthStore = defineStore('auth', () => {
     post_logout_redirect_uri: uri,
   });
 
+  const getUser = () => userManager.getUser();
+
   const signIn = () => userManager.signinRedirect();
 
   const signInCallback = () => userManager.signinCallback();
@@ -21,6 +23,7 @@ export const useAuthStore = defineStore('auth', () => {
   const refresh = () => userManager.signinSilent();
 
   return {
+    getUser,
     signIn,
     signInCallback,
     signOut,
