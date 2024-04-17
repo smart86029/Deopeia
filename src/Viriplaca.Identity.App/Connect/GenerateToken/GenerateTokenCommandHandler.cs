@@ -70,7 +70,7 @@ internal class GenerateTokenCommandHandler(
         }
 
         var subjectId = authorizationCode.SubjectId.ToString();
-        if (subjectId is null)
+        if (subjectId.IsNullOrWhiteSpace())
         {
             return new TokenResult(TokenError.InvalidGrant);
         }
