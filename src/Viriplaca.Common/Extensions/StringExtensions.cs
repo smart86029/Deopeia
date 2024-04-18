@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -5,7 +6,7 @@ namespace Viriplaca.Common.Extensions;
 
 public static partial class StringExtensions
 {
-    public static bool IsNullOrWhiteSpace(this string? value)
+    public static bool IsNullOrWhiteSpace([NotNullWhen(false)] this string? value)
     {
         return string.IsNullOrWhiteSpace(value);
     }
