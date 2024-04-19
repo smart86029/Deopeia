@@ -11,7 +11,7 @@
     </el-form-item>
     <el-form-item>
       <ButtonBack />
-      <ButtonSave />
+      <ButtonSave :loading="loading" />
     </el-form-item>
   </el-form>
 </template>
@@ -45,9 +45,13 @@ if (props.action === 'edit') {
 }
 
 const save = () => {
+  loading.value = true;
   const post =
     props.action === 'create' ? departmentApi.create : departmentApi.update;
-  post(form as Department).then(() => success(props.action));
+  post(form as Department).then(() => {
+    loading.value = false;
+    success(props.action);
+  });
 };
 </script>
 

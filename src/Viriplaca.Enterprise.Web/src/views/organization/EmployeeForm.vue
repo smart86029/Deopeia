@@ -25,9 +25,20 @@
         v-model:imageUrl="avatarUrl"
       />
     </el-form-item>
+
+    <el-form-item :label="$t('organization.department')">
+      <SelectOption :options="departments" v-model="form.departmentId" />
+    </el-form-item>
+    <el-form-item :label="$t('organization.jobTitle')">
+      <SelectOption :options="jobs" v-model="form.jobId" />
+    </el-form-item>
+    <el-form-item :label="$t('organization.hiredOn')">
+      <el-date-picker type="date" v-model="form.hiredOn" />
+    </el-form-item>
+
     <el-form-item>
       <ButtonBack />
-      <ButtonSave />
+      <ButtonSave :loading="loading" />
     </el-form-item>
   </el-form>
 </template>
@@ -35,6 +46,7 @@
 <script setup lang="ts">
 import departmentApi from '@/api/department-api';
 import employeeApi, { type Employee } from '@/api/employee-api';
+import jobApi from '@/api/job-api';
 import { Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import { MaritalStatus } from '@/models/organization/marital-status';
@@ -46,7 +58,8 @@ const props = defineProps<{
   id: Guid;
 }>();
 const loading = ref(true);
-const departments = ref([] as OptionResult<Guid>[]);
+const departments: Ref<OptionResult<Guid>[]> = ref([]);
+const jobs: Ref<OptionResult<Guid>[]> = ref([]);
 const form = reactive({
   id: Guid.empty,
   firstName: '',
@@ -57,10 +70,12 @@ const form = reactive({
   avatarId: Guid.empty,
   departmentId: Guid.empty,
   jobId: Guid.empty,
+  hiredOn: undefined as Date | undefined,
 });
 const avatarUrl = ref('');
 
 departmentApi.getOptions().then((x) => (departments.value = x.data));
+jobApi.getOptions().then((x) => (jobs.value = x.data));
 
 if (props.action === 'edit') {
   employeeApi
@@ -73,9 +88,13 @@ if (props.action === 'edit') {
 }
 
 const save = () => {
+  loading.value = true;
   const post =
     props.action === 'create' ? employeeApi.create : employeeApi.update;
-  post(form as Employee).then(() => success(props.action));
+  post(form as Employee).then(() => {
+    loading.value = false;
+    success(props.action);
+  });
 };
 </script>
 

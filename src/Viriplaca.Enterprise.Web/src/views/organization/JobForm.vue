@@ -8,7 +8,7 @@
     </el-form-item>
     <el-form-item>
       <ButtonBack />
-      <ButtonSave />
+      <ButtonSave :loading="loading" />
     </el-form-item>
   </el-form>
 </template>
@@ -42,8 +42,12 @@ if (props.action === 'edit') {
 }
 
 const save = () => {
+  loading.value = true;
   const post = props.action === 'create' ? jobApi.create : jobApi.update;
-  post(form as Job).then(() => success(props.action));
+  post(form as Job).then(() => {
+    loading.value = false;
+    success(props.action);
+  });
 };
 </script>
 
