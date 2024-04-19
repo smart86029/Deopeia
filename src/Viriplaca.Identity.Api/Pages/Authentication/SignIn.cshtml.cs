@@ -62,18 +62,11 @@ public class SignInModel(ISender sender)
         };
         await HttpContext.SignInAsync(principal, properties);
 
-        return Redirect(ReturnUrl);
-
-        if (Url.IsLocalUrl(ReturnUrl))
-        {
-            return Redirect(ReturnUrl);
-        }
-
         if (ReturnUrl.IsNullOrWhiteSpace())
         {
             return Redirect("~/");
         }
 
-        throw new Exception("Invalid return URL");
+        return Redirect(ReturnUrl);
     }
 }
