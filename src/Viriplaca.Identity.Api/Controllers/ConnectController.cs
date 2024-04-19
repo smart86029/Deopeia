@@ -1,5 +1,5 @@
 using Viriplaca.Identity.Api.Models.Connect;
-using Viriplaca.Identity.App.Connect.GenerateToken;
+using Viriplaca.Identity.App.Connect;
 
 namespace Viriplaca.Identity.Api.Controllers;
 
@@ -46,7 +46,7 @@ public class ConnectController : ApiController<ConnectController>
         }
         catch (Exception)
         {
-            return BadRequest(new ErrorDto());
+            return BadRequest(new ErrorResult());
         }
     }
 }

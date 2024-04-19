@@ -12,10 +12,9 @@ internal class AuthorizationCodeConfiguration : EntityConfiguration<Authorizatio
             .HasMaxLength(256);
 
         builder
-            .Property(x => x.Scopes)
+            .Property(x => x.Nonce)
             .IsRequired()
-            .HasMaxLength(256)
-            .HasConversion<StringReadOnlyCollectionConverter>(new EnumerableComparer<string>());
+            .HasMaxLength(64);
 
         builder
             .Property(x => x.CodeChallenge)

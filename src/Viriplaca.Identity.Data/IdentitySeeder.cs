@@ -53,7 +53,7 @@ public class IdentitySeeder : IDbSeeder<IdentityContext>
             new(
                 "Enterprise",
                 null,
-                GrantTypes.AuthorizationCode,
+                GrantTypes.AuthorizationCode | GrantTypes.RefreshToken,
                 new[] { "openid", "profile", "email", "api" },
                 new Uri[]
                 {

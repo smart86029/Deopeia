@@ -44,8 +44,8 @@ internal class AuthorizeCommandHandler(
 
         var authorizationCode = new AuthorizationCode(
             client,
-            request.RedirectUri!,
             clientScopes,
+            request.RedirectUri!,
             string.Empty,
             request.CodeChallenge,
             request.CodeChallengeMethod);

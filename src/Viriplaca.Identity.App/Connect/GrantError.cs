@@ -1,6 +1,6 @@
-namespace Viriplaca.Identity.App.Connect.GenerateToken;
+namespace Viriplaca.Identity.App.Connect;
 
-internal enum TokenError
+internal enum GrantError
 {
     InvalidRequest,
 

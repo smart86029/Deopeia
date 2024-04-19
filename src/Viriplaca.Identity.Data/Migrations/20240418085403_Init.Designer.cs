@@ -12,7 +12,7 @@ using Viriplaca.Identity.Data;
 namespace Viriplaca.Identity.Data.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20240416093548_Init")]
+    [Migration("20240418085403_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -140,6 +140,11 @@ namespace Viriplaca.Identity.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Scopes")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<Guid?>("SubjectId")
                         .HasColumnType("uniqueidentifier");
@@ -359,19 +364,22 @@ namespace Viriplaca.Identity.Data.Migrations
 
                     b.Property<string>("Nonce")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("RedirectUri")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("Scopes")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
                     b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("Viriplaca.Identity.Domain.Grants.RefreshTokens.RefreshToken", b =>
+                {
+                    b.HasBaseType("Viriplaca.Identity.Domain.Grants.Grant");
+
+                    b.HasDiscriminator().HasValue(4);
                 });
 
             modelBuilder.Entity("Viriplaca.Identity.Domain.Permissions.PermissionLocale", b =>

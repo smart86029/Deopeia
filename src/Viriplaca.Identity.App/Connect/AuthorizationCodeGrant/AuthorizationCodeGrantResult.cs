@@ -1,17 +1,14 @@
-namespace Viriplaca.Identity.App.Connect.GenerateToken;
+namespace Viriplaca.Identity.App.Connect.AuthorizationCodeGrant;
 
-public class TokenResult
+public class AuthorizationCodeGrantResult : GrantResult
 {
-    public TokenResult()
+    internal AuthorizationCodeGrantResult()
     {
     }
 
-    internal TokenResult(TokenError error)
+    internal AuthorizationCodeGrantResult(GrantError error)
+        : base(error)
     {
-        Error = new ErrorDto
-        {
-            Error = error.ToString().ToSnakeCaseLower(),
-        };
     }
 
     [JsonPropertyName("access_token")]
@@ -31,7 +28,4 @@ public class TokenResult
 
     [JsonPropertyName("expires_in")]
     public int ExpiresIn => Lifetime.TotalSeconds.ToInt();
-
-    [JsonIgnore]
-    public ErrorDto? Error { get; set; }
 }

@@ -57,16 +57,16 @@ namespace Viriplaca.Identity.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Key = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
+                    Key = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     SubjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Scopes = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ConsumedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     RedirectUri = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Scopes = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Nonce = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Nonce = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
                     CodeChallenge = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
                     CodeChallengeMethod = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: true)
                 },
