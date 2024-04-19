@@ -34,7 +34,7 @@ public static partial class ValidationExtensions
         [CallerFilePath] string filePath = "",
         [CallerArgumentExpression(nameof(value))] string? valueName = null)
     {
-        if (value <= DateTimeOffset.UtcNow)
+        if (!value.IsAfterNow())
         {
             throw new DomainException("Date.AfterNow", new { Property = GetProperty(filePath, valueName) });
         }
