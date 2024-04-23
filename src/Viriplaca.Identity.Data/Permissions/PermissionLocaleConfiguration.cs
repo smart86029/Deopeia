@@ -1,3 +1,4 @@
+using Viriplaca.Common.Data.Localization;
 using Viriplaca.Identity.Domain.Permissions;
 
 namespace Viriplaca.Identity.Data.Permissions;

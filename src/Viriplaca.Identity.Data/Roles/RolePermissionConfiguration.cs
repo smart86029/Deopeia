@@ -2,9 +2,9 @@ using Viriplaca.Identity.Domain.Roles;
 
 namespace Viriplaca.Identity.Data.Roles;
 
-internal class RolePermissionConfiguration : EntityConfiguration<RolePermission>
+internal class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermission>
 {
-    public override void Configure(EntityTypeBuilder<RolePermission> builder)
+    public void Configure(EntityTypeBuilder<RolePermission> builder)
     {
     }
 }

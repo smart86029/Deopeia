@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Viriplaca.Common.Files;
 
-namespace Viriplaca.Common.Data.Configurations;
+namespace Viriplaca.Common.Data.Files;
 
-public class ImageConfiguration : EntityConfiguration<Image>
+public class ImageConfiguration : IEntityTypeConfiguration<Image>
 {
-    public override void Configure(EntityTypeBuilder<Image> builder)
+    public void Configure(EntityTypeBuilder<Image> builder)
     {
     }
 }

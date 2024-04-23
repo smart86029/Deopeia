@@ -2,9 +2,9 @@ using Viriplaca.Identity.Domain.Grants.RefreshTokens;
 
 namespace Viriplaca.Identity.Data.Grants.AuthorizationCodes;
 
-internal class RefreshTokenConfiguration : EntityConfiguration<RefreshToken>
+internal class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
 {
-    public override void Configure(EntityTypeBuilder<RefreshToken> builder)
+    public void Configure(EntityTypeBuilder<RefreshToken> builder)
     {
     }
 }

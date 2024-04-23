@@ -2,9 +2,9 @@ using Viriplaca.Identity.Domain.Clients;
 
 namespace Viriplaca.Identity.Data.Clients;
 
-internal class ClientConfiguration : EntityConfiguration<Client>
+internal class ClientConfiguration : IEntityTypeConfiguration<Client>
 {
-    public override void Configure(EntityTypeBuilder<Client> builder)
+    public void Configure(EntityTypeBuilder<Client> builder)
     {
         builder
             .Property(x => x.Name)
@@ -19,12 +19,12 @@ internal class ClientConfiguration : EntityConfiguration<Client>
             .Property(x => x.Scopes)
             .IsRequired()
             .HasMaxLength(256)
-            .HasConversion<StringReadOnlyCollectionConverter>(new EnumerableComparer<string>());
+            .HasConversion<JsonConverter<IReadOnlyCollection<string>>>(new EnumerableComparer<string>());
 
         builder
             .Property(x => x.RedirectUris)
             .IsRequired()
             .HasMaxLength(1024)
-            .HasConversion<UriReadOnlyCollectionConverter>(new EnumerableComparer<Uri>());
+            .HasConversion<JsonConverter<IReadOnlyCollection<Uri>>>(new EnumerableComparer<Uri>());
     }
 }

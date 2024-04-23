@@ -3,9 +3,9 @@ using Viriplaca.HR.Domain.People;
 
 namespace Viriplaca.HR.Data.People;
 
-internal class PersonConfiguration : EntityConfiguration<Person>
+internal class PersonConfiguration : IEntityTypeConfiguration<Person>
 {
-    public override void Configure(EntityTypeBuilder<Person> builder)
+    public void Configure(EntityTypeBuilder<Person> builder)
     {
         builder
             .HasDiscriminator(x => x.Type)

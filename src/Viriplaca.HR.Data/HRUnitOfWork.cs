@@ -1,14 +1,6 @@
 namespace Viriplaca.HR.Data;
 
 public class HRUnitOfWork(HRContext context)
-    : IHRUnitOfWork
+    : UnitOfWork<HRContext>(context), IHRUnitOfWork
 {
-    private readonly HRContext _context = context;
-
-    public async Task<bool> CommitAsync()
-    {
-        await _context.SaveChangesAsync();
-
-        return true;
-    }
 }

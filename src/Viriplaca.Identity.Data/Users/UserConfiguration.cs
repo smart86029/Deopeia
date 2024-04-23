@@ -2,9 +2,9 @@ using Viriplaca.Identity.Domain.Users;
 
 namespace Viriplaca.Identity.Data.Users;
 
-internal class UserConfiguration : EntityConfiguration<User>
+internal class UserConfiguration : IEntityTypeConfiguration<User>
 {
-    public override void Configure(EntityTypeBuilder<User> builder)
+    public void Configure(EntityTypeBuilder<User> builder)
     {
         builder
             .Property(x => x.UserName)

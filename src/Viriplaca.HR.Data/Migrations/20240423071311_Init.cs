@@ -12,10 +12,31 @@ namespace Viriplaca.HR.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "HR");
+                name: "Common");
 
             migrationBuilder.EnsureSchema(
-                name: "Common");
+                name: "HR");
+
+            migrationBuilder.CreateTable(
+                name: "AuditTrail",
+                schema: "Common",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedIp = table.Column<string>(type: "nvarchar(45)", nullable: false),
+                    EntityType = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Keys = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OldValues = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NewValues = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PropertyNames = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditTrail", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Department",
@@ -202,6 +223,10 @@ namespace Viriplaca.HR.Data.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AuditTrail",
+                schema: "Common");
+
             migrationBuilder.DropTable(
                 name: "Department",
                 schema: "HR");

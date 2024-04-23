@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Viriplaca.Common.Files;
 
-namespace Viriplaca.Common.Data.Configurations;
+namespace Viriplaca.Common.Data.Files;
 
-public class FileResourceConfiguration : EntityConfiguration<FileResource>
+public class FileResourceConfiguration : IEntityTypeConfiguration<FileResource>
 {
-    public override void Configure(EntityTypeBuilder<FileResource> builder)
+    public void Configure(EntityTypeBuilder<FileResource> builder)
     {
         builder
             .HasDiscriminator(x => x.Type)

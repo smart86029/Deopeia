@@ -14,6 +14,11 @@ public static class ModelConfigurationBuilderExtensions
             .HaveConversion<DateTimeOffsetConverter>()
             .HaveColumnType("datetime2");
 
+        builder
+            .Properties<Type>()
+            .HaveConversion<TypeConverter>()
+            .HaveMaxLength(256);
+
         return builder;
     }
 }

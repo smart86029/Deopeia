@@ -2,9 +2,9 @@ using Viriplaca.HR.Domain.Departments;
 
 namespace Viriplaca.HR.Data.Departments;
 
-internal class DepartmentConfiguration : EntityConfiguration<Department>
+internal class DepartmentConfiguration : IEntityTypeConfiguration<Department>
 {
-    public override void Configure(EntityTypeBuilder<Department> builder)
+    public void Configure(EntityTypeBuilder<Department> builder)
     {
         builder
             .Property(x => x.Name)

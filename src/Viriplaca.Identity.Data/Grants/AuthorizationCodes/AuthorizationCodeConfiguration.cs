@@ -2,9 +2,9 @@ using Viriplaca.Identity.Domain.Grants.AuthorizationCodes;
 
 namespace Viriplaca.Identity.Data.Grants.AuthorizationCodes;
 
-internal class AuthorizationCodeConfiguration : EntityConfiguration<AuthorizationCode>
+internal class AuthorizationCodeConfiguration : IEntityTypeConfiguration<AuthorizationCode>
 {
-    public override void Configure(EntityTypeBuilder<AuthorizationCode> builder)
+    public void Configure(EntityTypeBuilder<AuthorizationCode> builder)
     {
         builder
             .Property(x => x.RedirectUri)

@@ -4,9 +4,9 @@ using Viriplaca.Identity.Domain.Grants.RefreshTokens;
 
 namespace Viriplaca.Identity.Data.Grants;
 
-internal class GrantConfiguration : EntityConfiguration<Grant>
+internal class GrantConfiguration : IEntityTypeConfiguration<Grant>
 {
-    public override void Configure(EntityTypeBuilder<Grant> builder)
+    public void Configure(EntityTypeBuilder<Grant> builder)
     {
         builder
             .HasDiscriminator(x => x.Type)
@@ -22,7 +22,7 @@ internal class GrantConfiguration : EntityConfiguration<Grant>
             .Property(x => x.Scopes)
             .IsRequired()
             .HasMaxLength(256)
-            .HasConversion<StringReadOnlyCollectionConverter>(new EnumerableComparer<string>());
+            .HasConversion<JsonConverter<IReadOnlyCollection<string>>>(new EnumerableComparer<string>());
 
         builder
             .HasIndex(x => x.Key)

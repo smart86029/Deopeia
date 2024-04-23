@@ -2,9 +2,9 @@ using Viriplaca.HR.Domain.Employees;
 
 namespace Viriplaca.HR.Data.Employees;
 
-internal class JobChangeConfiguration : EntityConfiguration<JobChange>
+internal class JobChangeConfiguration : IEntityTypeConfiguration<JobChange>
 {
-    public override void Configure(EntityTypeBuilder<JobChange> builder)
+    public void Configure(EntityTypeBuilder<JobChange> builder)
     {
         builder.HasIndex(x => x.DepartmentId);
 

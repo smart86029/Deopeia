@@ -2,9 +2,9 @@ using Viriplaca.HR.Domain.Jobs;
 
 namespace Viriplaca.HR.Data.Jobs;
 
-internal class JobConfiguration : EntityConfiguration<Job>
+internal class JobConfiguration : IEntityTypeConfiguration<Job>
 {
-    public override void Configure(EntityTypeBuilder<Job> builder)
+    public void Configure(EntityTypeBuilder<Job> builder)
     {
         builder
            .Property(x => x.Title)

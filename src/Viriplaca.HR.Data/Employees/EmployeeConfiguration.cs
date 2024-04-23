@@ -2,9 +2,9 @@ using Viriplaca.HR.Domain.Employees;
 
 namespace Viriplaca.HR.Data.NewFolder;
 
-internal class EmployeeConfiguration : EntityConfiguration<Employee>
+internal class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
 {
-    public override void Configure(EntityTypeBuilder<Employee> builder)
+    public void Configure(EntityTypeBuilder<Employee> builder)
     {
         builder.HasIndex(x => x.DepartmentId);
 

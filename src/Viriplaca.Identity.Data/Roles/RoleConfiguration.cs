@@ -2,9 +2,9 @@ using Viriplaca.Identity.Domain.Roles;
 
 namespace Viriplaca.Identity.Data.Roles;
 
-internal class RoleConfiguration : EntityConfiguration<Role>
+internal class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
-    public override void Configure(EntityTypeBuilder<Role> builder)
+    public void Configure(EntityTypeBuilder<Role> builder)
     {
         builder
             .Property(x => x.Name)

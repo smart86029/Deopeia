@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Viriplaca.Common.Data.Configurations;
+namespace Viriplaca.Common.Data.Localization;
 
 public abstract class EntityLocaleConfiguration<TEntity, TLocale> : IEntityTypeConfiguration<TLocale>
     where TEntity : Entity, ILocalizable<TLocale>
@@ -15,7 +15,6 @@ public abstract class EntityLocaleConfiguration<TEntity, TLocale> : IEntityTypeC
         builder
             .Property(x => x.Culture)
             .HasColumnName("LocaleCode")
-            .HasConversion<CultureInfoConverter>()
             .IsRequired()
             .HasMaxLength(16);
 

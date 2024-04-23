@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Viriplaca.Common.Data.Configurations;
+namespace Viriplaca.Common.Data.Localization;
 
 public class LocaleResourceConfiguration : IEntityTypeConfiguration<LocaleResource>
 {

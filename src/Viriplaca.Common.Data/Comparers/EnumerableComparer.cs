@@ -10,4 +10,3 @@ public class EnumerableComparer<TValue>()
     where TValue : notnull
 {
 }
-

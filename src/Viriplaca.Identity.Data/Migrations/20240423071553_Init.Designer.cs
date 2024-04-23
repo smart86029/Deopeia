@@ -12,7 +12,7 @@ using Viriplaca.Identity.Data;
 namespace Viriplaca.Identity.Data.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20240418085403_Init")]
+    [Migration("20240423071553_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -25,6 +25,34 @@ namespace Viriplaca.Identity.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Viriplaca.Common.Auditing.AuditTrail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CreatedIp")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(45)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AuditTrail", "Common");
+
+                    b.HasDiscriminator<int>("Type");
+
+                    b.UseTphMappingStrategy();
+                });
 
             modelBuilder.Entity("Viriplaca.Common.Files.FileResource", b =>
                 {
@@ -339,6 +367,34 @@ namespace Viriplaca.Identity.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserRole", "Identity");
+                });
+
+            modelBuilder.Entity("Viriplaca.Common.Auditing.DataAccessAuditTrail", b =>
+                {
+                    b.HasBaseType("Viriplaca.Common.Auditing.AuditTrail");
+
+                    b.Property<string>("EntityType")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("Keys")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NewValues")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldValues")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PropertyNames")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue(2);
                 });
 
             modelBuilder.Entity("Viriplaca.Common.Files.Image", b =>
