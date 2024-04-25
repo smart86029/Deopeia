@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System.Net;
 using System.Reflection;
 using System.Text;
+using Viriplaca.Common.Api.Extensions;
 using Viriplaca.Common.Domain;
 
 namespace Viriplaca.Common.Api;
@@ -23,13 +23,13 @@ public static class ServiceCollectionExtensions
         services.AddScoped(x =>
         {
             var httpContextAccessor = x.GetRequiredService<IHttpContextAccessor>();
-            var user = httpContextAccessor.HttpContext?.User;
-            if (user is null)
+            var context = httpContextAccessor.HttpContext;
+            if (context is null)
             {
                 return new CurrentUser();
             }
 
-            return new CurrentUser(user.GetUserId(), IPAddress.Any);
+            return new CurrentUser(context.User.GetUserId(), context.Request.GetAddress());
         });
 
         var assemblies = Assembly.GetEntryAssembly()!

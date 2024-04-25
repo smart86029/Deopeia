@@ -14,5 +14,5 @@ public class CurrentUser
 
     public Guid Id { get; private init; }
 
-    public IPAddress Address { get; private init; } = IPAddress.None;
+    public IPAddress Address { get; private init; } = IPAddress.Any;
 }

@@ -21,5 +21,5 @@ public abstract class AuditTrail : AggregateRoot
 
     public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.UtcNow;
 
-    public IPAddress IPAddress { get; init; } = IPAddress.None;
+    public IPAddress IPAddress { get; init; } = IPAddress.Any;
 }
