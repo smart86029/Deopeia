@@ -43,18 +43,29 @@
     </el-table-column>
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
-        <!-- <TextLink
-          :to="{ name: 'operator.edit', params: { id: row.id } }"
-          :text="$t('operation.edit')"
-        /> -->
+        <el-popconfirm
+          v-if="row.approvalStatus === ApprovalStatus.Pending"
+          :title="$t('leave.cancelConfirm')"
+          @confirm="cancel(row.id)"
+        >
+          <template #reference>
+            <el-link type="danger" :text="$t('operation.cancel')" />
+          </template>
+        </el-popconfirm>
       </template>
     </el-table-column>
   </el-table>
+  <TablePagination
+    v-model:current-page="query.pageIndex"
+    v-model:page-size="query.pageSize"
+    :total="result.itemCount"
+  />
 </template>
 
 <script setup lang="ts">
 import leaveApi, { type GetLeavesQuery, type Leave } from '@/api/leave-api';
 import { ApprovalStatus } from '@/models/approval-status';
+import type { Guid } from '@/models/guid';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
 import {
   dateTimeFormatter,
@@ -74,6 +85,8 @@ const result: PageResult<Leave> = reactive(defaultResult());
 leaveApi
   .getTypes()
   .then((x) => x.data.forEach((y) => types.set(y.value, y.name)));
+
+const cancel = (id: Guid) => leaveApi.cancel(id);
 
 watch(
   [query, range],

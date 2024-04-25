@@ -1,4 +1,5 @@
 import type { ApprovalStatus } from '@/models/approval-status';
+import type { Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import type { PageQuery, PageResult } from '@/models/page';
 import type { dayjs } from 'element-plus';
@@ -16,9 +17,7 @@ export interface Leave {
 
 export default {
   getTypes: () => httpClient.get<OptionResult<number>[]>('/Leaves/Types'),
-  getList: (query: GetLeavesQuery) => {
-    return httpClient.get<PageResult<Leave>>('/Leaves', {
-      params: query,
-    });
-  },
+  getList: (query: GetLeavesQuery) =>
+    httpClient.get<PageResult<Leave>>('/Leaves', { params: query }),
+  cancel: (id: Guid) => httpClient.delete(`/Leaves/Types/${id}`),
 };
