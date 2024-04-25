@@ -2,6 +2,7 @@ using Viriplaca.Identity.App.WellKnown.GetConfiguration;
 
 namespace Viriplaca.Identity.Api.Controllers;
 
+[AllowAnonymous]
 [Route(".well-known")]
 [EnableCors(CorsPolicies.Oidc)]
 public class DiscoveryController : ApiController<DiscoveryController>

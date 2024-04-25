@@ -3,11 +3,12 @@ using Viriplaca.Common.Auditing;
 
 namespace Viriplaca.Common.Data;
 
-public abstract class UnitOfWork<TContext>(TContext context)
+public abstract class UnitOfWork<TContext>(TContext context, CurrentUser currentUser)
     where TContext : DbContext
 {
     private readonly TContext _context = context;
     private readonly DbSet<AuditTrail> _auditTrails = context.Set<AuditTrail>();
+    private readonly CurrentUser _currentUser = currentUser;
 
     public async Task<bool> CommitAsync()
     {
@@ -74,8 +75,8 @@ public abstract class UnitOfWork<TContext>(TContext context)
                 oldValues,
                 newValues,
                 propertyNames,
-                Guid.Empty,
-                System.Net.IPAddress.None));
+                _currentUser.Id,
+                _currentUser.Address));
         }
 
         _auditTrails.AddRange(auditTrails);

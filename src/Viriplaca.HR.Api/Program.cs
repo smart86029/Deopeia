@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Serilog;
 using Viriplaca.Common;
 using Viriplaca.Common.Api;
@@ -13,10 +14,12 @@ try
     services.AddControllers();
     services.AddApi();
     services.AddData<HRContext, HRSeeder>(configuration.GetSection("MinIO").Get<MinIOOptions>()!);
+    services.AddAuthentication(configuration.GetSection("Jwt").Get<JwtOptions>()!);
 
     var app = builder.Build();
     app.UseExceptionHandler();
     app.UseRequestLocalization("en-US", "zh-TW");
+    app.UseAuthentication();
     app.UseAuthorization();
 
     app.MapControllers();

@@ -30,6 +30,7 @@ internal abstract class GrantCommandHandler<TCommand>(
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, grant.SubjectId.ToString()!, ClaimValueTypes.String),
+            new(JwtRegisteredClaimNames.Aud, "https://localhost:7002"),
             new(JwtRegisteredClaimNames.Iat, issuedAt.ToString(), ClaimValueTypes.Integer),
             new("scope", string.Join(' ', grant.Scopes)),
         };

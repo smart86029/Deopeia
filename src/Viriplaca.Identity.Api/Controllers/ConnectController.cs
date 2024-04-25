@@ -3,6 +3,7 @@ using Viriplaca.Identity.App.Connect;
 
 namespace Viriplaca.Identity.Api.Controllers;
 
+[AllowAnonymous]
 [Route("[controller]")]
 [EnableCors(CorsPolicies.Oidc)]
 public class ConnectController : ApiController<ConnectController>

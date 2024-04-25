@@ -1,4 +1,5 @@
-﻿using MediatR;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace Viriplaca.Common.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 public abstract class ApiController<TController> : ControllerBase
 {

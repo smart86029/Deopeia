@@ -7,5 +7,6 @@ global using System.Globalization;
 global using Viriplaca.Common.App.Option;
 global using Viriplaca.Common.App.Page;
 global using Viriplaca.Common.Data;
+global using Viriplaca.Common.Domain;
 global using Viriplaca.Common.Extensions;
 global using Viriplaca.HR.Domain;
