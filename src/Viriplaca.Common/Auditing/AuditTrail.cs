@@ -8,11 +8,11 @@ public abstract class AuditTrail : AggregateRoot
     {
     }
 
-    protected AuditTrail(AuditTrailType type, Guid createdBy, IPAddress createdIp)
+    protected AuditTrail(AuditTrailType type, Guid createdBy, IPAddress address)
     {
         Type = type;
         CreatedBy = createdBy;
-        CreatedIp = createdIp;
+        IPAddress = address;
     }
 
     public AuditTrailType Type { get; set; }
@@ -21,5 +21,5 @@ public abstract class AuditTrail : AggregateRoot
 
     public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.UtcNow;
 
-    public IPAddress CreatedIp { get; init; } = IPAddress.None;
+    public IPAddress IPAddress { get; init; } = IPAddress.None;
 }

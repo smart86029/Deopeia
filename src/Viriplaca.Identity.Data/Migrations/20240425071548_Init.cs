@@ -26,7 +26,7 @@ namespace Viriplaca.Identity.Data.Migrations
                     Type = table.Column<int>(type: "int", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedIp = table.Column<string>(type: "nvarchar(45)", nullable: false),
+                    IPAddress = table.Column<string>(type: "nvarchar(45)", nullable: false),
                     EntityType = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Keys = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OldValues = table.Column<string>(type: "nvarchar(max)", nullable: true),

@@ -35,7 +35,7 @@ namespace Viriplaca.HR.Data.Migrations
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CreatedIp")
+                    b.Property<string>("IPAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(45)");
 

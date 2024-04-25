@@ -12,7 +12,7 @@ using Viriplaca.HR.Data;
 namespace Viriplaca.HR.Data.Migrations
 {
     [DbContext(typeof(HRContext))]
-    [Migration("20240423071311_Init")]
+    [Migration("20240425071706_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -38,7 +38,7 @@ namespace Viriplaca.HR.Data.Migrations
                     b.Property<Guid>("CreatedBy")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CreatedIp")
+                    b.Property<string>("IPAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(45)");
 
