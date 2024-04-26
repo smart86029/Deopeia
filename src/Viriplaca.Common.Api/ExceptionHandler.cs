@@ -35,6 +35,11 @@ internal class ExceptionHandler(
                 message = LocalizeMessage(domainException);
                 break;
 
+            case AccessDeniedException accessDeniedException:
+                statusCode = StatusCodes.Status403Forbidden;
+                message = LocalizeMessage(accessDeniedException);
+                break;
+
             default:
                 _logger.LogError(exception, "Global handle exception.");
                 break;
