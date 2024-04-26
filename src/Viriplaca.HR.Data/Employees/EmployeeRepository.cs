@@ -6,6 +6,7 @@ public class EmployeeRepository(HRContext context)
     : IEmployeeRepository
 {
     private readonly DbSet<Employee> _employees = context.Set<Employee>();
+    private readonly DbSet<JobChange> _jobChanges = context.Set<JobChange>();
 
     public async Task<ICollection<Employee>> GetEmployeesAsync(int offset, int limit)
     {
@@ -35,6 +36,21 @@ public class EmployeeRepository(HRContext context)
             .Include(x => x.JobChanges)
             .SingleOrDefaultAsync(x => x.Id == employeeId)
             ?? throw new Exception(employeeId.ToString());
+
+        return result;
+    }
+
+    public async Task<Employee?> GetSupervisorAsync(Guid employeeId)
+    {
+        var result = await _employees
+            .Join(
+                _jobChanges,
+                employee => employee.DepartmentId,
+                jobChange => jobChange.DepartmentId,
+                (employee, jobChange) => new { Employee = employee, jobChange.IsHead, jobChange.EndedAt })
+            .Where(x => x.IsHead && x.EndedAt == null)
+            .Select(x => x.Employee)
+            .FirstOrDefaultAsync();
 
         return result;
     }

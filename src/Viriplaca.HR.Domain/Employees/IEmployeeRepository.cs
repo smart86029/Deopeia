@@ -8,6 +8,8 @@ public interface IEmployeeRepository : IRepository<Employee>
 
     Task<Employee> GetEmployeeAsync(Guid employeeId);
 
+    Task<Employee?> GetSupervisorAsync(Guid employeeId);
+
     Task<int> GetCountAsync();
 
     Task<int> GetCountByUserAsync(Guid userId);
