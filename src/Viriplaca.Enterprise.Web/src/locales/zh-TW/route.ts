@@ -16,6 +16,7 @@ export default {
       manage: '休假管理',
       list: '休假列表',
       apply: '申請休假',
+      approval: '審核休假',
     },
     job: {
       list: '工作列表',

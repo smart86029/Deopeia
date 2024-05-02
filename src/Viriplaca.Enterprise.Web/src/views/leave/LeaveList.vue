@@ -2,7 +2,7 @@
   <div class="toolbar">
     <el-form :inline="true" :model="query">
       <el-form-item :label="$t('common.time')">
-        <DateTimeRangePicker />
+        <DateTimeRangePicker v-model="range" />
       </el-form-item>
       <el-form-item :label="$t('common.status')">
         <SelectEnum
@@ -33,12 +33,17 @@
     />
     <el-table-column prop="duration" :label="$t('common.duration')">
       <template #default="{ row }">
-        {{ durationFormatter(row.startedAt, row.endedAt) }}
+        {{ formatDuration(row.startedAt, row.endedAt) }}
       </template>
     </el-table-column>
     <el-table-column prop="approvalStatus" :label="$t('common.status')">
       <template #default="{ row }">
-        {{ $t(`status.approval.${row.approvalStatus}`) }}
+        <TextEnum
+          :value="row.approvalStatus"
+          localeKey="status.approval"
+          :success="ApprovalStatus.Approved"
+          :danger="ApprovalStatus.Rejected"
+        />
       </template>
     </el-table-column>
     <el-table-column :label="$t('common.operations')">
@@ -52,6 +57,11 @@
             <el-link type="danger" :text="$t('operation.cancel')" />
           </template>
         </el-popconfirm>
+        <TextLink
+          v-if="row.approvalStatus === ApprovalStatus.Pending"
+          :to="{ name: 'leave.approval', params: { id: row.id } }"
+          :text="$t('operation.approval')"
+        />
       </template>
     </el-table-column>
   </el-table>
@@ -63,24 +73,20 @@
 </template>
 
 <script setup lang="ts">
-import leaveApi, { type GetLeavesQuery, type Leave } from '@/api/leave-api';
+import leaveApi, { type GetLeavesQuery, type LeaveRow } from '@/api/leave-api';
 import { ApprovalStatus } from '@/models/approval-status';
 import type { Guid } from '@/models/guid';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
-import {
-  dateTimeFormatter,
-  defaultRange,
-  durationFormatter,
-} from '@/plugins/dayjs';
+import { dateTimeFormatter, formatDuration, rangeWeek } from '@/plugins/dayjs';
 
 const loading = ref(false);
 const types = new Map<number, string>();
-const range = ref(defaultRange());
+const range = ref(rangeWeek());
 const query: GetLeavesQuery = reactive({
   approvalStatus: undefined,
   ...defaultQuery,
 });
-const result: PageResult<Leave> = reactive(defaultResult());
+const result: PageResult<LeaveRow> = reactive(defaultResult());
 
 leaveApi
   .getTypes()

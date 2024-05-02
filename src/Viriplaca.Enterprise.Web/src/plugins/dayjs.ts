@@ -21,33 +21,40 @@ dayjs.updateLocale('en', {
   },
 });
 
-export const defaultRange = (): dayjs.Dayjs[] => {
+export const rangeDay = (): Date[] => {
   const now = dayjs();
-  const today = dayjs(now.format('YYYY-MM-DD'));
-  return [today, today.add(1, 'day')];
+  const today = dayjs(now.format('L'));
+  return [today.toDate(), today.add(1, 'day').toDate()];
 };
 
-export const dateFormatter = (
-  row: any,
-  column: any,
-  cellValue: any,
-): string => {
-  const date = dayjs(cellValue);
-  return date.isValid() ? date.format('L') : cellValue.toString();
+export const rangeWeek = (): Date[] => {
+  const now = dayjs();
+  const today = dayjs(now.format('L'));
+  return [today.subtract(6, 'day').toDate(), today.add(1, 'day').toDate()];
+};
+
+export const dateFormatter = (row: any, column: any, cellValue: any): string =>
+  formatDate(cellValue);
+
+export const formatDate = (value: any): string => {
+  const date = dayjs(value);
+  return date.isValid() ? date.format('L') : value.toString();
 };
 
 export const dateTimeFormatter = (
   row: any,
   column: any,
   cellValue: any,
-): string => {
-  const date = dayjs(cellValue);
-  return date.isValid() ? date.format('LLLL') : cellValue.toString();
+): string => formatDateTime(cellValue);
+
+export const formatDateTime = (value: any): string => {
+  const date = dayjs(value);
+  return date.isValid() ? date.format('LLLL') : value.toString();
 };
 
-export const durationFormatter = (
-  startedAt: dayjs.Dayjs | string,
-  endedAt: dayjs.Dayjs | string,
+export const formatDuration = (
+  startedAt: dayjs.Dayjs | string | Date,
+  endedAt: dayjs.Dayjs | string | Date,
 ): string => {
   const diff = dayjs(endedAt).diff(dayjs(startedAt));
   return dayjs.duration(diff).humanize();

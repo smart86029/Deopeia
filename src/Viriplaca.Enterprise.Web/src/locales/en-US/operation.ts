@@ -1,6 +1,7 @@
 export default {
   operation: {
     apply: 'Apply',
+    approval: 'Approval',
     create: 'Create',
     edit: 'Edit',
     delete: 'Delete',

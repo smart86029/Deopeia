@@ -2,22 +2,40 @@ import type { ApprovalStatus } from '@/models/approval-status';
 import type { Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import type { PageQuery, PageResult } from '@/models/page';
-import type { dayjs } from 'element-plus';
 import httpClient from './http-client';
 
 export interface GetLeavesQuery extends PageQuery {
-  startedAt?: dayjs.Dayjs;
-  endedAt?: dayjs.Dayjs;
+  startedAt?: Date;
+  endedAt?: Date;
   approvalStatus?: ApprovalStatus;
+}
+
+export interface LeaveRow {
+  type: number;
+  employee: Employee;
 }
 
 export interface Leave {
   type: number;
+  startedAt: Date;
+  endedAt: Date;
+  reason: string;
+  employee: Employee;
+}
+
+export interface Employee {
+  id: Guid;
+  firstName: string;
+  lastName?: string;
 }
 
 export default {
   getTypes: () => httpClient.get<OptionResult<number>[]>('/Leaves/Types'),
   getList: (query: GetLeavesQuery) =>
-    httpClient.get<PageResult<Leave>>('/Leaves', { params: query }),
+    httpClient.get<PageResult<LeaveRow>>('/Leaves', { params: query }),
+  get: (id: Guid) => httpClient.get<Leave>(`/Leaves/${id}`),
+  apply: (leave: Leave) => httpClient.post('/Leaves', leave),
+  updateApprovalStatus: (id: Guid, approvalStatus: ApprovalStatus) =>
+    httpClient.put(`/Leaves/${id}/ApprovalStatus`, { approvalStatus }),
   cancel: (id: Guid) => httpClient.delete(`/Leaves/Types/${id}`),
 };

@@ -1,5 +1,5 @@
 export default {
   leave: {
-    type: 'Leave Type',
+    type: '休假類型',
   },
 };

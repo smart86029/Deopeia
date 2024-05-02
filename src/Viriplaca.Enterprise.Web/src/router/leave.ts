@@ -1,3 +1,5 @@
+import { edit } from './props';
+
 export default [
   {
     path: 'leave-management',
@@ -17,6 +19,12 @@ export default [
             path: 'apply',
             name: 'leave.apply',
             component: () => import('../views/leave/LeaveForm.vue'),
+          },
+          {
+            path: ':id/approval',
+            name: 'leave.approval',
+            component: () => import('../views/leave/LeaveApproval.vue'),
+            props: edit,
           },
         ],
       },

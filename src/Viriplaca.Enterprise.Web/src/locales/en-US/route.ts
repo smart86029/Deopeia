@@ -16,6 +16,7 @@ export default {
       manage: 'Leave Management',
       list: 'Leave List',
       apply: 'Apply Leave',
+      approval : 'Approval Leave'
     },
     job: {
       list: 'Job List',

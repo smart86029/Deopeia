@@ -1,6 +1,7 @@
 export default {
   organization: {
     head: 'Head',
+    employee: 'Employee',
     employeeCount: 'Employee Count',
     firstName: 'First Name',
     lastName: 'Last Name',
