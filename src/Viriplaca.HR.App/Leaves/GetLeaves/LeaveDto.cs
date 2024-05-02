@@ -13,4 +13,6 @@ public class LeaveDto
     public DateTimeOffset EndedAt { get; set; }
 
     public ApprovalStatus ApprovalStatus { get; set; }
+
+    public EmployeeDto Employee { get; set; } = new();
 }
