@@ -1,4 +1,6 @@
+using Viriplaca.HR.App.Leaves.ApplyLeave;
 using Viriplaca.HR.App.Leaves.CancelLeave;
+using Viriplaca.HR.App.Leaves.GetLeave;
 using Viriplaca.HR.App.Leaves.GetLeaves;
 using Viriplaca.HR.App.Leaves.GetLeaveTypes;
 using Viriplaca.HR.App.Leaves.UpdateApprovalStatus;
@@ -19,6 +21,22 @@ public class LeavesController : ApiController<LeavesController>
     public async Task<IActionResult> GetLeaves([FromQuery] GetLeavesQuery query)
     {
         var result = await Sender.Send(query);
+
+        return Ok(result);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetLeave(Guid id)
+    {
+        var result = await Sender.Send(new GetLeaveQuery(id));
+
+        return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ApplyLeave([FromBody] ApplyLeaveCommand command)
+    {
+        var result = await Sender.Send(command);
 
         return Ok(result);
     }
