@@ -39,11 +39,15 @@ instance.interceptors.response.use(
     return response;
   },
   ({ response }) => {
+    const authStore = useAuthStore();
     switch (response.status) {
       case 400:
       case 500:
         ElMessageBox.close();
         ElMessageBox.alert(response.data.title || t('common.message.error'));
+        return Promise.reject();
+      case 401:
+        authStore.signIn();
         return Promise.reject();
     }
     return Promise.reject();
