@@ -15,6 +15,10 @@ public static class ModelConfigurationBuilderExtensions
             .HaveColumnType("datetime2");
 
         builder
+            .Properties<decimal>()
+            .HaveColumnType("decimal(18,2)");
+
+        builder
             .Properties<Type>()
             .HaveConversion<TypeConverter>()
             .HaveMaxLength(256);
