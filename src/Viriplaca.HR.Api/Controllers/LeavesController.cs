@@ -26,7 +26,7 @@ public class LeavesController : ApiController<LeavesController>
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetLeave(Guid id)
+    public async Task<IActionResult> GetLeave([FromRoute] Guid id)
     {
         var result = await Sender.Send(new GetLeaveQuery(id));
 
@@ -42,7 +42,7 @@ public class LeavesController : ApiController<LeavesController>
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> CancelLeave(Guid id)
+    public async Task<IActionResult> CancelLeave([FromRoute] Guid id)
     {
         await Sender.Send(new CancelLeaveCommand(id));
 
@@ -50,7 +50,7 @@ public class LeavesController : ApiController<LeavesController>
     }
 
     [HttpPut("{id}/ApprovalStatus")]
-    public async Task<IActionResult> UpdateApprovalStatus(Guid id, [FromBody] UpdateApprovalStatusCommand command)
+    public async Task<IActionResult> UpdateApprovalStatus([FromRoute] Guid id, [FromBody] UpdateApprovalStatusCommand command)
     {
         command = command with { Id = id };
         await Sender.Send(command);
