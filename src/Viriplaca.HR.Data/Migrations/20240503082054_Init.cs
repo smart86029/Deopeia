@@ -104,6 +104,24 @@ namespace Viriplaca.HR.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LeaveEntitlement",
+                schema: "HR",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StartedOn = table.Column<DateOnly>(type: "date", nullable: false),
+                    EndedOn = table.Column<DateOnly>(type: "date", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
+                    AvailableHours = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    UsedHours = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LeaveEntitlement", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LocaleResource",
                 schema: "Common",
                 columns: table => new
@@ -202,6 +220,13 @@ namespace Viriplaca.HR.Data.Migrations
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LeaveEntitlement_EmployeeId_StartedOn_EndedOn_Type",
+                schema: "HR",
+                table: "LeaveEntitlement",
+                columns: new[] { "EmployeeId", "StartedOn", "EndedOn", "Type" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Person_DepartmentId",
                 schema: "HR",
                 table: "Person",
@@ -245,6 +270,10 @@ namespace Viriplaca.HR.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Leave",
+                schema: "HR");
+
+            migrationBuilder.DropTable(
+                name: "LeaveEntitlement",
                 schema: "HR");
 
             migrationBuilder.DropTable(

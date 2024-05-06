@@ -3,6 +3,7 @@ using Viriplaca.Common.Localization;
 using Viriplaca.HR.Domain.Departments;
 using Viriplaca.HR.Domain.Employees;
 using Viriplaca.HR.Domain.Jobs;
+using Viriplaca.HR.Domain.LeaveEntitlements;
 using Viriplaca.HR.Domain.Leaves;
 using Viriplaca.HR.Domain.People;
 
@@ -21,6 +22,7 @@ public class HRSeeder : IDbSeeder<HRContext>
         var departments = GetDepartments();
         var jobs = GetJobs();
         var leaves = GetLeaves(employees);
+        var leaveEntitlements = GetLeaveEntitlements(employees);
 
         AssignJob(employees, departments, jobs);
 
@@ -28,6 +30,7 @@ public class HRSeeder : IDbSeeder<HRContext>
         context.Set<Department>().AddRange(departments);
         context.Set<Job>().AddRange(jobs);
         context.Set<Leave>().AddRange(leaves);
+        context.Set<LeaveEntitlement>().AddRange(leaveEntitlements);
 
         var localeResources = GetLocaleResources();
         context.Set<LocaleResource>().AddRange(localeResources);
@@ -100,6 +103,18 @@ public class HRSeeder : IDbSeeder<HRContext>
                 return leave;
             })
             .GenerateBetween(10, 50);
+
+        return results;
+    }
+
+    private List<LeaveEntitlement> GetLeaveEntitlements(List<Employee> employees)
+    {
+        var year = DateTime.UtcNow.Year;
+        var startedOn = new DateOnly(year, 1, 1);
+        var endedOn = new DateOnly(year, 12, 31);
+        var results = employees
+            .Select(x => new LeaveEntitlement(x.Id, startedOn, endedOn, LeaveType.Annual, 14 * 8))
+            .ToList();
 
         return results;
     }

@@ -12,7 +12,7 @@ using Viriplaca.HR.Data;
 namespace Viriplaca.HR.Data.Migrations
 {
     [DbContext(typeof(HRContext))]
-    [Migration("20240425071706_Init")]
+    [Migration("20240503082054_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -189,6 +189,38 @@ namespace Viriplaca.HR.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Job", "HR");
+                });
+
+            modelBuilder.Entity("Viriplaca.HR.Domain.LeaveEntitlements.LeaveEntitlement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("AvailableHours")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("EndedOn")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("StartedOn")
+                        .HasColumnType("date");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UsedHours")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId", "StartedOn", "EndedOn", "Type")
+                        .IsUnique();
+
+                    b.ToTable("LeaveEntitlement", "HR");
                 });
 
             modelBuilder.Entity("Viriplaca.HR.Domain.Leaves.Leave", b =>
