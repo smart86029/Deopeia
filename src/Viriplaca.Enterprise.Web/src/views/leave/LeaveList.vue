@@ -16,6 +16,11 @@
     <ButtonCreate route="leave.apply" :text="$t('operation.apply')" />
   </div>
   <el-table v-loading="loading" :data="result.items">
+    <el-table-column :label="$t('organization.employee')">
+      <template #default="{ row }">
+        {{ row.employee.firstName }} {{ row.employee.lastName }}
+      </template>
+    </el-table-column>
     <el-table-column prop="type" :label="$t('common.type')">
       <template #default="{ row }">
         {{ types.get(row.type) }}

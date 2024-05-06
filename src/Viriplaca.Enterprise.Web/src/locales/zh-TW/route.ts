@@ -14,6 +14,7 @@ export default {
     },
     leave: {
       manage: '休假管理',
+      entitlement: '休假權利',
       list: '休假列表',
       apply: '申請休假',
       approval: '審核休假',

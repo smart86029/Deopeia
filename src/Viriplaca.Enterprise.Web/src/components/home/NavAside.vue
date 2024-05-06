@@ -39,7 +39,13 @@ const menus = [
   },
   {
     name: 'leave.manage',
-    children: [{ name: 'leave.list', path: '/leave-management/leaves' }],
+    children: [
+      {
+        name: 'leave.entitlement',
+        path: '/leave-management/leave-entitlement',
+      },
+      { name: 'leave.list', path: '/leave-management/leaves' },
+    ],
   },
 ] as Menu[];
 </script>

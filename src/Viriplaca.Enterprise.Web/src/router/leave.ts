@@ -7,6 +7,11 @@ export default [
     redirect: { name: 'leave.default' },
     children: [
       {
+        path: 'leave-entitlement',
+        name: 'leave.entitlement',
+        component: () => import('../views/leave/LeaveEntitlementList.vue'),
+      },
+      {
         path: 'leaves',
         name: 'leave.list',
         children: [
