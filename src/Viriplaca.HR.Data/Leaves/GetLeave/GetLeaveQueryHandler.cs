@@ -14,7 +14,7 @@ public class GetLeaveQueryHandler(SqlConnection connection)
         var sql = @"
 SELECT
     A.Id,
-    A.Type,
+    A.LeaveTypeId,
     A.StartedAt,
     A.EndedAt,
     A.Reason,

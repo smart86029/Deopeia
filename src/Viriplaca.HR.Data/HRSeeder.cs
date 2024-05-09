@@ -5,6 +5,7 @@ using Viriplaca.HR.Domain.Employees;
 using Viriplaca.HR.Domain.Jobs;
 using Viriplaca.HR.Domain.LeaveEntitlements;
 using Viriplaca.HR.Domain.Leaves;
+using Viriplaca.HR.Domain.LeaveTypes;
 using Viriplaca.HR.Domain.People;
 
 namespace Viriplaca.HR.Data;
@@ -21,14 +22,16 @@ public class HRSeeder : IDbSeeder<HRContext>
         var employees = GetEmployees();
         var departments = GetDepartments();
         var jobs = GetJobs();
-        var leaves = GetLeaves(employees);
-        var leaveEntitlements = GetLeaveEntitlements(employees);
+        var leaveTypes = GetLeaveTypes();
+        var leaves = GetLeaves(employees, leaveTypes);
+        var leaveEntitlements = GetLeaveEntitlements(employees, leaveTypes);
 
         AssignJob(employees, departments, jobs);
 
         context.Set<Employee>().AddRange(employees);
         context.Set<Department>().AddRange(departments);
         context.Set<Job>().AddRange(jobs);
+        context.Set<LeaveType>().AddRange(leaveTypes);
         context.Set<Leave>().AddRange(leaves);
         context.Set<LeaveEntitlement>().AddRange(leaveEntitlements);
 
@@ -87,14 +90,48 @@ public class HRSeeder : IDbSeeder<HRContext>
         return results;
     }
 
-    private List<Leave> GetLeaves(List<Employee> employees)
+    private List<LeaveType> GetLeaveTypes()
+    {
+        var results = new List<LeaveType>
+        {
+            new("Personal", null),
+            new("Annual", "3 days for service of 6 months or more but less than 1 year\n7 days for service of 1 year or more but less than 2 years\n10 days for service of 2 years or more but less than 3 years\n14 days for service of 3 years or more but less than 5 years\n15 days for service of 5 years or more but less than 10 years\n1 additional day for each year of service over 10 years up to a maximum of 30 days", true),
+            new("Sick", null),
+            new("Official", null),
+            new("Menstrual", null),
+            new("Marriage", null),
+            new("Maternity", null),
+            new("Paternity", null),
+            new("Parental", null),
+            new("Funeral", null),
+            new("Compensatory", null),
+        };
+
+        var zhTW = CultureInfo.GetCultureInfo("zh-TW");
+        results[0].UpdateName("事假", zhTW);
+        results[1].UpdateName("年假", zhTW);
+        results[2].UpdateName("病假", zhTW);
+        results[3].UpdateName("公假", zhTW);
+        results[4].UpdateName("生理假", zhTW);
+        results[5].UpdateName("婚假", zhTW);
+        results[6].UpdateName("產嫁", zhTW);
+        results[7].UpdateName("陪產假", zhTW);
+        results[8].UpdateName("育嬰假", zhTW);
+        results[9].UpdateName("喪假", zhTW);
+        results[10].UpdateName("補休", zhTW);
+
+        return results;
+    }
+
+
+    private List<Leave> GetLeaves(List<Employee> employees, List<LeaveType> leaveTypes)
     {
         var results = new Faker<Leave>()
             .CustomInstantiator(x =>
             {
                 var startedAt = x.Date.RecentOffset();
                 var leave = new Leave(
-                    x.PickRandom<LeaveType>(),
+                    x.PickRandom(leaveTypes).Id,
                     startedAt,
                     startedAt.AddDays(x.Random.Int(0, 3)),
                     string.Empty,
@@ -107,13 +144,13 @@ public class HRSeeder : IDbSeeder<HRContext>
         return results;
     }
 
-    private List<LeaveEntitlement> GetLeaveEntitlements(List<Employee> employees)
+    private List<LeaveEntitlement> GetLeaveEntitlements(List<Employee> employees, List<LeaveType> leaveTypes)
     {
         var year = DateTime.UtcNow.Year;
         var startedOn = new DateOnly(year, 1, 1);
         var endedOn = new DateOnly(year, 12, 31);
         var results = employees
-            .Select(x => new LeaveEntitlement(x.Id, startedOn, endedOn, LeaveType.Annual, 14 * 8))
+            .Select(x => new LeaveEntitlement(x.Id, leaveTypes[2].Id, startedOn, endedOn, WorkingTime.FromDays(14)))
             .ToList();
 
         return results;
@@ -155,18 +192,6 @@ public class HRSeeder : IDbSeeder<HRContext>
             FromEnum(enUS, Sex.Male, "Male"),
             FromEnum(enUS, Sex.Female, "Female"),
             FromEnum(enUS, Sex.NotApplicable, "Not Applicable"),
-            FromEnum(enUS, LeaveType.Other, "Other"),
-            FromEnum(enUS, LeaveType.Personal, "Personal"),
-            FromEnum(enUS, LeaveType.Annual, "Annual"),
-            FromEnum(enUS, LeaveType.Sick, "Sick"),
-            FromEnum(enUS, LeaveType.Official, "Official"),
-            FromEnum(enUS, LeaveType.Menstrual, "Menstrual"),
-            FromEnum(enUS, LeaveType.Marriage, "Marriage"),
-            FromEnum(enUS, LeaveType.Maternity, "Maternity"),
-            FromEnum(enUS, LeaveType.Paternity, "Paternity"),
-            FromEnum(enUS, LeaveType.Parental, "Parental"),
-            FromEnum(enUS, LeaveType.Funeral, "Funeral"),
-            FromEnum(enUS, LeaveType.Compensatory, "Compensatory"),
             FromError(enUS, "AccessDenied", "Access denied."),
             FromError(enUS, "String.NotEmpty", "{Property} must not be empty."),
             FromError(enUS, "Date.OnOrBeforeNow", "{Property} must be on or before now."),
@@ -183,18 +208,6 @@ public class HRSeeder : IDbSeeder<HRContext>
             FromEnum(zhTW, Sex.Male, "男性"),
             FromEnum(zhTW, Sex.Female, "女性"),
             FromEnum(zhTW, Sex.NotApplicable, "不適用"),
-            FromEnum(zhTW, LeaveType.Other, "其他"),
-            FromEnum(zhTW, LeaveType.Personal, "事假"),
-            FromEnum(zhTW, LeaveType.Annual, "年假"),
-            FromEnum(zhTW, LeaveType.Sick, "病假"),
-            FromEnum(zhTW, LeaveType.Official, "公假"),
-            FromEnum(zhTW, LeaveType.Menstrual, "生理假"),
-            FromEnum(zhTW, LeaveType.Marriage, "婚假"),
-            FromEnum(zhTW, LeaveType.Maternity, "產嫁"),
-            FromEnum(zhTW, LeaveType.Paternity, "陪產假"),
-            FromEnum(zhTW, LeaveType.Parental, "育嬰假"),
-            FromEnum(zhTW, LeaveType.Funeral, "喪假"),
-            FromEnum(zhTW, LeaveType.Compensatory, "補休"),
             FromError(zhTW, "AccessDenied", "存取被拒。"),
             FromError(zhTW, "String.NotEmpty", "{Property}不可為空。"),
             FromError(zhTW, "Date.OnOrBeforeNow", "{Property}必須等於或早於現在。"),

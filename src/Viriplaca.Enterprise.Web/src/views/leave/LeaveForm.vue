@@ -1,7 +1,7 @@
 <template>
   <el-form label-width="200px" :model="form" @submit.prevent="onSubmit">
     <el-form-item :label="$t('common.type')">
-      <SelectOption :options="types" v-model="form.type" />
+      <SelectOption :options="types" v-model="form.leaveTypeId" />
     </el-form-item>
     <el-form-item :label="$t('common.time')">
       <DateTimeRangePicker v-model="form.range" />
@@ -23,13 +23,14 @@
 <script setup lang="ts">
 import type { Leave } from '@/api/leave-api';
 import leaveApi from '@/api/leave-api';
+import { Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import { success } from '@/plugins/element';
 
 const loading = ref(true);
-const types = ref([] as OptionResult<number>[]);
+const types = ref([] as OptionResult<Guid>[]);
 const form = reactive({
-  type: 0,
+  leaveTypeId: Guid.empty,
   range: undefined as Date[] | undefined,
   reason: '',
 });
@@ -43,7 +44,7 @@ const onSubmit = () => {
   loading.value = true;
   leaveApi
     .apply({
-      type: form.type,
+      leaveTypeId: form.leaveTypeId,
       startedAt: form.range[0],
       endedAt: form.range[1],
       reason: form.reason,

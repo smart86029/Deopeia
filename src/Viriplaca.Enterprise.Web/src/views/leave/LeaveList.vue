@@ -21,9 +21,9 @@
         {{ row.employee.firstName }} {{ row.employee.lastName }}
       </template>
     </el-table-column>
-    <el-table-column prop="type" :label="$t('common.type')">
+    <el-table-column prop="leaveTypeId" :label="$t('common.type')">
       <template #default="{ row }">
-        {{ types.get(row.type) }}
+        {{ types.get(row.leaveTypeId) }}
       </template>
     </el-table-column>
     <el-table-column
@@ -85,7 +85,7 @@ import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
 import { dateTimeFormatter, formatDuration, rangeWeek } from '@/plugins/dayjs';
 
 const loading = ref(false);
-const types = new Map<number, string>();
+const types = new Map<Guid, string>();
 const range = ref(rangeWeek());
 const query: GetLeavesQuery = reactive({
   approvalStatus: undefined,

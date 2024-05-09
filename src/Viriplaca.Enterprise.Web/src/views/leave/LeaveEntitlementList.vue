@@ -2,7 +2,9 @@
   <div v-for="entitlement of entitlements" :key="entitlement.id.value">
     {{ $t('leave.period') }} {{ entitlement.startedOn }} ~
     {{ entitlement.endedOn }}
-
+    {{ entitlement.leaveType.name }}
+    {{ entitlement.leaveType.description }}
+    {{ entitlement.grantedTime.amount }}
     <br />
   </div>
 </template>

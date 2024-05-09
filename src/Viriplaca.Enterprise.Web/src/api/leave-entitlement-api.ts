@@ -3,12 +3,24 @@ import httpClient from './http-client';
 
 export interface LeaveEntitlement {
   id: Guid;
-  type: number;
   startedOn: Date;
   endedOn: Date;
   reason: string;
-  availableHours: number;
-  usedHours: number;
+  grantedTime: WorkingTime;
+  usedTime: WorkingTime;
+  leaveType: LeaveType;
+}
+
+export interface WorkingTime {
+  amount: number;
+  days: number;
+  hours: number;
+}
+
+export interface LeaveType {
+  id: Guid;
+  name: string;
+  description: string;
 }
 
 export default {

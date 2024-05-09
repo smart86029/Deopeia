@@ -11,12 +11,12 @@ export interface GetLeavesQuery extends PageQuery {
 }
 
 export interface LeaveRow {
-  type: number;
+  leaveTypeId: Guid;
   employee: Employee;
 }
 
 export interface Leave {
-  type: number;
+  leaveTypeId: Guid;
   startedAt: Date;
   endedAt: Date;
   reason: string;
@@ -30,7 +30,7 @@ export interface Employee {
 }
 
 export default {
-  getTypes: () => httpClient.get<OptionResult<number>[]>('/Leaves/Types'),
+  getTypes: () => httpClient.get<OptionResult<Guid>[]>('/LeaveTypes/Options'),
   getList: (query: GetLeavesQuery) =>
     httpClient.get<PageResult<LeaveRow>>('/Leaves', { params: query }),
   get: (id: Guid) => httpClient.get<Leave>(`/Leaves/${id}`),

@@ -1,5 +1,3 @@
-using Viriplaca.HR.Domain.Leaves;
-
 namespace Viriplaca.HR.App.LeaveEntitlements.GetLeaveEntitlements;
 
 public class LeaveEntitlementDto
@@ -10,9 +8,9 @@ public class LeaveEntitlementDto
 
     public DateOnly EndedOn { get; set; }
 
-    public LeaveType Type { get; set; }
+    public WorkingTime GrantedTime { get; set; } = new();
 
-    public decimal AvailableHours { get; set; }
+    public WorkingTime UsedTime { get; set; } = new();
 
-    public decimal UsedHours { get; set; }
+    public LeaveTypeDto LeaveType { get; set; } = new();
 }

@@ -35,7 +35,7 @@ public class GetLeavesQueryHandler(SqlConnection connection)
         var sql = builder.AddTemplate(@"
 SELECT
     A.Id,
-    A.Type,
+    A.LeaveTypeId,
     A.StartedAt,
     A.EndedAt,
     A.ApprovalStatus,

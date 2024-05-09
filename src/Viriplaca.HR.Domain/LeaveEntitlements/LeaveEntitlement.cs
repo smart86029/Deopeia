@@ -1,5 +1,3 @@
-using Viriplaca.HR.Domain.Leaves;
-
 namespace Viriplaca.HR.Domain.LeaveEntitlements;
 
 public class LeaveEntitlement : AggregateRoot
@@ -10,27 +8,27 @@ public class LeaveEntitlement : AggregateRoot
 
     public LeaveEntitlement(
         Guid employeeId,
+        Guid leaveTypeId,
         DateOnly startedOn,
         DateOnly endedOn,
-        LeaveType type,
-        decimal grantedDays)
+        WorkingTime grantedTime)
     {
         EmployeeId = employeeId;
+        LeaveTypeId = leaveTypeId;
         StartedOn = startedOn;
         EndedOn = endedOn;
-        Type = type;
-        GrantedDays = grantedDays;
+        GrantedTime = grantedTime;
     }
 
     public Guid EmployeeId { get; private init; }
+
+    public Guid LeaveTypeId { get; private init; }
 
     public DateOnly StartedOn { get; private init; }
 
     public DateOnly EndedOn { get; private init; }
 
-    public LeaveType Type { get; private init; }
+    public WorkingTime GrantedTime { get; private set; } = new();
 
-    public decimal GrantedDays { get; private set; }
-
-    public decimal UsedHours { get; private set; }
+    public WorkingTime UsedTime { get; private set; } = new();
 }

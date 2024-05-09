@@ -194,30 +194,67 @@ namespace Viriplaca.HR.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("AvailableHours")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<Guid>("EmployeeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateOnly>("EndedOn")
                         .HasColumnType("date");
 
+                    b.Property<decimal>("GrantedTime")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("LeaveTypeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateOnly>("StartedOn")
                         .HasColumnType("date");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("UsedHours")
+                    b.Property<decimal>("UsedTime")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId", "StartedOn", "EndedOn", "Type")
+                    b.HasIndex("EmployeeId", "LeaveTypeId", "StartedOn", "EndedOn")
                         .IsUnique();
 
                     b.ToTable("LeaveEntitlement", "HR");
+                });
+
+            modelBuilder.Entity("Viriplaca.HR.Domain.LeaveTypes.LeaveType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("CanCarryForward")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LeaveType", "HR");
+                });
+
+            modelBuilder.Entity("Viriplaca.HR.Domain.LeaveTypes.LeaveTypeLocale", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("LeaveTypeId");
+
+                    b.Property<string>("Culture")
+                        .HasMaxLength(16)
+                        .HasColumnType("nvarchar(16)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("nvarchar(32)");
+
+                    b.HasKey("EntityId", "Culture");
+
+                    b.ToTable("LeaveTypeLocale", "HR");
                 });
 
             modelBuilder.Entity("Viriplaca.HR.Domain.Leaves.Leave", b =>
@@ -238,15 +275,15 @@ namespace Viriplaca.HR.Data.Migrations
                     b.Property<DateTime>("EndedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("LeaveTypeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Reason")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -358,6 +395,20 @@ namespace Viriplaca.HR.Data.Migrations
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Viriplaca.HR.Domain.LeaveTypes.LeaveTypeLocale", b =>
+                {
+                    b.HasOne("Viriplaca.HR.Domain.LeaveTypes.LeaveType", null)
+                        .WithMany("Locales")
+                        .HasForeignKey("EntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Viriplaca.HR.Domain.LeaveTypes.LeaveType", b =>
+                {
+                    b.Navigation("Locales");
                 });
 
             modelBuilder.Entity("Viriplaca.HR.Domain.Employees.Employee", b =>

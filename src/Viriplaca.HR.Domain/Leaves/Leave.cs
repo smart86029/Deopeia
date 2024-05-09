@@ -6,18 +6,16 @@ public class Leave : AggregateRoot
     {
     }
 
-    public Leave(LeaveType type, DateTimeOffset startedAt, DateTimeOffset endedAt, string reason, Guid employeeId)
+    public Leave(Guid leaveTypeId, DateTimeOffset startedAt, DateTimeOffset endedAt, string reason, Guid employeeId)
     {
-        type.MustBeDefined();
-
-        Type = type;
+        LeaveTypeId = leaveTypeId;
         StartedAt = startedAt;
         EndedAt = endedAt;
         Reason = reason;
         EmployeeId = employeeId;
     }
 
-    public LeaveType Type { get; private set; }
+    public Guid LeaveTypeId { get; private set; }
 
     public DateTimeOffset StartedAt { get; private set; }
 

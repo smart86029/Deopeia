@@ -14,7 +14,7 @@ public class ApplyLeaveCommandHandler(
     public async Task<Guid> Handle(ApplyLeaveCommand request, CancellationToken cancellationToken)
     {
         var leave = new Leave(
-            request.Type,
+            request.LeaveTypeId,
             request.StartedAt,
             request.EndedAt,
             request.Reason,
