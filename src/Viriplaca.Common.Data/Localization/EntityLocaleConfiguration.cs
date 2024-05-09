@@ -14,7 +14,6 @@ public abstract class EntityLocaleConfiguration<TEntity, TLocale> : IEntityTypeC
 
         builder
             .Property(x => x.Culture)
-            .HasColumnName("LocaleCode")
             .IsRequired()
             .HasMaxLength(16);
 

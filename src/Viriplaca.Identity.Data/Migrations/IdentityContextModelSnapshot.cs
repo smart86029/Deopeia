@@ -221,8 +221,7 @@ namespace Viriplaca.Identity.Data.Migrations
 
                     b.Property<string>("Culture")
                         .HasMaxLength(16)
-                        .HasColumnType("nvarchar(16)")
-                        .HasColumnName("LocaleCode");
+                        .HasColumnType("nvarchar(16)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(128)

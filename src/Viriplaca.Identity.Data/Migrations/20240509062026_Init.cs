@@ -162,13 +162,13 @@ namespace Viriplaca.Identity.Data.Migrations
                 columns: table => new
                 {
                     PermissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LocaleCode = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
+                    Culture = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PermissionLocale", x => new { x.PermissionId, x.LocaleCode });
+                    table.PrimaryKey("PK_PermissionLocale", x => new { x.PermissionId, x.Culture });
                     table.ForeignKey(
                         name: "FK_PermissionLocale_Permission_PermissionId",
                         column: x => x.PermissionId,

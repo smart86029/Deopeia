@@ -40,6 +40,7 @@ public static class ServiceCollectionExtensions
         services.AddRepositories<TContext>();
         services.AddLocalization<TContext>(options => options.FallbackCulture = CultureInfo.GetCultureInfo("en-US"));
 
+        SqlMapper.AddTypeHandler(new CultureInfoTypeHandler());
         SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
         SqlMapper.AddTypeHandler(new TimeOnlyTypeHandler());
 
