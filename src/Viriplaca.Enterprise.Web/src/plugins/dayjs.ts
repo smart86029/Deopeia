@@ -1,4 +1,6 @@
+import { usePreferencesStore } from '@/stores/preferences';
 import en from 'dayjs/locale/en';
+import zhTW from 'dayjs/locale/zh-tw';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import duration from 'dayjs/plugin/duration';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
@@ -6,6 +8,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import { dayjs } from 'element-plus';
 
+dayjs.locale(zhTW);
 dayjs.locale(en);
 
 dayjs.extend(customParseFormat);
@@ -20,6 +23,8 @@ dayjs.updateLocale('en', {
     LLLL: 'YYYY-MM-DD HH:mm:ss',
   },
 });
+
+const { locale } = storeToRefs(usePreferencesStore());
 
 export const rangeDay = (): Date[] => {
   const now = dayjs();
@@ -52,10 +57,24 @@ export const formatDateTime = (value: any): string => {
   return date.isValid() ? date.format('LLLL') : value.toString();
 };
 
+export const humanizeDuration = (
+  amount: number,
+  unit:
+    | 'milliseconds'
+    | 'seconds'
+    | 'minutes'
+    | 'hours'
+    | 'days'
+    | 'months'
+    | 'years',
+): string => {
+  return dayjs.duration(amount, unit).locale(locale.value.dayjsCode).humanize();
+};
+
 export const formatDuration = (
   startedAt: dayjs.Dayjs | string | Date,
   endedAt: dayjs.Dayjs | string | Date,
 ): string => {
   const diff = dayjs(endedAt).diff(dayjs(startedAt));
-  return dayjs.duration(diff).humanize();
+  return dayjs.duration(diff).locale(locale.value.dayjsCode).humanize();
 };

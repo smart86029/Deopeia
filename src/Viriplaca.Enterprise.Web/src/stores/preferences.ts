@@ -10,11 +10,13 @@ export const usePreferencesStore = defineStore('preferences', () => {
       name: 'English',
       key: 'en-US',
       languageCode: 'en',
+      dayjsCode: 'en',
     },
     {
       name: '繁體中文',
       key: 'zh-TW',
       languageCode: 'zh-Hant',
+      dayjsCode: 'zh-TW',
     },
   ]);
 

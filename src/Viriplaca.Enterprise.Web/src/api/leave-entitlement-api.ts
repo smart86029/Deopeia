@@ -1,4 +1,5 @@
 import type { Guid } from '@/models/guid';
+import type { WorkingTime } from '@/models/leave/working-time';
 import httpClient from './http-client';
 
 export interface LeaveEntitlement {
@@ -9,12 +10,6 @@ export interface LeaveEntitlement {
   grantedTime: WorkingTime;
   usedTime: WorkingTime;
   leaveType: LeaveType;
-}
-
-export interface WorkingTime {
-  amount: number;
-  days: number;
-  hours: number;
 }
 
 export interface LeaveType {
