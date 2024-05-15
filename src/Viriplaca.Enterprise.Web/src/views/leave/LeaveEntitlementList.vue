@@ -9,7 +9,7 @@
     {{ $t('leave.lengthGranted') }}
     {{ formatWorkingTime(entitlement.grantedTime) }}
     <br />
-    {{ entitlement.leaveType.description }}
+    <p class="description">{{ entitlement.leaveType.description }}</p>
   </el-card>
 </template>
 
@@ -28,5 +28,9 @@ leaveEntitlementApi.getList().then((x) => (entitlements.value = x.data));
 <style scoped lang="scss">
 .el-card {
   max-width: 480px;
+}
+
+.description {
+  white-space: pre-wrap;
 }
 </style>

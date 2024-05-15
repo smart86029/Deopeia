@@ -95,20 +95,41 @@ public class HRSeeder : IDbSeeder<HRContext>
     {
         var results = new List<LeaveType>
         {
-            new("Personal", null),
+            new(
+                "Personal",
+                "Where an employee needs to take care of personal matters, personal leave may be granted, provided that the aggregate number of days of personal leave taken must not exceed 14 days per year.\nIn the event that a family member needs to take the vaccination, has a serious disease, or has other major matters that a teacher or employee must personally deal with, he or she can take up to 7 days of family care leave per year, and the number of this leave shall be incorporated into personal leave.\nWhere the aggregate number of days of personal and family care leave taken in a year exceeds 7 days, wages will be deducted on a daily basis."
+            ),
             new(
                 "Annual",
                 "3 days for service of 6 months or more but less than 1 year\n7 days for service of 1 year or more but less than 2 years\n10 days for service of 2 years or more but less than 3 years\n14 days for service of 3 years or more but less than 5 years\n15 days for service of 5 years or more but less than 10 years\n1 additional day for each year of service over 10 years up to a maximum of 30 days",
                 true
             ),
-            new("Sick", null),
-            new("Official", null),
+            new(
+                "Sick",
+                "Where an employee is required to be treated medically or to rest for injury, sickness, or medical reasons, sick leave may be granted pursuant to the provisions below.\n(i) Where the person is not hospitalized, the aggregate number of permitted days of sick leave may not exceed 30 days in a year.\n(ii) Where the person is hospitalized, the aggregate number of permitted days of sick leave may not exceed 1 year within a period of 2 years. \n(iii) The aggregate number of permitted days of sick leave for non-hospitalization and hospitalization may not exceed 1 year within a period of 2 years.\nFemale teachers or employees having difficulties in performing their work during the menstruation period may request 1-day menstrual leave each month. If the cumulative menstrual leaves do not exceed 3 days in a year, said leaves shall not be counted toward days off for sick leave. All additional menstrual leaves shall be counted toward days off for sick leave.\nWhere the aggregate number of days of (prolonged) sick leave taken in a year exceeds 6 months, wages will be deducted on a daily basis."
+            ),
+            new(
+                "Official",
+                "Where an employee must be granted leave for public affairs pursuant to laws, regulations, or official business, he or she is to be granted leave according to the actual number of days required.\nWhere a teacher/employee is injured, disabled, or sick as a result of an occupational accident, he or she is to be granted leave during the period of medical treatment or rest."
+            ),
             new("Menstrual", null),
-            new("Marriage", null),
-            new("Maternity", null),
+            new(
+                "Marriage",
+                "Marriage leave shall be completed within 3 months of the 10th day before the wedding registration. If a special case is approved, the leave shall be completed within 1 year after the wedding registration."
+            ),
+            new(
+                "Maternity",
+                "For pregnancy less than 12 weeks: 14 days\nFor pregnancy over 12 weeks but less than 20 weeks: 21 days\nFor pregnancy over 20 weeks: 42 days"
+            ),
             new("Paternity", null),
-            new("Parental", null),
-            new("Funeral", null),
+            new(
+                "Parental",
+                "Both male and female employees with children under 3 years old can take 6 months to 2 years of child-rearing leave without pay.\nThe duration of unpaid parental leave for raising child(ren) shall not be, in principle, less than six months each time. If an employee needs to take the leave for less than six months, he/she may file the application for the leave persisting for no less than 30 days for a maximum of two times."
+            ),
+            new(
+                "Funeral",
+                "21 Days: Death of spouse\n15 Days: Death of a parent\n10 Days: Death of step-parent, spouse’s parent, children\n5 Days: Death of great-grandparent, grandparent, spouse’s grandparent, spouse’s step-parent, sibling\nFuneral leave shall be completed within 100 days after the death."
+            ),
             new("Compensatory", null),
         };
 
