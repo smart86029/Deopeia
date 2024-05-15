@@ -13,15 +13,19 @@ internal class ExceptionHandler(
     ILogger<ExceptionHandler> logger,
     IStringLocalizer localizer,
     IProblemDetailsService problemDetailsService,
-    IWebHostEnvironment environment)
-    : IExceptionHandler
+    IWebHostEnvironment environment
+) : IExceptionHandler
 {
     private readonly ILogger<ExceptionHandler> _logger = logger;
     private readonly IStringLocalizer _localizer = localizer;
     private readonly IProblemDetailsService _problemDetailsService = problemDetailsService;
     private readonly IWebHostEnvironment _environment = environment;
 
-    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+    public async ValueTask<bool> TryHandleAsync(
+        HttpContext httpContext,
+        Exception exception,
+        CancellationToken cancellationToken
+    )
     {
         var statusCode = StatusCodes.Status500InternalServerError;
         var message = _environment.IsDevelopment()
@@ -46,24 +50,22 @@ internal class ExceptionHandler(
         }
 
         httpContext.Response.StatusCode = statusCode;
-        var result = await _problemDetailsService.TryWriteAsync(new ProblemDetailsContext
-        {
-            HttpContext = httpContext,
-            ProblemDetails =
+        var result = await _problemDetailsService.TryWriteAsync(
+            new ProblemDetailsContext
             {
-                Title = message,
-            },
-            Exception = exception,
-        });
-
+                HttpContext = httpContext,
+                ProblemDetails = { Title = message, },
+                Exception = exception,
+            }
+        );
 
         return result;
     }
 
     private string LocalizeMessage(LocalizableMessageException exception)
     {
-        var localizeStrings = exception.Messages
-            .Select(message => _localizer.GetErrorString(message.Code, message.Argument))
+        var localizeStrings = exception
+            .Messages.Select(message => _localizer.GetErrorString(message.Code, message.Argument))
             .ToList();
 
         return string.Join(Environment.NewLine, localizeStrings);

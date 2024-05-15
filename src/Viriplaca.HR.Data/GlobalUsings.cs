@@ -1,10 +1,10 @@
+global using System.Data;
+global using System.Globalization;
 global using Dapper;
 global using MediatR;
 global using Microsoft.Data.SqlClient;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
-global using System.Data;
-global using System.Globalization;
 global using Viriplaca.Common.App.Option;
 global using Viriplaca.Common.App.Page;
 global using Viriplaca.Common.Data;

@@ -4,8 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Viriplaca.Common.Data;
 
-public class MigrationWorker<TContext>(IServiceProvider serviceProvider)
-    : BackgroundService
+public class MigrationWorker<TContext>(IServiceProvider serviceProvider) : BackgroundService
     where TContext : DbContext
 {
     private readonly IServiceProvider _serviceProvider = serviceProvider;
@@ -25,7 +24,10 @@ public class MigrationWorker<TContext>(IServiceProvider serviceProvider)
 
         try
         {
-            logger.LogInformation("Migrating database associated with context {DbContextName}", typeof(TContext).Name);
+            logger.LogInformation(
+                "Migrating database associated with context {DbContextName}",
+                typeof(TContext).Name
+            );
 
             var strategy = context.Database.CreateExecutionStrategy();
             await strategy.ExecuteAsync(async () =>
@@ -36,7 +38,11 @@ public class MigrationWorker<TContext>(IServiceProvider serviceProvider)
         }
         catch (Exception exception)
         {
-            logger.LogError(exception, "An error occurred while migrating the database used on context {DbContextName}", typeof(TContext).Name);
+            logger.LogError(
+                exception,
+                "An error occurred while migrating the database used on context {DbContextName}",
+                typeof(TContext).Name
+            );
             throw;
         }
     }

@@ -9,7 +9,10 @@ public class GetLeavesQueryHandler(SqlConnection connection)
 {
     private readonly SqlConnection _connection = connection;
 
-    public async Task<PageResult<LeaveDto>> Handle(GetLeavesQuery request, CancellationToken cancellationToken)
+    public async Task<PageResult<LeaveDto>> Handle(
+        GetLeavesQuery request,
+        CancellationToken cancellationToken
+    )
     {
         var builder = new SqlBuilder();
         builder.Where("A.StartedAt <= @EndedAt", new { request.EndedAt });
@@ -32,7 +35,8 @@ public class GetLeavesQueryHandler(SqlConnection connection)
             return result;
         }
 
-        var sql = builder.AddTemplate(@"
+        var sql = builder.AddTemplate(
+            @"
 SELECT
     A.Id,
     A.LeaveTypeId,
@@ -48,8 +52,16 @@ INNER JOIN HR.Person AS B ON A.EmployeeId = B.Id AND B.Type = @Employee
 ORDER BY A.Id DESC
 OFFSET @Offset ROWS
 FETCH NEXT @Limit ROWS ONLY
-");
-        builder.AddParameters(new { PersonType.Employee, result.Limit, result.Offset });
+"
+        );
+        builder.AddParameters(
+            new
+            {
+                PersonType.Employee,
+                result.Limit,
+                result.Offset
+            }
+        );
         var leaves = await _connection.QueryAsync<LeaveDto, EmployeeDto, LeaveDto>(
             sql.RawSql,
             (leave, employee) =>
@@ -57,7 +69,8 @@ FETCH NEXT @Limit ROWS ONLY
                 leave.Employee = employee;
                 return leave;
             },
-            sql.Parameters);
+            sql.Parameters
+        );
         result.Items = leaves.ToList();
 
         return result;

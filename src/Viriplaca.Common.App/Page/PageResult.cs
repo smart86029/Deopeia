@@ -2,14 +2,10 @@ namespace Viriplaca.Common.App.Page;
 
 public class PageResult<TItem>
 {
-    public PageResult()
-    {
-    }
+    public PageResult() { }
 
     public PageResult(PageQuery<TItem> query, int itemCount)
-        : this(query.PageIndex, query.PageSize, itemCount)
-    {
-    }
+        : this(query.PageIndex, query.PageSize, itemCount) { }
 
     public PageResult(int pageIndex, int pageSize, int itemCount)
     {

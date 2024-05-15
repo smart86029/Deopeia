@@ -1,6 +1,3 @@
 namespace Viriplaca.Identity.Domain.Users;
 
-public record UserDisabled(Guid UserId)
-    : DomainEvent
-{
-}
+public record UserDisabled(Guid UserId) : DomainEvent { }

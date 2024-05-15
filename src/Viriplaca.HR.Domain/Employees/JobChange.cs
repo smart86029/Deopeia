@@ -2,11 +2,15 @@ namespace Viriplaca.HR.Domain.Employees
 {
     public class JobChange : Entity
     {
-        private JobChange()
-        {
-        }
+        private JobChange() { }
 
-        public JobChange(Guid employeeId, Guid departmentId, Guid jobId, bool isHead, DateTimeOffset startedAt)
+        public JobChange(
+            Guid employeeId,
+            Guid departmentId,
+            Guid jobId,
+            bool isHead,
+            DateTimeOffset startedAt
+        )
         {
             EmployeeId = employeeId;
             DepartmentId = departmentId;

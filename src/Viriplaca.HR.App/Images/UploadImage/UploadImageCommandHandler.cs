@@ -2,15 +2,16 @@ using Viriplaca.Common.Files;
 
 namespace Viriplaca.HR.App.Images.UploadImage;
 
-internal class UploadImageCommandHandler(
-    IHRUnitOfWork unitOfWork,
-    IImageRepository imageRepository)
+internal class UploadImageCommandHandler(IHRUnitOfWork unitOfWork, IImageRepository imageRepository)
     : IRequestHandler<UploadImageCommand, UploadImageDto>
 {
     private readonly IHRUnitOfWork _unitOfWork = unitOfWork;
     private readonly IImageRepository _imageRepository = imageRepository;
 
-    public async Task<UploadImageDto> Handle(UploadImageCommand request, CancellationToken cancellationToken)
+    public async Task<UploadImageDto> Handle(
+        UploadImageCommand request,
+        CancellationToken cancellationToken
+    )
     {
         var image = new Image(request.FileName, request.Bytes);
         await _imageRepository.AddAsync(image);

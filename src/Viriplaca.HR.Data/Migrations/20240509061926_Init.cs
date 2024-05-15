@@ -11,11 +11,9 @@ namespace Viriplaca.HR.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "Common");
+            migrationBuilder.EnsureSchema(name: "Common");
 
-            migrationBuilder.EnsureSchema(
-                name: "HR");
+            migrationBuilder.EnsureSchema(name: "HR");
 
             migrationBuilder.CreateTable(
                 name: "AuditTrail",
@@ -27,7 +25,11 @@ namespace Viriplaca.HR.Data.Migrations
                     CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IPAddress = table.Column<string>(type: "nvarchar(45)", nullable: false),
-                    EntityType = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    EntityType = table.Column<string>(
+                        type: "nvarchar(256)",
+                        maxLength: 256,
+                        nullable: true
+                    ),
                     Keys = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OldValues = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NewValues = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -36,7 +38,8 @@ namespace Viriplaca.HR.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AuditTrail", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Department",
@@ -44,14 +47,19 @@ namespace Viriplaca.HR.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    Name = table.Column<string>(
+                        type: "nvarchar(32)",
+                        maxLength: 32,
+                        nullable: false
+                    ),
                     IsEnabled = table.Column<bool>(type: "bit", nullable: false),
                     ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Department", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "FileResource",
@@ -60,14 +68,23 @@ namespace Viriplaca.HR.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Extension = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
+                    Name = table.Column<string>(
+                        type: "nvarchar(128)",
+                        maxLength: 128,
+                        nullable: false
+                    ),
+                    Extension = table.Column<string>(
+                        type: "nvarchar(16)",
+                        maxLength: 16,
+                        nullable: false
+                    ),
                     Size = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FileResource", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Job",
@@ -75,14 +92,19 @@ namespace Viriplaca.HR.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    Title = table.Column<string>(
+                        type: "nvarchar(32)",
+                        maxLength: 32,
+                        nullable: false
+                    ),
                     IsEnabled = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Job", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Leave",
@@ -101,7 +123,8 @@ namespace Viriplaca.HR.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Leave", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "LeaveEntitlement",
@@ -119,7 +142,8 @@ namespace Viriplaca.HR.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LeaveEntitlement", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "LeaveType",
@@ -132,22 +156,44 @@ namespace Viriplaca.HR.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LeaveType", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "LocaleResource",
                 schema: "Common",
                 columns: table => new
                 {
-                    Culture = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
+                    Culture = table.Column<string>(
+                        type: "nvarchar(16)",
+                        maxLength: 16,
+                        nullable: false
+                    ),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false)
+                    Code = table.Column<string>(
+                        type: "nvarchar(128)",
+                        maxLength: 128,
+                        nullable: false
+                    ),
+                    Content = table.Column<string>(
+                        type: "nvarchar(1024)",
+                        maxLength: 1024,
+                        nullable: false
+                    )
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LocaleResource", x => new { x.Culture, x.Type, x.Code });
-                });
+                    table.PrimaryKey(
+                        "PK_LocaleResource",
+                        x => new
+                        {
+                            x.Culture,
+                            x.Type,
+                            x.Code
+                        }
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "Person",
@@ -156,8 +202,16 @@ namespace Viriplaca.HR.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
+                    FirstName = table.Column<string>(
+                        type: "nvarchar(32)",
+                        maxLength: 32,
+                        nullable: false
+                    ),
+                    LastName = table.Column<string>(
+                        type: "nvarchar(32)",
+                        maxLength: 32,
+                        nullable: true
+                    ),
                     BirthDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Sex = table.Column<int>(type: "int", nullable: false),
                     MaritalStatus = table.Column<int>(type: "int", nullable: false),
@@ -169,7 +223,8 @@ namespace Viriplaca.HR.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Person", x => x.Id);
-                });
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "LeaveTypeLocale",
@@ -177,8 +232,16 @@ namespace Viriplaca.HR.Data.Migrations
                 columns: table => new
                 {
                     LeaveTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Culture = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    Culture = table.Column<string>(
+                        type: "nvarchar(16)",
+                        maxLength: 16,
+                        nullable: false
+                    ),
+                    Name = table.Column<string>(
+                        type: "nvarchar(32)",
+                        maxLength: 32,
+                        nullable: false
+                    ),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -190,8 +253,10 @@ namespace Viriplaca.HR.Data.Migrations
                         principalSchema: "HR",
                         principalTable: "LeaveType",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateTable(
                 name: "JobChange",
@@ -215,117 +280,107 @@ namespace Viriplaca.HR.Data.Migrations
                         principalSchema: "HR",
                         principalTable: "Person",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
+                        onDelete: ReferentialAction.Cascade
+                    );
+                }
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Department_ParentId",
                 schema: "HR",
                 table: "Department",
-                column: "ParentId");
+                column: "ParentId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_FileResource_Type",
                 schema: "Common",
                 table: "FileResource",
-                column: "Type");
+                column: "Type"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_JobChange_DepartmentId",
                 schema: "HR",
                 table: "JobChange",
-                column: "DepartmentId");
+                column: "DepartmentId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_JobChange_EmployeeId",
                 schema: "HR",
                 table: "JobChange",
-                column: "EmployeeId");
+                column: "EmployeeId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_JobChange_JobId",
                 schema: "HR",
                 table: "JobChange",
-                column: "JobId");
+                column: "JobId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Leave_EmployeeId",
                 schema: "HR",
                 table: "Leave",
-                column: "EmployeeId");
+                column: "EmployeeId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_LeaveEntitlement_EmployeeId_LeaveTypeId_StartedOn_EndedOn",
                 schema: "HR",
                 table: "LeaveEntitlement",
                 columns: new[] { "EmployeeId", "LeaveTypeId", "StartedOn", "EndedOn" },
-                unique: true);
+                unique: true
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Person_DepartmentId",
                 schema: "HR",
                 table: "Person",
-                column: "DepartmentId");
+                column: "DepartmentId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Person_JobId",
                 schema: "HR",
                 table: "Person",
-                column: "JobId");
+                column: "JobId"
+            );
 
             migrationBuilder.CreateIndex(
                 name: "IX_Person_UserId",
                 schema: "HR",
                 table: "Person",
-                column: "UserId");
+                column: "UserId"
+            );
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AuditTrail",
-                schema: "Common");
+            migrationBuilder.DropTable(name: "AuditTrail", schema: "Common");
 
-            migrationBuilder.DropTable(
-                name: "Department",
-                schema: "HR");
+            migrationBuilder.DropTable(name: "Department", schema: "HR");
 
-            migrationBuilder.DropTable(
-                name: "FileResource",
-                schema: "Common");
+            migrationBuilder.DropTable(name: "FileResource", schema: "Common");
 
-            migrationBuilder.DropTable(
-                name: "Job",
-                schema: "HR");
+            migrationBuilder.DropTable(name: "Job", schema: "HR");
 
-            migrationBuilder.DropTable(
-                name: "JobChange",
-                schema: "HR");
+            migrationBuilder.DropTable(name: "JobChange", schema: "HR");
 
-            migrationBuilder.DropTable(
-                name: "Leave",
-                schema: "HR");
+            migrationBuilder.DropTable(name: "Leave", schema: "HR");
 
-            migrationBuilder.DropTable(
-                name: "LeaveEntitlement",
-                schema: "HR");
+            migrationBuilder.DropTable(name: "LeaveEntitlement", schema: "HR");
 
-            migrationBuilder.DropTable(
-                name: "LeaveTypeLocale",
-                schema: "HR");
+            migrationBuilder.DropTable(name: "LeaveTypeLocale", schema: "HR");
 
-            migrationBuilder.DropTable(
-                name: "LocaleResource",
-                schema: "Common");
+            migrationBuilder.DropTable(name: "LocaleResource", schema: "Common");
 
-            migrationBuilder.DropTable(
-                name: "Person",
-                schema: "HR");
+            migrationBuilder.DropTable(name: "Person", schema: "HR");
 
-            migrationBuilder.DropTable(
-                name: "LeaveType",
-                schema: "HR");
+            migrationBuilder.DropTable(name: "LeaveType", schema: "HR");
         }
     }
 }

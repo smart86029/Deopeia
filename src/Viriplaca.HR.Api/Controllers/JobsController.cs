@@ -41,7 +41,10 @@ public class JobsController : ApiController<JobsController>
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateJob([FromRoute] Guid id, [FromBody] UpdateJobCommand command)
+    public async Task<IActionResult> UpdateJob(
+        [FromRoute] Guid id,
+        [FromBody] UpdateJobCommand command
+    )
     {
         if (id != command.Id)
         {

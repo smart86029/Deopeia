@@ -41,7 +41,10 @@ public class LeavesController : ApiController<LeavesController>
     }
 
     [HttpPut("{id}/ApprovalStatus")]
-    public async Task<IActionResult> UpdateApprovalStatus([FromRoute] Guid id, [FromBody] UpdateApprovalStatusCommand command)
+    public async Task<IActionResult> UpdateApprovalStatus(
+        [FromRoute] Guid id,
+        [FromBody] UpdateApprovalStatusCommand command
+    )
     {
         command = command with { Id = id };
         await Sender.Send(command);

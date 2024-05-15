@@ -2,16 +2,11 @@ namespace Viriplaca.Identity.App.Connect;
 
 public abstract class GrantResult
 {
-    public GrantResult()
-    {
-    }
+    public GrantResult() { }
 
     internal GrantResult(GrantError error)
     {
-        Error = new ErrorResult
-        {
-            Error = error.ToString().ToSnakeCaseLower(),
-        };
+        Error = new ErrorResult { Error = error.ToString().ToSnakeCaseLower(), };
     }
 
     [JsonIgnore]

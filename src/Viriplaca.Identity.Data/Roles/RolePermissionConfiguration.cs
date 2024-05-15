@@ -4,7 +4,5 @@ namespace Viriplaca.Identity.Data.Roles;
 
 internal class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermission>
 {
-    public void Configure(EntityTypeBuilder<RolePermission> builder)
-    {
-    }
+    public void Configure(EntityTypeBuilder<RolePermission> builder) { }
 }

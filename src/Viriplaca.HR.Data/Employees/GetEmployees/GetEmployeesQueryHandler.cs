@@ -8,7 +8,10 @@ public class GetEmployeesQueryHandler(SqlConnection connection)
 {
     private readonly SqlConnection _connection = connection;
 
-    public async Task<PageResult<EmployeeDto>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
+    public async Task<PageResult<EmployeeDto>> Handle(
+        GetEmployeesQuery request,
+        CancellationToken cancellationToken
+    )
     {
         var builder = new SqlBuilder();
         builder.Where("A.Type = @Employee", new { PersonType.Employee });
@@ -31,7 +34,8 @@ public class GetEmployeesQueryHandler(SqlConnection connection)
             return result;
         }
 
-        var sql = builder.AddTemplate($@"
+        var sql = builder.AddTemplate(
+            $@"
 SELECT
     A.Id,
     A.FirstName,
@@ -46,7 +50,8 @@ LEFT JOIN HR.Job AS C ON C.Id = A.JobId
 ORDER BY A.Id
 OFFSET @Offset ROWS
 FETCH NEXT @Limit ROWS ONLY
-");
+"
+        );
         builder.AddParameters(new { result.Limit, result.Offset });
         var employees = await _connection.QueryAsync<EmployeeDto>(sql.RawSql, sql.Parameters);
         result.Items = employees.ToList();

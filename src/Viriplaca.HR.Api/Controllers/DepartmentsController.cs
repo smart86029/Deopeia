@@ -9,7 +9,9 @@ namespace Viriplaca.HR.Api.Controllers;
 public class DepartmentsController : ApiController<DepartmentsController>
 {
     [HttpGet("Options")]
-    public async Task<IActionResult> GetDepartmentOptions([FromQuery] GetDepartmentOptionsQuery query)
+    public async Task<IActionResult> GetDepartmentOptions(
+        [FromQuery] GetDepartmentOptionsQuery query
+    )
     {
         var result = await Sender.Send(query);
 
@@ -41,7 +43,10 @@ public class DepartmentsController : ApiController<DepartmentsController>
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateDepartment([FromRoute] Guid id, [FromBody] UpdateDepartmentCommand command)
+    public async Task<IActionResult> UpdateDepartment(
+        [FromRoute] Guid id,
+        [FromBody] UpdateDepartmentCommand command
+    )
     {
         if (id != command.Id)
         {

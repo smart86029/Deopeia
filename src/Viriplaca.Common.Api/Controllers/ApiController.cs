@@ -15,7 +15,9 @@ public abstract class ApiController<TController> : ControllerBase
     private ILogger<TController>? _logger;
     private ISender? _sender;
 
-    protected ILogger<TController> Logger => _logger ??= HttpContext.RequestServices.GetRequiredService<ILogger<TController>>();
+    protected ILogger<TController> Logger =>
+        _logger ??= HttpContext.RequestServices.GetRequiredService<ILogger<TController>>();
 
-    protected ISender Sender => _sender ??= HttpContext.RequestServices.GetRequiredService<ISender>();
+    protected ISender Sender =>
+        _sender ??= HttpContext.RequestServices.GetRequiredService<ISender>();
 }

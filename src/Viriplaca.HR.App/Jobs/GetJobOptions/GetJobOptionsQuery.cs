@@ -1,5 +1,3 @@
 namespace Viriplaca.HR.App.Jobs.GetJobOptions;
 
-public record GetJobOptionsQuery : OptionsQuery<Guid>
-{
-}
+public record GetJobOptionsQuery : OptionsQuery<Guid> { }

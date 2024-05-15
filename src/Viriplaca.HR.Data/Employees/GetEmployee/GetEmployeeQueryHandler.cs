@@ -10,9 +10,13 @@ public class GetEmployeeQueryHandler(SqlConnection connection, IImageRepository 
     private readonly SqlConnection _connection = connection;
     private readonly IImageRepository _imageRepository = imageRepository;
 
-    public async Task<EmployeeDto> Handle(GetEmployeeQuery request, CancellationToken cancellationToken)
+    public async Task<EmployeeDto> Handle(
+        GetEmployeeQuery request,
+        CancellationToken cancellationToken
+    )
     {
-        var sql = @"
+        var sql =
+            @"
 SELECT
     Id,
     FirstName,
@@ -27,11 +31,7 @@ SELECT
 FROM HR.Person
 WHERE Id = @Id AND Type = @Employee
 ";
-        var param = new
-        {
-            request.Id,
-            PersonType.Employee,
-        };
+        var param = new { request.Id, PersonType.Employee, };
         var result = await _connection.QueryFirstAsync<EmployeeDto>(sql, param);
         if (result.AvatarId.HasValue)
         {

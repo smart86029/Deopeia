@@ -2,23 +2,21 @@ using Viriplaca.HR.Domain.Departments;
 
 namespace Viriplaca.HR.Data.Departments;
 
-public class DepartmentRepository(HRContext context)
-    : IDepartmentRepository
+public class DepartmentRepository(HRContext context) : IDepartmentRepository
 {
     private readonly DbSet<Department> _departments = context.Set<Department>();
 
     public async Task<ICollection<Department>> GetDepartmentsAsync()
     {
-        var results = await _departments
-            .ToListAsync();
+        var results = await _departments.ToListAsync();
 
         return results;
     }
 
     public async Task<Department> GetDepartmentAsync(Guid departmentId)
     {
-        var result = await _departments
-            .SingleOrDefaultAsync(x => x.Id == departmentId)
+        var result =
+            await _departments.SingleOrDefaultAsync(x => x.Id == departmentId)
             ?? throw new Exception(departmentId.ToString());
 
         return result;
@@ -26,8 +24,7 @@ public class DepartmentRepository(HRContext context)
 
     public async Task<int> GetCountAsync(Guid parentId)
     {
-        var result = await _departments
-            .CountAsync(x => x.ParentId == parentId);
+        var result = await _departments.CountAsync(x => x.ParentId == parentId);
 
         return result;
     }

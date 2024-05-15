@@ -7,16 +7,15 @@ public class Client : AggregateRoot
     private readonly List<string> _scopes = [];
     private readonly List<Uri> _redirectUris = [];
 
-    private Client()
-    {
-    }
+    private Client() { }
 
     public Client(
         string name,
         string? secret,
         GrantTypes grantTypes,
         IEnumerable<string> scopes,
-        IEnumerable<Uri> redirectUris)
+        IEnumerable<Uri> redirectUris
+    )
     {
         name.MustNotBeNullOrWhiteSpace();
         grantTypes.MustBeDefined();

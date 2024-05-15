@@ -6,9 +6,7 @@ public abstract class Entity
 {
     private readonly List<DomainEvent> _domainEvents = [];
 
-    protected Entity()
-    {
-    }
+    protected Entity() { }
 
     protected Entity(Guid id)
     {

@@ -2,11 +2,16 @@ namespace Viriplaca.HR.Domain.People;
 
 public abstract class Person : AggregateRoot
 {
-    protected Person()
-    {
-    }
+    protected Person() { }
 
-    protected Person(PersonType type, string firstName, string? lastName, DateOnly birthDate, Sex sex, MaritalStatus maritalStatus)
+    protected Person(
+        PersonType type,
+        string firstName,
+        string? lastName,
+        DateOnly birthDate,
+        Sex sex,
+        MaritalStatus maritalStatus
+    )
     {
         type.MustBeDefined();
         firstName.MustNotBeNullOrWhiteSpace();

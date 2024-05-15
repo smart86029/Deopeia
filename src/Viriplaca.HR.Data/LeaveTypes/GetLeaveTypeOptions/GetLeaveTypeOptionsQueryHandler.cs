@@ -7,9 +7,13 @@ public class GetLeaveTypeOptionsQueryHandler(SqlConnection connection)
 {
     private readonly SqlConnection _connection = connection;
 
-    public async Task<ICollection<OptionResult<Guid>>> Handle(GetLeaveTypeOptionsQuery request, CancellationToken cancellationToken)
+    public async Task<ICollection<OptionResult<Guid>>> Handle(
+        GetLeaveTypeOptionsQuery request,
+        CancellationToken cancellationToken
+    )
     {
-        var sql = @"
+        var sql =
+            @"
 SELECT
     A.Id AS Value,
     B.Name
@@ -17,10 +21,7 @@ FROM HR.LeaveType AS A
 INNER JOIN HR.LeaveTypeLocale AS B ON A.Id = B.LeaveTypeId AND B.Culture = @Culture
 ORDER BY A.Id
 ";
-        var param = new
-        {
-            Culture = CultureInfo.CurrentCulture,
-        };
+        var param = new { Culture = CultureInfo.CurrentCulture, };
         var options = await _connection.QueryAsync<OptionResult<Guid>>(sql, param);
 
         return options.ToList();

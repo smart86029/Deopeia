@@ -5,6 +5,5 @@ namespace Viriplaca.Common.Data.Converters;
 internal class WorkingTimeConverter()
     : ValueConverter<WorkingTime, decimal>(
         workingTime => workingTime.Amount,
-        amount => new WorkingTime(amount))
-{
-}
+        amount => new WorkingTime(amount)
+    ) { }

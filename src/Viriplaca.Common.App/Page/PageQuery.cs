@@ -19,6 +19,6 @@ public abstract record PageQuery<TItem> : IRequest<PageResult<TItem>>
 
     public PageResult<TItem> ToResult(int itemCount)
     {
-        return new PageResult<TItem>(this , itemCount);
+        return new PageResult<TItem>(this, itemCount);
     }
 }

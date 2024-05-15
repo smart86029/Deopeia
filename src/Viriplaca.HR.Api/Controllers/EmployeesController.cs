@@ -32,7 +32,10 @@ public class EmployeesController : ApiController<EmployeesController>
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateEmployee([FromRoute] Guid id, [FromBody] UpdateEmployeeCommand command)
+    public async Task<IActionResult> UpdateEmployee(
+        [FromRoute] Guid id,
+        [FromBody] UpdateEmployeeCommand command
+    )
     {
         if (id != command.Id)
         {

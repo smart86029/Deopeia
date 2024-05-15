@@ -1,5 +1,3 @@
 namespace Viriplaca.HR.Domain;
 
-public interface IHRUnitOfWork : IUnitOfWork
-{
-}
+public interface IHRUnitOfWork : IUnitOfWork { }

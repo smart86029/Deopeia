@@ -11,15 +11,24 @@ internal class AuthorizationCodeGrantCommandHandler(
     IIdentityUnitOfWork unitOfWork,
     IClientRepository clientRepository,
     IAuthorizationCodeRepository authorizationCodeRepository,
-    IRefreshTokenRepository refreshTokenRepository)
-    : GrantCommandHandler<AuthorizationCodeGrantCommand>(jwtOptions, unitOfWork, refreshTokenRepository)
+    IRefreshTokenRepository refreshTokenRepository
+)
+    : GrantCommandHandler<AuthorizationCodeGrantCommand>(
+        jwtOptions,
+        unitOfWork,
+        refreshTokenRepository
+    )
 {
     private readonly TimeSpan _lifetime = TimeSpan.FromMinutes(5);
     private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
     private readonly IClientRepository _clientRepository = clientRepository;
-    private readonly IAuthorizationCodeRepository _authorizationCodeRepository = authorizationCodeRepository;
+    private readonly IAuthorizationCodeRepository _authorizationCodeRepository =
+        authorizationCodeRepository;
 
-    public override async Task<GrantResult> Handle(AuthorizationCodeGrantCommand request, CancellationToken cancellationToken)
+    public override async Task<GrantResult> Handle(
+        AuthorizationCodeGrantCommand request,
+        CancellationToken cancellationToken
+    )
     {
         var client = await _clientRepository.GetClientAsync(request.ClientId);
         if (!client.GrantTypes.HasFlag(GrantTypes.AuthorizationCode))
@@ -32,7 +41,9 @@ internal class AuthorizationCodeGrantCommandHandler(
             return new AuthorizationCodeGrantResult(GrantError.InvalidGrant);
         }
 
-        var authorizationCode = await _authorizationCodeRepository.GetAuthorizationCodeAsync(request.Code);
+        var authorizationCode = await _authorizationCodeRepository.GetAuthorizationCodeAsync(
+            request.Code
+        );
         if (authorizationCode is null)
         {
             return new AuthorizationCodeGrantResult(GrantError.InvalidGrant);
@@ -65,7 +76,11 @@ internal class AuthorizationCodeGrantCommandHandler(
 
         await ConsumeAsync(authorizationCode);
 
-        var isFromClient = IsFromClient(request.CodeVerifier, authorizationCode.CodeChallenge, authorizationCode.CodeChallengeMethod);
+        var isFromClient = IsFromClient(
+            request.CodeVerifier,
+            authorizationCode.CodeChallenge,
+            authorizationCode.CodeChallengeMethod
+        );
         if (!isFromClient)
         {
             return new AuthorizationCodeGrantResult(GrantError.InvalidGrant);
@@ -103,7 +118,9 @@ internal class AuthorizationCodeGrantCommandHandler(
         var result = codeChallengeMethod switch
         {
             ChallengeMethods.Plain => codeChallenge == codeVerifier,
-            ChallengeMethods.Sha256 => codeChallenge == Base64UrlEncoder.Encode(Encoding.ASCII.GetBytes(codeVerifier).Sha256()),
+            ChallengeMethods.Sha256
+                => codeChallenge
+                    == Base64UrlEncoder.Encode(Encoding.ASCII.GetBytes(codeVerifier).Sha256()),
             _ => false,
         };
 

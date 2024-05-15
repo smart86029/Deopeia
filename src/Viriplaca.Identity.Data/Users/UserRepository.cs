@@ -2,8 +2,7 @@ using Viriplaca.Identity.Domain.Users;
 
 namespace Viriplaca.Identity.Data.Users;
 
-public class UserRepository(IdentityContext context)
-    : IUserRepository
+public class UserRepository(IdentityContext context) : IUserRepository
 {
     private readonly DbSet<User> _users = context.Set<User>();
 
@@ -33,8 +32,7 @@ public class UserRepository(IdentityContext context)
 
     public async Task<bool> ContainsAsync(Guid userId)
     {
-        var result = await _users
-            .AnyAsync(x => x.Id == userId);
+        var result = await _users.AnyAsync(x => x.Id == userId);
 
         return result;
     }

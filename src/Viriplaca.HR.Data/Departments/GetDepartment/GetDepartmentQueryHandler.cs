@@ -7,9 +7,13 @@ internal class GetDepartmentQueryHandler(SqlConnection connection)
 {
     private readonly SqlConnection _connection = connection;
 
-    public async Task<DepartmentDto> Handle(GetDepartmentQuery request, CancellationToken cancellationToken)
+    public async Task<DepartmentDto> Handle(
+        GetDepartmentQuery request,
+        CancellationToken cancellationToken
+    )
     {
-        var sql = @"
+        var sql =
+            @"
 SELECT
     Id,
     Name,

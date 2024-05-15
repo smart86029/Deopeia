@@ -1,12 +1,10 @@
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Viriplaca.Common.Data.Converters;
 
 internal class TypeConverter()
-    : ValueConverter<Type, string?>(
-        type => type.FullName,
-        typeName => GetType(typeName)!)
+    : ValueConverter<Type, string?>(type => type.FullName, typeName => GetType(typeName)!)
 {
     private static Type? GetType(string? typeName)
     {

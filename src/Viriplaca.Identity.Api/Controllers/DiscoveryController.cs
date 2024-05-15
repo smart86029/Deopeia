@@ -7,10 +7,8 @@ namespace Viriplaca.Identity.Api.Controllers;
 [EnableCors(CorsPolicies.Oidc)]
 public class DiscoveryController : ApiController<DiscoveryController>
 {
-    private static readonly JsonSerializerOptions JsonSerializerOptions = new()
-    {
-        PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-    };
+    private static readonly JsonSerializerOptions JsonSerializerOptions =
+        new() { PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower, };
 
     [HttpGet("openid-configuration")]
     public async Task<IActionResult> GetConfiguration()

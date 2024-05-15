@@ -5,8 +5,8 @@ namespace Viriplaca.HR.App.Leaves.CancelLeave;
 internal class CancelLeaveCommandHandler(
     CurrentUser currentUser,
     IHRUnitOfWork unitOfWork,
-    ILeaveRepository leaveRepository)
-    : IRequestHandler<CancelLeaveCommand>
+    ILeaveRepository leaveRepository
+) : IRequestHandler<CancelLeaveCommand>
 {
     private readonly CurrentUser _currentUser = currentUser;
     private readonly IHRUnitOfWork _unitOfWork = unitOfWork;

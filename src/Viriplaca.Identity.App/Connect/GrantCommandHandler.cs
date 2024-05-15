@@ -1,5 +1,5 @@
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
 using Viriplaca.Identity.Domain.Clients;
 using Viriplaca.Identity.Domain.Grants;
 using Viriplaca.Identity.Domain.Grants.AuthorizationCodes;
@@ -10,8 +10,8 @@ namespace Viriplaca.Identity.App.Connect;
 internal abstract class GrantCommandHandler<TCommand>(
     IOptions<JwtOptions> jwtOptions,
     IIdentityUnitOfWork unitOfWork,
-    IRefreshTokenRepository refreshTokenRepository)
-    : IRequestHandler<TCommand, GrantResult>
+    IRefreshTokenRepository refreshTokenRepository
+) : IRequestHandler<TCommand, GrantResult>
     where TCommand : GrantCommand
 {
     private static readonly TimeSpan LifetimeAccessToken = TimeSpan.FromMinutes(5);
@@ -70,14 +70,20 @@ internal abstract class GrantCommandHandler<TCommand>(
 
     private string GenerateJwtToken(IEnumerable<Claim> claims, TimeSpan lifetime)
     {
-        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Key));
-        var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+        var symmetricSecurityKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(_jwtOptions.Key)
+        );
+        var signingCredentials = new SigningCredentials(
+            symmetricSecurityKey,
+            SecurityAlgorithms.HmacSha256
+        );
         var handler = new JwtSecurityTokenHandler();
         var securityToken = new JwtSecurityToken(
             issuer: _jwtOptions.Issuer,
             claims: claims,
             expires: DateTime.Now.Add(lifetime),
-            signingCredentials: signingCredentials);
+            signingCredentials: signingCredentials
+        );
         var result = handler.WriteToken(securityToken);
 
         return result;

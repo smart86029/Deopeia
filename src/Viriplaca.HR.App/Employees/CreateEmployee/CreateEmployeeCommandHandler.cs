@@ -6,21 +6,25 @@ namespace Viriplaca.HR.App.Employees.CreateEmployee;
 public class CreateEmployeeCommandHandler(
     IHRUnitOfWork unitOfWork,
     IEmployeeRepository employeeRepository,
-    IImageRepository imageRepository)
-    : IRequestHandler<CreateEmployeeCommand, Guid>
+    IImageRepository imageRepository
+) : IRequestHandler<CreateEmployeeCommand, Guid>
 {
     private readonly IHRUnitOfWork _unitOfWork = unitOfWork;
     private readonly IEmployeeRepository _employeeRepository = employeeRepository;
     private readonly IImageRepository _imageRepository = imageRepository;
 
-    public async Task<Guid> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
+    public async Task<Guid> Handle(
+        CreateEmployeeCommand request,
+        CancellationToken cancellationToken
+    )
     {
         var employee = new Employee(
             request.FirstName,
             request.LastName,
             request.BirthDate,
             request.Sex,
-            request.MaritalStatus);
+            request.MaritalStatus
+        );
 
         if (request.AvatarId.HasValue)
         {

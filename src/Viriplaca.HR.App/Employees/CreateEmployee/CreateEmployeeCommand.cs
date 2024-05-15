@@ -10,7 +10,5 @@ public record CreateEmployeeCommand(
     MaritalStatus MaritalStatus,
     Guid? AvatarId,
     Guid DepartmentId,
-    Guid Job)
-   : IRequest<Guid>
-{
-}
+    Guid Job
+) : IRequest<Guid> { }

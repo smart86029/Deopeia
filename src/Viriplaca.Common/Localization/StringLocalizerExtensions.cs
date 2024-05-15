@@ -21,22 +21,37 @@ public static class StringLocalizerExtensions
         return localizer.GetString($"{LocaleResourceType.Error}.{code}");
     }
 
-    public static string GetPropertyString(this IStringLocalizer localizer, LocalizableProperty localizableProperty)
+    public static string GetPropertyString(
+        this IStringLocalizer localizer,
+        LocalizableProperty localizableProperty
+    )
     {
-        return localizer.GetPropertyString(localizableProperty.ModelName, localizableProperty.PropertyName);
+        return localizer.GetPropertyString(
+            localizableProperty.ModelName,
+            localizableProperty.PropertyName
+        );
     }
 
-    public static string GetPropertyString(this IStringLocalizer localizer, Type type, string propertyName)
+    public static string GetPropertyString(
+        this IStringLocalizer localizer,
+        Type type,
+        string propertyName
+    )
     {
         return localizer.GetPropertyString(type.GetDisplayName(), propertyName);
     }
 
-    public static string GetPropertyString(this IStringLocalizer localizer, string modelName, string propertyName)
+    public static string GetPropertyString(
+        this IStringLocalizer localizer,
+        string modelName,
+        string propertyName
+    )
     {
-        var replaced = modelName
-            .Replace("Model", string.Empty)
-            .Replace("Dto", string.Empty);
-        var modelString = localizer.GetString(LocaleResourceType.Model, $"{replaced}.{propertyName}");
+        var replaced = modelName.Replace("Model", string.Empty).Replace("Dto", string.Empty);
+        var modelString = localizer.GetString(
+            LocaleResourceType.Model,
+            $"{replaced}.{propertyName}"
+        );
         if (!modelString.ResourceNotFound)
         {
             return modelString;
@@ -51,12 +66,20 @@ public static class StringLocalizerExtensions
         return propertyName;
     }
 
-    public static string GetErrorString(this IStringLocalizer localizer, string code, object argument)
+    public static string GetErrorString(
+        this IStringLocalizer localizer,
+        string code,
+        object argument
+    )
     {
         return localizer.GetString($"{LocaleResourceType.Error}.{code}", argument);
     }
 
-    private static LocalizedString GetString(this IStringLocalizer localizer, LocaleResourceType type, string code)
+    private static LocalizedString GetString(
+        this IStringLocalizer localizer,
+        LocaleResourceType type,
+        string code
+    )
     {
         return localizer.GetString($"{type}.{code}");
     }

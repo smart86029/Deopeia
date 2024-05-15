@@ -2,8 +2,7 @@ using Viriplaca.Common.Data.Converters;
 
 namespace Viriplaca.HR.Data;
 
-public class HRContext(DbContextOptions<HRContext> options)
-    : DbContext(options)
+public class HRContext(DbContextOptions<HRContext> options) : DbContext(options)
 {
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {

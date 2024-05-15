@@ -1,18 +1,36 @@
 namespace Viriplaca.Identity.App.WellKnown.GetConfiguration;
 
-internal class GetConfigurationQueryHandler : IRequestHandler<GetConfigurationQuery, ConfigurationDto>
+internal class GetConfigurationQueryHandler
+    : IRequestHandler<GetConfigurationQuery, ConfigurationDto>
 {
-    public Task<ConfigurationDto> Handle(GetConfigurationQuery request, CancellationToken cancellationToken)
+    public Task<ConfigurationDto> Handle(
+        GetConfigurationQuery request,
+        CancellationToken cancellationToken
+    )
     {
         var result = new ConfigurationDto
         {
             Issuer = "https://localhost:7002",
             AuthorizationEndpoint = "https://localhost:7002/Connect/Authorize",
             TokenEndpoint = "https://localhost:7002/Connect/Token",
-            TokenEndpointAuthMethodsSupported = new string[] { "client_secret_basic", "private_key_jwt" },
+            TokenEndpointAuthMethodsSupported = new string[]
+            {
+                "client_secret_basic",
+                "private_key_jwt"
+            },
             TokenEndpointAuthSigningAlgValuesSupported = new string[] { "RS256", "ES256" },
-            AcrValuesSupported = new string[] { "urn:mace:incommon:iap:silver", "urn:mace:incommon:iap:bronze" },
-            ResponseTypesSupported = new string[] { "code", "code id_token", "id_token", "token id_token" },
+            AcrValuesSupported = new string[]
+            {
+                "urn:mace:incommon:iap:silver",
+                "urn:mace:incommon:iap:bronze"
+            },
+            ResponseTypesSupported = new string[]
+            {
+                "code",
+                "code id_token",
+                "id_token",
+                "token id_token"
+            },
             SubjectTypesSupported = new string[] { "public", "pairwise" },
             UserinfoEndpoint = "https://localhost:7002/api/UserInfo/GetUserInfo",
             UserinfoEncryptionEncValuesSupported = new string[] { "A128CBC-HS256", "A128GCM" },

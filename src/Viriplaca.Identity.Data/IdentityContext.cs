@@ -1,7 +1,6 @@
 namespace Viriplaca.Identity.Data;
 
-public class IdentityContext(DbContextOptions<IdentityContext> options)
-    : DbContext(options)
+public class IdentityContext(DbContextOptions<IdentityContext> options) : DbContext(options)
 {
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {

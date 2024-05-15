@@ -7,7 +7,10 @@ internal class GetDepartmentsQueryHandler(SqlConnection connection)
 {
     private readonly SqlConnection _connection = connection;
 
-    public async Task<PageResult<DepartmentDto>> Handle(GetDepartmentsQuery request, CancellationToken cancellationToken)
+    public async Task<PageResult<DepartmentDto>> Handle(
+        GetDepartmentsQuery request,
+        CancellationToken cancellationToken
+    )
     {
         var builder = new SqlBuilder();
         if (request.IsEnabled.HasValue)
@@ -24,7 +27,8 @@ internal class GetDepartmentsQueryHandler(SqlConnection connection)
             return result;
         }
 
-        var sql = builder.AddTemplate(@"
+        var sql = builder.AddTemplate(
+            @"
 SELECT
     A.Id,
     A.Name,
@@ -53,7 +57,8 @@ LEFT JOIN (
 ORDER BY Id
 OFFSET @Offset ROWS 
 FETCH NEXT @Limit ROWS ONLY
-");
+"
+        );
         builder.AddParameters(new { result.Limit, result.Offset });
         var departments = await _connection.QueryAsync<DepartmentDto>(sql.RawSql, sql.Parameters);
         result.Items = departments.ToList();

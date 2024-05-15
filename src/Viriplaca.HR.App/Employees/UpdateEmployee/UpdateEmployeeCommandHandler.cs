@@ -6,8 +6,8 @@ namespace Viriplaca.HR.App.Employees.UpdateEmployee;
 public class UpdateEmployeeCommandHandler(
     IHRUnitOfWork unitOfWork,
     IEmployeeRepository employeeRepository,
-    IImageRepository imageRepository)
-    : IRequestHandler<UpdateEmployeeCommand>
+    IImageRepository imageRepository
+) : IRequestHandler<UpdateEmployeeCommand>
 {
     private readonly IHRUnitOfWork _unitOfWork = unitOfWork;
     private readonly IEmployeeRepository _employeeRepository = employeeRepository;

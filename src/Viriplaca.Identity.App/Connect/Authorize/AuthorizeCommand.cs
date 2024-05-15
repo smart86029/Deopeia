@@ -7,7 +7,5 @@ public record AuthorizeCommand(
     ICollection<string> Scopes,
     string State,
     string CodeChallenge,
-    string CodeChallengeMethod)
-    : IRequest<AuthorizeResult>
-{
-}
+    string CodeChallengeMethod
+) : IRequest<AuthorizeResult> { }

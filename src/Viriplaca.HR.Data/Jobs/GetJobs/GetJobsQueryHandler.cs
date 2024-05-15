@@ -7,7 +7,10 @@ public class GetJobsQueryHandler(SqlConnection connection)
 {
     private readonly SqlConnection _connection = connection;
 
-    public async Task<PageResult<JobDto>> Handle(GetJobsQuery request, CancellationToken cancellationToken)
+    public async Task<PageResult<JobDto>> Handle(
+        GetJobsQuery request,
+        CancellationToken cancellationToken
+    )
     {
         var builder = new SqlBuilder();
         if (!request.Title.IsNullOrWhiteSpace())
@@ -29,7 +32,8 @@ public class GetJobsQueryHandler(SqlConnection connection)
             return result;
         }
 
-        var sql = builder.AddTemplate(@"
+        var sql = builder.AddTemplate(
+            @"
 SELECT
     A.Id,
     A.Title,
@@ -46,7 +50,8 @@ LEFT JOIN (
 ORDER BY A.Id
 OFFSET @Offset ROWS 
 FETCH NEXT @Limit ROWS ONLY
-");
+"
+        );
         builder.AddParameters(new { result.Limit, result.Offset });
         var leaves = await _connection.QueryAsync<JobDto>(sql.RawSql, sql.Parameters);
         result.Items = leaves.ToList();

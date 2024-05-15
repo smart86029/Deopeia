@@ -8,9 +8,7 @@ public class User : AggregateRoot
     private readonly List<UserRole> _userRoles = [];
     private readonly List<UserRefreshToken> _userRefreshTokens = [];
 
-    private User()
-    {
-    }
+    private User() { }
 
     public User(string userName, string password, bool isEnabled)
     {
@@ -36,7 +34,8 @@ public class User : AggregateRoot
 
     public IReadOnlyCollection<UserRole> UserRoles => _userRoles.AsReadOnly();
 
-    public IReadOnlyCollection<UserRefreshToken> UserRefreshTokens => _userRefreshTokens.AsReadOnly();
+    public IReadOnlyCollection<UserRefreshToken> UserRefreshTokens =>
+        _userRefreshTokens.AsReadOnly();
 
     public void UpdatePassword(string password)
     {

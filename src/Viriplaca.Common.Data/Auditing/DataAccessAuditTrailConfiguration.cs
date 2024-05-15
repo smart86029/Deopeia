@@ -10,18 +10,26 @@ public class DataAccessAuditTrailConfiguration : IEntityTypeConfiguration<DataAc
     {
         builder
             .Property(x => x.Keys)
-            .HasConversion<JsonConverter<IReadOnlyDictionary<string, object>>>(new DictionaryComparer<string, object>());
+            .HasConversion<JsonConverter<IReadOnlyDictionary<string, object>>>(
+                new DictionaryComparer<string, object>()
+            );
 
         builder
             .Property(x => x.OldValues)
-            .HasConversion<JsonConverter<IReadOnlyDictionary<string, object?>>>(new DictionaryComparer<string, object?>());
+            .HasConversion<JsonConverter<IReadOnlyDictionary<string, object?>>>(
+                new DictionaryComparer<string, object?>()
+            );
 
         builder
             .Property(x => x.NewValues)
-            .HasConversion<JsonConverter<IReadOnlyDictionary<string, object?>>>(new DictionaryComparer<string, object?>());
+            .HasConversion<JsonConverter<IReadOnlyDictionary<string, object?>>>(
+                new DictionaryComparer<string, object?>()
+            );
 
         builder
             .Property(x => x.PropertyNames)
-            .HasConversion<JsonConverter<IReadOnlyCollection<string>>>(new EnumerableComparer<string>());
+            .HasConversion<JsonConverter<IReadOnlyCollection<string>>>(
+                new EnumerableComparer<string>()
+            );
     }
 }

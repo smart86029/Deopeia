@@ -2,9 +2,7 @@ namespace Viriplaca.HR.Domain;
 
 public record WorkingTime
 {
-    public WorkingTime()
-    {
-    }
+    public WorkingTime() { }
 
     public WorkingTime(decimal amount)
     {

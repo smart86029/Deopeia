@@ -7,9 +7,7 @@ public class DataAccessAuditTrail : AuditTrail
     private readonly Dictionary<string, object?> _newValues = [];
     private readonly List<string> _propertyNames = [];
 
-    private DataAccessAuditTrail()
-    {
-    }
+    private DataAccessAuditTrail() { }
 
     public DataAccessAuditTrail(
         Type entityType,
@@ -18,7 +16,8 @@ public class DataAccessAuditTrail : AuditTrail
         IDictionary<string, object?> newValues,
         IEnumerable<string> propertyNames,
         Guid createdBy,
-        IPAddress createdIp)
+        IPAddress createdIp
+    )
         : base(AuditTrailType.DataAccess, createdBy, createdIp)
     {
         EntityType = entityType;

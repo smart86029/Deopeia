@@ -4,14 +4,10 @@ public class LeaveType : AggregateRoot, ILocalizable<LeaveTypeLocale>
 {
     private readonly EntityLocaleCollection<LeaveTypeLocale> _locales = [];
 
-    private LeaveType()
-    {
-    }
+    private LeaveType() { }
 
     public LeaveType(string name, string? description)
-        : this(name, description, false)
-    {
-    }
+        : this(name, description, false) { }
 
     public LeaveType(string name, string? description, bool canCarryForward)
     {

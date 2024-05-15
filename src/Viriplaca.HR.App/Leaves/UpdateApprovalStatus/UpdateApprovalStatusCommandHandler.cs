@@ -7,15 +7,18 @@ internal class UpdateApprovalStatusCommandHandler(
     CurrentUser currentUser,
     IHRUnitOfWork unitOfWork,
     ILeaveRepository leaveRepository,
-    IEmployeeRepository employeeRepository)
-    : IRequestHandler<UpdateApprovalStatusCommand>
+    IEmployeeRepository employeeRepository
+) : IRequestHandler<UpdateApprovalStatusCommand>
 {
     private readonly CurrentUser _currentUser = currentUser;
     private readonly IHRUnitOfWork _unitOfWork = unitOfWork;
     private readonly ILeaveRepository _leaveRepository = leaveRepository;
     private readonly IEmployeeRepository _employeeRepository = employeeRepository;
 
-    public async Task Handle(UpdateApprovalStatusCommand request, CancellationToken cancellationToken)
+    public async Task Handle(
+        UpdateApprovalStatusCommand request,
+        CancellationToken cancellationToken
+    )
     {
         var leave = await _leaveRepository.GetLeaveAsync(request.Id);
         var supervisor = await _employeeRepository.GetSupervisorAsync(leave.EmployeeId);

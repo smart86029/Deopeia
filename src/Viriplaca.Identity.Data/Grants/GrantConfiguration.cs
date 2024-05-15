@@ -13,20 +13,17 @@ internal class GrantConfiguration : IEntityTypeConfiguration<Grant>
             .HasValue<AuthorizationCode>(GrantTypes.AuthorizationCode)
             .HasValue<RefreshToken>(GrantTypes.RefreshToken);
 
-        builder
-            .Property(x => x.Key)
-            .IsRequired()
-            .HasMaxLength(128);
+        builder.Property(x => x.Key).IsRequired().HasMaxLength(128);
 
         builder
             .Property(x => x.Scopes)
             .IsRequired()
             .HasMaxLength(256)
-            .HasConversion<JsonConverter<IReadOnlyCollection<string>>>(new EnumerableComparer<string>());
+            .HasConversion<JsonConverter<IReadOnlyCollection<string>>>(
+                new EnumerableComparer<string>()
+            );
 
-        builder
-            .HasIndex(x => x.Key)
-            .IsUnique();
+        builder.HasIndex(x => x.Key).IsUnique();
 
         builder.HasIndex(x => x.ClientId);
     }

@@ -1,5 +1,5 @@
-using Bogus;
 using System.Globalization;
+using Bogus;
 using Viriplaca.Identity.Domain.Clients;
 using Viriplaca.Identity.Domain.Grants;
 using Viriplaca.Identity.Domain.Permissions;
@@ -59,7 +59,8 @@ public class IdentitySeeder : IDbSeeder<IdentityContext>
                 {
                     new("http://localhost:5173/auth/sign-in-callback"),
                     new("http://localhost:5173/auth/refresh-callback"),
-                }),
+                }
+            ),
         };
 
         return results;
@@ -78,22 +79,14 @@ public class IdentitySeeder : IDbSeeder<IdentityContext>
 
     private IEnumerable<Role> GetRoles()
     {
-        var result = new Role[]
-        {
-            new("Administrator", true),
-            new("Human Resources", true)
-        };
+        var result = new Role[] { new("Administrator", true), new("Human Resources", true) };
 
         return result;
     }
 
     private IEnumerable<Permission> GetPermissions()
     {
-        var results = new Permission[]
-        {
-            new("SignIn", true),
-            new("HumanResources", true),
-        };
+        var results = new Permission[] { new("SignIn", true), new("HumanResources", true), };
 
         var enUS = CultureInfo.GetCultureInfo("en-US");
         var zhTW = CultureInfo.GetCultureInfo("zh-TW");

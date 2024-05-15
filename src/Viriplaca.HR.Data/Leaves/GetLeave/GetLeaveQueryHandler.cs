@@ -11,7 +11,8 @@ public class GetLeaveQueryHandler(SqlConnection connection)
 
     public async Task<LeaveDto> Handle(GetLeaveQuery request, CancellationToken cancellationToken)
     {
-        var sql = @"
+        var sql =
+            @"
 SELECT
     A.Id,
     A.LeaveTypeId,
@@ -26,11 +27,7 @@ FROM HR.Leave AS A
 INNER JOIN HR.Person AS B ON A.EmployeeId = B.Id AND B.Type = @Employee
 WHERE A.Id = @Id
 ";
-        var param = new
-        {
-            request.Id,
-            PersonType.Employee,
-        };
+        var param = new { request.Id, PersonType.Employee, };
         var leaves = await _connection.QueryAsync<LeaveDto, EmployeeDto, LeaveDto>(
             sql,
             (leave, employee) =>
@@ -38,7 +35,8 @@ WHERE A.Id = @Id
                 leave.Employee = employee;
                 return leave;
             },
-            param);
+            param
+        );
 
         return leaves.First();
     }

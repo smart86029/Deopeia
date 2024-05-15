@@ -2,8 +2,7 @@ using Viriplaca.Identity.Domain.Clients;
 
 namespace Viriplaca.Identity.Data.Clients;
 
-internal class ClientRepository(IdentityContext context)
-    : IClientRepository
+internal class ClientRepository(IdentityContext context) : IClientRepository
 {
     private readonly DbSet<Client> _clients = context.Set<Client>();
 

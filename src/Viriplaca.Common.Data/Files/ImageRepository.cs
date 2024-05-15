@@ -4,8 +4,7 @@ using Viriplaca.Common.Files;
 
 namespace Viriplaca.Common.Data.Files;
 
-internal class ImageRepository<TContext>(TContext context, IMinioClient client)
-    : IImageRepository
+internal class ImageRepository<TContext>(TContext context, IMinioClient client) : IImageRepository
     where TContext : DbContext
 {
     private readonly Uri _baseUri = new("http://localhost:8080");

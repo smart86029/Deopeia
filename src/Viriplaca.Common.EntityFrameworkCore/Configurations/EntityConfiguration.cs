@@ -7,11 +7,8 @@ public abstract class EntityConfiguration<TEntity> : IEntityTypeConfiguration<TE
 {
     public virtual void Configure(EntityTypeBuilder<TEntity> builder)
     {
-        builder
-            .Property(x => x.Id)
-            .ValueGeneratedNever();
+        builder.Property(x => x.Id).ValueGeneratedNever();
 
-        builder
-            .Ignore(x => x.DomainEvents);
+        builder.Ignore(x => x.DomainEvents);
     }
 }

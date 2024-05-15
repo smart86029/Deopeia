@@ -2,11 +2,15 @@ namespace Viriplaca.HR.Domain.Leaves;
 
 public class Leave : AggregateRoot
 {
-    private Leave()
-    {
-    }
+    private Leave() { }
 
-    public Leave(Guid leaveTypeId, DateTimeOffset startedAt, DateTimeOffset endedAt, string reason, Guid employeeId)
+    public Leave(
+        Guid leaveTypeId,
+        DateTimeOffset startedAt,
+        DateTimeOffset endedAt,
+        string reason,
+        Guid employeeId
+    )
     {
         LeaveTypeId = leaveTypeId;
         StartedAt = startedAt;

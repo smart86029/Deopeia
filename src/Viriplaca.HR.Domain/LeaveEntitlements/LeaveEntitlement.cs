@@ -2,16 +2,15 @@ namespace Viriplaca.HR.Domain.LeaveEntitlements;
 
 public class LeaveEntitlement : AggregateRoot
 {
-    private LeaveEntitlement()
-    {
-    }
+    private LeaveEntitlement() { }
 
     public LeaveEntitlement(
         Guid employeeId,
         Guid leaveTypeId,
         DateOnly startedOn,
         DateOnly endedOn,
-        WorkingTime grantedTime)
+        WorkingTime grantedTime
+    )
     {
         EmployeeId = employeeId;
         LeaveTypeId = leaveTypeId;

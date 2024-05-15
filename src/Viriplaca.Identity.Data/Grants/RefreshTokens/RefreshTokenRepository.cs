@@ -2,8 +2,7 @@ using Viriplaca.Identity.Domain.Grants.RefreshTokens;
 
 namespace Viriplaca.Identity.Data.Grants.RefreshTokens;
 
-internal class RefreshTokenRepository(IdentityContext context)
-    : IRefreshTokenRepository
+internal class RefreshTokenRepository(IdentityContext context) : IRefreshTokenRepository
 {
     private readonly DbSet<RefreshToken> _refreshTokens = context.Set<RefreshToken>();
 

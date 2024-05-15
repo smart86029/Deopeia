@@ -2,14 +2,14 @@ using Viriplaca.HR.App.Jobs.GetJob;
 
 namespace Viriplaca.HR.Data.Jobs.GetJobs;
 
-public class GetJobQueryHandler(SqlConnection connection)
-    : IRequestHandler<GetJobQuery, JobDto>
+public class GetJobQueryHandler(SqlConnection connection) : IRequestHandler<GetJobQuery, JobDto>
 {
     private readonly SqlConnection _connection = connection;
 
     public async Task<JobDto> Handle(GetJobQuery request, CancellationToken cancellationToken)
     {
-        var sql = @"
+        var sql =
+            @"
 SELECT
     Id,
     Title,

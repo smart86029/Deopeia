@@ -4,9 +4,7 @@ namespace Viriplaca.Common.Auditing;
 
 public abstract class AuditTrail : AggregateRoot
 {
-    protected AuditTrail()
-    {
-    }
+    protected AuditTrail() { }
 
     protected AuditTrail(AuditTrailType type, Guid createdBy, IPAddress address)
     {

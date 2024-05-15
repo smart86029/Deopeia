@@ -8,9 +8,7 @@ public class Role : AggregateRoot
     private readonly List<UserRole> _userRoles = [];
     private readonly List<RolePermission> _rolePermissions = [];
 
-    private Role()
-    {
-    }
+    private Role() { }
 
     public Role(string name, bool isEnabled)
     {

@@ -2,9 +2,7 @@ namespace Viriplaca.Identity.Domain.Users;
 
 public class UserRefreshToken : Entity
 {
-    private UserRefreshToken()
-    {
-    }
+    private UserRefreshToken() { }
 
     internal UserRefreshToken(string refreshToken, DateTimeOffset expiredAt, Guid userId)
     {

@@ -2,14 +2,10 @@ namespace Viriplaca.Identity.App.Connect.AuthorizationCodeGrant;
 
 public class AuthorizationCodeGrantResult : GrantResult
 {
-    internal AuthorizationCodeGrantResult()
-    {
-    }
+    internal AuthorizationCodeGrantResult() { }
 
     internal AuthorizationCodeGrantResult(GrantError error)
-        : base(error)
-    {
-    }
+        : base(error) { }
 
     [JsonPropertyName("access_token")]
     public string? AccessToken { get; set; }

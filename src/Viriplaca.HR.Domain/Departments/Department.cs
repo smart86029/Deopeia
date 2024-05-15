@@ -2,9 +2,7 @@ namespace Viriplaca.HR.Domain.Departments;
 
 public class Department : AggregateRoot
 {
-    private Department()
-    {
-    }
+    private Department() { }
 
     public Department(string name, bool isEnabled, Guid? parentId)
     {

@@ -12,10 +12,7 @@ public class EntityLocaleCollection<TLocale> : Collection<TLocale>
             var locale = this.FirstOrDefault(x => x.Culture == culture);
             if (locale is null)
             {
-                locale = new TLocale
-                {
-                    Culture = culture
-                };
+                locale = new TLocale { Culture = culture };
                 Add(locale);
             }
 

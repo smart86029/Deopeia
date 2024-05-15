@@ -11,7 +11,10 @@ public static class TypeExtensions
             return true;
         }
 
-        if (type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == genericType))
+        if (
+            type.GetInterfaces()
+                .Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == genericType)
+        )
         {
             return true;
         }

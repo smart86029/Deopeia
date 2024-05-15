@@ -8,15 +8,18 @@ internal class RefreshTokenGrantCommandHandler(
     IOptions<JwtOptions> jwtOptions,
     IIdentityUnitOfWork unitOfWork,
     IClientRepository clientRepository,
-    IRefreshTokenRepository refreshTokenRepository)
-    : GrantCommandHandler<RefreshTokenGrantCommand>(jwtOptions, unitOfWork, refreshTokenRepository)
+    IRefreshTokenRepository refreshTokenRepository
+) : GrantCommandHandler<RefreshTokenGrantCommand>(jwtOptions, unitOfWork, refreshTokenRepository)
 {
     private readonly TimeSpan _lifetime = TimeSpan.FromMinutes(5);
     private readonly IIdentityUnitOfWork _identityUnitOfWork = unitOfWork;
     private readonly IClientRepository _clientRepository = clientRepository;
     private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
 
-    public override async Task<GrantResult> Handle(RefreshTokenGrantCommand request, CancellationToken cancellationToken)
+    public override async Task<GrantResult> Handle(
+        RefreshTokenGrantCommand request,
+        CancellationToken cancellationToken
+    )
     {
         var client = await _clientRepository.GetClientAsync(request.ClientId);
         if (!client.GrantTypes.HasFlag(GrantTypes.RefreshToken))

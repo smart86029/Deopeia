@@ -2,9 +2,7 @@ namespace Viriplaca.Identity.Domain.Users;
 
 public class UserRole : Entity
 {
-    private UserRole()
-    {
-    }
+    private UserRole() { }
 
     public UserRole(Guid userId, Guid roleId)
     {

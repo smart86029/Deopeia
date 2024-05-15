@@ -2,9 +2,7 @@ namespace Viriplaca.Identity.Domain.Roles;
 
 public class RolePermission : Entity
 {
-    private RolePermission()
-    {
-    }
+    private RolePermission() { }
 
     public RolePermission(Guid roleId, Guid permissionId)
     {

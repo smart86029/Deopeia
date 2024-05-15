@@ -1,6 +1,3 @@
 namespace Viriplaca.HR.App.Departments.GetDepartment;
 
-public record GetDepartmentQuery(Guid Id)
-    : IRequest<DepartmentDto>
-{
-}
+public record GetDepartmentQuery(Guid Id) : IRequest<DepartmentDto> { }

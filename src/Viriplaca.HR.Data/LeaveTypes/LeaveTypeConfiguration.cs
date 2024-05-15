@@ -4,7 +4,5 @@ namespace Viriplaca.HR.Data.LeaveTypes;
 
 internal class LeaveTypeConfiguration : IEntityTypeConfiguration<LeaveType>
 {
-    public void Configure(EntityTypeBuilder<LeaveType> builder)
-    {
-    }
+    public void Configure(EntityTypeBuilder<LeaveType> builder) { }
 }

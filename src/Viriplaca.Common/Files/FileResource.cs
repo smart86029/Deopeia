@@ -4,9 +4,7 @@ namespace Viriplaca.Common.Files;
 
 public abstract class FileResource : AggregateRoot
 {
-    protected FileResource()
-    {
-    }
+    protected FileResource() { }
 
     protected FileResource(FileResourceType type, string fileName, byte[] content)
     {

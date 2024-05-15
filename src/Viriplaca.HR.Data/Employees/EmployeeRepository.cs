@@ -2,8 +2,7 @@ using Viriplaca.HR.Domain.Employees;
 
 namespace Viriplaca.HR.Data.Employees;
 
-public class EmployeeRepository(HRContext context)
-    : IEmployeeRepository
+public class EmployeeRepository(HRContext context) : IEmployeeRepository
 {
     private readonly DbSet<Employee> _employees = context.Set<Employee>();
     private readonly DbSet<JobChange> _jobChanges = context.Set<JobChange>();
@@ -19,7 +18,11 @@ public class EmployeeRepository(HRContext context)
         return results;
     }
 
-    public async Task<ICollection<Employee>> GetEmployeesAsync(Guid departmentId, int offset, int limit)
+    public async Task<ICollection<Employee>> GetEmployeesAsync(
+        Guid departmentId,
+        int offset,
+        int limit
+    )
     {
         var results = await _employees
             .Where(x => x.DepartmentId == departmentId)
@@ -32,9 +35,10 @@ public class EmployeeRepository(HRContext context)
 
     public async Task<Employee> GetEmployeeAsync(Guid employeeId)
     {
-        var result = await _employees
-            .Include(x => x.JobChanges)
-            .SingleOrDefaultAsync(x => x.Id == employeeId)
+        var result =
+            await _employees
+                .Include(x => x.JobChanges)
+                .SingleOrDefaultAsync(x => x.Id == employeeId)
             ?? throw new Exception(employeeId.ToString());
 
         return result;
@@ -47,7 +51,14 @@ public class EmployeeRepository(HRContext context)
                 _jobChanges,
                 employee => employee.DepartmentId,
                 jobChange => jobChange.DepartmentId,
-                (employee, jobChange) => new { Employee = employee, jobChange.IsHead, jobChange.EndedAt })
+                (employee, jobChange) =>
+                    new
+                    {
+                        Employee = employee,
+                        jobChange.IsHead,
+                        jobChange.EndedAt
+                    }
+            )
             .Where(x => x.IsHead && x.EndedAt == null)
             .Select(x => x.Employee)
             .FirstOrDefaultAsync();
@@ -57,32 +68,28 @@ public class EmployeeRepository(HRContext context)
 
     public async Task<int> GetCountAsync()
     {
-        var result = await _employees
-            .CountAsync();
+        var result = await _employees.CountAsync();
 
         return result;
     }
 
     public async Task<int> GetCountByUserAsync(Guid userId)
     {
-        var result = await _employees
-            .CountAsync(x => x.UserId == userId);
+        var result = await _employees.CountAsync(x => x.UserId == userId);
 
         return result;
     }
 
     public async Task<int> GetCountByDepartmentAsync(Guid departmentId)
     {
-        var result = await _employees
-            .CountAsync(x => x.DepartmentId == departmentId);
+        var result = await _employees.CountAsync(x => x.DepartmentId == departmentId);
 
         return result;
     }
 
     public async Task<int> GetCountByJobAsync(Guid jobId)
     {
-        var result = await _employees
-            .CountAsync(x => x.JobId == jobId);
+        var result = await _employees.CountAsync(x => x.JobId == jobId);
 
         return result;
     }

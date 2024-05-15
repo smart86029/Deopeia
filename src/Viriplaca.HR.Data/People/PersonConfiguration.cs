@@ -7,18 +7,11 @@ internal class PersonConfiguration : IEntityTypeConfiguration<Person>
 {
     public void Configure(EntityTypeBuilder<Person> builder)
     {
-        builder
-            .HasDiscriminator(x => x.Type)
-            .HasValue<Employee>(PersonType.Employee);
+        builder.HasDiscriminator(x => x.Type).HasValue<Employee>(PersonType.Employee);
 
-        builder
-            .Property(x => x.FirstName)
-            .IsRequired()
-            .HasMaxLength(32);
+        builder.Property(x => x.FirstName).IsRequired().HasMaxLength(32);
 
-        builder
-            .Property(x => x.LastName)
-            .HasMaxLength(32);
+        builder.Property(x => x.LastName).HasMaxLength(32);
 
         builder.HasIndex(x => x.UserId);
     }

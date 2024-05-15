@@ -2,14 +2,10 @@ namespace Viriplaca.Identity.App.Connect.RefreshTokenGrant;
 
 public class RefreshTokenGrantResult : GrantResult
 {
-    internal RefreshTokenGrantResult()
-    {
-    }
+    internal RefreshTokenGrantResult() { }
 
     internal RefreshTokenGrantResult(GrantError error)
-        : base(error)
-    {
-    }
+        : base(error) { }
 
     [JsonPropertyName("access_token")]
     public string? AccessToken { get; set; }

@@ -4,7 +4,5 @@ namespace Viriplaca.Identity.Data.Users;
 
 internal class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
 {
-    public void Configure(EntityTypeBuilder<UserRole> builder)
-    {
-    }
+    public void Configure(EntityTypeBuilder<UserRole> builder) { }
 }

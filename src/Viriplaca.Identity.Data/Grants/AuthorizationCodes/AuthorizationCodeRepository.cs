@@ -2,10 +2,10 @@ using Viriplaca.Identity.Domain.Grants.AuthorizationCodes;
 
 namespace Viriplaca.Identity.Data.Grants.AuthorizationCodes;
 
-internal class AuthorizationCodeRepository(IdentityContext context)
-    : IAuthorizationCodeRepository
+internal class AuthorizationCodeRepository(IdentityContext context) : IAuthorizationCodeRepository
 {
-    private readonly DbSet<AuthorizationCode> _authorizationCodes = context.Set<AuthorizationCode>();
+    private readonly DbSet<AuthorizationCode> _authorizationCodes =
+        context.Set<AuthorizationCode>();
 
     public Task<AuthorizationCode?> GetAuthorizationCodeAsync(string code)
     {

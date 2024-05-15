@@ -6,14 +6,18 @@ namespace Viriplaca.Identity.App.Connect.Authorize;
 internal class AuthorizeCommandHandler(
     IIdentityUnitOfWork unitOfWork,
     IClientRepository clientRepository,
-    IAuthorizationCodeRepository authorizationCodeRepository)
-    : IRequestHandler<AuthorizeCommand, AuthorizeResult>
+    IAuthorizationCodeRepository authorizationCodeRepository
+) : IRequestHandler<AuthorizeCommand, AuthorizeResult>
 {
     private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
     private readonly IClientRepository _clientRepository = clientRepository;
-    private readonly IAuthorizationCodeRepository _authorizationCodeRepository = authorizationCodeRepository;
+    private readonly IAuthorizationCodeRepository _authorizationCodeRepository =
+        authorizationCodeRepository;
 
-    public async Task<AuthorizeResult> Handle(AuthorizeCommand request, CancellationToken cancellationToken)
+    public async Task<AuthorizeResult> Handle(
+        AuthorizeCommand request,
+        CancellationToken cancellationToken
+    )
     {
         if (request.ResponseType != "code")
         {
@@ -48,7 +52,8 @@ internal class AuthorizeCommandHandler(
             request.RedirectUri!,
             string.Empty,
             request.CodeChallenge,
-            request.CodeChallengeMethod);
+            request.CodeChallengeMethod
+        );
         _authorizationCodeRepository.Add(authorizationCode);
         await _unitOfWork.CommitAsync();
 

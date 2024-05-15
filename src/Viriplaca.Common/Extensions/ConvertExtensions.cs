@@ -174,7 +174,9 @@ public static class ConvertExtensions
 
     public static sbyte ToSByte(this short value, sbyte defaultValue = default)
     {
-        return value.IsBetween(sbyte.MinValue, sbyte.MaxValue) ? Convert.ToSByte(value) : defaultValue;
+        return value.IsBetween(sbyte.MinValue, sbyte.MaxValue)
+            ? Convert.ToSByte(value)
+            : defaultValue;
     }
 
     public static sbyte ToSByte(this ushort value, sbyte defaultValue = default)
@@ -184,7 +186,9 @@ public static class ConvertExtensions
 
     public static sbyte ToSByte(this int value, sbyte defaultValue = default)
     {
-        return value.IsBetween(sbyte.MinValue, sbyte.MaxValue) ? Convert.ToSByte(value) : defaultValue;
+        return value.IsBetween(sbyte.MinValue, sbyte.MaxValue)
+            ? Convert.ToSByte(value)
+            : defaultValue;
     }
 
     public static sbyte ToSByte(this uint value, sbyte defaultValue = default)
@@ -194,7 +198,9 @@ public static class ConvertExtensions
 
     public static sbyte ToSByte(this long value, sbyte defaultValue = default)
     {
-        return value.IsBetween(sbyte.MinValue, sbyte.MaxValue) ? Convert.ToSByte(value) : defaultValue;
+        return value.IsBetween(sbyte.MinValue, sbyte.MaxValue)
+            ? Convert.ToSByte(value)
+            : defaultValue;
     }
 
     public static sbyte ToSByte(this ulong value, sbyte defaultValue = default)
@@ -334,7 +340,9 @@ public static class ConvertExtensions
 
     public static short ToShort(this int value, short defaultValue = default)
     {
-        return value.IsBetween(short.MinValue, short.MaxValue) ? Convert.ToInt16(value) : defaultValue;
+        return value.IsBetween(short.MinValue, short.MaxValue)
+            ? Convert.ToInt16(value)
+            : defaultValue;
     }
 
     public static short ToShort(this uint value, short defaultValue = default)
@@ -344,7 +352,9 @@ public static class ConvertExtensions
 
     public static short ToShort(this long value, short defaultValue = default)
     {
-        return value.IsBetween(short.MinValue, short.MaxValue) ? Convert.ToInt16(value) : defaultValue;
+        return value.IsBetween(short.MinValue, short.MaxValue)
+            ? Convert.ToInt16(value)
+            : defaultValue;
     }
 
     public static short ToShort(this ulong value, short defaultValue = default)
@@ -409,7 +419,9 @@ public static class ConvertExtensions
 
     public static ushort ToUShort(this int value, ushort defaultValue = default)
     {
-        return value.IsBetween(ushort.MinValue, ushort.MaxValue) ? Convert.ToUInt16(value) : defaultValue;
+        return value.IsBetween(ushort.MinValue, ushort.MaxValue)
+            ? Convert.ToUInt16(value)
+            : defaultValue;
     }
 
     public static ushort ToUShort(this uint value, ushort defaultValue = default)
@@ -419,7 +431,9 @@ public static class ConvertExtensions
 
     public static ushort ToUShort(this long value, ushort defaultValue = default)
     {
-        return value.IsBetween(ushort.MinValue, ushort.MaxValue) ? Convert.ToUInt16(value) : defaultValue;
+        return value.IsBetween(ushort.MinValue, ushort.MaxValue)
+            ? Convert.ToUInt16(value)
+            : defaultValue;
     }
 
     public static ushort ToUShort(this ulong value, ushort defaultValue = default)
@@ -569,7 +583,9 @@ public static class ConvertExtensions
 
     public static uint ToUInt(this long value, uint defaultValue = default)
     {
-        return value.IsBetween(uint.MinValue, uint.MaxValue) ? Convert.ToUInt32(value) : defaultValue;
+        return value.IsBetween(uint.MinValue, uint.MaxValue)
+            ? Convert.ToUInt32(value)
+            : defaultValue;
     }
 
     public static uint ToUInt(this ulong value, uint defaultValue = default)

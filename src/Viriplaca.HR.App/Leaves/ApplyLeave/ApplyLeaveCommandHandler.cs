@@ -5,8 +5,8 @@ namespace Viriplaca.HR.App.Leaves.ApplyLeave;
 public class ApplyLeaveCommandHandler(
     CurrentUser currentUser,
     IHRUnitOfWork unitOfWork,
-    ILeaveRepository leaveRepository)
-    : IRequestHandler<ApplyLeaveCommand, Guid>
+    ILeaveRepository leaveRepository
+) : IRequestHandler<ApplyLeaveCommand, Guid>
 {
     private readonly IHRUnitOfWork _unitOfWork = unitOfWork;
     private readonly ILeaveRepository _leaveRepository = leaveRepository;
@@ -18,7 +18,8 @@ public class ApplyLeaveCommandHandler(
             request.StartedAt,
             request.EndedAt,
             request.Reason,
-            currentUser.Id);
+            currentUser.Id
+        );
         _leaveRepository.Add(leave);
         await _unitOfWork.CommitAsync();
 

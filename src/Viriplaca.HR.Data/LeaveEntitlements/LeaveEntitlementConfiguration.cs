@@ -7,7 +7,13 @@ internal class LeaveEntitlementConfiguration : IEntityTypeConfiguration<LeaveEnt
     public void Configure(EntityTypeBuilder<LeaveEntitlement> builder)
     {
         builder
-            .HasIndex(x => new { x.EmployeeId, x.LeaveTypeId, x.StartedOn, x.EndedOn })
+            .HasIndex(x => new
+            {
+                x.EmployeeId,
+                x.LeaveTypeId,
+                x.StartedOn,
+                x.EndedOn
+            })
             .IsUnique();
     }
 }

@@ -1,5 +1,3 @@
 namespace Viriplaca.HR.Domain.LeaveEntitlements;
 
-public interface ILeaveEntitlementRepository : IRepository<LeaveEntitlement>
-{
-}
+public interface ILeaveEntitlementRepository : IRepository<LeaveEntitlement> { }

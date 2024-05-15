@@ -7,9 +7,13 @@ public class GetJobOptionsQueryHandler(SqlConnection connection)
 {
     private readonly SqlConnection _connection = connection;
 
-    public async Task<ICollection<OptionResult<Guid>>> Handle(GetJobOptionsQuery request, CancellationToken cancellationToken)
+    public async Task<ICollection<OptionResult<Guid>>> Handle(
+        GetJobOptionsQuery request,
+        CancellationToken cancellationToken
+    )
     {
-        var sql = @"
+        var sql =
+            @"
 SELECT
     Id AS Value,
     Title AS Name,

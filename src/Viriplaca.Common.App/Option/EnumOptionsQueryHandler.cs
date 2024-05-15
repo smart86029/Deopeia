@@ -9,7 +9,10 @@ public abstract class EnumOptionsQueryHandler<TQuery, TEnum>(IStringLocalizer lo
 {
     private readonly IStringLocalizer _localizer = localizer;
 
-    public async Task<ICollection<OptionResult<TEnum>>> Handle(TQuery request, CancellationToken cancellationToken)
+    public async Task<ICollection<OptionResult<TEnum>>> Handle(
+        TQuery request,
+        CancellationToken cancellationToken
+    )
     {
         await Task.CompletedTask;
         var results = Enum.GetValues(typeof(TEnum))

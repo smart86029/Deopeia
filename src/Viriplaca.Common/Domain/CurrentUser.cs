@@ -2,9 +2,7 @@ namespace Viriplaca.Common.Domain;
 
 public class CurrentUser
 {
-    public CurrentUser()
-    {
-    }
+    public CurrentUser() { }
 
     public CurrentUser(Guid id, IPAddress address)
     {

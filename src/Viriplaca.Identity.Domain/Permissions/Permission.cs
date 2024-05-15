@@ -7,9 +7,7 @@ public class Permission : AggregateRoot, ILocalizable<PermissionLocale>
     private readonly EntityLocaleCollection<PermissionLocale> _locales = [];
     private readonly List<RolePermission> _rolePermissions = [];
 
-    private Permission()
-    {
-    }
+    private Permission() { }
 
     public Permission(string code, bool isEnabled)
     {

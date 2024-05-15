@@ -1,10 +1,10 @@
+using System.Reflection;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Minio;
-using System.Reflection;
 using Viriplaca.Common.Data.Files;
 using Viriplaca.Common.Data.Localization;
 using Viriplaca.Common.Data.TypeHandlers;
@@ -14,31 +14,44 @@ namespace Viriplaca.Common.Data;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddData<TContext, TSeeder>(this IServiceCollection services, MinIOOptions minIOOptions)
+    public static IServiceCollection AddData<TContext, TSeeder>(
+        this IServiceCollection services,
+        MinIOOptions minIOOptions
+    )
         where TContext : DbContext
         where TSeeder : class, IDbSeeder<TContext>
     {
-        services.AddDbContext<TContext>((serviceProvider, optionsBuilder) =>
-        {
-            var connectionStringOptions = serviceProvider.GetRequiredService<IOptions<ConnectionStringOptions>>().Value;
-            optionsBuilder.UseSqlServer(connectionStringOptions.Database);
-        });
+        services.AddDbContext<TContext>(
+            (serviceProvider, optionsBuilder) =>
+            {
+                var connectionStringOptions = serviceProvider
+                    .GetRequiredService<IOptions<ConnectionStringOptions>>()
+                    .Value;
+                optionsBuilder.UseSqlServer(connectionStringOptions.Database);
+            }
+        );
         services.AddScoped(serviceProvider =>
         {
-            var connectionStringOptions = serviceProvider.GetRequiredService<IOptions<ConnectionStringOptions>>().Value;
+            var connectionStringOptions = serviceProvider
+                .GetRequiredService<IOptions<ConnectionStringOptions>>()
+                .Value;
 
             return new SqlConnection(connectionStringOptions.Database);
         });
 
         services.AddScoped<IDbSeeder<TContext>, TSeeder>();
         services.AddHostedService<MigrationWorker<TContext>>();
-        services.AddMinio(client => client
-            .WithEndpoint(minIOOptions.Endpoint)
-            .WithCredentials(minIOOptions.AccessKey, minIOOptions.SecretKey)
-            .WithSSL(false));
+        services.AddMinio(client =>
+            client
+                .WithEndpoint(minIOOptions.Endpoint)
+                .WithCredentials(minIOOptions.AccessKey, minIOOptions.SecretKey)
+                .WithSSL(false)
+        );
 
         services.AddRepositories<TContext>();
-        services.AddLocalization<TContext>(options => options.FallbackCulture = CultureInfo.GetCultureInfo("en-US"));
+        services.AddLocalization<TContext>(options =>
+            options.FallbackCulture = CultureInfo.GetCultureInfo("en-US")
+        );
 
         SqlMapper.AddTypeHandler(new CultureInfoTypeHandler());
         SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
@@ -50,17 +63,20 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection AddRepositories<TContext>(this IServiceCollection services)
         where TContext : DbContext
     {
-        var types = Assembly.GetEntryAssembly()!
+        var types = Assembly
+            .GetEntryAssembly()!
             .GetReferencedAssemblies()
             .Where(x => x.Name!.StartsWith("Viriplaca.") && x.Name.EndsWith(".Data"))
             .Select(Assembly.Load)
             .SelectMany(x => x.GetTypes())
             .Where(x => x.IsClass && !x.IsAbstract && !x.IsGenericType)
-            .Where(x => x.IsAssignableToGenericType(typeof(IRepository<>)) || x.IsAssignableTo(typeof(IUnitOfWork)));
+            .Where(x =>
+                x.IsAssignableToGenericType(typeof(IRepository<>))
+                || x.IsAssignableTo(typeof(IUnitOfWork))
+            );
         foreach (var type in types)
         {
-            var interfaceTypes = type
-                .GetInterfaces()
+            var interfaceTypes = type.GetInterfaces()
                 .Where(x => x != typeof(IRepository<>) && x != typeof(IUnitOfWork));
             foreach (var interfaceType in interfaceTypes)
             {
@@ -73,7 +89,10 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    private static IServiceCollection AddLocalization<TContext>(this IServiceCollection services, Action<LocalizationOptions> configureOptions)
+    private static IServiceCollection AddLocalization<TContext>(
+        this IServiceCollection services,
+        Action<LocalizationOptions> configureOptions
+    )
         where TContext : DbContext
     {
         services.Configure(configureOptions);

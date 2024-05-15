@@ -9,11 +9,15 @@ public class Employee : Person
 {
     private readonly List<JobChange> _jobChanges = [];
 
-    private Employee()
-    {
-    }
+    private Employee() { }
 
-    public Employee(string firstName, string? lastName, DateOnly birthDate, Sex sex, MaritalStatus maritalStatus)
+    public Employee(
+        string firstName,
+        string? lastName,
+        DateOnly birthDate,
+        Sex sex,
+        MaritalStatus maritalStatus
+    )
         : base(PersonType.Employee, firstName, lastName, birthDate, sex, maritalStatus)
     {
         AddDomainEvent(new EmployeeCreated(Id));
@@ -25,7 +29,8 @@ public class Employee : Person
 
     public Guid JobId { get; private set; }
 
-    public bool IsEmployed => _jobChanges.Any(x => DateTimeOffset.UtcNow.IsBetween(x.StartedAt, x.EndedAt));
+    public bool IsEmployed =>
+        _jobChanges.Any(x => DateTimeOffset.UtcNow.IsBetween(x.StartedAt, x.EndedAt));
 
     public IReadOnlyCollection<JobChange> JobChanges => _jobChanges.AsReadOnly();
 

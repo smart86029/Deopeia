@@ -6,8 +6,8 @@ namespace Viriplaca.Common.Data.Localization;
 
 internal class StringLocalizerFactory<TContext>(
     IOptions<LocalizationOptions> options,
-    IServiceProvider serviceProvider)
-    : IStringLocalizerFactory
+    IServiceProvider serviceProvider
+) : IStringLocalizerFactory
     where TContext : DbContext
 {
     private readonly Dictionary<string, IStringLocalizer> _localizers = [];
@@ -33,10 +33,7 @@ internal class StringLocalizerFactory<TContext>(
     {
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<TContext>();
-        var results = context
-            .Set<LocaleResource>()
-            .AsNoTracking()
-            .ToList();
+        var results = context.Set<LocaleResource>().AsNoTracking().ToList();
 
         return results;
     }

@@ -2,9 +2,7 @@ namespace Viriplaca.Common.Localization;
 
 public class LocaleResource
 {
-    private LocaleResource()
-    {
-    }
+    private LocaleResource() { }
 
     public LocaleResource(CultureInfo culture, LocaleResourceType type, string code, string content)
     {

@@ -6,13 +6,8 @@ internal class UserRefreshTokenConfiguration : IEntityTypeConfiguration<UserRefr
 {
     public void Configure(EntityTypeBuilder<UserRefreshToken> builder)
     {
-        builder
-            .Property(x => x.RefreshToken)
-            .IsRequired()
-            .HasColumnType("char(24)");
+        builder.Property(x => x.RefreshToken).IsRequired().HasColumnType("char(24)");
 
-        builder
-            .HasIndex(x => x.RefreshToken)
-            .IsUnique();
+        builder.HasIndex(x => x.RefreshToken).IsUnique();
     }
 }

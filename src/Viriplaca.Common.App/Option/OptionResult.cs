@@ -2,14 +2,10 @@ namespace Viriplaca.Common.App.Option;
 
 public class OptionResult<TValue>
 {
-    public OptionResult()
-    {
-    }
+    public OptionResult() { }
 
     public OptionResult(string name, TValue value)
-        : this(name, value, true)
-    {
-    }
+        : this(name, value, true) { }
 
     public OptionResult(string name, TValue value, bool isEnabled)
     {

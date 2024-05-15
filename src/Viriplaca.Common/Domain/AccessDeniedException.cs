@@ -5,7 +5,5 @@ namespace Viriplaca.Common.Domain;
 public class AccessDeniedException : LocalizableMessageException
 {
     public AccessDeniedException()
-        : base("AccessDenied")
-    {
-    }
+        : base("AccessDenied") { }
 }

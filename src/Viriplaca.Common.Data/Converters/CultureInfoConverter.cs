@@ -5,6 +5,5 @@ namespace Viriplaca.Common.Data.Converters;
 internal class CultureInfoConverter()
     : ValueConverter<CultureInfo, string>(
         culture => culture.Name,
-        name => CultureInfo.GetCultureInfo(name))
-{
-}
+        name => CultureInfo.GetCultureInfo(name)
+    ) { }

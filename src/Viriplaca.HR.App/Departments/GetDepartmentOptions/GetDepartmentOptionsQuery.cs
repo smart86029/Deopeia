@@ -1,5 +1,3 @@
 namespace Viriplaca.HR.App.Departments.GetDepartmentOptions;
 
-public record GetDepartmentOptionsQuery : OptionsQuery<Guid>
-{
-}
+public record GetDepartmentOptionsQuery : OptionsQuery<Guid> { }

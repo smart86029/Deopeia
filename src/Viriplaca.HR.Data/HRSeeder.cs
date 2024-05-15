@@ -52,7 +52,8 @@ public class HRSeeder : IDbSeeder<HRContext>
                     x.Name.LastName(),
                     x.Date.Past(20).ToDateOnly(),
                     gender,
-                    x.PickRandom(MaritalStatus.Married, MaritalStatus.Single));
+                    x.PickRandom(MaritalStatus.Married, MaritalStatus.Single)
+                );
 
                 return employee;
             })
@@ -95,7 +96,11 @@ public class HRSeeder : IDbSeeder<HRContext>
         var results = new List<LeaveType>
         {
             new("Personal", null),
-            new("Annual", "3 days for service of 6 months or more but less than 1 year\n7 days for service of 1 year or more but less than 2 years\n10 days for service of 2 years or more but less than 3 years\n14 days for service of 3 years or more but less than 5 years\n15 days for service of 5 years or more but less than 10 years\n1 additional day for each year of service over 10 years up to a maximum of 30 days", true),
+            new(
+                "Annual",
+                "3 days for service of 6 months or more but less than 1 year\n7 days for service of 1 year or more but less than 2 years\n10 days for service of 2 years or more but less than 3 years\n14 days for service of 3 years or more but less than 5 years\n15 days for service of 5 years or more but less than 10 years\n1 additional day for each year of service over 10 years up to a maximum of 30 days",
+                true
+            ),
             new("Sick", null),
             new("Official", null),
             new("Menstrual", null),
@@ -123,7 +128,6 @@ public class HRSeeder : IDbSeeder<HRContext>
         return results;
     }
 
-
     private List<Leave> GetLeaves(List<Employee> employees, List<LeaveType> leaveTypes)
     {
         var results = new Faker<Leave>()
@@ -135,7 +139,8 @@ public class HRSeeder : IDbSeeder<HRContext>
                     startedAt,
                     startedAt.AddDays(x.Random.Int(0, 3)),
                     string.Empty,
-                    x.PickRandom(employees).Id);
+                    x.PickRandom(employees).Id
+                );
 
                 return leave;
             })
@@ -144,13 +149,22 @@ public class HRSeeder : IDbSeeder<HRContext>
         return results;
     }
 
-    private List<LeaveEntitlement> GetLeaveEntitlements(List<Employee> employees, List<LeaveType> leaveTypes)
+    private List<LeaveEntitlement> GetLeaveEntitlements(
+        List<Employee> employees,
+        List<LeaveType> leaveTypes
+    )
     {
         var year = DateTime.UtcNow.Year;
         var startedOn = new DateOnly(year, 1, 1);
         var endedOn = new DateOnly(year, 12, 31);
         var results = employees
-            .Select(x => new LeaveEntitlement(x.Id, leaveTypes[2].Id, startedOn, endedOn, WorkingTime.FromDays(14)))
+            .Select(x => new LeaveEntitlement(
+                x.Id,
+                leaveTypes[2].Id,
+                startedOn,
+                endedOn,
+                WorkingTime.FromDays(14)
+            ))
             .ToList();
 
         return results;
@@ -197,7 +211,6 @@ public class HRSeeder : IDbSeeder<HRContext>
             FromError(enUS, "Date.OnOrBeforeNow", "{Property} must be on or before now."),
             FromError(enUS, "Date.AfterNow", "{Property} must be after now."),
             FromError(enUS, "Enum.Defined", "{Property} must be defined."),
-
             FromNone(zhTW, "Name", "名稱"),
             FromEnum(zhTW, MaritalStatus.Unknown, "未知"),
             FromEnum(zhTW, MaritalStatus.Single, "未婚"),
@@ -224,7 +237,12 @@ public class HRSeeder : IDbSeeder<HRContext>
 
         LocaleResource FromEnum<TEnum>(CultureInfo culture, TEnum @enum, string content)
         {
-            return new LocaleResource(culture, LocaleResourceType.Enum, $"{typeof(TEnum).Name}.{@enum:D}", content);
+            return new LocaleResource(
+                culture,
+                LocaleResourceType.Enum,
+                $"{typeof(TEnum).Name}.{@enum:D}",
+                content
+            );
         }
 
         LocaleResource FromError(CultureInfo culture, string code, string content)

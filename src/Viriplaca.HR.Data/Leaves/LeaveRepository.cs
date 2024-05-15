@@ -2,15 +2,14 @@ using Viriplaca.HR.Domain.Leaves;
 
 namespace Viriplaca.HR.Data.Leaves;
 
-public class LeaveRepository(HRContext context)
-    : ILeaveRepository
+public class LeaveRepository(HRContext context) : ILeaveRepository
 {
     private readonly DbSet<Leave> _leaves = context.Set<Leave>();
 
     public async Task<Leave> GetLeaveAsync(Guid leaveId)
     {
-        var result = await _leaves.SingleOrDefaultAsync(x => x.Id == leaveId)
-            ?? throw new Exception();
+        var result =
+            await _leaves.SingleOrDefaultAsync(x => x.Id == leaveId) ?? throw new Exception();
 
         return result;
     }

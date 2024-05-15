@@ -21,11 +21,15 @@ public class ConnectController : ApiController<ConnectController>
                 return Redirect(authorizeResult.ReturnUrl);
             }
 
-            return RedirectToPage("/Authentication/SignIn", new { authorizeResult.Code, authorizeResult.ReturnUrl });
+            return RedirectToPage(
+                "/Authentication/SignIn",
+                new { authorizeResult.Code, authorizeResult.ReturnUrl }
+            );
         }
         catch (Exception exception)
         {
-            var url = $"{request.RedirectUri}?error={exception.Message}&error_description=&state={request.State}";
+            var url =
+                $"{request.RedirectUri}?error={exception.Message}&error_description=&state={request.State}";
 
             return Redirect(url);
         }

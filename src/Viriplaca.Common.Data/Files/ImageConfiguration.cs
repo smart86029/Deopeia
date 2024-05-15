@@ -5,7 +5,5 @@ namespace Viriplaca.Common.Data.Files;
 
 public class ImageConfiguration : IEntityTypeConfiguration<Image>
 {
-    public void Configure(EntityTypeBuilder<Image> builder)
-    {
-    }
+    public void Configure(EntityTypeBuilder<Image> builder) { }
 }

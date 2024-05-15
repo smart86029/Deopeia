@@ -7,16 +7,18 @@ public abstract class Grant : AggregateRoot
 {
     private readonly List<string> _scopes = [];
 
-    protected Grant()
-    {
-    }
+    protected Grant() { }
 
     protected Grant(GrantTypes type, Client client, IEnumerable<string> scopes, TimeSpan expiresIn)
-        : this(type, null, client, scopes, expiresIn)
-    {
-    }
+        : this(type, null, client, scopes, expiresIn) { }
 
-    protected Grant(GrantTypes type, Guid? subjectId, Client client, IEnumerable<string> scopes, TimeSpan expiresIn)
+    protected Grant(
+        GrantTypes type,
+        Guid? subjectId,
+        Client client,
+        IEnumerable<string> scopes,
+        TimeSpan expiresIn
+    )
     {
         type.MustBeDefined();
 

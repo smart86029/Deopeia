@@ -1,10 +1,10 @@
+using System.Reflection;
+using System.Text;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System.Reflection;
-using System.Text;
 using Viriplaca.Common.Api.Extensions;
 using Viriplaca.Common.Domain;
 
@@ -32,7 +32,8 @@ public static class ServiceCollectionExtensions
             return new CurrentUser(context.User.GetUserId(), context.Request.GetAddress());
         });
 
-        var assemblies = Assembly.GetEntryAssembly()!
+        var assemblies = Assembly
+            .GetEntryAssembly()!
             .GetReferencedAssemblies()
             .Where(x => x.Name!.StartsWith("Viriplaca."))
             .Select(Assembly.Load)
@@ -42,7 +43,10 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static AuthenticationBuilder AddAuthentication(this IServiceCollection services, JwtOptions jwtOptions)
+    public static AuthenticationBuilder AddAuthentication(
+        this IServiceCollection services,
+        JwtOptions jwtOptions
+    )
     {
         var builder = services
             .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -52,7 +56,9 @@ public static class ServiceCollectionExtensions
                 {
                     ValidIssuer = jwtOptions.Issuer,
                     ValidAudience = jwtOptions.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key)),
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(jwtOptions.Key)
+                    ),
                 };
             });
 

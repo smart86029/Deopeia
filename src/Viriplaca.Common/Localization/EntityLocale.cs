@@ -2,9 +2,7 @@ namespace Viriplaca.Common.Localization;
 
 public abstract class EntityLocale
 {
-    protected EntityLocale()
-    {
-    }
+    protected EntityLocale() { }
 
     protected EntityLocale(CultureInfo culture)
     {

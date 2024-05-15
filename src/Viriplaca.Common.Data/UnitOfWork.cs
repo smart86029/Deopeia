@@ -24,9 +24,11 @@ public abstract class UnitOfWork<TContext>(TContext context, CurrentUser current
         var auditTrails = new List<AuditTrail>();
         foreach (var entry in _context.ChangeTracker.Entries())
         {
-            if (entry.Entity is AuditTrail
+            if (
+                entry.Entity is AuditTrail
                 || entry.State == EntityState.Detached
-                || entry.State == EntityState.Unchanged)
+                || entry.State == EntityState.Unchanged
+            )
             {
                 continue;
             }
@@ -69,14 +71,17 @@ public abstract class UnitOfWork<TContext>(TContext context, CurrentUser current
                 }
             }
 
-            auditTrails.Add(new DataAccessAuditTrail(
-                entry.Entity.GetType(),
-                keys,
-                oldValues,
-                newValues,
-                propertyNames,
-                _currentUser.Id,
-                _currentUser.Address));
+            auditTrails.Add(
+                new DataAccessAuditTrail(
+                    entry.Entity.GetType(),
+                    keys,
+                    oldValues,
+                    newValues,
+                    propertyNames,
+                    _currentUser.Id,
+                    _currentUser.Address
+                )
+            );
         }
 
         _auditTrails.AddRange(auditTrails);

@@ -2,8 +2,10 @@ using Viriplaca.HR.Domain.Departments;
 
 namespace Viriplaca.HR.App.Departments.UpdateDepartment;
 
-public class UpdateDepartmentCommandHandler(IHRUnitOfWork unitOfWork, IDepartmentRepository departmentRepository)
-    : IRequestHandler<UpdateDepartmentCommand>
+public class UpdateDepartmentCommandHandler(
+    IHRUnitOfWork unitOfWork,
+    IDepartmentRepository departmentRepository
+) : IRequestHandler<UpdateDepartmentCommand>
 {
     private readonly IHRUnitOfWork _unitOfWork = unitOfWork;
     private readonly IDepartmentRepository _departmentRepository = departmentRepository;

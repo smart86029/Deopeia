@@ -1,12 +1,12 @@
-using Microsoft.Extensions.Localization;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.Localization;
 
 namespace Viriplaca.Common.Data.Localization;
 
 internal partial class StringLocalizer(
     IEnumerable<LocaleResource> contents,
-    LocalizationOptions options)
-    : IStringLocalizer
+    LocalizationOptions options
+) : IStringLocalizer
 {
     private readonly Regex _keyRegex = KeyRegex();
 
@@ -53,8 +53,8 @@ internal partial class StringLocalizer(
     private bool TryGetContent(string code, out string content)
     {
         var result =
-            _contents.TryGetValue((CultureInfo.CurrentCulture, code), out content!) ||
-            _contents.TryGetValue((_fallbackCulture, code), out content!);
+            _contents.TryGetValue((CultureInfo.CurrentCulture, code), out content!)
+            || _contents.TryGetValue((_fallbackCulture, code), out content!);
 
         if (!result)
         {
@@ -75,7 +75,10 @@ internal partial class StringLocalizer(
             if (type.IsEnum)
             {
                 var underlyingType = Enum.GetUnderlyingType(type);
-                results.Add(name, this.GetEnumString(Convert.ChangeType(value, underlyingType), type));
+                results.Add(
+                    name,
+                    this.GetEnumString(Convert.ChangeType(value, underlyingType), type)
+                );
             }
             else if (value is LocalizableProperty localizableProperty)
             {
@@ -92,22 +95,25 @@ internal partial class StringLocalizer(
 
     private string Format(string template, Dictionary<string, object> values)
     {
-        var result = _keyRegex.Replace(template, match =>
-        {
-            var key = match.Groups[1].Value;
-            if (!values.TryGetValue(key, out var value))
+        var result = _keyRegex.Replace(
+            template,
+            match =>
             {
-                return match.Value;
-            }
+                var key = match.Groups[1].Value;
+                if (!values.TryGetValue(key, out var value))
+                {
+                    return match.Value;
+                }
 
-            if (match.Groups[2].Success)
-            {
-                var format = match.Groups[2].Value;
-                return string.Format($"{{0:{format}}}", value);
-            }
+                if (match.Groups[2].Success)
+                {
+                    var format = match.Groups[2].Value;
+                    return string.Format($"{{0:{format}}}", value);
+                }
 
-            return value?.ToString() ?? string.Empty;
-        });
+                return value?.ToString() ?? string.Empty;
+            }
+        );
 
         return result;
     }

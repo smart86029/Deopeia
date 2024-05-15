@@ -9,9 +9,6 @@ internal class LeaveTypeLocaleConfiguration : EntityLocaleConfiguration<LeaveTyp
     {
         base.Configure(builder);
 
-        builder
-            .Property(x => x.Name)
-            .IsRequired()
-            .HasMaxLength(32);
+        builder.Property(x => x.Name).IsRequired().HasMaxLength(32);
     }
 }

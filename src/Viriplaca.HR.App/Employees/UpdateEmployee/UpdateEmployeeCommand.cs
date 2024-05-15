@@ -11,7 +11,5 @@ public record UpdateEmployeeCommand(
     MaritalStatus MaritalStatus,
     Guid? AvatarId,
     Guid DepartmentId,
-    Guid Job)
-   : IRequest
-{
-}
+    Guid Job
+) : IRequest { }

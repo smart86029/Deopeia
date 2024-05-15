@@ -37,6 +37,7 @@ public class GenerateTokenRequest
             RedirectUri,
             GrantType,
             Code,
-            CodeVerifier);
+            CodeVerifier
+        );
     }
 }

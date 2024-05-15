@@ -2,9 +2,7 @@ namespace Viriplaca.HR.Domain.Jobs;
 
 public class Job : AggregateRoot
 {
-    private Job()
-    {
-    }
+    private Job() { }
 
     public Job(string title, bool isEnabled)
     {

@@ -4,9 +4,7 @@ namespace Viriplaca.Identity.Domain.Grants.AuthorizationCodes;
 
 public class AuthorizationCode : Grant
 {
-    private AuthorizationCode()
-    {
-    }
+    private AuthorizationCode() { }
 
     public AuthorizationCode(
         Client client,
@@ -14,7 +12,8 @@ public class AuthorizationCode : Grant
         Uri redirectUri,
         string nonce,
         string codeChallenge,
-        string codeChallengeMethod)
+        string codeChallengeMethod
+    )
         : base(GrantTypes.AuthorizationCode, client, scopes, TimeSpan.FromMinutes(1))
     {
         RedirectUri = redirectUri;

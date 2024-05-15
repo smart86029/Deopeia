@@ -5,7 +5,5 @@ public record AuthorizationCodeGrantCommand(
     Uri? RedirectUri,
     string GrantType,
     string Code,
-    string CodeVerifier)
-    : GrantCommand
-{
-}
+    string CodeVerifier
+) : GrantCommand { }

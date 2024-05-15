@@ -6,10 +6,7 @@ internal class DepartmentConfiguration : IEntityTypeConfiguration<Department>
 {
     public void Configure(EntityTypeBuilder<Department> builder)
     {
-        builder
-            .Property(x => x.Name)
-            .IsRequired()
-            .HasMaxLength(32);
+        builder.Property(x => x.Name).IsRequired().HasMaxLength(32);
 
         builder.HasIndex(x => x.ParentId);
     }
