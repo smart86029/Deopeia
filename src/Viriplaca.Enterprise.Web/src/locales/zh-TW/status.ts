@@ -1,5 +1,9 @@
 export default {
   status: {
+    yesNo: {
+      false: '否',
+      true: '是',
+    },
     isEnabled: {
       name: '是否啟用',
       false: '停用',

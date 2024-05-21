@@ -2,6 +2,7 @@ export default {
   common: {
     title: 'Viriplaca Enterprise',
     name: '名稱',
+    description: '描述',
     type: '類別',
     status: '狀態',
     operations: '操作',

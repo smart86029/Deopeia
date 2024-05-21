@@ -1,5 +1,9 @@
 export default {
   status: {
+    yesNo: {
+      false: 'No',
+      true: 'Yes',
+    },
     isEnabled: {
       name: 'Is Enabled',
       false: 'Disabled',

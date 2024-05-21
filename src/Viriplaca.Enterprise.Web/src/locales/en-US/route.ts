@@ -18,6 +18,11 @@ export default {
       list: 'Leave List',
       apply: 'Apply Leave',
       approval: 'Approval Leave',
+      type: {
+        list: 'Leave Type List',
+        create: 'Create Leave Type',
+        edit: 'Edit Leave Type',
+      },
     },
     job: {
       list: 'Job List',

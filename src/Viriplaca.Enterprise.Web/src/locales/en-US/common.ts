@@ -2,6 +2,7 @@ export default {
   common: {
     title: 'Viriplaca Enterprise',
     name: 'Name',
+    description: 'Description',
     type: 'Type',
     status: 'Status',
     operations: 'Operations',

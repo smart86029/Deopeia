@@ -34,4 +34,9 @@ public class LeaveType : AggregateRoot, ILocalizable<LeaveTypeLocale>
     {
         _locales[culture].UpdateDescription(description);
     }
+
+    public void UpdateCanCarryForward(bool canCarryForward)
+    {
+        CanCarryForward = canCarryForward;
+    }
 }

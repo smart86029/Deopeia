@@ -45,6 +45,10 @@ const menus = [
         path: '/leave-management/leave-entitlement',
       },
       { name: 'leave.list', path: '/leave-management/leaves' },
+      {
+        name: 'leave.type.list',
+        path: '/leave-management/leave-types',
+      },
     ],
   },
 ] as Menu[];
