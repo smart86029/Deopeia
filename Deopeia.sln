@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35013.160
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A2760ACB-2EFB-43AF-A073-1BA0D89816C0}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A77ADAEB-9F8B-4A7B-A02C-3E3EDCA367EE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5C7E2454-017F-47BC-A616-07F93ACF8401}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deopeia.AppHost", "src\Deopeia.AppHost\Deopeia.AppHost.csproj", "{67D4B024-ADFA-4BBF-8E3C-9D3395957C57}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deopeia.ServiceDefaults", "src\Deopeia.ServiceDefaults\Deopeia.ServiceDefaults.csproj", "{60DB5DF0-EA14-4E13-992C-CB8BF87ABB5B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{67D4B024-ADFA-4BBF-8E3C-9D3395957C57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67D4B024-ADFA-4BBF-8E3C-9D3395957C57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67D4B024-ADFA-4BBF-8E3C-9D3395957C57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67D4B024-ADFA-4BBF-8E3C-9D3395957C57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60DB5DF0-EA14-4E13-992C-CB8BF87ABB5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60DB5DF0-EA14-4E13-992C-CB8BF87ABB5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60DB5DF0-EA14-4E13-992C-CB8BF87ABB5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60DB5DF0-EA14-4E13-992C-CB8BF87ABB5B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{67D4B024-ADFA-4BBF-8E3C-9D3395957C57} = {A77ADAEB-9F8B-4A7B-A02C-3E3EDCA367EE}
+		{60DB5DF0-EA14-4E13-992C-CB8BF87ABB5B} = {A77ADAEB-9F8B-4A7B-A02C-3E3EDCA367EE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {98693ADF-5AFB-4F82-AD4C-DB69EABE08ED}
+	EndGlobalSection
+EndGlobal
