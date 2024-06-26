@@ -26,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deopeia.Common.Domain", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deopeia.Common.Infrastructure", "src\Deopeia.Common.Infrastructure\Deopeia.Common.Infrastructure.csproj", "{EC13AFA6-BFC4-4B22-8E10-37ABA67A0E53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deopeia.Common.Worker", "src\Deopeia.Common.Worker\Deopeia.Common.Worker.csproj", "{1B7911F1-7525-45AA-9FFB-C7E53D55E4D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deopeia.Common.Worker", "src\Deopeia.Common.Worker\Deopeia.Common.Worker.csproj", "{1B7911F1-7525-45AA-9FFB-C7E53D55E4D6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deopeia.Identity", "Deopeia.Identity", "{D7CD9DE3-AE6E-4C03-9A01-6D51005BC95D}"
 EndProject
@@ -37,6 +37,18 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deopeia.Identity.Domain", "src\Deopeia.Identity.Domain\Deopeia.Identity.Domain.csproj", "{468632A7-4797-4D42-A340-93EA7C6581AA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deopeia.Identity.Infrastructure", "src\Deopeia.Identity.Infrastructure\Deopeia.Identity.Infrastructure.csproj", "{649D0BA9-04AE-403D-BA62-0D02EF794B86}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deopeia.Quote", "Deopeia.Quote", "{87E8D507-355F-4A5A-B9FC-1B06A985CE66}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deopeia.Quote.Api", "src\Deopeia.Quote.Api\Deopeia.Quote.Api.csproj", "{F0BF6571-E3F0-421A-BB18-FABDFABB6B86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deopeia.Quote.Application", "src\Deopeia.Quote.Application\Deopeia.Quote.Application.csproj", "{1457E2F7-732E-4342-969B-FA54CD99EA8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deopeia.Quote.Domain", "src\Deopeia.Quote.Domain\Deopeia.Quote.Domain.csproj", "{45041022-6952-475D-8DFE-06D8CEACCD09}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deopeia.Quote.Infrastructure", "src\Deopeia.Quote.Infrastructure\Deopeia.Quote.Infrastructure.csproj", "{16F82CC5-829A-4358-940B-DC9C10175747}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deopeia.Quote.Worker", "src\Deopeia.Quote.Worker\Deopeia.Quote.Worker.csproj", "{A80194A0-D92D-48CE-ADDD-1577C68C2E43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,6 +104,26 @@ Global
 		{649D0BA9-04AE-403D-BA62-0D02EF794B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{649D0BA9-04AE-403D-BA62-0D02EF794B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{649D0BA9-04AE-403D-BA62-0D02EF794B86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0BF6571-E3F0-421A-BB18-FABDFABB6B86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0BF6571-E3F0-421A-BB18-FABDFABB6B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0BF6571-E3F0-421A-BB18-FABDFABB6B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0BF6571-E3F0-421A-BB18-FABDFABB6B86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1457E2F7-732E-4342-969B-FA54CD99EA8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1457E2F7-732E-4342-969B-FA54CD99EA8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1457E2F7-732E-4342-969B-FA54CD99EA8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1457E2F7-732E-4342-969B-FA54CD99EA8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45041022-6952-475D-8DFE-06D8CEACCD09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45041022-6952-475D-8DFE-06D8CEACCD09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45041022-6952-475D-8DFE-06D8CEACCD09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45041022-6952-475D-8DFE-06D8CEACCD09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16F82CC5-829A-4358-940B-DC9C10175747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16F82CC5-829A-4358-940B-DC9C10175747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16F82CC5-829A-4358-940B-DC9C10175747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16F82CC5-829A-4358-940B-DC9C10175747}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A80194A0-D92D-48CE-ADDD-1577C68C2E43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A80194A0-D92D-48CE-ADDD-1577C68C2E43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A80194A0-D92D-48CE-ADDD-1577C68C2E43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A80194A0-D92D-48CE-ADDD-1577C68C2E43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -110,6 +142,12 @@ Global
 		{1C02A192-38A8-4F69-AB29-7C9F65B6CA9F} = {D7CD9DE3-AE6E-4C03-9A01-6D51005BC95D}
 		{468632A7-4797-4D42-A340-93EA7C6581AA} = {D7CD9DE3-AE6E-4C03-9A01-6D51005BC95D}
 		{649D0BA9-04AE-403D-BA62-0D02EF794B86} = {D7CD9DE3-AE6E-4C03-9A01-6D51005BC95D}
+		{87E8D507-355F-4A5A-B9FC-1B06A985CE66} = {A77ADAEB-9F8B-4A7B-A02C-3E3EDCA367EE}
+		{F0BF6571-E3F0-421A-BB18-FABDFABB6B86} = {87E8D507-355F-4A5A-B9FC-1B06A985CE66}
+		{1457E2F7-732E-4342-969B-FA54CD99EA8C} = {87E8D507-355F-4A5A-B9FC-1B06A985CE66}
+		{45041022-6952-475D-8DFE-06D8CEACCD09} = {87E8D507-355F-4A5A-B9FC-1B06A985CE66}
+		{16F82CC5-829A-4358-940B-DC9C10175747} = {87E8D507-355F-4A5A-B9FC-1B06A985CE66}
+		{A80194A0-D92D-48CE-ADDD-1577C68C2E43} = {87E8D507-355F-4A5A-B9FC-1B06A985CE66}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {98693ADF-5AFB-4F82-AD4C-DB69EABE08ED}

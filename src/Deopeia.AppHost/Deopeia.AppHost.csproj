@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Deopeia.Identity.Api\Deopeia.Identity.Api.csproj" />
+    <ProjectReference Include="..\Deopeia.Quote.Api\Deopeia.Quote.Api.csproj" />
+    <ProjectReference Include="..\Deopeia.Quote.Worker\Deopeia.Quote.Worker.csproj" />
   </ItemGroup>
 
 </Project>
