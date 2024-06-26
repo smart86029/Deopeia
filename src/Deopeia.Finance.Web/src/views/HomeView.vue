@@ -1,12 +1,22 @@
 <template>
   <el-container>
     <el-header>
-      <MainHeader />
+      <h1>{{ $t('common.title') }}</h1>
+      <NavBreadcrumb />
+      <FlexDivider />
+      <el-switch
+        v-model="isDark"
+        inline-prompt
+        active-icon="moon"
+        inactive-icon="sunny"
+      />
+      <DropdownLocale />
+      <DropdownRoute />
     </el-header>
     <el-container>
-      <el-aside class="menu-aside" :class="{ close: asideSwitch }">
-        <el-scrollbar>
-          <AsideMenu />
+      <el-aside width="256px">
+        <el-scrollbar view-class="scrollbar-view">
+          <NavAside />
         </el-scrollbar>
       </el-aside>
       <el-main>
@@ -19,34 +29,40 @@
 </template>
 
 <script setup lang="ts">
-// import commonApi from '@/api/common-api';
-// import { useAuthStore } from '@/stores/auth';
-// import { useGlobal } from '@/stores/global';
-
-const asideSwitch = ref(false);
-
-// commonApi.getGlobal().then((res) => {
-//   imageDomain.value = res.data.imageDomain;
-//   navigationUrl.value = res.data.navigationUrl;
-//   userLevel.value = res.data.userLevel;
-// });
-// const authStore = useAuthStore();
-// // 監聽切換分頁回來, 會主動打refresh
-// document.addEventListener('visibilitychange', function () {
-//   if (document.visibilityState === 'visible') {
-//     authStore.refresh();
-//   }
-// });
+const isDark = useDark();
 </script>
 
 <style scoped lang="scss">
-.menu-aside {
-  width: var(--aside-menu-width);
-  transition: all 0.3s cubic-bezier(0, 0, 0.5, 1);
-  &.close {
-    width: calc(
-      var(--el-menu-icon-width) + var(--el-menu-base-level-padding) * 2
-    );
+h1 {
+  width: 240px;
+}
+
+.el-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid var(--el-border-color);
+}
+
+.el-aside {
+  height: calc(100vh - 60px);
+}
+
+.el-main {
+  height: calc(100vh - 60px);
+  padding: 0;
+
+  > .el-scrollbar {
+    height: 100%;
+  }
+
+  > *:not(:first-child) {
+    background-color: var(--el-bg-color);
+    margin-top: 10px;
+  }
+
+  :deep(.scrollbar-view) {
+    padding: var(--el-main-padding);
   }
 }
 </style>
