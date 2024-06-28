@@ -1,19 +1,31 @@
-var builder = WebApplication.CreateBuilder(args);
+using Deopeia.Common.Api;
+using Deopeia.Common.Infrastructure;
+using Deopeia.Quote.Infrastructure;
 
+var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
-// Add services to the container.
+builder.AddInfrastructure<QuoteContext, QuoteSeeder>();
 
-builder.Services.AddControllers();
+var configuration = builder.Configuration;
+var services = builder.Services;
+services.AddRazorPages();
+services.AddControllers();
+services.AddApi();
+
+services.AddAuthentication().AddCookie();
 
 var app = builder.Build();
-
-app.MapDefaultEndpoints();
-
-// Configure the HTTP request pipeline.
-
+app.UseExceptionHandler();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseCors();
+app.UseRequestLocalization("en-US", "zh-TW");
+app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapDefaultEndpoints();
+app.MapRazorPages();
 app.MapControllers();
 
 app.Run();

@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Options;
 using Minio;
 
 namespace Deopeia.Common.Infrastructure;
@@ -26,14 +25,8 @@ public static class ServiceCollectionExtensions
         builder.AddSqlServerDbContext<TContext>(database);
 
         var services = builder.Services;
-        services.AddScoped(serviceProvider =>
-        {
-            var connectionStringOptions = serviceProvider
-                .GetRequiredService<IOptions<ConnectionStringOptions>>()
-                .Value;
-
-            return new SqlConnection(connectionStringOptions.Database);
-        });
+        var connectionString = builder.Configuration.GetConnectionString(database);
+        services.AddScoped(serviceProvider => new SqlConnection(connectionString));
 
         services.AddScoped<IDbSeeder<TContext>, TSeeder>();
         services.AddHostedService<MigrationWorker<TContext>>();
