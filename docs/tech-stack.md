@@ -13,7 +13,8 @@
 
 ## Backend
 
--   [ASP.NET Core 7.0](https://learn.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-7.0)
+-   [ASP.NET Core 8.0](https://learn.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-8.0)
+-   [.NET Aspire](https://learn.microsoft.com/en-us/dotnet/aspire/get-started/aspire-overview)
 -   [Dapper](https://github.com/DapperLib/Dapper) ORM
 -   [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) ORM
 -   [FluentValidation](https://docs.fluentvalidation.net/en/latest/) Validation
