@@ -30,26 +30,8 @@ import type { Menu } from '@/models/menu';
 
 const menus = [
   {
-    name: 'organization',
-    children: [
-      { name: 'employee.list', path: '/organization/employees' },
-      { name: 'department.list', path: '/organization/departments' },
-      { name: 'job.list', path: '/organization/jobs' },
-    ],
-  },
-  {
-    name: 'leave.manage',
-    children: [
-      {
-        name: 'leave.entitlement',
-        path: '/leave-management/leave-entitlement',
-      },
-      { name: 'leave.list', path: '/leave-management/leaves' },
-      {
-        name: 'leave.type.list',
-        path: '/leave-management/leave-types',
-      },
-    ],
+    name: 'quote',
+    children: [{ name: 'quote.summary', path: '/quotes/' }],
   },
 ] as Menu[];
 </script>

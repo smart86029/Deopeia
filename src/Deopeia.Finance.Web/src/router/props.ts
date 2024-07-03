@@ -24,3 +24,15 @@ export const edit = (
     ? Guid.parse(route.params.id[0])
     : Guid.parse(route.params.id),
 });
+
+export const symbol = (
+  route: RouteLocationNormalized,
+): {
+  default: boolean;
+  symbol: string;
+} => ({
+  default: true,
+  symbol: Array.isArray(route.params.symbol)
+    ? route.params.symbol[0]
+    : route.params.symbol,
+});
