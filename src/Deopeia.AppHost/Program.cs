@@ -4,7 +4,7 @@ var minIOEndpoint = builder.AddParameter("MinIOEndpoint");
 var minIOAccessKey = builder.AddParameter("MinIOAccessKey");
 var minIOSecretKey = builder.AddParameter("MinIOSecretKey");
 
-var sql = builder.AddSqlServer("sql");
+var sql = builder.AddSqlServer("sql").WithDataVolume();
 var dbIdentity = sql.AddDatabase("Identity");
 var dbQuote = sql.AddDatabase("Quote");
 
