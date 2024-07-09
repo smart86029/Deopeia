@@ -15,11 +15,10 @@ namespace Deopeia.Common.Infrastructure;
 
 public static class ServiceCollectionExtensions
 {
-    public static IHostApplicationBuilder AddInfrastructure<TContext, TSeeder>(
+    public static IHostApplicationBuilder AddInfrastructure<TContext>(
         this IHostApplicationBuilder builder
     )
         where TContext : DbContext
-        where TSeeder : class, IDbSeeder<TContext>
     {
         var database = Assembly.GetEntryAssembly()!.FullName!.Split('.')[1];
         builder.AddSqlServerDbContext<TContext>(database);
@@ -27,9 +26,6 @@ public static class ServiceCollectionExtensions
         var services = builder.Services;
         var connectionString = builder.Configuration.GetConnectionString(database);
         services.AddScoped(serviceProvider => new SqlConnection(connectionString));
-
-        services.AddScoped<IDbSeeder<TContext>, TSeeder>();
-        services.AddHostedService<MigrationWorker<TContext>>();
 
         var minIOOptions = builder.Configuration.GetSection("MinIO").Get<MinIOOptions>()!;
         services.AddMinio(client =>
@@ -49,6 +45,19 @@ public static class ServiceCollectionExtensions
         SqlMapper.AddTypeHandler(new TimeOnlyTypeHandler());
 
         return builder;
+    }
+
+    public static IHostApplicationBuilder AddInfrastructure<TContext, TSeeder>(
+        this IHostApplicationBuilder builder
+    )
+        where TContext : DbContext
+        where TSeeder : class, IDbSeeder<TContext>
+    {
+        var services = builder.Services;
+        services.AddScoped<IDbSeeder<TContext>, TSeeder>();
+        services.AddHostedService<MigrationWorker<TContext>>();
+
+        return builder.AddInfrastructure<TContext>();
     }
 
     private static IServiceCollection AddRepositories<TContext>(this IServiceCollection services)

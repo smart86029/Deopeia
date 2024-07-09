@@ -1013,6 +1013,19 @@ public static class ConvertExtensions
         return value.ToDateTime(TimeOnly.MinValue);
     }
 
+    public static DateTimeOffset ToDateTimeOffset(
+        this string value,
+        DateTimeOffset defaultValue = default
+    )
+    {
+        return DateTimeOffset.TryParse(value, out var result) ? result : defaultValue;
+    }
+
+    public static DateTimeOffset ToDateTimeOffset(this DateOnly value)
+    {
+        return new DateTimeOffset(value.ToDateTime(TimeOnly.MinValue));
+    }
+
     public static DateOnly ToDateOnly(this string value, DateOnly defaultValue = default)
     {
         return DateOnly.TryParse(value, out var result) ? result : defaultValue;

@@ -12,7 +12,7 @@ public class QuoteSeeder : IDbSeeder<QuoteContext>
             return;
         }
 
-        context.Set<Ohlcv>().AddRange(GetOhlcvs());
+        //context.Set<Ohlcv>().AddRange(GetOhlcvs());
 
         await context.SaveChangesAsync();
     }

@@ -1,17 +1,20 @@
 using Deopeia.Common.Api;
+using Deopeia.Common.Application;
 using Deopeia.Common.Infrastructure;
 using Deopeia.Identity.Api;
 using Deopeia.Identity.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.AddServiceDefaults();
-builder.AddInfrastructure<IdentityContext, IdentitySeeder>();
+builder
+    .AddServiceDefaults()
+    .AddApi()
+    .AddApplication()
+    .AddInfrastructure<IdentityContext, IdentitySeeder>();
 
 var configuration = builder.Configuration;
 var services = builder.Services;
 services.AddRazorPages();
 services.AddControllers();
-services.AddApi();
 
 services.AddAuthentication().AddCookie();
 services.AddCors(options =>

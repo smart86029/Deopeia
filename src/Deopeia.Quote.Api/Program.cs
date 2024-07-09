@@ -1,17 +1,20 @@
 using Deopeia.Common.Api;
+using Deopeia.Common.Application;
 using Deopeia.Common.Infrastructure;
 using Deopeia.Quote.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.AddServiceDefaults();
-
-builder.AddInfrastructure<QuoteContext, QuoteSeeder>();
+builder
+    .AddServiceDefaults()
+    .AddApi()
+    .AddApplication()
+    .AddInfrastructure<QuoteContext, QuoteSeeder>();
 
 var configuration = builder.Configuration;
 var services = builder.Services;
 services.AddRazorPages();
 services.AddControllers();
-services.AddApi();
+services.AddScrapers();
 
 services.AddAuthentication().AddCookie();
 

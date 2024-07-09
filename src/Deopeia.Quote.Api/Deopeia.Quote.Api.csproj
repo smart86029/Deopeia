@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Deopeia.Common.Api\Deopeia.Common.Api.csproj" />
-    <ProjectReference Include="..\Deopeia.Quote.Application\Deopeia.Quote.Application.csproj" />
     <ProjectReference Include="..\Deopeia.Quote.Infrastructure\Deopeia.Quote.Infrastructure.csproj" />
     <ProjectReference Include="..\Deopeia.ServiceDefaults\Deopeia.ServiceDefaults.csproj" />
   </ItemGroup>

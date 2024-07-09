@@ -1,18 +1,19 @@
-using System.Reflection;
 using System.Text;
 using Deopeia.Common.Api.Extensions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Deopeia.Common.Api;
 
-public static class ServiceCollectionExtensions
+public static class HostApplicationBuilderExtensions
 {
-    public static IServiceCollection AddApi(this IServiceCollection services)
+    public static IHostApplicationBuilder AddApi(this IHostApplicationBuilder builder)
     {
+        var services = builder.Services;
         services.AddOptions<JwtOptions>().BindConfiguration("Jwt");
         services.AddOptions<ConnectionStringOptions>().BindConfiguration("ConnectionStrings");
         services.AddProblemDetails();
@@ -31,15 +32,7 @@ public static class ServiceCollectionExtensions
             return new CurrentUser(context.User.GetUserId(), context.Request.GetAddress());
         });
 
-        var assemblies = Assembly
-            .GetEntryAssembly()!
-            .GetReferencedAssemblies()
-            .Where(x => x.Name!.StartsWith("Deopeia."))
-            .Select(Assembly.Load)
-            .ToArray();
-        services.AddMediatR(options => options.RegisterServicesFromAssemblies(assemblies));
-
-        return services;
+        return builder;
     }
 
     public static AuthenticationBuilder AddAuthentication(

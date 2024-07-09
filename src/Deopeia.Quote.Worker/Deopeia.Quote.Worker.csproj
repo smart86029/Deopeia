@@ -4,7 +4,6 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dotnet-Deopeia.Quote.Worker-bc03266b-a3dd-4480-98f3-13cbe3f66468</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Deopeia.Common.Worker\Deopeia.Common.Worker.csproj" />
+    <ProjectReference Include="..\Deopeia.Quote.Infrastructure\Deopeia.Quote.Infrastructure.csproj" />
     <ProjectReference Include="..\Deopeia.ServiceDefaults\Deopeia.ServiceDefaults.csproj" />
   </ItemGroup>
 </Project>

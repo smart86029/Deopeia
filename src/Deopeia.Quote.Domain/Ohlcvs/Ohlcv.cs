@@ -8,18 +8,18 @@ public class Ohlcv : AggregateRoot
         string symbol,
         DateTimeOffset recordedAt,
         decimal open,
-        decimal close,
         decimal high,
         decimal low,
+        decimal close,
         decimal volume
     )
     {
         Symbol = symbol;
         RecordedAt = recordedAt;
         Open = open;
-        Close = close;
         High = high;
         Low = low;
+        Close = close;
         Volume = volume;
     }
 
@@ -29,11 +29,11 @@ public class Ohlcv : AggregateRoot
 
     public decimal Open { get; private init; }
 
-    public decimal Close { get; private init; }
-
     public decimal High { get; private init; }
 
     public decimal Low { get; private init; }
+
+    public decimal Close { get; private init; }
 
     public decimal Volume { get; private init; }
 }

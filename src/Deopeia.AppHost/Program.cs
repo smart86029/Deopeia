@@ -4,7 +4,7 @@ var minIOEndpoint = builder.AddParameter("MinIOEndpoint");
 var minIOAccessKey = builder.AddParameter("MinIOAccessKey");
 var minIOSecretKey = builder.AddParameter("MinIOSecretKey");
 
-var sql = builder.AddSqlServer("sql").WithDataVolume();
+var sql = builder.AddSqlServer("sql");
 var dbIdentity = sql.AddDatabase("Identity");
 var dbQuote = sql.AddDatabase("Quote");
 
@@ -22,6 +22,11 @@ builder
     .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
     .WithReference(dbQuote);
 
-builder.AddProject<Projects.Deopeia_Quote_Worker>("deopeia-quote-worker");
+builder
+    .AddProject<Projects.Deopeia_Quote_Worker>("deopeia-quote-worker")
+    .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
+    .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
+    .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
+    .WithReference(dbQuote);
 
 builder.Build().Run();
