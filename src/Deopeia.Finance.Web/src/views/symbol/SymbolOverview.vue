@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import ohlcvApi from '@/api/ohlcv-api';
 import type { Ohlcv } from '@/models/quote/ohlcv';
-import { createChart } from 'lightweight-charts';
+import { ColorType, createChart } from 'lightweight-charts';
 
 const props = defineProps<{
   symbol: string;
@@ -18,7 +18,7 @@ onMounted(async () => {
   const chartOptions = {
     layout: {
       textColor: 'white',
-      background: { type: 'solid', color: color },
+      background: { type: ColorType.Solid, color: color },
     },
   };
   const chart = createChart('canvas', chartOptions);
