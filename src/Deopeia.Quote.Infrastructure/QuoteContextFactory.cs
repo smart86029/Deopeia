@@ -7,8 +7,8 @@ internal class QuoteContextFactory : IDesignTimeDbContextFactory<QuoteContext>
     public QuoteContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<QuoteContext>();
-        optionsBuilder.UseSqlServer(
-            "Server=localhost;Database=Quote;User Id=sa;Password=Pass@word;MultipleActiveResultSets=True;Encrypt=False;"
+        optionsBuilder.UseNpgsql(
+            "Server=localhost;Port=5432;User Id=root;Password=Pass@word;Database=Quote;"
         );
 
         return new QuoteContext(optionsBuilder.Options);

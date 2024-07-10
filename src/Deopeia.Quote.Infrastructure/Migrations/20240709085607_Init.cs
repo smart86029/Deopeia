@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -22,16 +23,16 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 schema: "Common",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IPAddress = table.Column<string>(type: "nvarchar(45)", nullable: false),
-                    EntityType = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Keys = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OldValues = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NewValues = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PropertyNames = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    IPAddress = table.Column<IPAddress>(type: "inet", nullable: false),
+                    EntityType = table.Column<string>(type: "text", nullable: true),
+                    Keys = table.Column<string>(type: "jsonb", nullable: true),
+                    OldValues = table.Column<string>(type: "jsonb", nullable: true),
+                    NewValues = table.Column<string>(type: "jsonb", nullable: true),
+                    PropertyNames = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -43,11 +44,11 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 schema: "Common",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Extension = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
-                    Size = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Extension = table.Column<string>(type: "text", nullable: false),
+                    Size = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,10 +60,10 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 schema: "Common",
                 columns: table => new
                 {
-                    Culture = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false)
+                    Culture = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Code = table.Column<string>(type: "text", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,14 +75,14 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 schema: "Quote",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Symbol = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RecordedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Open = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Close = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    High = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Low = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Volume = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Symbol = table.Column<string>(type: "text", nullable: false),
+                    RecordedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    Open = table.Column<decimal>(type: "numeric", nullable: false),
+                    High = table.Column<decimal>(type: "numeric", nullable: false),
+                    Low = table.Column<decimal>(type: "numeric", nullable: false),
+                    Close = table.Column<decimal>(type: "numeric", nullable: false),
+                    Volume = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {

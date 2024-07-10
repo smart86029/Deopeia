@@ -13,7 +13,7 @@ internal class GrantConfiguration : IEntityTypeConfiguration<Grant>
             .HasValue<AuthorizationCode>(GrantTypes.AuthorizationCode)
             .HasValue<RefreshToken>(GrantTypes.RefreshToken);
 
-        builder.Property(x => x.Key).IsRequired().HasMaxLength(128);
+        builder.Property(x => x.Key);
 
         builder
             .Property(x => x.Scopes)

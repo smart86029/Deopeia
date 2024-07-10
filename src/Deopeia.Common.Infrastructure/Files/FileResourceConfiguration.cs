@@ -9,10 +9,6 @@ public class FileResourceConfiguration : IEntityTypeConfiguration<FileResource>
     {
         builder.HasDiscriminator(x => x.Type).HasValue<Image>(FileResourceType.Image);
 
-        builder.Property(x => x.Name).IsRequired().HasMaxLength(128);
-
-        builder.Property(x => x.Extension).IsRequired().HasMaxLength(16);
-
         builder.Ignore(x => x.Content);
         builder.Ignore(x => x.PresignedUri);
 

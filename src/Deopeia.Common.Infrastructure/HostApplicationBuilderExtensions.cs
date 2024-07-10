@@ -3,17 +3,17 @@ using Deopeia.Common.Domain.Files;
 using Deopeia.Common.Infrastructure.Files;
 using Deopeia.Common.Infrastructure.Localization;
 using Deopeia.Common.Infrastructure.TypeHandlers;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
 using Minio;
+using Npgsql;
 
 namespace Deopeia.Common.Infrastructure;
 
-public static class ServiceCollectionExtensions
+public static class HostApplicationBuilderExtensions
 {
     public static IHostApplicationBuilder AddInfrastructure<TContext>(
         this IHostApplicationBuilder builder
@@ -21,11 +21,11 @@ public static class ServiceCollectionExtensions
         where TContext : DbContext
     {
         var database = Assembly.GetEntryAssembly()!.FullName!.Split('.')[1];
-        builder.AddSqlServerDbContext<TContext>(database);
+        builder.AddNpgsqlDbContext<TContext>(database);
 
         var services = builder.Services;
         var connectionString = builder.Configuration.GetConnectionString(database);
-        services.AddScoped(serviceProvider => new SqlConnection(connectionString));
+        services.AddScoped(serviceProvider => new NpgsqlConnection(connectionString));
 
         var minIOOptions = builder.Configuration.GetSection("MinIO").Get<MinIOOptions>()!;
         services.AddMinio(client =>

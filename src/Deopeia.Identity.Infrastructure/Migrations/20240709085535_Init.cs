@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -22,16 +23,16 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 schema: "Common",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    CreatedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IPAddress = table.Column<string>(type: "nvarchar(45)", nullable: false),
-                    EntityType = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Keys = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OldValues = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NewValues = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PropertyNames = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    IPAddress = table.Column<IPAddress>(type: "inet", nullable: false),
+                    EntityType = table.Column<string>(type: "text", nullable: true),
+                    Keys = table.Column<string>(type: "jsonb", nullable: true),
+                    OldValues = table.Column<string>(type: "jsonb", nullable: true),
+                    NewValues = table.Column<string>(type: "jsonb", nullable: true),
+                    PropertyNames = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -43,13 +44,13 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 schema: "Identity",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    Secret = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
-                    IsEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    GrantTypes = table.Column<int>(type: "int", nullable: false),
-                    Scopes = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    RedirectUris = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Secret = table.Column<string>(type: "text", nullable: true),
+                    IsEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    GrantTypes = table.Column<int>(type: "integer", nullable: false),
+                    Scopes = table.Column<string>(type: "jsonb", nullable: false),
+                    RedirectUris = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,11 +62,11 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 schema: "Common",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Extension = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
-                    Size = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Extension = table.Column<string>(type: "text", nullable: false),
+                    Size = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,19 +78,19 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 schema: "Identity",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    Key = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    SubjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ClientId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Scopes = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ConsumedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    RedirectUri = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Nonce = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CodeChallenge = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
-                    CodeChallengeMethod = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Key = table.Column<string>(type: "text", nullable: false),
+                    SubjectId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ClientId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Scopes = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    ExpiresAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    ConsumedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    RedirectUri = table.Column<string>(type: "text", nullable: true),
+                    Nonce = table.Column<string>(type: "text", nullable: true),
+                    CodeChallenge = table.Column<string>(type: "text", nullable: true),
+                    CodeChallengeMethod = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -101,10 +102,10 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 schema: "Common",
                 columns: table => new
                 {
-                    Culture = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false)
+                    Culture = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Code = table.Column<string>(type: "text", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,9 +117,9 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 schema: "Identity",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    IsEnabled = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Code = table.Column<string>(type: "text", nullable: false),
+                    IsEnabled = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -130,9 +131,9 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 schema: "Identity",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    IsEnabled = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    IsEnabled = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -144,12 +145,12 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 schema: "Identity",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    Salt = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
-                    IsEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserName = table.Column<string>(type: "text", nullable: false),
+                    Salt = table.Column<string>(type: "text", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: false),
+                    IsEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -161,10 +162,10 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 schema: "Identity",
                 columns: table => new
                 {
-                    PermissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Culture = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true)
+                    PermissionId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Culture = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -183,9 +184,9 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 schema: "Identity",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PermissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PermissionId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -211,12 +212,12 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 schema: "Identity",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RefreshToken = table.Column<string>(type: "char(24)", nullable: false),
-                    IssuedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ExpiredAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    RevokedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RefreshToken = table.Column<string>(type: "text", nullable: false),
+                    IssuedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    ExpiredAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    RevokedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -235,9 +236,9 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 schema: "Identity",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {

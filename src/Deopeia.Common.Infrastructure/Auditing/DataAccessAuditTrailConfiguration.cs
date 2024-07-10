@@ -12,24 +12,28 @@ public class DataAccessAuditTrailConfiguration : IEntityTypeConfiguration<DataAc
             .Property(x => x.Keys)
             .HasConversion<JsonConverter<IReadOnlyDictionary<string, object>>>(
                 new DictionaryComparer<string, object>()
-            );
+            )
+            .HasColumnType("jsonb");
 
         builder
             .Property(x => x.OldValues)
             .HasConversion<JsonConverter<IReadOnlyDictionary<string, object?>>>(
                 new DictionaryComparer<string, object?>()
-            );
+            )
+            .HasColumnType("jsonb");
 
         builder
             .Property(x => x.NewValues)
             .HasConversion<JsonConverter<IReadOnlyDictionary<string, object?>>>(
                 new DictionaryComparer<string, object?>()
-            );
+            )
+            .HasColumnType("jsonb");
 
         builder
             .Property(x => x.PropertyNames)
             .HasConversion<JsonConverter<IReadOnlyCollection<string>>>(
                 new EnumerableComparer<string>()
-            );
+            )
+            .HasColumnType("jsonb");
     }
 }

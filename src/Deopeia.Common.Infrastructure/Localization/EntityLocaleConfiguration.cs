@@ -11,8 +11,6 @@ public abstract class EntityLocaleConfiguration<TEntity, TLocale>
     {
         builder.Property(x => x.EntityId).HasColumnName($"{typeof(TEntity).Name}Id");
 
-        builder.Property(x => x.Culture).IsRequired().HasMaxLength(16);
-
         builder.HasKey(x => new { x.EntityId, x.Culture });
 
         builder.HasOne<TEntity>().WithMany(x => x.Locales).HasForeignKey(x => x.EntityId);

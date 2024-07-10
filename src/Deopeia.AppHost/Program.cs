@@ -4,9 +4,10 @@ var minIOEndpoint = builder.AddParameter("MinIOEndpoint");
 var minIOAccessKey = builder.AddParameter("MinIOAccessKey");
 var minIOSecretKey = builder.AddParameter("MinIOSecretKey");
 
-var sql = builder.AddSqlServer("sql");
-var dbIdentity = sql.AddDatabase("Identity");
-var dbQuote = sql.AddDatabase("Quote");
+var password = builder.AddParameter("postgresql-password", secret: true);
+var postgres = builder.AddPostgres("postgres", password: password).WithDataVolume();
+var dbIdentity = postgres.AddDatabase("Identity");
+var dbQuote = postgres.AddDatabase("Quote");
 
 builder
     .AddProject<Projects.Deopeia_Identity_Api>("deopeia-identity-api")
