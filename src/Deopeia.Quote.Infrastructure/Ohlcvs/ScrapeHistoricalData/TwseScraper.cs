@@ -3,7 +3,7 @@ using Deopeia.Quote.Application.Ohlcvs.ScrapeHistoricalData;
 
 namespace Deopeia.Quote.Infrastructure.Ohlcvs.ScrapeHistoricalData;
 
-internal class TsecScraper(HttpClient httpClient) : IScraper
+internal class TwseScraper(HttpClient httpClient) : IScraper
 {
     private readonly HttpClient _httpClient = httpClient;
 

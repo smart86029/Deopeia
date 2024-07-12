@@ -5,7 +5,7 @@ var minIOAccessKey = builder.AddParameter("MinIOAccessKey");
 var minIOSecretKey = builder.AddParameter("MinIOSecretKey");
 
 var password = builder.AddParameter("postgresql-password", secret: true);
-var postgres = builder.AddPostgres("postgres", password: password).WithDataVolume();
+var postgres = builder.AddPostgres("postgres", password: password, port: 59999).WithDataVolume();
 var dbIdentity = postgres.AddDatabase("Identity");
 var dbQuote = postgres.AddDatabase("Quote");
 

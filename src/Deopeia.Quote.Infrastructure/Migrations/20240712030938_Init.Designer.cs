@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deopeia.Quote.Infrastructure.Migrations
 {
     [DbContext(typeof(QuoteContext))]
-    [Migration("20240709085607_Init")]
+    [Migration("20240712030938_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -106,6 +106,87 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     b.ToTable("LocaleResource", "Common");
                 });
 
+            modelBuilder.Entity("Deopeia.Quote.Domain.Companies.Company", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("SubIndustry")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Company", "Quote");
+                });
+
+            modelBuilder.Entity("Deopeia.Quote.Domain.Companies.CompanyLocale", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("CompanyId");
+
+                    b.Property<string>("Culture")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("EntityId", "Culture");
+
+                    b.ToTable("CompanyLocale", "Quote");
+                });
+
+            modelBuilder.Entity("Deopeia.Quote.Domain.Instruments.Instrument", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("Exchange")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Symbol")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Type", "Exchange", "Symbol")
+                        .IsUnique();
+
+                    b.ToTable("Instrument", "Quote");
+
+                    b.HasDiscriminator<int>("Type");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("Deopeia.Quote.Domain.Instruments.InstrumentLocale", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("InstrumentId");
+
+                    b.Property<string>("Culture")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("EntityId", "Culture");
+
+                    b.ToTable("InstrumentLocale", "Quote");
+                });
+
             modelBuilder.Entity("Deopeia.Quote.Domain.Ohlcvs.Ohlcv", b =>
                 {
                     b.Property<Guid>("Id")
@@ -174,6 +255,51 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     b.HasBaseType("Deopeia.Common.Domain.Files.FileResource");
 
                     b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("Deopeia.Quote.Domain.Instruments.ExchangeTradedFund", b =>
+                {
+                    b.HasBaseType("Deopeia.Quote.Domain.Instruments.Instrument");
+
+                    b.HasDiscriminator().HasValue(2);
+                });
+
+            modelBuilder.Entity("Deopeia.Quote.Domain.Instruments.Stock", b =>
+                {
+                    b.HasBaseType("Deopeia.Quote.Domain.Instruments.Instrument");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uuid");
+
+                    b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("Deopeia.Quote.Domain.Companies.CompanyLocale", b =>
+                {
+                    b.HasOne("Deopeia.Quote.Domain.Companies.Company", null)
+                        .WithMany("Locales")
+                        .HasForeignKey("EntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Deopeia.Quote.Domain.Instruments.InstrumentLocale", b =>
+                {
+                    b.HasOne("Deopeia.Quote.Domain.Instruments.Instrument", null)
+                        .WithMany("Locales")
+                        .HasForeignKey("EntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Deopeia.Quote.Domain.Companies.Company", b =>
+                {
+                    b.Navigation("Locales");
+                });
+
+            modelBuilder.Entity("Deopeia.Quote.Domain.Instruments.Instrument", b =>
+                {
+                    b.Navigation("Locales");
                 });
 #pragma warning restore 612, 618
         }

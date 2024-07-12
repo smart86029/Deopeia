@@ -40,6 +40,20 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Company",
+                schema: "Quote",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    SubIndustry = table.Column<int>(type: "integer", nullable: false),
+                    Website = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Company", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FileResource",
                 schema: "Common",
                 columns: table => new
@@ -53,6 +67,22 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FileResource", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Instrument",
+                schema: "Quote",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<int>(type: "integer", nullable: false),
+                    Exchange = table.Column<Guid>(type: "uuid", nullable: false),
+                    Symbol = table.Column<string>(type: "text", nullable: false),
+                    CompanyId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Instrument", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -89,11 +119,60 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     table.PrimaryKey("PK_Ohlcv", x => x.Id);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CompanyLocale",
+                schema: "Quote",
+                columns: table => new
+                {
+                    CompanyId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Culture = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CompanyLocale", x => new { x.CompanyId, x.Culture });
+                    table.ForeignKey(
+                        name: "FK_CompanyLocale_Company_CompanyId",
+                        column: x => x.CompanyId,
+                        principalSchema: "Quote",
+                        principalTable: "Company",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InstrumentLocale",
+                schema: "Quote",
+                columns: table => new
+                {
+                    InstrumentId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Culture = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InstrumentLocale", x => new { x.InstrumentId, x.Culture });
+                    table.ForeignKey(
+                        name: "FK_InstrumentLocale_Instrument_InstrumentId",
+                        column: x => x.InstrumentId,
+                        principalSchema: "Quote",
+                        principalTable: "Instrument",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_FileResource_Type",
                 schema: "Common",
                 table: "FileResource",
                 column: "Type");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Instrument_Type_Exchange_Symbol",
+                schema: "Quote",
+                table: "Instrument",
+                columns: new[] { "Type", "Exchange", "Symbol" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ohlcv_Symbol_RecordedAt",
@@ -111,8 +190,16 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 schema: "Common");
 
             migrationBuilder.DropTable(
+                name: "CompanyLocale",
+                schema: "Quote");
+
+            migrationBuilder.DropTable(
                 name: "FileResource",
                 schema: "Common");
+
+            migrationBuilder.DropTable(
+                name: "InstrumentLocale",
+                schema: "Quote");
 
             migrationBuilder.DropTable(
                 name: "LocaleResource",
@@ -120,6 +207,14 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Ohlcv",
+                schema: "Quote");
+
+            migrationBuilder.DropTable(
+                name: "Company",
+                schema: "Quote");
+
+            migrationBuilder.DropTable(
+                name: "Instrument",
                 schema: "Quote");
         }
     }

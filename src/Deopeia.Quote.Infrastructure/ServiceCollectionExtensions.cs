@@ -1,4 +1,5 @@
 using System.Reflection;
+using Deopeia.Quote.Application.Instruments.ScrapeInstruments;
 using Deopeia.Quote.Application.Ohlcvs.ScrapeHistoricalData;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,7 +16,9 @@ public static class ServiceCollectionExtensions
             .Select(Assembly.Load)
             .SelectMany(x => x.GetTypes())
             .Where(x => x.IsClass && !x.IsAbstract && !x.IsGenericType)
-            .Where(x => x.IsAssignableTo(typeof(IScraper)));
+            .Where(x =>
+                x.IsAssignableTo(typeof(IScraper)) || x.IsAssignableTo(typeof(IInstrumentsScraper))
+            );
         foreach (var type in types)
         {
             var interfaceTypes = type.GetInterfaces();

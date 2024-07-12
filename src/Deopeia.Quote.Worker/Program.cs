@@ -10,13 +10,15 @@ builder.AddServiceDefaults().AddApplication().AddInfrastructure<QuoteContext>();
 
 builder.Services.AddScheduler();
 builder.Services.AddScoped<ScrapeJob>();
+builder.Services.AddScoped<InstrumentJob>();
 builder.Services.AddScoped<CurrentUser>();
 builder.Services.AddScrapers();
 
 var host = builder.Build();
 host.Services.UseScheduler(scheduler =>
 {
-    scheduler.Schedule<ScrapeJob>().EveryMinute().PreventOverlapping(nameof(ScrapeJob));
+    //scheduler.Schedule<ScrapeJob>().EveryMinute().PreventOverlapping(nameof(ScrapeJob));
+    scheduler.Schedule<InstrumentJob>().EveryMinute().PreventOverlapping(nameof(InstrumentJob));
 });
 
 host.Run();
