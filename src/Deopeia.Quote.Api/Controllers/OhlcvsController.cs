@@ -1,5 +1,4 @@
 using Deopeia.Quote.Application.Ohlcvs.GetHistoricalData;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Deopeia.Quote.Api.Controllers;
 
