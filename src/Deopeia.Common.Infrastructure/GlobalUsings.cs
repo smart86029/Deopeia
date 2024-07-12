@@ -5,4 +5,5 @@ global using Deopeia.Common.Domain;
 global using Deopeia.Common.Extensions;
 global using Deopeia.Common.Infrastructure.Converters;
 global using Deopeia.Common.Localization;
+global using EFCore.BulkExtensions;
 global using Microsoft.EntityFrameworkCore;

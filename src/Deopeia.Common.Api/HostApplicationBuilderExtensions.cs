@@ -13,6 +13,8 @@ public static class HostApplicationBuilderExtensions
 {
     public static IHostApplicationBuilder AddApi(this IHostApplicationBuilder builder)
     {
+        builder.AddDefaultOpenApi();
+
         var services = builder.Services;
         services.AddOptions<JwtOptions>().BindConfiguration("Jwt");
         services.AddOptions<ConnectionStringOptions>().BindConfiguration("ConnectionStrings");
@@ -53,6 +55,16 @@ public static class HostApplicationBuilderExtensions
                     ),
                 };
             });
+
+        return builder;
+    }
+
+    private static IHostApplicationBuilder AddDefaultOpenApi(this IHostApplicationBuilder builder)
+    {
+        builder.Services.AddSwaggerGen(options =>
+        {
+            options.UseAllOfToExtendReferenceSchemas();
+        });
 
         return builder;
     }

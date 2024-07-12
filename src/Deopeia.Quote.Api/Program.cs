@@ -27,6 +27,12 @@ app.UseRequestLocalization("en-US", "zh-TW");
 app.UseAuthentication();
 app.UseAuthorization();
 
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 app.MapDefaultEndpoints();
 app.MapRazorPages();
 app.MapControllers();

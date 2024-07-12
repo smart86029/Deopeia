@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace Deopeia.Common.Api.Controllers;
 
 [ApiController]
+[ApiConventionType(typeof(DefaultApiConventions))]
 [Authorize]
 [Route("api/[controller]")]
 public abstract class ApiController<TController> : ControllerBase
