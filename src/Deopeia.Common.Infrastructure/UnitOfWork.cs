@@ -13,7 +13,7 @@ public abstract class UnitOfWork<TContext>(TContext context, CurrentUser current
     public async Task<bool> CommitAsync()
     {
         Audit();
-        await _context.BulkSaveChangesAsync();
+        await _context.SaveChangesAsync();
 
         return true;
     }
