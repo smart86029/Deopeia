@@ -20,8 +20,14 @@ import type { AppLocale } from '@/models/app-locale';
 import { usePreferencesStore } from '@/stores/preferences';
 
 const { locales, locale } = storeToRefs(usePreferencesStore());
+const route = useRoute();
+const router = useRouter();
 
 const changeLocale = (command: AppLocale) => {
   locale.value = command;
+  router.replace({
+    params: { ...route.params, locale: command.key },
+    query: { ...route.query },
+  });
 };
 </script>

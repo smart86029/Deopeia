@@ -1,18 +1,18 @@
 <template>
-  <h2>{{ instrument.name }}</h2>
-
-  <el-menu :default-active="activeIndex" mode="horizontal" router>
-    <el-menu-item
-      v-for="menu of menus"
-      :key="menu"
-      :index="menu"
-      :route="{ name: menu }"
-    >
-      {{ $t(`route.${menu}`) }}
-    </el-menu-item>
-  </el-menu>
-
-  <RouterView />
+  <div>
+    <h2>{{ instrument.name }}</h2>
+    <el-menu :default-active="activeIndex" mode="horizontal" router>
+      <el-menu-item
+        v-for="menu of menus"
+        :key="menu"
+        :index="menu"
+        :route="{ name: menu }"
+      >
+        {{ $t(`route.${menu}`) }}
+      </el-menu-item>
+    </el-menu>
+    <RouterView />
+  </div>
 </template>
 
 <script setup lang="ts">

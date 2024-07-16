@@ -11,25 +11,17 @@
 <script setup lang="ts">
 const { t } = useI18n();
 const route = useRoute();
-const locations = computed(
-  () => {
-    return route.matched
-      .filter((x) => !x.name?.toString().endsWith('default'))
-      .map((x) => ({
-        name: t(`route.${x.name?.toString()}`, {
-          id: route.params.id,
-          symbol: route.params.symbol,
-        }),
-        to: x,
-      }));
-  },
-
-  // route.matched.filter(
-  //   (x) => !!x.name && !x.name.toString().endsWith('default'),
-  // ),
+const locations = computed(() =>
+  route.matched
+    .filter((x) => !x.name?.toString().endsWith('default'))
+    .map((x) => ({
+      name: t(`route.${x.name?.toString()}`, {
+        id: route.params.id,
+        symbol: route.params.symbol,
+      }),
+      to: x,
+    })),
 );
-const id = computed(() => route.params.id);
-const symbol = computed(() => route.params.symbol);
 </script>
 
 <style scoped lang="scss">

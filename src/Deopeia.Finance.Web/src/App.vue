@@ -1,11 +1,11 @@
 <template>
   <el-config-provider :locale="elLocale">
-    <RouterView />
+    <RouterView :key="locale.key" />
   </el-config-provider>
 </template>
 
 <script setup lang="ts">
-import i18n from '@/plugins/i18n';
+import { usePreferencesStore } from '@/stores/preferences';
 import { en as enUS, zhTw as zhTW } from 'element-plus/es/locales';
 
 type ElLocale = typeof enUS | typeof zhTW;
@@ -14,5 +14,6 @@ const map = new Map<string, ElLocale>([
   ['zh-TW', zhTW],
 ]);
 
-const elLocale = computed(() => map.get(i18n.global.locale.value));
+const { locale } = storeToRefs(usePreferencesStore());
+const elLocale = computed(() => map.get(locale.value.key));
 </script>
