@@ -30,4 +30,6 @@ builder
     .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
     .WithReference(dbQuote);
 
+builder.AddProject<Projects.Deopeia_Finance_Bff>("deopeia-finance-bff");
+
 builder.Build().Run();

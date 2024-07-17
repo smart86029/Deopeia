@@ -41,6 +41,12 @@ export default defineConfig({
         target: 'http://localhost:5019/',
         changeOrigin: true,
       },
+      '/hub': {
+        target: 'https://localhost:7211/',
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+      },
     },
   },
   build: {

@@ -1,0 +1,6 @@
+@Deopeia.Finance.Bff_HostAddress = http://localhost:5088
+
+GET {{Deopeia.Finance.Bff_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
