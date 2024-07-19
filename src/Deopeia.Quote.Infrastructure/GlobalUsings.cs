@@ -1,3 +1,4 @@
+global using System.Text.Json.Nodes;
 global using Dapper;
 global using Deopeia.Common;
 global using Deopeia.Common.Extensions;

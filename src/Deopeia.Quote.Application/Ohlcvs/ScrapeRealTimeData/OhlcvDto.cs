@@ -1,10 +1,10 @@
-namespace Deopeia.Quote.Application.Ohlcvs.ScrapeHistoricalData;
+namespace Deopeia.Quote.Application.Ohlcvs.ScrapeRealTimeData;
 
 public class OhlcvDto
 {
     public string Symbol { get; set; } = string.Empty;
 
-    public DateOnly Date { get; set; }
+    public DateTimeOffset DateTime { get; set; }
 
     public decimal Open { get; set; }
 

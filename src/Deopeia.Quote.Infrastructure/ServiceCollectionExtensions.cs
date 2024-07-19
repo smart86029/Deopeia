@@ -1,6 +1,7 @@
 using System.Reflection;
 using Deopeia.Quote.Application.Instruments.ScrapeInstruments;
 using Deopeia.Quote.Application.Ohlcvs.ScrapeHistoricalData;
+using Deopeia.Quote.Application.Ohlcvs.ScrapeRealTimeData;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Deopeia.Quote.Infrastructure;
@@ -17,7 +18,9 @@ public static class ServiceCollectionExtensions
             .SelectMany(x => x.GetTypes())
             .Where(x => x.IsClass && !x.IsAbstract && !x.IsGenericType)
             .Where(x =>
-                x.IsAssignableTo(typeof(IScraper)) || x.IsAssignableTo(typeof(IInstrumentsScraper))
+                x.IsAssignableTo(typeof(IScraper))
+                || x.IsAssignableTo(typeof(IRealTimeScraper))
+                || x.IsAssignableTo(typeof(IInstrumentsScraper))
             );
         foreach (var type in types)
         {

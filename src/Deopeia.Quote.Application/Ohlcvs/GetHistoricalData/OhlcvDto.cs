@@ -2,7 +2,7 @@ namespace Deopeia.Quote.Application.Ohlcvs.GetHistoricalData;
 
 public class OhlcvDto
 {
-    public DateOnly Date { get; set; }
+    public DateTimeOffset Date { get; set; }
 
     public decimal Open { get; set; }
 
