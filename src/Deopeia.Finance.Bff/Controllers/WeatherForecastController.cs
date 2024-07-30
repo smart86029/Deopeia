@@ -12,8 +12,6 @@ public class WeatherForecastController(IHubContext<RealTimeHub, IRealTime> hubCo
     [HttpGet]
     public IActionResult Get()
     {
-        _hubContext.Clients.All.ReceiveQuote(DateTime.Now.ToString());
-
         return Ok();
     }
 }

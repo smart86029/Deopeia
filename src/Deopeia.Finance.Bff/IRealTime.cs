@@ -1,6 +1,8 @@
+using Deopeia.Finance.Bff.Events;
+
 namespace Deopeia.Finance.Bff;
 
 public interface IRealTime
 {
-    Task ReceiveQuote(string quote);
+    Task ReceiveQuote(PriceChangedEvent @event);
 }

@@ -2,8 +2,8 @@ namespace Deopeia.Finance.Bff;
 
 public class RealTimeHub : Hub<IRealTime>
 {
-    public async Task SendQuote(string quote)
+    public async Task SendQuote(PriceChangedEvent @event)
     {
-        await Clients.All.ReceiveQuote(quote);
+        await Clients.All.ReceiveQuote(@event);
     }
 }

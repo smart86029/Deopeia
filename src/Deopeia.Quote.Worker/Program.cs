@@ -2,11 +2,16 @@ using Coravel;
 using Deopeia.Common;
 using Deopeia.Common.Application;
 using Deopeia.Common.Infrastructure;
+using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Quote.Infrastructure;
 using Deopeia.Quote.Worker;
 
 var builder = Host.CreateApplicationBuilder(args);
-builder.AddServiceDefaults().AddApplication().AddInfrastructure<QuoteContext>();
+builder
+    .AddServiceDefaults()
+    .AddApplication()
+    .AddInfrastructure<QuoteContext>()
+    .AddEventBus("eventbus");
 
 builder.Services.AddScheduler();
 builder.Services.AddScoped<ScrapeJob>();

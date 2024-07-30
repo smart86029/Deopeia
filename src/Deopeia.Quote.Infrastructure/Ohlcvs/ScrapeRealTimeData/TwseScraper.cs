@@ -4,9 +4,11 @@ namespace Deopeia.Quote.Infrastructure.Ohlcvs.ScrapeRealTimeData;
 
 internal class TwseScraper(HttpClient httpClient) : IRealTimeScraper
 {
+    private static readonly TimeSpan Offset = TimeSpan.FromHours(8);
+
     private readonly HttpClient _httpClient = httpClient;
 
-    public async Task<ICollection<OhlcvDto>> GetOhlcvsAsync(IEnumerable<string> symbols)
+    public async Task<ICollection<RealTimeDto>> GetRealTimeDataAsync(IEnumerable<string> symbols)
     {
         using var content = new FormUrlEncodedContent(
             new Dictionary<string, string>()
@@ -24,23 +26,19 @@ internal class TwseScraper(HttpClient httpClient) : IRealTimeScraper
         var jsonArray = JsonNode.Parse(json)?.AsObject()?["msgArray"]?.AsArray();
         if (jsonArray is null)
         {
-            return new List<OhlcvDto>();
+            return new List<RealTimeDto>();
         }
 
         var results = jsonArray
             .Select(x => x!.AsObject())
-            .Select(x => new OhlcvDto
+            .Select(x => new RealTimeDto
             {
                 Symbol = x["c"]!.GetValue<string>(),
-                DateTime = new DateTimeOffset(
-                    x["tlong"]!.GetValue<string>().ToLong(),
-                    TimeSpan.FromHours(8)
-                ),
-                Open = x["o"]!.GetValue<string>().ToDecimal(),
-                High = x["h"]!.GetValue<string>().ToDecimal(),
-                Low = x["l"]!.GetValue<string>().ToDecimal(),
-                Close = x["z"]!.GetValue<string>().ToDecimal(),
-                Volume = x["tv"]!.GetValue<string>().ToDecimal(),
+                LastTradedAt = DateTimeOffset
+                    .FromUnixTimeMilliseconds(x["tlong"]!.GetValue<string>().ToLong())
+                    .ToOffset(Offset),
+                LastTradedPrice = x["z"]!.GetValue<string>().ToDecimal(),
+                PreviousClose = x["y"]!.GetValue<string>().ToDecimal(),
             })
             .ToList();
 

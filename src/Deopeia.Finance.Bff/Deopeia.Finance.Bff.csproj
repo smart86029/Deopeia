@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Deopeia.Common.Infrastructure\Deopeia.Common.Infrastructure.csproj" />
     <ProjectReference Include="..\Deopeia.ServiceDefaults\Deopeia.ServiceDefaults.csproj" />
   </ItemGroup>
 
