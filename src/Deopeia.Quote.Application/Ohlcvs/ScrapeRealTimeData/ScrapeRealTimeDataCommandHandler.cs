@@ -37,6 +37,7 @@ internal class ScrapeRealTimeDataCommandHandler(
                     x.LastTradedPrice,
                     x.PreviousClose
                 ))
+                .Where(x => x.LastTradedPrice > 0)
                 .ToList();
             foreach (var @event in events)
             {
