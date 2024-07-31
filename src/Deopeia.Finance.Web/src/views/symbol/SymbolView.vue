@@ -1,6 +1,12 @@
 <template>
   <div>
     <h2>{{ instrument.name }}</h2>
+    <div class="quote">
+      <span class="ltp">{{ lastTradedPrice }}</span>
+      <span class="currency">TWD</span>
+      <TextPrice :value="priceChange" />
+      <TextPrice :value="priceRateOfChange" percentage />
+    </div>
     <el-menu :default-active="activeIndex" mode="horizontal" router>
       <el-menu-item
         v-for="menu of menus"
@@ -27,8 +33,8 @@ const menus = ['symbol.default', 'symbol.financials', 'symbol.news'];
 const activeIndex = ref(menus[0] as string | undefined);
 const router = useRouter();
 const instrument = ref({} as Instrument);
-
-useQuoteStore();
+const { lastTradedPrice, priceChange, priceRateOfChange } =
+  storeToRefs(useQuoteStore());
 
 instrumentApi.get(props.symbol).then((x) => (instrument.value = x.data));
 
@@ -47,5 +53,16 @@ watch(
 <style scoped lang="scss">
 .el-menu {
   margin-bottom: 20px;
+}
+
+.quote {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.ltp {
+  font-weight: bold;
+  font-size: 32px;
 }
 </style>

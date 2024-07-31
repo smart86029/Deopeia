@@ -27,11 +27,14 @@ onMounted(async () => {
     localization: {
       locale: locale.value.key,
     },
+    timeScale: {
+      timeVisible: true,
+    },
   };
   const chart = createChart('canvas', chartOptions);
   const areaSeries = chart.addAreaSeries({
-    lineColor: '#2962FF',
-    topColor: '#2962FF',
+    lineColor: '#f23645',
+    topColor: '#f23645',
     bottomColor: 'rgba(41, 98, 255, 0.28)',
   });
 
@@ -56,18 +59,24 @@ onMounted(async () => {
 
   // candlestickSeries.setData(ohlcvs.value);
   chart.timeScale().fitContent();
+  chart.timeScale().scrollToPosition(5, true);
 
+  const time = ref(0);
   watch(realTimeQuotes.value, (quotes) => {
     const data = quotes
       .filter((x) => x.symbol == props.symbol)
       .map((x) => {
         return {
-          value: x.lastTradedPrice,
           time: dayjs(x.lastTradedAt).unix(),
+          value: x.lastTradedPrice,
         };
-      });
+      })
+      .filter((x) => x.time > time.value);
 
     data.forEach((x) => areaSeries.update(x));
+    if (data.length > 0) {
+      time.value = data[data.length - 1].time;
+    }
   });
 });
 </script>

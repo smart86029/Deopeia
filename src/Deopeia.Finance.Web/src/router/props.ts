@@ -1,4 +1,5 @@
 import { Guid } from '@/models/guid';
+import { useQuoteStore } from '@/stores/quote';
 import type { RouteLocationNormalized } from 'vue-router';
 
 export const create = (): {
@@ -30,9 +31,14 @@ export const symbol = (
 ): {
   default: boolean;
   symbol: string;
-} => ({
-  default: true,
-  symbol: Array.isArray(route.params.symbol)
+} => {
+  const routeSymbol = Array.isArray(route.params.symbol)
     ? route.params.symbol[0]
-    : route.params.symbol,
-});
+    : route.params.symbol;
+  const { symbol } = storeToRefs(useQuoteStore());
+  symbol.value = routeSymbol;
+  return {
+    default: true,
+    symbol: routeSymbol,
+  };
+};
