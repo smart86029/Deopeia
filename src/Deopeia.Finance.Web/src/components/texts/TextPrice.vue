@@ -1,6 +1,6 @@
 <template>
   <span :class="{ positive: value > 0, negative: value < 0 }"
-    >{{ formatted }}<template v-if="percentage">%</template></span
+    ><template v-if="value > 0">+</template>{{ formatted }}<template v-if="percentage">%</template></span
   >
 </template>
 

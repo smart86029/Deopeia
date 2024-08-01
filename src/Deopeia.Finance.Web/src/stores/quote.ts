@@ -7,8 +7,8 @@ export const useQuoteStore = defineStore('quote', () => {
   realTimeQuotes.value.push({
     symbol: '2330',
     lastTradedAt: new Date(),
-    lastTradedPrice: 934,
-    previousClose: 980,
+    lastTradedPrice: 960,
+    previousClose: 934,
   });
   const hubConnection = new HubConnectionBuilder()
     .withUrl('/hub/RealTime', {
@@ -47,7 +47,7 @@ export const useQuoteStore = defineStore('quote', () => {
   const priceRateOfChange = computed(() =>
     previousClose.value === 0
       ? 0
-      : Math.round((priceChange.value / previousClose.value) * 100) / 100,
+      : Math.round((priceChange.value / previousClose.value) * 10000) / 100,
   );
 
   return {

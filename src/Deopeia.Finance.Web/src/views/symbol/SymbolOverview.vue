@@ -35,7 +35,7 @@ onMounted(async () => {
   const areaSeries = chart.addAreaSeries({
     lineColor: '#f23645',
     topColor: '#f23645',
-    bottomColor: 'rgba(41, 98, 255, 0.28)',
+    bottomColor: 'rgba(242,	54,	69, 0.28)',
   });
 
   // const candlestickSeries = chart.addCandlestickSeries({
@@ -67,7 +67,7 @@ onMounted(async () => {
       .filter((x) => x.symbol == props.symbol)
       .map((x) => {
         return {
-          time: dayjs(x.lastTradedAt).unix(),
+          time: dayjs(x.lastTradedAt).utc().local().unix(),
           value: x.lastTradedPrice,
         };
       })
