@@ -11,4 +11,9 @@ internal class StockRepository(QuoteContext context) : IStockRepository
     {
         await _stocks.AddRangeAsync(stocks);
     }
+
+    public async Task<bool> Exists(string symbol)
+    {
+        return await _stocks.AnyAsync(x => x.Symbol == symbol);
+    }
 }

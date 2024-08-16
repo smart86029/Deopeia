@@ -27,6 +27,11 @@ internal class ScrapeInstrumentsCommandHandler(
             var stocks = new List<Stock>(items.Count);
             foreach (var item in items)
             {
+                if (await _stockRepository.Exists(item.Symbol))
+                {
+                    continue;
+                }
+
                 var subIndustry = GetSubIndustry(item.Industry);
                 var website = GetWebsite(item.Website);
                 var company = new Company(subIndustry, website);

@@ -24,7 +24,7 @@ var host = builder.Build();
 host.Services.UseScheduler(scheduler =>
 {
     //scheduler.Schedule<ScrapeJob>().EveryMinute().PreventOverlapping(nameof(ScrapeJob));
-    //scheduler.Schedule<InstrumentJob>().EveryMinute().PreventOverlapping(nameof(InstrumentJob));
+    scheduler.Schedule<InstrumentJob>().EveryMinute().PreventOverlapping(nameof(InstrumentJob));
     scheduler
         .Schedule<ScrapeRealTimeQuoteJob>()
         .EveryFiveSeconds()
