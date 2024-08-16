@@ -1,6 +1,6 @@
 namespace Deopeia.Common.Domain.Auditing;
 
-public abstract class AuditTrail : AggregateRoot
+public abstract class AuditTrail : AggregateRoot<AuditTrailId>
 {
     protected AuditTrail() { }
 

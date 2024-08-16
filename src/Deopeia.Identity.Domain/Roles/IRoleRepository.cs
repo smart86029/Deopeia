@@ -1,12 +1,12 @@
 namespace Deopeia.Identity.Domain.Roles;
 
-public interface IRoleRepository : IRepository<Role>
+public interface IRoleRepository : IRepository<Role, RoleId>
 {
     Task<ICollection<Role>> GetRolesAsync();
 
-    Task<ICollection<Role>> GetRolesAsync(IEnumerable<Guid> roleIds);
+    Task<ICollection<Role>> GetRolesAsync(IEnumerable<RoleId> roleIds);
 
-    Task<Role> GetRoleAsync(Guid roleId);
+    Task<Role> GetRoleAsync(RoleId roleId);
 
     void Add(Role role);
 

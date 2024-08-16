@@ -11,7 +11,7 @@ internal class ImageRepository<TContext>(TContext context, IMinioClient client) 
     private readonly DbSet<Image> _images = context.Set<Image>();
     private readonly IMinioClient _client = client;
 
-    public async Task<ICollection<Image>> GetImagesAsync(IEnumerable<Guid> imageIds)
+    public async Task<ICollection<Image>> GetImagesAsync(IEnumerable<FileResourceId> imageIds)
     {
         var results = await _images.Where(x => imageIds.Contains(x.Id)).ToListAsync();
         foreach (var image in results)
@@ -22,7 +22,7 @@ internal class ImageRepository<TContext>(TContext context, IMinioClient client) 
         return results;
     }
 
-    public async Task<Image> GetImageAsync(Guid imageId)
+    public async Task<Image> GetImageAsync(FileResourceId imageId)
     {
         var result = await _images.FirstAsync(x => x.Id == imageId);
         await SetPresignedUrlAsync(result);

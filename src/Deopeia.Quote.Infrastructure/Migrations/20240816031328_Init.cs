@@ -12,15 +12,8 @@ namespace Deopeia.Quote.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "Common");
-
-            migrationBuilder.EnsureSchema(
-                name: "Quote");
-
             migrationBuilder.CreateTable(
                 name: "AuditTrail",
-                schema: "Common",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -41,7 +34,6 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Company",
-                schema: "Quote",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -55,7 +47,6 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "FileResource",
-                schema: "Common",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -71,7 +62,6 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Instrument",
-                schema: "Quote",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -87,7 +77,6 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "LocaleResource",
-                schema: "Common",
                 columns: table => new
                 {
                     Culture = table.Column<string>(type: "text", nullable: false),
@@ -102,10 +91,8 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Ohlcv",
-                schema: "Quote",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Symbol = table.Column<string>(type: "text", nullable: false),
                     RecordedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     Open = table.Column<decimal>(type: "numeric", nullable: false),
@@ -116,12 +103,11 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ohlcv", x => x.Id);
+                    table.PrimaryKey("PK_Ohlcv", x => new { x.Symbol, x.RecordedAt });
                 });
 
             migrationBuilder.CreateTable(
                 name: "CompanyLocale",
-                schema: "Quote",
                 columns: table => new
                 {
                     CompanyId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -134,7 +120,6 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_CompanyLocale_Company_CompanyId",
                         column: x => x.CompanyId,
-                        principalSchema: "Quote",
                         principalTable: "Company",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -142,7 +127,6 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "InstrumentLocale",
-                schema: "Quote",
                 columns: table => new
                 {
                     InstrumentId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -155,7 +139,6 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_InstrumentLocale_Instrument_InstrumentId",
                         column: x => x.InstrumentId,
-                        principalSchema: "Quote",
                         principalTable: "Instrument",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -163,22 +146,13 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_FileResource_Type",
-                schema: "Common",
                 table: "FileResource",
                 column: "Type");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Instrument_Type_Exchange_Symbol",
-                schema: "Quote",
                 table: "Instrument",
                 columns: new[] { "Type", "Exchange", "Symbol" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Ohlcv_Symbol_RecordedAt",
-                schema: "Quote",
-                table: "Ohlcv",
-                columns: new[] { "Symbol", "RecordedAt" },
                 unique: true);
         }
 
@@ -186,36 +160,28 @@ namespace Deopeia.Quote.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AuditTrail",
-                schema: "Common");
+                name: "AuditTrail");
 
             migrationBuilder.DropTable(
-                name: "CompanyLocale",
-                schema: "Quote");
+                name: "CompanyLocale");
 
             migrationBuilder.DropTable(
-                name: "FileResource",
-                schema: "Common");
+                name: "FileResource");
 
             migrationBuilder.DropTable(
-                name: "InstrumentLocale",
-                schema: "Quote");
+                name: "InstrumentLocale");
 
             migrationBuilder.DropTable(
-                name: "LocaleResource",
-                schema: "Common");
+                name: "LocaleResource");
 
             migrationBuilder.DropTable(
-                name: "Ohlcv",
-                schema: "Quote");
+                name: "Ohlcv");
 
             migrationBuilder.DropTable(
-                name: "Company",
-                schema: "Quote");
+                name: "Company");
 
             migrationBuilder.DropTable(
-                name: "Instrument",
-                schema: "Quote");
+                name: "Instrument");
         }
     }
 }

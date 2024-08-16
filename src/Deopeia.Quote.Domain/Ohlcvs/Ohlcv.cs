@@ -1,39 +1,26 @@
 namespace Deopeia.Quote.Domain.Ohlcvs;
 
-public class Ohlcv : AggregateRoot
+public class Ohlcv(
+    string symbol,
+    DateTimeOffset recordedAt,
+    decimal open,
+    decimal high,
+    decimal low,
+    decimal close,
+    decimal volume
+) : AggregateRoot<OhlcvId>(new OhlcvId(symbol, recordedAt))
 {
-    private Ohlcv() { }
+    public string Symbol => Id.Symbol;
 
-    public Ohlcv(
-        string symbol,
-        DateTimeOffset recordedAt,
-        decimal open,
-        decimal high,
-        decimal low,
-        decimal close,
-        decimal volume
-    )
-    {
-        Symbol = symbol;
-        RecordedAt = recordedAt;
-        Open = open;
-        High = high;
-        Low = low;
-        Close = close;
-        Volume = volume;
-    }
+    public DateTimeOffset RecordedAt => Id.RecordedAt;
 
-    public string Symbol { get; private init; } = string.Empty;
+    public decimal Open { get; private init; } = open;
 
-    public DateTimeOffset RecordedAt { get; private init; }
+    public decimal High { get; private init; } = high;
 
-    public decimal Open { get; private init; }
+    public decimal Low { get; private init; } = low;
 
-    public decimal High { get; private init; }
+    public decimal Close { get; private init; } = close;
 
-    public decimal Low { get; private init; }
-
-    public decimal Close { get; private init; }
-
-    public decimal Volume { get; private init; }
+    public decimal Volume { get; private init; } = volume;
 }

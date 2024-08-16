@@ -1,8 +1,10 @@
 namespace Deopeia.Quote.Domain.Instruments;
 
-public abstract class Instrument : AggregateRoot, ILocalizable<InstrumentLocale>
+public abstract class Instrument
+    : AggregateRoot<InstrumentId>,
+        ILocalizable<InstrumentLocale, InstrumentId>
 {
-    private readonly EntityLocaleCollection<InstrumentLocale> _locales = [];
+    private readonly EntityLocaleCollection<InstrumentLocale, InstrumentId> _locales = [];
 
     protected Instrument() { }
 

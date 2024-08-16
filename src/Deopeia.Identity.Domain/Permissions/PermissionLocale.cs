@@ -1,6 +1,6 @@
 namespace Deopeia.Identity.Domain.Permissions;
 
-public class PermissionLocale : EntityLocale
+public class PermissionLocale : EntityLocale<PermissionId>
 {
     public string Name { get; private set; } = string.Empty;
 

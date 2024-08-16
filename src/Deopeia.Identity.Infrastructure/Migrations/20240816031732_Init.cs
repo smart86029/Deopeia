@@ -12,15 +12,8 @@ namespace Deopeia.Identity.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "Common");
-
-            migrationBuilder.EnsureSchema(
-                name: "Identity");
-
             migrationBuilder.CreateTable(
                 name: "AuditTrail",
-                schema: "Common",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -41,7 +34,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Client",
-                schema: "Identity",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -59,7 +51,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "FileResource",
-                schema: "Common",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -75,7 +66,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Grant",
-                schema: "Identity",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -99,7 +89,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "LocaleResource",
-                schema: "Common",
                 columns: table => new
                 {
                     Culture = table.Column<string>(type: "text", nullable: false),
@@ -114,7 +103,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Permission",
-                schema: "Identity",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -128,7 +116,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Role",
-                schema: "Identity",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -142,7 +129,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "User",
-                schema: "Identity",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -159,7 +145,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "PermissionLocale",
-                schema: "Identity",
                 columns: table => new
                 {
                     PermissionId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -173,7 +158,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_PermissionLocale_Permission_PermissionId",
                         column: x => x.PermissionId,
-                        principalSchema: "Identity",
                         principalTable: "Permission",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -181,27 +165,23 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "RolePermission",
-                schema: "Identity",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     RoleId = table.Column<Guid>(type: "uuid", nullable: false),
                     PermissionId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RolePermission", x => x.Id);
+                    table.PrimaryKey("PK_RolePermission", x => new { x.RoleId, x.PermissionId });
                     table.ForeignKey(
                         name: "FK_RolePermission_Permission_PermissionId",
                         column: x => x.PermissionId,
-                        principalSchema: "Identity",
                         principalTable: "Permission",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_RolePermission_Role_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "Identity",
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -209,7 +189,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "UserRefreshToken",
-                schema: "Identity",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -225,7 +204,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_UserRefreshToken_User_UserId",
                         column: x => x.UserId,
-                        principalSchema: "Identity",
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -233,27 +211,23 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "UserRole",
-                schema: "Identity",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     RoleId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRole", x => x.Id);
+                    table.PrimaryKey("PK_UserRole", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
                         name: "FK_UserRole_Role_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "Identity",
                         principalTable: "Role",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserRole_User_UserId",
                         column: x => x.UserId,
-                        principalSchema: "Identity",
                         principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -261,125 +235,92 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_FileResource_Type",
-                schema: "Common",
                 table: "FileResource",
                 column: "Type");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Grant_ClientId",
-                schema: "Identity",
                 table: "Grant",
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Grant_Key",
-                schema: "Identity",
                 table: "Grant",
                 column: "Key",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Permission_Code",
-                schema: "Identity",
                 table: "Permission",
                 column: "Code",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_RolePermission_PermissionId",
-                schema: "Identity",
                 table: "RolePermission",
                 column: "PermissionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RolePermission_RoleId",
-                schema: "Identity",
-                table: "RolePermission",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_User_UserName",
-                schema: "Identity",
                 table: "User",
                 column: "UserName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRefreshToken_RefreshToken",
-                schema: "Identity",
                 table: "UserRefreshToken",
                 column: "RefreshToken",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRefreshToken_UserId",
-                schema: "Identity",
                 table: "UserRefreshToken",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserRole_RoleId",
-                schema: "Identity",
                 table: "UserRole",
                 column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRole_UserId",
-                schema: "Identity",
-                table: "UserRole",
-                column: "UserId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AuditTrail",
-                schema: "Common");
+                name: "AuditTrail");
 
             migrationBuilder.DropTable(
-                name: "Client",
-                schema: "Identity");
+                name: "Client");
 
             migrationBuilder.DropTable(
-                name: "FileResource",
-                schema: "Common");
+                name: "FileResource");
 
             migrationBuilder.DropTable(
-                name: "Grant",
-                schema: "Identity");
+                name: "Grant");
 
             migrationBuilder.DropTable(
-                name: "LocaleResource",
-                schema: "Common");
+                name: "LocaleResource");
 
             migrationBuilder.DropTable(
-                name: "PermissionLocale",
-                schema: "Identity");
+                name: "PermissionLocale");
 
             migrationBuilder.DropTable(
-                name: "RolePermission",
-                schema: "Identity");
+                name: "RolePermission");
 
             migrationBuilder.DropTable(
-                name: "UserRefreshToken",
-                schema: "Identity");
+                name: "UserRefreshToken");
 
             migrationBuilder.DropTable(
-                name: "UserRole",
-                schema: "Identity");
+                name: "UserRole");
 
             migrationBuilder.DropTable(
-                name: "Permission",
-                schema: "Identity");
+                name: "Permission");
 
             migrationBuilder.DropTable(
-                name: "Role",
-                schema: "Identity");
+                name: "Role");
 
             migrationBuilder.DropTable(
-                name: "User",
-                schema: "Identity");
+                name: "User");
         }
     }
 }

@@ -6,7 +6,7 @@ public class UserRepository(IdentityContext context) : IUserRepository
 {
     private readonly DbSet<User> _users = context.Set<User>();
 
-    public async Task<User> GetUserAsync(Guid userId)
+    public async Task<User> GetUserAsync(UserId userId)
     {
         var result = await _users
             .Include(x => x.UserRoles)
@@ -30,7 +30,7 @@ public class UserRepository(IdentityContext context) : IUserRepository
         return result;
     }
 
-    public async Task<bool> ContainsAsync(Guid userId)
+    public async Task<bool> ContainsAsync(UserId userId)
     {
         var result = await _users.AnyAsync(x => x.Id == userId);
 

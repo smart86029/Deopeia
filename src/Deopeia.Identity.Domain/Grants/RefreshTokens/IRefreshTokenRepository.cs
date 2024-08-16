@@ -1,6 +1,6 @@
 namespace Deopeia.Identity.Domain.Grants.RefreshTokens;
 
-public interface IRefreshTokenRepository : IRepository<RefreshToken>
+public interface IRefreshTokenRepository : IRepository<RefreshToken, GrantId>
 {
     Task<RefreshToken?> GetRefreshTokenAsync(string refreshToken);
 

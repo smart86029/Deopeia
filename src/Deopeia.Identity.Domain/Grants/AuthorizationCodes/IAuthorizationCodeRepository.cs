@@ -1,6 +1,6 @@
 namespace Deopeia.Identity.Domain.Grants.AuthorizationCodes;
 
-public interface IAuthorizationCodeRepository : IRepository<AuthorizationCode>
+public interface IAuthorizationCodeRepository : IRepository<AuthorizationCode, GrantId>
 {
     Task<AuthorizationCode?> GetAuthorizationCodeAsync(string code);
 

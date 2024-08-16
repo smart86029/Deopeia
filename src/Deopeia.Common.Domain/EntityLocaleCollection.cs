@@ -1,9 +1,11 @@
 using System.Collections.ObjectModel;
+using Deopeia.Common.Domain;
 
 namespace Deopeia.Common.Localization;
 
-public class EntityLocaleCollection<TLocale> : Collection<TLocale>
-    where TLocale : EntityLocale, new()
+public class EntityLocaleCollection<TLocale, TEntityId> : Collection<TLocale>
+    where TLocale : EntityLocale<TEntityId>, new()
+    where TEntityId : struct, IEntityId
 {
     public TLocale this[CultureInfo culture]
     {

@@ -1,6 +1,6 @@
 namespace Deopeia.Quote.Domain.Instruments;
 
-public class InstrumentLocale : EntityLocale
+public class InstrumentLocale : EntityLocale<InstrumentId>
 {
     public string Name { get; private set; } = string.Empty;
 

@@ -1,6 +1,6 @@
 namespace Deopeia.Quote.Domain.Exchanges;
 
-public class ExchangeLocale : EntityLocale
+public class ExchangeLocale : EntityLocale<ExchangeId>
 {
     public string Name { get; private set; } = string.Empty;
 

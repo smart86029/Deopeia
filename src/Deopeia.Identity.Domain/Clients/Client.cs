@@ -2,7 +2,7 @@ using Deopeia.Identity.Domain.Grants;
 
 namespace Deopeia.Identity.Domain.Clients;
 
-public class Client : AggregateRoot
+public class Client : AggregateRoot<ClientId>
 {
     private readonly List<string> _scopes = [];
     private readonly List<Uri> _redirectUris = [];

@@ -3,7 +3,7 @@ using Deopeia.Identity.Domain.Roles;
 
 namespace Deopeia.Identity.Domain.Users;
 
-public class User : AggregateRoot
+public class User : AggregateRoot<UserId>
 {
     private readonly List<UserRole> _userRoles = [];
     private readonly List<UserRefreshToken> _userRefreshTokens = [];

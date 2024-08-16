@@ -3,7 +3,7 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Domain.Roles;
 
-public class Role : AggregateRoot
+public class Role : AggregateRoot<RoleId>
 {
     private readonly List<UserRole> _userRoles = [];
     private readonly List<RolePermission> _rolePermissions = [];

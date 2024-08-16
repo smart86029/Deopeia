@@ -1,5 +1,4 @@
 using Deopeia.Common.Domain.Files;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Deopeia.Common.Infrastructure.Files;
 
@@ -10,9 +9,8 @@ public class FileResourceConfiguration : IEntityTypeConfiguration<FileResource>
         builder.HasDiscriminator(x => x.Type).HasValue<Image>(FileResourceType.Image);
 
         builder.Ignore(x => x.Content);
-        builder.Ignore(x => x.PresignedUri);
 
-        builder.ToTable(nameof(FileResource), "Common");
+        builder.Ignore(x => x.PresignedUri);
 
         builder.HasIndex(x => x.Type);
     }

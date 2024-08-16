@@ -1,4 +1,5 @@
 namespace Deopeia.Common.Domain;
 
-public interface IRepository<TAggregateRoot>
-    where TAggregateRoot : AggregateRoot { }
+public interface IRepository<TAggregateRoot, TEntityId>
+    where TAggregateRoot : AggregateRoot<TEntityId>
+    where TEntityId : struct, IEntityId { }

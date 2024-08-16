@@ -24,7 +24,7 @@ internal class SignInCommandHandler(
             );
             if (authorizationCode is not null)
             {
-                authorizationCode.UpdateSubjectId(user.Id);
+                authorizationCode.UpdateSubjectId(user.Id.Guid);
                 _authorizationCodeRepository.Update(authorizationCode);
                 await _unitOfWork.CommitAsync();
             }

@@ -1,24 +1,14 @@
-using Deopeia.Common.Utilities;
-
 namespace Deopeia.Common.Domain;
 
-public abstract class Entity
+public abstract class Entity<TEntityId>(TEntityId id)
+    where TEntityId : struct, IEntityId
 {
     private readonly List<DomainEvent> _domainEvents = [];
 
-    protected Entity() { }
+    protected Entity()
+        : this(new TEntityId()) { }
 
-    protected Entity(Guid id)
-    {
-        if (id == Guid.Empty)
-        {
-            throw new ArgumentNullException(nameof(id));
-        }
-
-        Id = id;
-    }
-
-    public Guid Id { get; private init; } = GuidUtility.NewGuid();
+    public TEntityId Id { get; private init; } = id;
 
     public IReadOnlyCollection<DomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 

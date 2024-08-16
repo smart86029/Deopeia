@@ -18,8 +18,7 @@ namespace Deopeia.Identity.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Identity")
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -27,7 +26,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
             modelBuilder.Entity("Deopeia.Common.Domain.Auditing.AuditTrail", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -45,7 +43,7 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AuditTrail", "Common");
+                    b.ToTable("AuditTrail");
 
                     b.HasDiscriminator<int>("Type");
 
@@ -55,7 +53,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
             modelBuilder.Entity("Deopeia.Common.Domain.Files.FileResource", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Extension")
@@ -76,7 +73,7 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
                     b.HasIndex("Type");
 
-                    b.ToTable("FileResource", "Common");
+                    b.ToTable("FileResource");
 
                     b.HasDiscriminator<int>("Type");
 
@@ -100,13 +97,12 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
                     b.HasKey("Culture", "Type", "Code");
 
-                    b.ToTable("LocaleResource", "Common");
+                    b.ToTable("LocaleResource");
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Clients.Client", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<int>("GrantTypes")
@@ -132,13 +128,12 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Client", "Identity");
+                    b.ToTable("Client");
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Grants.Grant", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ClientId")
@@ -175,7 +170,7 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     b.HasIndex("Key")
                         .IsUnique();
 
-                    b.ToTable("Grant", "Identity");
+                    b.ToTable("Grant");
 
                     b.HasDiscriminator<int>("Type");
 
@@ -185,7 +180,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
             modelBuilder.Entity("Deopeia.Identity.Domain.Permissions.Permission", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Code")
@@ -200,7 +194,7 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     b.HasIndex("Code")
                         .IsUnique();
 
-                    b.ToTable("Permission", "Identity");
+                    b.ToTable("Permission");
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Permissions.PermissionLocale", b =>
@@ -221,13 +215,12 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
                     b.HasKey("EntityId", "Culture");
 
-                    b.ToTable("PermissionLocale", "Identity");
+                    b.ToTable("PermissionLocale");
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Roles.Role", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<bool>("IsEnabled")
@@ -239,34 +232,27 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role", "Identity");
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Roles.RolePermission", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("RoleId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("PermissionId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
+                    b.HasKey("RoleId", "PermissionId");
 
                     b.HasIndex("PermissionId");
 
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("RolePermission", "Identity");
+                    b.ToTable("RolePermission");
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -292,13 +278,12 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.ToTable("User", "Identity");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Users.UserRefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("ExpiredAt")
@@ -324,28 +309,22 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRefreshToken", "Identity");
+                    b.ToTable("UserRefreshToken");
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Users.UserRole", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserRole", "Identity");
+                    b.ToTable("UserRole");
                 });
 
             modelBuilder.Entity("Deopeia.Common.Domain.Auditing.DataAccessAuditTrail", b =>

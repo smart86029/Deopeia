@@ -1,12 +1,12 @@
 namespace Deopeia.Identity.Domain.Permissions;
 
-public interface IPermissionRepository : IRepository<Permission>
+public interface IPermissionRepository : IRepository<Permission, PermissionId>
 {
     Task<ICollection<Permission>> GetPermissionsAsync();
 
-    Task<ICollection<Permission>> GetPermissionsAsync(IEnumerable<Guid> permissionIds);
+    Task<ICollection<Permission>> GetPermissionsAsync(IEnumerable<PermissionId> permissionIds);
 
-    Task<Permission> GetPermissionAsync(Guid permissionId);
+    Task<Permission> GetPermissionAsync(PermissionId permissionId);
 
     void Add(Permission permission);
 

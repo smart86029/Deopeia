@@ -1,8 +1,8 @@
 namespace Deopeia.Quote.Domain.Companies;
 
-public class Company : AggregateRoot, ILocalizable<CompanyLocale>
+public class Company : AggregateRoot<CompanyId>, ILocalizable<CompanyLocale, CompanyId>
 {
-    private readonly EntityLocaleCollection<CompanyLocale> _locales = [];
+    private readonly EntityLocaleCollection<CompanyLocale, CompanyId> _locales = [];
 
     private Company() { }
 

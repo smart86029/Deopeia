@@ -1,11 +1,10 @@
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 namespace Deopeia.Common.Infrastructure.Localization;
 
-public abstract class EntityLocaleConfiguration<TEntity, TLocale>
+public abstract class EntityLocaleConfiguration<TEntity, TLocale, TEntityId>
     : IEntityTypeConfiguration<TLocale>
-    where TEntity : Entity, ILocalizable<TLocale>
-    where TLocale : EntityLocale
+    where TEntity : Entity<TEntityId>, ILocalizable<TLocale, TEntityId>
+    where TLocale : EntityLocale<TEntityId>
+    where TEntityId : struct, IEntityId
 {
     public virtual void Configure(EntityTypeBuilder<TLocale> builder)
     {

@@ -2,9 +2,9 @@ using Deopeia.Identity.Domain.Roles;
 
 namespace Deopeia.Identity.Domain.Permissions;
 
-public class Permission : AggregateRoot, ILocalizable<PermissionLocale>
+public class Permission : AggregateRoot<PermissionId>, ILocalizable<PermissionLocale, PermissionId>
 {
-    private readonly EntityLocaleCollection<PermissionLocale> _locales = [];
+    private readonly EntityLocaleCollection<PermissionLocale, PermissionId> _locales = [];
     private readonly List<RolePermission> _rolePermissions = [];
 
     private Permission() { }

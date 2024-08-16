@@ -1,9 +1,10 @@
 namespace Deopeia.Common.Domain;
 
-public abstract class AggregateRoot : Entity
+public abstract class AggregateRoot<TEntityId> : Entity<TEntityId>
+    where TEntityId : struct, IEntityId
 {
     protected AggregateRoot() { }
 
-    protected AggregateRoot(Guid id)
+    protected AggregateRoot(TEntityId id)
         : base(id) { }
 }

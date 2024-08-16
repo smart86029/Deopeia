@@ -17,8 +17,8 @@ internal class GetInstrumentQueryHandler(NpgsqlConnection connection)
 SELECT
     a."Symbol",
     b."Name"
-FROM "Quote"."Instrument" AS a
-INNER JOIN "Quote"."InstrumentLocale" AS b ON a."Id" = b."InstrumentId" AND b."Culture" = @Culture
+FROM "Instrument" AS a
+INNER JOIN "InstrumentLocale" AS b ON a."Id" = b."InstrumentId" AND b."Culture" = @Culture
 WHERE a."Symbol" = @Symbol
 """;
         var result = await _connection.QuerySingleAsync<GetInstrumentViewModel>(

@@ -1,12 +1,12 @@
 namespace Deopeia.Identity.Domain.Users;
 
-public interface IUserRepository : IRepository<User>
+public interface IUserRepository : IRepository<User, UserId>
 {
-    Task<User> GetUserAsync(Guid userId);
+    Task<User> GetUserAsync(UserId userId);
 
     Task<User?> GetUserAsync(string userName, string password);
 
-    Task<bool> ContainsAsync(Guid userId);
+    Task<bool> ContainsAsync(UserId userId);
 
     void Add(User user);
 

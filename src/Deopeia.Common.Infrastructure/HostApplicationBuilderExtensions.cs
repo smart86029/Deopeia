@@ -63,21 +63,16 @@ public static class HostApplicationBuilderExtensions
     private static IServiceCollection AddRepositories<TContext>(this IServiceCollection services)
         where TContext : DbContext
     {
-        var types = Assembly
-            .GetEntryAssembly()!
-            .GetReferencedAssemblies()
-            .Where(x => x.Name!.StartsWith("Deopeia.") && x.Name.EndsWith(".Infrastructure"))
-            .Select(Assembly.Load)
-            .SelectMany(x => x.GetTypes())
-            .Where(x => x.IsClass && !x.IsAbstract && !x.IsGenericType)
+        var types = TypeUtility
+            .GetTypes(".Infrastructure")
             .Where(x =>
-                x.IsAssignableToGenericType(typeof(IRepository<>))
+                x.IsAssignableToGenericType(typeof(IRepository<,>))
                 || x.IsAssignableTo(typeof(IUnitOfWork))
             );
         foreach (var type in types)
         {
             var interfaceTypes = type.GetInterfaces()
-                .Where(x => x != typeof(IRepository<>) && x != typeof(IUnitOfWork));
+                .Where(x => x != typeof(IRepository<,>) && x != typeof(IUnitOfWork));
             foreach (var interfaceType in interfaceTypes)
             {
                 services.AddScoped(interfaceType, type);

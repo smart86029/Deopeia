@@ -1,9 +1,8 @@
 using Deopeia.Identity.Domain.Clients;
-using Deopeia.Identity.Domain.Grants.RefreshTokens;
 
 namespace Deopeia.Identity.Domain.Grants;
 
-public abstract class Grant : AggregateRoot
+public abstract class Grant : AggregateRoot<GrantId>
 {
     private readonly List<string> _scopes = [];
 
@@ -35,7 +34,7 @@ public abstract class Grant : AggregateRoot
 
     public Guid? SubjectId { get; private set; }
 
-    public Guid ClientId { get; private init; }
+    public ClientId ClientId { get; private init; }
 
     public IReadOnlyCollection<string> Scopes => _scopes.AsReadOnly();
 

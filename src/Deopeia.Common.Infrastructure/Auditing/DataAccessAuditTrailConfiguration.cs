@@ -1,6 +1,5 @@
 using Deopeia.Common.Domain.Auditing;
 using Deopeia.Common.Infrastructure.Comparers;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Deopeia.Common.Infrastructure.Auditing;
 

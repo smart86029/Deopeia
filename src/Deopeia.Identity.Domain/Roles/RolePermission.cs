@@ -1,16 +1,15 @@
+using Deopeia.Identity.Domain.Permissions;
+
 namespace Deopeia.Identity.Domain.Roles;
 
-public class RolePermission : Entity
+public class RolePermission : Entity<RolePermissionId>
 {
-    private RolePermission() { }
+    //private RolePermission() { }
 
-    public RolePermission(Guid roleId, Guid permissionId)
-    {
-        RoleId = roleId;
-        PermissionId = permissionId;
-    }
+    public RolePermission(RoleId roleId, PermissionId permissionId)
+        : base(new RolePermissionId(roleId, permissionId)) { }
 
-    public Guid RoleId { get; private init; }
+    public RoleId RoleId => Id.RoleId;
 
-    public Guid PermissionId { get; private init; }
+    public PermissionId PermissionId => Id.PermissionId;
 }

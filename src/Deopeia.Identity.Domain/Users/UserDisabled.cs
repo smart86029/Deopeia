@@ -1,3 +1,3 @@
 namespace Deopeia.Identity.Domain.Users;
 
-public record UserDisabled(Guid UserId) : DomainEvent { }
+public record UserDisabled(UserId UserId) : DomainEvent { }

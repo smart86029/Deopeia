@@ -1,16 +1,11 @@
+using Deopeia.Identity.Domain.Roles;
+
 namespace Deopeia.Identity.Domain.Users;
 
-public class UserRole : Entity
+public class UserRole(UserId userId, RoleId roleId)
+    : Entity<UserRoleId>(new UserRoleId(userId, roleId))
 {
-    private UserRole() { }
+    public UserId UserId => Id.UserId;
 
-    public UserRole(Guid userId, Guid roleId)
-    {
-        UserId = userId;
-        RoleId = roleId;
-    }
-
-    public Guid UserId { get; private init; }
-
-    public Guid RoleId { get; private init; }
+    public RoleId RoleId => Id.RoleId;
 }

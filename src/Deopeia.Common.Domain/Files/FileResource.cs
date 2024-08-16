@@ -1,6 +1,6 @@
 namespace Deopeia.Common.Domain.Files;
 
-public abstract class FileResource : AggregateRoot
+public abstract class FileResource : AggregateRoot<FileResourceId>
 {
     protected FileResource() { }
 
@@ -10,7 +10,7 @@ public abstract class FileResource : AggregateRoot
         fileName.MustNotBeNullOrWhiteSpace();
 
         Type = type;
-        Name = Id.ToString("N");
+        Name = Id.Guid.ToString("N");
         Extension = Path.GetExtension(fileName);
         Content = content;
         Size = content.Length;

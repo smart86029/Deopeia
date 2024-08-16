@@ -11,6 +11,8 @@ internal class InstrumentConfiguration : IEntityTypeConfiguration<Instrument>
             .HasValue<Stock>(MarketType.Stock)
             .HasValue<ExchangeTradedFund>(MarketType.ExchangeTradedFund);
 
+        builder.HasKey(x => x.Id);
+
         builder
             .HasIndex(x => new
             {

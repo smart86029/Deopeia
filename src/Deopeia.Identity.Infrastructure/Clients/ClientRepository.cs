@@ -11,7 +11,7 @@ internal class ClientRepository(IdentityContext context) : IClientRepository
         throw new NotImplementedException();
     }
 
-    public async Task<Client> GetClientAsync(Guid clientId)
+    public async Task<Client> GetClientAsync(ClientId clientId)
     {
         var result = await _clients.FirstAsync(x => x.Id == clientId);
 

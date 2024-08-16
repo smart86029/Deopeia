@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deopeia.Quote.Infrastructure.Migrations
 {
     [DbContext(typeof(QuoteContext))]
-    [Migration("20240712030938_Init")]
+    [Migration("20240816031328_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -21,8 +21,7 @@ namespace Deopeia.Quote.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("Quote")
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -30,7 +29,6 @@ namespace Deopeia.Quote.Infrastructure.Migrations
             modelBuilder.Entity("Deopeia.Common.Domain.Auditing.AuditTrail", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset>("CreatedAt")
@@ -48,7 +46,7 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AuditTrail", "Common");
+                    b.ToTable("AuditTrail");
 
                     b.HasDiscriminator<int>("Type");
 
@@ -58,7 +56,6 @@ namespace Deopeia.Quote.Infrastructure.Migrations
             modelBuilder.Entity("Deopeia.Common.Domain.Files.FileResource", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Extension")
@@ -79,7 +76,7 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
                     b.HasIndex("Type");
 
-                    b.ToTable("FileResource", "Common");
+                    b.ToTable("FileResource");
 
                     b.HasDiscriminator<int>("Type");
 
@@ -103,13 +100,12 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
                     b.HasKey("Culture", "Type", "Code");
 
-                    b.ToTable("LocaleResource", "Common");
+                    b.ToTable("LocaleResource");
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Companies.Company", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<int>("SubIndustry")
@@ -120,7 +116,7 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Company", "Quote");
+                    b.ToTable("Company");
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Companies.CompanyLocale", b =>
@@ -138,13 +134,12 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
                     b.HasKey("EntityId", "Culture");
 
-                    b.ToTable("CompanyLocale", "Quote");
+                    b.ToTable("CompanyLocale");
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Instruments.Instrument", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("Exchange")
@@ -162,7 +157,7 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     b.HasIndex("Type", "Exchange", "Symbol")
                         .IsUnique();
 
-                    b.ToTable("Instrument", "Quote");
+                    b.ToTable("Instrument");
 
                     b.HasDiscriminator<int>("Type");
 
@@ -184,14 +179,16 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
                     b.HasKey("EntityId", "Culture");
 
-                    b.ToTable("InstrumentLocale", "Quote");
+                    b.ToTable("InstrumentLocale");
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Ohlcvs.Ohlcv", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.Property<string>("Symbol")
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("RecordedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<decimal>("Close")
                         .HasColumnType("numeric");
@@ -205,22 +202,12 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     b.Property<decimal>("Open")
                         .HasColumnType("numeric");
 
-                    b.Property<DateTimeOffset>("RecordedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Symbol")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<decimal>("Volume")
                         .HasColumnType("numeric");
 
-                    b.HasKey("Id");
+                    b.HasKey("Symbol", "RecordedAt");
 
-                    b.HasIndex("Symbol", "RecordedAt")
-                        .IsUnique();
-
-                    b.ToTable("Ohlcv", "Quote");
+                    b.ToTable("Ohlcv");
                 });
 
             modelBuilder.Entity("Deopeia.Common.Domain.Auditing.DataAccessAuditTrail", b =>

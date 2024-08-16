@@ -1,10 +1,10 @@
 namespace Deopeia.Identity.Domain.Users;
 
-public class UserRefreshToken : Entity
+public class UserRefreshToken : Entity<UserRefreshTokenId>
 {
     private UserRefreshToken() { }
 
-    internal UserRefreshToken(string refreshToken, DateTimeOffset expiredAt, Guid userId)
+    internal UserRefreshToken(string refreshToken, DateTimeOffset expiredAt, UserId userId)
     {
         expiredAt.MustBeAfterNow();
 
@@ -13,7 +13,7 @@ public class UserRefreshToken : Entity
         ExpiredAt = expiredAt;
     }
 
-    public Guid UserId { get; private init; }
+    public UserId UserId { get; private init; }
 
     public string RefreshToken { get; private init; } = string.Empty;
 
