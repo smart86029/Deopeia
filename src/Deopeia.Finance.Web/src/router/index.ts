@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import auth from './auth';
 import { setLocale } from './i18n';
+import screener from './screener';
 import symbol from './symbol';
 
 const router = createRouter({
@@ -12,7 +13,7 @@ const router = createRouter({
       name: 'home',
       beforeEnter: setLocale,
       component: HomeView,
-      children: [...auth, ...symbol],
+      children: [...auth, ...screener, ...symbol],
     },
   ],
 });

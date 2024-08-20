@@ -30,8 +30,8 @@ import type { Menu } from '@/models/menu';
 
 const menus = [
   {
-    name: 'quote',
-    children: [{ name: 'quote.summary', path: '/quotes/' }],
+    name: 'screener.default',
+    children: [{ name: 'screener.stock', path: '/screeners/stock' }],
   },
 ] as Menu[];
 </script>

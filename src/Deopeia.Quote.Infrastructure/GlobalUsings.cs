@@ -1,6 +1,8 @@
+global using System.Globalization;
 global using System.Text.Json.Nodes;
 global using Dapper;
 global using Deopeia.Common;
+global using Deopeia.Common.Application.Page;
 global using Deopeia.Common.Extensions;
 global using Deopeia.Common.Infrastructure;
 global using Deopeia.Common.Infrastructure.Localization;

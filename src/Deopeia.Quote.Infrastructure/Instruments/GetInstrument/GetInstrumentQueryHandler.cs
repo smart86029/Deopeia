@@ -1,4 +1,3 @@
-using System.Globalization;
 using Deopeia.Quote.Application.Instruments.GetInstrument;
 
 namespace Deopeia.Quote.Infrastructure.Instruments.GetInstrument;
