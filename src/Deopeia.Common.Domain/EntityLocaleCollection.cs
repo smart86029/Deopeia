@@ -7,11 +7,13 @@ public class EntityLocaleCollection<TLocale, TEntityId> : Collection<TLocale>
     where TLocale : EntityLocale<TEntityId>, new()
     where TEntityId : struct, IEntityId
 {
+    private static readonly CultureInfo DefaultCulture = CultureInfo.GetCultureInfo("en-US");
+
     public TLocale this[CultureInfo culture]
     {
         get
         {
-            var locale = this.FirstOrDefault(x => x.Culture == culture);
+            var locale = this.FirstOrDefault(x => x.Culture.Equals(culture));
             if (locale is null)
             {
                 locale = new TLocale { Culture = culture };
@@ -22,7 +24,7 @@ public class EntityLocaleCollection<TLocale, TEntityId> : Collection<TLocale>
         }
         set
         {
-            var locale = this.FirstOrDefault(x => x.Culture == culture);
+            var locale = this.FirstOrDefault(x => x.Culture.Equals(culture));
             if (locale is not null)
             {
                 Remove(locale);
@@ -32,4 +34,6 @@ public class EntityLocaleCollection<TLocale, TEntityId> : Collection<TLocale>
             Add(value);
         }
     }
+
+    public TLocale Default => this[DefaultCulture];
 }
