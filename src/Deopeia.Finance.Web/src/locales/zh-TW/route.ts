@@ -1,6 +1,12 @@
 export default {
   route: {
     home: '首頁',
+    exchange: {
+      default: '交易所',
+      list: '交易所列表',
+      create: '新建',
+      edit: '編輯交易所',
+    },
     screener: {
       default: '篩選器',
       stock: '股票篩選器',

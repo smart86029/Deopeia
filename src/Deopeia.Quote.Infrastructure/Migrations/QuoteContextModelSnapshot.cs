@@ -134,12 +134,57 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     b.ToTable("CompanyLocale");
                 });
 
+            modelBuilder.Entity("Deopeia.Quote.Domain.Exchanges.Exchange", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<TimeOnly>("ClosingTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<TimeOnly>("OpeningTime")
+                        .HasColumnType("time without time zone");
+
+                    b.Property<string>("TimeZone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("Exchange");
+                });
+
+            modelBuilder.Entity("Deopeia.Quote.Domain.Exchanges.ExchangeLocale", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ExchangeId");
+
+                    b.Property<string>("Culture")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("EntityId", "Culture");
+
+                    b.ToTable("ExchangeLocale");
+                });
+
             modelBuilder.Entity("Deopeia.Quote.Domain.Instruments.Instrument", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("Exchange")
+                    b.Property<Guid>("ExchangeId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Symbol")
@@ -151,7 +196,7 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Type", "Exchange", "Symbol")
+                    b.HasIndex("Type", "ExchangeId", "Symbol")
                         .IsUnique();
 
                     b.ToTable("Instrument");
@@ -267,6 +312,15 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Deopeia.Quote.Domain.Exchanges.ExchangeLocale", b =>
+                {
+                    b.HasOne("Deopeia.Quote.Domain.Exchanges.Exchange", null)
+                        .WithMany("Locales")
+                        .HasForeignKey("EntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Deopeia.Quote.Domain.Instruments.InstrumentLocale", b =>
                 {
                     b.HasOne("Deopeia.Quote.Domain.Instruments.Instrument", null)
@@ -277,6 +331,11 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Companies.Company", b =>
+                {
+                    b.Navigation("Locales");
+                });
+
+            modelBuilder.Entity("Deopeia.Quote.Domain.Exchanges.Exchange", b =>
                 {
                     b.Navigation("Locales");
                 });

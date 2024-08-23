@@ -8,5 +8,8 @@ export default {
     priceBookRatio: '股價淨值比',
     dividendYield: '現金殖利率',
     sector: '部門',
+    code: '代號',
+    openingTime: '開盤時間',
+    closingTime: '收盤時間',
   },
 };

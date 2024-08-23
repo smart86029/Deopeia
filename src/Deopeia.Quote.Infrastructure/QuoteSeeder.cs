@@ -1,5 +1,4 @@
-using Bogus;
-using Deopeia.Quote.Domain.Ohlcvs;
+using Deopeia.Quote.Domain.Exchanges;
 
 namespace Deopeia.Quote.Infrastructure;
 
@@ -7,31 +6,28 @@ public class QuoteSeeder : IDbSeeder<QuoteContext>
 {
     public async Task SeedAsync(QuoteContext context)
     {
-        if (context.Set<Ohlcv>().Any())
+        if (context.Set<Exchange>().Any())
         {
             return;
         }
 
-        //context.Set<Ohlcv>().AddRange(GetOhlcvs());
+        context.Set<Exchange>().AddRange(GetExchanges());
 
         await context.SaveChangesAsync();
     }
 
-    private IEnumerable<Ohlcv> GetOhlcvs()
+    private IEnumerable<Exchange> GetExchanges()
     {
-        var symbol = "2330.TW";
-        var i = 0;
-        var results = new Faker<Ohlcv>()
-            .CustomInstantiator(x => new Ohlcv(
-                symbol,
-                DateTime.Today.AddDays(i--),
-                x.Finance.Amount(),
-                x.Finance.Amount(),
-                x.Finance.Amount(),
-                x.Finance.Amount(),
-                x.Finance.Amount()
-            ))
-            .GenerateBetween(100, 500);
+        var exchangeXtai = new Exchange(
+            "XTAI",
+            "Taiwan Stock Exchange",
+            TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time"),
+            new TimeOnly(9, 0),
+            new TimeOnly(13, 30)
+        );
+        exchangeXtai.UpdateName("臺灣證券交易所", CultureInfo.GetCultureInfo("zh-TW"));
+
+        var results = new[] { exchangeXtai, };
 
         return results;
     }

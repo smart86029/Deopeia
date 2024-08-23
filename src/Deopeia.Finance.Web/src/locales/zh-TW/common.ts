@@ -13,6 +13,7 @@ export default {
     endDate: '結束日期',
     startTime: '開始時間',
     endTime: '結束時間',
+    timeZone: '時區',
     reason: '原因',
     message: {
       success: '{action}成功',

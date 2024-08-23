@@ -33,5 +33,9 @@ const menus = [
     name: 'screener.default',
     children: [{ name: 'screener.stock', path: '/screeners/stock' }],
   },
+  {
+    name: 'exchange.default',
+    children: [{ name: 'exchange.list', path: '/exchanges' }],
+  },
 ] as Menu[];
 </script>

@@ -1,3 +1,5 @@
+using Deopeia.Quote.Domain.Exchanges;
+
 namespace Deopeia.Quote.Domain.Instruments;
 
 public abstract class Instrument
@@ -8,17 +10,19 @@ public abstract class Instrument
 
     protected Instrument() { }
 
-    protected Instrument(MarketType type, string symbol)
+    protected Instrument(MarketType type, ExchangeId exchangeId, string symbol, string name)
     {
         type.MustBeDefined();
 
         Type = type;
+        ExchangeId = exchangeId;
         Symbol = symbol;
+        _locales.Default.UpdateName(name);
     }
 
     public MarketType Type { get; private init; }
 
-    public Guid Exchange { get; set; }
+    public ExchangeId ExchangeId { get; set; }
 
     public string Symbol { get; private init; } = string.Empty;
 

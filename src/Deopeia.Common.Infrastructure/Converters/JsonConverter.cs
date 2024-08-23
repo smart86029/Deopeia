@@ -1,6 +1,5 @@
 using System.Text.Json;
 using Deopeia.Common.JsonConverters;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Deopeia.Common.Infrastructure.Converters;
 

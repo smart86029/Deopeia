@@ -46,6 +46,21 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Exchange",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Code = table.Column<string>(type: "text", nullable: false),
+                    TimeZone = table.Column<string>(type: "text", nullable: false),
+                    OpeningTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    ClosingTime = table.Column<TimeOnly>(type: "time without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Exchange", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FileResource",
                 columns: table => new
                 {
@@ -66,7 +81,7 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Type = table.Column<int>(type: "integer", nullable: false),
-                    Exchange = table.Column<Guid>(type: "uuid", nullable: false),
+                    ExchangeId = table.Column<Guid>(type: "uuid", nullable: false),
                     Symbol = table.Column<string>(type: "text", nullable: false),
                     CompanyId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
@@ -126,6 +141,25 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ExchangeLocale",
+                columns: table => new
+                {
+                    ExchangeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Culture = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExchangeLocale", x => new { x.ExchangeId, x.Culture });
+                    table.ForeignKey(
+                        name: "FK_ExchangeLocale_Exchange_ExchangeId",
+                        column: x => x.ExchangeId,
+                        principalTable: "Exchange",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "InstrumentLocale",
                 columns: table => new
                 {
@@ -145,14 +179,20 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Exchange_Code",
+                table: "Exchange",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FileResource_Type",
                 table: "FileResource",
                 column: "Type");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Instrument_Type_Exchange_Symbol",
+                name: "IX_Instrument_Type_ExchangeId_Symbol",
                 table: "Instrument",
-                columns: new[] { "Type", "Exchange", "Symbol" },
+                columns: new[] { "Type", "ExchangeId", "Symbol" },
                 unique: true);
         }
 
@@ -164,6 +204,9 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "CompanyLocale");
+
+            migrationBuilder.DropTable(
+                name: "ExchangeLocale");
 
             migrationBuilder.DropTable(
                 name: "FileResource");
@@ -179,6 +222,9 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Company");
+
+            migrationBuilder.DropTable(
+                name: "Exchange");
 
             migrationBuilder.DropTable(
                 name: "Instrument");

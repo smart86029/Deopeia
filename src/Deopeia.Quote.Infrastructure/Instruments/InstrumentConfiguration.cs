@@ -17,7 +17,7 @@ internal class InstrumentConfiguration : IEntityTypeConfiguration<Instrument>
             .HasIndex(x => new
             {
                 x.Type,
-                x.Exchange,
+                x.ExchangeId,
                 x.Symbol,
             })
             .IsUnique();

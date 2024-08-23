@@ -1,11 +1,14 @@
 using Deopeia.Quote.Application.Stocks.GetStocks;
 using Deopeia.Quote.Domain.Instruments;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Deopeia.Quote.Infrastructure.Stocks.GetStocks;
 
 internal class GetStocksQueryHandler(NpgsqlConnection connection)
     : IRequestHandler<GetStocksQuery, PageResult<StockDto>>
 {
+    private readonly NpgsqlConnection _connection = connection;
+
     public async Task<PageResult<StockDto>> Handle(
         GetStocksQuery request,
         CancellationToken cancellationToken
@@ -15,7 +18,7 @@ internal class GetStocksQueryHandler(NpgsqlConnection connection)
         builder.Where("a.\"Type\" = @Stock", new { MarketType.Stock });
 
         var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM \"Instrument\" AS a /**where**/");
-        var count = await connection.ExecuteScalarAsync<int>(sqlCount.RawSql, sqlCount.Parameters);
+        var count = await _connection.ExecuteScalarAsync<int>(sqlCount.RawSql, sqlCount.Parameters);
         var result = new PageResult<StockDto>(request, count);
 
         var sql = builder.AddTemplate(
@@ -36,7 +39,7 @@ OFFSET @Offset
                 result.Offset,
             }
         );
-        var stocks = await connection.QueryAsync<StockDto>(sql.RawSql, sql.Parameters);
+        var stocks = await _connection.QueryAsync<StockDto>(sql.RawSql, sql.Parameters);
         result.Items = stocks.ToList();
 
         return result;

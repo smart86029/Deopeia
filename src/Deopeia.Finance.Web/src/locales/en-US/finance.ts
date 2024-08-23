@@ -8,5 +8,8 @@ export default {
     priceBookRatio: 'P/B',
     dividendYield: 'Dividend Yield',
     sector: 'Sector',
+    code: 'Code',
+    openingTime: 'Opening Time',
+    closingTime: 'Closing Time',
   },
 };

@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-
 namespace Deopeia.Common.Infrastructure.Converters;
 
 internal class CultureInfoConverter()

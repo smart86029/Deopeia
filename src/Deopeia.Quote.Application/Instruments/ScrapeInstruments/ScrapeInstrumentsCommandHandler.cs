@@ -1,4 +1,5 @@
 using Deopeia.Quote.Domain.Companies;
+using Deopeia.Quote.Domain.Exchanges;
 using Deopeia.Quote.Domain.Instruments;
 
 namespace Deopeia.Quote.Application.Instruments.ScrapeInstruments;
@@ -6,12 +7,14 @@ namespace Deopeia.Quote.Application.Instruments.ScrapeInstruments;
 internal class ScrapeInstrumentsCommandHandler(
     IQuoteUnitOfWork unitOfWork,
     ICompanyRepository companyRepository,
+    IExchangeRepository exchangeRepository,
     IStockRepository stockRepository,
     IInstrumentsScraper instrumentsScraper
 ) : IRequestHandler<ScrapeInstrumentsCommand>
 {
     private readonly IQuoteUnitOfWork _unitOfWork = unitOfWork;
     private readonly ICompanyRepository _companyRepository = companyRepository;
+    private readonly IExchangeRepository _exchangeRepository = exchangeRepository;
     private readonly IStockRepository _stockRepository = stockRepository;
     private readonly IInstrumentsScraper _instrumentsScraper = instrumentsScraper;
 
@@ -20,6 +23,7 @@ internal class ScrapeInstrumentsCommandHandler(
         try
         {
             var items = await _instrumentsScraper.GetInstrumentsAsync();
+            var exchange = await _exchangeRepository.GetExchangeAsync("XTAI");
             var enUS = CultureInfo.GetCultureInfo("en-US");
             var zhTW = CultureInfo.GetCultureInfo("zh-TW");
 
@@ -38,8 +42,7 @@ internal class ScrapeInstrumentsCommandHandler(
                 company.UpdateName(item.CompanyName, zhTW);
                 companies.Add(company);
 
-                var stock = new Stock(item.Symbol, company.Id);
-                stock.UpdateName(item.EnglishName, enUS);
+                var stock = new Stock(exchange.Id, item.Symbol, item.EnglishName, company.Id);
                 stock.UpdateName(item.Name, zhTW);
                 stocks.Add(stock);
             }

@@ -19,6 +19,8 @@ public static class ModelConfigurationBuilderExtensions
 
         builder.Properties<Type>().HaveConversion<TypeConverter>();
 
+        builder.Properties<TimeZoneInfo>().HaveConversion<TimeZoneInfoConverter>();
+
         return builder;
     }
 }

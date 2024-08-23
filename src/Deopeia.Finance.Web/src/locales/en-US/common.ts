@@ -13,6 +13,7 @@ export default {
     endDate: 'End Date',
     startTime: 'Start Time',
     endTime: 'End Time',
+    timeZone: 'Time Zone',
     reason: 'Reason',
     message: {
       success: '{action} Successfully',
