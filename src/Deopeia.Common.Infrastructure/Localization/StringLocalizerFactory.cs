@@ -29,7 +29,7 @@ internal class StringLocalizerFactory<TContext>(
         throw new NotImplementedException();
     }
 
-    private ICollection<LocaleResource> GetResources()
+    private List<LocaleResource> GetResources()
     {
         using var scope = _serviceProvider.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<TContext>();
