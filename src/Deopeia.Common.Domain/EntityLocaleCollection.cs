@@ -36,4 +36,12 @@ public class EntityLocaleCollection<TLocale, TEntityId> : Collection<TLocale>
     }
 
     public TLocale Default => this[DefaultCulture];
+
+    public void Remove(IEnumerable<TLocale> locales)
+    {
+        foreach (var locale in locales)
+        {
+            Remove(locale);
+        }
+    }
 }

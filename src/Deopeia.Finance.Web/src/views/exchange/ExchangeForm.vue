@@ -12,21 +12,22 @@
     <el-form-item :label="$t('finance.closingTime')">
       <TimePicker v-model="form.closingTime" />
     </el-form-item>
-    <el-tabs v-model="culture">
+    <LocaleTabs
+      v-model="culture"
+      @update="addLocale"
+      @tab-remove="removeLocale"
+    >
       <el-tab-pane
         v-for="(locale, index) in form.locales"
         :key="locale.culture"
         :label="locale.culture"
         :name="locale.culture"
       >
-        <el-form-item
-          :prop="`locales.${index}.name`"
-          :label="$t('common.name')"
-        >
+        <el-form-item :label="$t('common.name')">
           <el-input v-model="form.locales[index].name" />
         </el-form-item>
       </el-tab-pane>
-    </el-tabs>
+    </LocaleTabs>
     <el-form-item>
       <ButtonBack />
       <ButtonSave :loading="loading" />
@@ -65,6 +66,19 @@ if (props.action === 'edit') {
     })
     .finally(() => (loading.value = false));
 }
+
+const addLocale = (locale: string) => {
+  if (form.locales.findIndex((x) => x.culture === locale) < 0) {
+    form.locales.push({ culture: locale, name: '' });
+    culture.value = locale;
+  }
+};
+
+const removeLocale = (locale: string) => {
+  const index = form.locales.findIndex((x) => x.culture === locale);
+  form.locales.splice(index, 1);
+  culture.value = form.locales.length > 0 ? form.locales[0].culture : '';
+};
 
 const save = () => {
   loading.value = true;

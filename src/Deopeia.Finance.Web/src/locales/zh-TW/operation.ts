@@ -2,6 +2,7 @@ export default {
   operation: {
     apply: '申請',
     approval: '審核',
+    add: '加入',
     create: '建立',
     edit: '編輯',
     delete: '刪除',

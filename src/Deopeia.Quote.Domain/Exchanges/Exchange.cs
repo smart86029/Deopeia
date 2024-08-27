@@ -38,4 +38,9 @@ public class Exchange : AggregateRoot<ExchangeId>, ILocalizable<ExchangeLocale, 
     {
         _locales[culture].UpdateName(name);
     }
+
+    public void RemoveLocales(IEnumerable<ExchangeLocale> locales)
+    {
+        _locales.Remove(locales);
+    }
 }

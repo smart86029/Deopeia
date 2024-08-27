@@ -6,6 +6,7 @@ export default {
     type: 'Type',
     status: 'Status',
     operations: 'Operations',
+    locale: 'Locale',
     date: 'Date',
     time: 'Time',
     duration: 'Duration',
@@ -20,6 +21,7 @@ export default {
       createSuccess: 'Created Successfully',
       editSuccess: 'Updated Successfully',
       error: 'Temporary server error. Please try again later.',
+      selectLocale: 'Select Locale',
     },
   },
 };

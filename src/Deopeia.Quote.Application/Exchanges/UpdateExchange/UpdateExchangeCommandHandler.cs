@@ -13,6 +13,11 @@ public class UpdateExchangeCommandHandler(
     public async Task Handle(UpdateExchangeCommand request, CancellationToken cancellationToken)
     {
         var exchange = await _exchangeRepository.GetExchangeAsync(new ExchangeId(request.Id));
+        var removed = exchange
+            .Locales.Where(x => !request.Locales.Any(y => y.Culture.Equals(x.Culture)))
+            .ToArray();
+        exchange.RemoveLocales(removed);
+
         foreach (var locale in request.Locales)
         {
             exchange.UpdateName(locale.Name, CultureInfo.GetCultureInfo(locale.Culture));

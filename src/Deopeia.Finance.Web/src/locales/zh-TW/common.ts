@@ -6,6 +6,7 @@ export default {
     type: '類別',
     status: '狀態',
     operations: '操作',
+    locale: '地區設定',
     date: '日期',
     time: '時間',
     duration: '期間',
@@ -20,6 +21,7 @@ export default {
       createSuccess: '建立成功',
       editSuccess: '更新成功',
       error: '伺服器臨時錯誤，請稍後重試。',
+      selectLocale: '選擇地區設定',
     },
   },
 };
