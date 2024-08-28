@@ -1,19 +1,42 @@
+using Deopeia.Common.Localization;
 using Deopeia.Quote.Domain.Exchanges;
 
 namespace Deopeia.Quote.Infrastructure;
 
-public class QuoteSeeder : IDbSeeder<QuoteContext>
+public class QuoteSeeder : DbSeeder<QuoteContext>
 {
-    public async Task SeedAsync(QuoteContext context)
+    public override async Task SeedAsync(QuoteContext context)
     {
-        if (context.Set<Exchange>().Any())
+        if (context.Set<LocaleResource>().Any())
         {
             return;
         }
 
+        context.Set<LocaleResource>().AddRange(GetLocaleResources());
         context.Set<Exchange>().AddRange(GetExchanges());
 
         await context.SaveChangesAsync();
+    }
+
+    private IEnumerable<LocaleResource> GetLocaleResources()
+    {
+        var enUS = CultureInfo.GetCultureInfo("en-US");
+        var resourcesENUS = new LocaleResource[]
+        {
+            FromModel(enUS, "Exchange.OpeningTime", "Opening Time"),
+            FromModel(enUS, "Exchange.ClosingTime", "Closing Time"),
+        };
+
+        var zhTW = CultureInfo.GetCultureInfo("zh-TW");
+        var resourcesZHTW = new LocaleResource[]
+        {
+            FromModel(zhTW, "Exchange.OpeningTime", "開盤時間"),
+            FromModel(zhTW, "Exchange.ClosingTime", "收盤時間"),
+        };
+
+        var results = GetCommonLocaleResources().Concat(resourcesENUS).Concat(resourcesZHTW);
+
+        return results;
     }
 
     private IEnumerable<Exchange> GetExchanges()

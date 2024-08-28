@@ -16,10 +16,10 @@ internal class ScrapeRealTimeDataCommandHandler(
 
     public async Task Handle(ScrapeRealTimeDataCommand request, CancellationToken cancellationToken)
     {
-        //if (DateTime.UtcNow.TimeOfDay > new TimeSpan(5, 30, 0))
-        //{
-        //    return;
-        //}
+        if (DateTime.UtcNow.TimeOfDay > new TimeSpan(5, 30, 0))
+        {
+            return;
+        }
 
         var symbols = new[] { "2330", "0050", "2357" };
         var items = await _scraper.GetRealTimeDataAsync(symbols);

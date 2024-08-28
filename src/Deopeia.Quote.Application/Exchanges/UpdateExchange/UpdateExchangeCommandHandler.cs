@@ -13,6 +13,8 @@ public class UpdateExchangeCommandHandler(
     public async Task Handle(UpdateExchangeCommand request, CancellationToken cancellationToken)
     {
         var exchange = await _exchangeRepository.GetExchangeAsync(new ExchangeId(request.Id));
+        exchange.UpdateOpenHours(request.OpeningTime, request.ClosingTime);
+
         var removed = exchange
             .Locales.Where(x => !request.Locales.Any(y => y.Culture.Equals(x.Culture)))
             .ToArray();

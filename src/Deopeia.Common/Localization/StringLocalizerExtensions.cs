@@ -48,7 +48,7 @@ public static class StringLocalizerExtensions
         string propertyName
     )
     {
-        var replaced = modelName.Replace("Model", string.Empty).Replace("Dto", string.Empty);
+        var replaced = modelName.Replace("Dto", string.Empty);
         var modelString = localizer.GetString(
             LocaleResourceType.Model,
             $"{replaced}.{propertyName}"

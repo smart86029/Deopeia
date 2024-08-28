@@ -21,6 +21,27 @@ public static partial class ValidationExtensions
         }
     }
 
+    public static void MustBeOnOrBefore(
+        this TimeOnly value,
+        TimeOnly comparison,
+        [CallerFilePath] string filePath = "",
+        [CallerArgumentExpression(nameof(value))] string? valueName = null,
+        [CallerArgumentExpression(nameof(comparison))] string? comparisonName = null
+    )
+    {
+        if (value > comparison)
+        {
+            throw new DomainException(
+                "Date.OnOrBefore",
+                new
+                {
+                    Property = GetProperty(filePath, valueName),
+                    Comparison = GetProperty(filePath, comparisonName)
+                }
+            );
+        }
+    }
+
     public static void MustBeOnOrBeforeNow(
         this DateOnly value,
         [CallerFilePath] string filePath = "",
@@ -105,6 +126,6 @@ public static partial class ValidationExtensions
         return new LocalizableProperty(modelName, valueName.ToPascalCase());
     }
 
-    [GeneratedRegex(@".*/(\w)\.cs")]
+    [GeneratedRegex(@"(?<=.*\\)(\w+)(?=\.cs)")]
     private static partial Regex ModelNameRegex();
 }

@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddSignalR();
 
 var app = builder.Build();
+app.UseRequestLocalization("en-US", "zh-TW");
 
 app.MapDefaultEndpoints();
 

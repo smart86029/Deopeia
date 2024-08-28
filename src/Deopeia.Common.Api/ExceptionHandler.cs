@@ -33,15 +33,15 @@ internal class ExceptionHandler(
 
         switch (exception)
         {
-            //case DomainException domainException:
-            //    statusCode = StatusCodes.Status400BadRequest;
-            //    message = LocalizeMessage(domainException);
-            //    break;
-
             //case AccessDeniedException accessDeniedException:
             //    statusCode = StatusCodes.Status403Forbidden;
             //    message = LocalizeMessage(accessDeniedException);
             //    break;
+
+            case LocalizableMessageException localizableMessageException:
+                statusCode = StatusCodes.Status400BadRequest;
+                message = LocalizeMessage(localizableMessageException);
+                break;
 
             default:
                 _logger.LogError(exception, "Global handle exception.");

@@ -21,11 +21,11 @@ services.AddScrapers();
 services.AddAuthentication().AddCookie();
 
 var app = builder.Build();
+app.UseRequestLocalization("en-US", "zh-TW");
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCors();
-app.UseRequestLocalization("en-US", "zh-TW");
 app.UseAuthentication();
 app.UseAuthorization();
 

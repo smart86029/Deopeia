@@ -1,5 +1,7 @@
 using System.Globalization;
+using System.Linq;
 using Bogus;
+using Deopeia.Common.Localization;
 using Deopeia.Identity.Domain.Clients;
 using Deopeia.Identity.Domain.Grants;
 using Deopeia.Identity.Domain.Permissions;
@@ -8,11 +10,11 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Infrastructure;
 
-public class IdentitySeeder : IDbSeeder<IdentityContext>
+public class IdentitySeeder : DbSeeder<IdentityContext>
 {
-    public async Task SeedAsync(IdentityContext context)
+    public override async Task SeedAsync(IdentityContext context)
     {
-        if (context.Set<Client>().Any())
+        if (context.Set<LocaleResource>().Any())
         {
             return;
         }
@@ -39,11 +41,25 @@ public class IdentitySeeder : IDbSeeder<IdentityContext>
             }
         }
 
+        context.Set<LocaleResource>().AddRange(GetLocaleResources());
         context.Set<User>().AddRange(users);
         context.Set<Role>().AddRange(roles);
         context.Set<Permission>().AddRange(permissions);
 
         await context.SaveChangesAsync();
+    }
+
+    private IEnumerable<LocaleResource> GetLocaleResources()
+    {
+        var enUS = CultureInfo.GetCultureInfo("en-US");
+        var resourcesENUS = new LocaleResource[] { };
+
+        var zhTW = CultureInfo.GetCultureInfo("zh-TW");
+        var resourcesZHTW = new LocaleResource[] { };
+
+        var results = GetCommonLocaleResources().Concat(resourcesENUS).Concat(resourcesZHTW);
+
+        return results;
     }
 
     private IEnumerable<Client> GetClients()
