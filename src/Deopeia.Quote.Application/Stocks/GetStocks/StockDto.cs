@@ -1,3 +1,5 @@
+using Deopeia.Quote.Domain.Companies;
+
 namespace Deopeia.Quote.Application.Stocks.GetStocks;
 
 public class StockDto
@@ -18,5 +20,8 @@ public class StockDto
 
     public decimal DividendYield { get; set; }
 
-    public string Sector { get; set; } = string.Empty;
+    [JsonIgnore]
+    public SubIndustry SubIndustry { get; set; }
+
+    public string Industry { get; set; } = string.Empty;
 }

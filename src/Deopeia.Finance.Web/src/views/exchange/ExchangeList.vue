@@ -1,8 +1,10 @@
 <template>
-  <div class="toolbar">
-    <FlexDivider />
-    <ButtonCreate route="exchange.create" />
-  </div>
+  <TableToolbar>
+    <template #right>
+      <ButtonCreate route="exchange.create" />
+    </template>
+  </TableToolbar>
+
   <el-table v-loading="loading" :data="result.items">
     <el-table-column prop="code" :label="$t('finance.code')" />
     <el-table-column prop="name" :label="$t('common.name')" />
@@ -15,6 +17,7 @@
       </template>
     </el-table-column>
   </el-table>
+
   <TablePagination
     v-model:current-page="query.pageIndex"
     v-model:page-size="query.pageSize"
@@ -24,8 +27,8 @@
 
 <script setup lang="ts">
 import exchangeApi, {
-type Exchange,
-type GetExchangesQuery,
+  type Exchange,
+  type GetExchangesQuery,
 } from '@/api/exchange-api';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
 

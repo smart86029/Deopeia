@@ -7,7 +7,7 @@ export default {
     priceToEarningsRatio: '本益比',
     priceBookRatio: '股價淨值比',
     dividendYield: '現金殖利率',
-    sector: '部門',
+    industry: '行業',
     code: '代號',
     openingTime: '開盤時間',
     closingTime: '收盤時間',

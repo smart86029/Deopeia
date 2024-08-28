@@ -56,9 +56,8 @@ h1 {
     height: 100%;
   }
 
-  > *:not(:first-child) {
-    background-color: var(--el-bg-color);
-    margin-top: 10px;
+  :deep(.el-table:not(:first-child)) {
+    margin-top: 18px;
   }
 
   :deep(.scrollbar-view) {

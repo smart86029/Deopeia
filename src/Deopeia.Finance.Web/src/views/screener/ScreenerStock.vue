@@ -1,5 +1,11 @@
 <template>
-  <el-table v-loading="loading" :data="result.items">
+  <TableToolbar>
+    <el-form :model="query" :inline="true">
+      <SelectOption :v-model="query.industry" :options="industries" />
+    </el-form>
+  </TableToolbar>
+
+  <el-table v-loading="loading" :data="result.items" table-layout="auto">
     <el-table-column prop="symbol" :label="$t('finance.symbol')" />
     <el-table-column prop="name" :label="$t('common.name')" />
     <el-table-column prop="price" :label="$t('finance.price')" />
@@ -17,8 +23,9 @@
       prop="dividendYield"
       :label="$t('finance.dividendYield')"
     />
-    <el-table-column prop="sector" :label="$t('finance.sector')" />
+    <el-table-column prop="industry" :label="$t('finance.industry')" />
   </el-table>
+
   <TablePagination
     v-model:current-page="query.pageIndex"
     v-model:page-size="query.pageSize"
@@ -27,14 +34,20 @@
 </template>
 
 <script setup lang="ts">
+import industryApi from '@/api/industry-api';
 import stockApi, { type GetStocksQuery, type Stock } from '@/api/stock-api';
+import type { OptionResult } from '@/models/option-result';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
 
 const loading = ref(false);
+const industries: Ref<OptionResult<number>[]> = ref([]);
 const query: GetStocksQuery = reactive({
+  industry: undefined as number | undefined,
   ...defaultQuery,
 });
 const result: PageResult<Stock> = reactive(defaultResult());
+
+industryApi.getOptions().then((x) => (industries.value = x.data));
 
 watch(
   query,

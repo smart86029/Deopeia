@@ -23,7 +23,3 @@ svg {
 svg:focus {
   outline: none;
 }
-
-.toolbar {
-  display: flex;
-}

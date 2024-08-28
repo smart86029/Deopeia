@@ -7,7 +7,7 @@ export default {
     priceToEarningsRatio: 'P/E',
     priceBookRatio: 'P/B',
     dividendYield: 'Dividend Yield',
-    sector: 'Sector',
+    industry: 'Industry',
     code: 'Code',
     openingTime: 'Opening Time',
     closingTime: 'Closing Time',

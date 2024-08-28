@@ -1,7 +1,9 @@
 import type { PageQuery, PageResult } from '@/models/page';
 import httpClient from './http-client';
 
-export interface GetStocksQuery extends PageQuery {}
+export interface GetStocksQuery extends PageQuery {
+  industry?: number;
+}
 
 export interface Stock {
   symbol: string;
@@ -12,7 +14,7 @@ export interface Stock {
   priceToEarningsRatio: number;
   priceBookRatio: number;
   dividendYield: number;
-  sector: string;
+  industry: string;
 }
 
 export default {
