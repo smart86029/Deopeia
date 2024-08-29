@@ -14,11 +14,11 @@ internal class GetInstrumentQueryHandler(NpgsqlConnection connection)
     {
         var sql = """
 SELECT
-    a."Symbol",
-    b."Name"
-FROM "Instrument" AS a
-INNER JOIN "InstrumentLocale" AS b ON a."Id" = b."InstrumentId" AND b."Culture" = @Culture
-WHERE a."Symbol" = @Symbol
+    a.symbol,
+    b.name
+FROM instrument AS a
+INNER JOIN instrument_locale AS b ON a.id = b.instrument_id AND b.culture = @Culture
+WHERE a.symbol = @Symbol
 """;
         var result = await _connection.QuerySingleAsync<GetInstrumentViewModel>(
             sql,

@@ -26,24 +26,30 @@ namespace Deopeia.Quote.Infrastructure.Migrations
             modelBuilder.Entity("Deopeia.Common.Domain.Auditing.AuditTrail", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
 
                     b.Property<IPAddress>("IPAddress")
                         .IsRequired()
-                        .HasColumnType("inet");
+                        .HasColumnType("inet")
+                        .HasColumnName("ip_address");
 
                     b.Property<int>("Type")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_audit_trail");
 
-                    b.ToTable("AuditTrail");
+                    b.ToTable("audit_trail", (string)null);
 
                     b.HasDiscriminator<int>("Type");
 
@@ -53,27 +59,34 @@ namespace Deopeia.Quote.Infrastructure.Migrations
             modelBuilder.Entity("Deopeia.Common.Domain.Files.FileResource", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("Extension")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("extension");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.Property<int>("Size")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("size");
 
                     b.Property<int>("Type")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_file_resource");
 
-                    b.HasIndex("Type");
+                    b.HasIndex("Type")
+                        .HasDatabaseName("ix_file_resource_type");
 
-                    b.ToTable("FileResource");
+                    b.ToTable("file_resource", (string)null);
 
                     b.HasDiscriminator<int>("Type");
 
@@ -83,123 +96,151 @@ namespace Deopeia.Quote.Infrastructure.Migrations
             modelBuilder.Entity("Deopeia.Common.Localization.LocaleResource", b =>
                 {
                     b.Property<string>("Culture")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("culture");
 
                     b.Property<int>("Type")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
 
                     b.Property<string>("Code")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("code");
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("content");
 
-                    b.HasKey("Culture", "Type", "Code");
+                    b.HasKey("Culture", "Type", "Code")
+                        .HasName("pk_locale_resource");
 
-                    b.ToTable("LocaleResource");
+                    b.ToTable("locale_resource", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Companies.Company", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<int>("SubIndustry")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("sub_industry");
 
                     b.Property<string>("Website")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("website");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_company");
 
-                    b.ToTable("Company");
+                    b.ToTable("company", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Companies.CompanyLocale", b =>
                 {
                     b.Property<Guid>("EntityId")
                         .HasColumnType("uuid")
-                        .HasColumnName("CompanyId");
+                        .HasColumnName("company_id");
 
                     b.Property<string>("Culture")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("culture");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
-                    b.HasKey("EntityId", "Culture");
+                    b.HasKey("EntityId", "Culture")
+                        .HasName("pk_company_locale");
 
-                    b.ToTable("CompanyLocale");
+                    b.ToTable("company_locale", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Exchanges.Exchange", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<TimeOnly>("ClosingTime")
-                        .HasColumnType("time without time zone");
+                        .HasColumnType("time without time zone")
+                        .HasColumnName("closing_time");
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("code");
 
                     b.Property<TimeOnly>("OpeningTime")
-                        .HasColumnType("time without time zone");
+                        .HasColumnType("time without time zone")
+                        .HasColumnName("opening_time");
 
                     b.Property<string>("TimeZone")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("time_zone");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_exchange");
 
                     b.HasIndex("Code")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_exchange_code");
 
-                    b.ToTable("Exchange");
+                    b.ToTable("exchange", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Exchanges.ExchangeLocale", b =>
                 {
                     b.Property<Guid>("EntityId")
                         .HasColumnType("uuid")
-                        .HasColumnName("ExchangeId");
+                        .HasColumnName("exchange_id");
 
                     b.Property<string>("Culture")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("culture");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
-                    b.HasKey("EntityId", "Culture");
+                    b.HasKey("EntityId", "Culture")
+                        .HasName("pk_exchange_locale");
 
-                    b.ToTable("ExchangeLocale");
+                    b.ToTable("exchange_locale", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Instruments.Instrument", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<Guid>("ExchangeId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("exchange_id");
 
                     b.Property<string>("Symbol")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("symbol");
 
                     b.Property<int>("Type")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_instrument");
 
                     b.HasIndex("Type", "ExchangeId", "Symbol")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_instrument_type_exchange_id_symbol");
 
-                    b.ToTable("Instrument");
+                    b.ToTable("instrument", (string)null);
 
                     b.HasDiscriminator<int>("Type");
 
@@ -210,46 +251,57 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 {
                     b.Property<Guid>("EntityId")
                         .HasColumnType("uuid")
-                        .HasColumnName("InstrumentId");
+                        .HasColumnName("instrument_id");
 
                     b.Property<string>("Culture")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("culture");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
-                    b.HasKey("EntityId", "Culture");
+                    b.HasKey("EntityId", "Culture")
+                        .HasName("pk_instrument_locale");
 
-                    b.ToTable("InstrumentLocale");
+                    b.ToTable("instrument_locale", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Ohlcvs.Ohlcv", b =>
                 {
                     b.Property<string>("Symbol")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("symbol");
 
                     b.Property<DateTimeOffset>("RecordedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("recorded_at");
 
                     b.Property<decimal>("Close")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("close");
 
                     b.Property<decimal>("High")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("high");
 
                     b.Property<decimal>("Low")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("low");
 
                     b.Property<decimal>("Open")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("open");
 
                     b.Property<decimal>("Volume")
-                        .HasColumnType("numeric");
+                        .HasColumnType("numeric")
+                        .HasColumnName("volume");
 
-                    b.HasKey("Symbol", "RecordedAt");
+                    b.HasKey("Symbol", "RecordedAt")
+                        .HasName("pk_ohlcv");
 
-                    b.ToTable("Ohlcv");
+                    b.ToTable("ohlcv", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Common.Domain.Auditing.DataAccessAuditTrail", b =>
@@ -258,23 +310,30 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
                     b.Property<string>("EntityType")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("entity_type");
 
                     b.Property<string>("Keys")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("jsonb")
+                        .HasColumnName("keys");
 
                     b.Property<string>("NewValues")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("jsonb")
+                        .HasColumnName("new_values");
 
                     b.Property<string>("OldValues")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("jsonb")
+                        .HasColumnName("old_values");
 
                     b.Property<string>("PropertyNames")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("jsonb")
+                        .HasColumnName("property_names");
+
+                    b.ToTable("audit_trail", (string)null);
 
                     b.HasDiscriminator().HasValue(2);
                 });
@@ -283,12 +342,16 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 {
                     b.HasBaseType("Deopeia.Common.Domain.Files.FileResource");
 
+                    b.ToTable("file_resource", (string)null);
+
                     b.HasDiscriminator().HasValue(1);
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Instruments.ExchangeTradedFund", b =>
                 {
                     b.HasBaseType("Deopeia.Quote.Domain.Instruments.Instrument");
+
+                    b.ToTable("instrument", (string)null);
 
                     b.HasDiscriminator().HasValue(2);
                 });
@@ -298,7 +361,10 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     b.HasBaseType("Deopeia.Quote.Domain.Instruments.Instrument");
 
                     b.Property<Guid>("CompanyId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("company_id");
+
+                    b.ToTable("instrument", (string)null);
 
                     b.HasDiscriminator().HasValue(1);
                 });
@@ -309,7 +375,8 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .WithMany("Locales")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_company_locale_company_company_id");
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Exchanges.ExchangeLocale", b =>
@@ -318,7 +385,8 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .WithMany("Locales")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_exchange_locale_exchange_exchange_id");
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Instruments.InstrumentLocale", b =>
@@ -327,7 +395,8 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .WithMany("Locales")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_instrument_locale_instrument_instrument_id");
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Companies.Company", b =>

@@ -7,9 +7,7 @@ internal class IdentityContextFactory : IDesignTimeDbContextFactory<IdentityCont
     public IdentityContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<IdentityContext>();
-        optionsBuilder.UseNpgsql(
-            "Server=localhost;Port=5432;User Id=root;Password=Pass@word;Database=Identity;"
-        );
+        optionsBuilder.UseNpgsql().UseSnakeCaseNamingConvention();
 
         return new IdentityContext(optionsBuilder.Options);
     }

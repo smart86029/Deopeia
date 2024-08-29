@@ -14,21 +14,21 @@ public class GetExchangesQueryHandler(NpgsqlConnection connection)
     {
         var builder = new SqlBuilder();
 
-        var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM \"Exchange\" AS a /**where**/");
+        var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM exchange AS a /**where**/");
         var count = await _connection.ExecuteScalarAsync<int>(sqlCount.RawSql, sqlCount.Parameters);
         var result = new PageResult<ExchangeDto>(request, count);
 
         var sql = builder.AddTemplate(
             """
 SELECT
-    a."Id",
-    a."Code",
-    b."Name",
-    a."TimeZone",
-    a."OpeningTime",
-    a."ClosingTime"
-FROM "Exchange" AS a
-INNER JOIN "ExchangeLocale" AS b ON a."Id" = b."ExchangeId" AND b."Culture" = @Culture
+    a.id,
+    a.code,
+    b.name,
+    a.time_zone,
+    a.opening_time,
+    a.closing_time
+FROM exchange AS a
+INNER JOIN exchange_locale AS b ON a.id = b.exchange_id AND b.culture = @Culture
 /**where**/
 LIMIT @Limit
 OFFSET @Offset

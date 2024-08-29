@@ -8,8 +8,8 @@ var rabbitMQ = builder.AddRabbitMQ("eventbus");
 
 var password = builder.AddParameter("postgresql-password", secret: true);
 var postgres = builder.AddPostgres("postgres", password: password, port: 59999).WithDataVolume();
-var dbIdentity = postgres.AddDatabase("Identity");
-var dbQuote = postgres.AddDatabase("Quote");
+var dbIdentity = postgres.AddDatabase("identity");
+var dbQuote = postgres.AddDatabase("quote");
 
 builder
     .AddProject<Projects.Deopeia_Identity_Api>("deopeia-identity-api")

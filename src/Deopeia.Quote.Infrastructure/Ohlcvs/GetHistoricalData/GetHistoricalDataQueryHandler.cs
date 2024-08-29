@@ -13,20 +13,20 @@ internal class GetHistoricalDataQueryHandler(NpgsqlConnection connection)
     )
     {
         var builder = new SqlBuilder();
-        builder.Where("\"Symbol\" = @Symbol", new { request.Symbol });
+        builder.Where("symbol = @Symbol", new { request.Symbol });
         var sql = builder.AddTemplate(
             """
 SELECT
-    "Symbol",
-    "RecordedAt" AS "Date",
-    "Open",
-    "High",
-    "Low",
-    "Close",
-    "Volume"
-FROM "Quote"."Ohlcv"
+    symbol,
+    recorded_at AS date,
+    open,
+    high,
+    low,
+    close,
+    volume
+FROM ohlcv
 /**where**/
-ORDER BY "RecordedAt"
+ORDER BY recorded_at
 """
         );
         var quotes = await _connection.QueryAsync<OhlcvDto>(sql.RawSql, sql.Parameters);

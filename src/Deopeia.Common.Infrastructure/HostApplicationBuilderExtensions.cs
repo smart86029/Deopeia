@@ -21,7 +21,10 @@ public static class HostApplicationBuilderExtensions
         where TContext : DbContext
     {
         var database = Assembly.GetEntryAssembly()!.FullName!.Split('.')[1];
-        builder.AddNpgsqlDbContext<TContext>(database);
+        builder.AddNpgsqlDbContext<TContext>(
+            database,
+            configureDbContextOptions: options => options.UseSnakeCaseNamingConvention()
+        );
 
         var services = builder.Services;
         var connectionString = builder.Configuration.GetConnectionString(database);
@@ -40,6 +43,7 @@ public static class HostApplicationBuilderExtensions
             options.FallbackCulture = CultureInfo.GetCultureInfo("en-US")
         );
 
+        DefaultTypeMap.MatchNamesWithUnderscores = true;
         SqlMapper.AddTypeHandler(new CultureInfoTypeHandler());
         SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
         SqlMapper.AddTypeHandler(new TimeOnlyTypeHandler());

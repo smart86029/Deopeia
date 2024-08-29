@@ -17,31 +17,34 @@ internal class GetStocksQueryHandler(NpgsqlConnection connection, IStringLocaliz
     )
     {
         var builder = new SqlBuilder();
-        builder.Where("a.\"Type\" = @Stock", new { MarketType.Stock });
+        builder.InnerJoin("company AS b ON a.company_id = b.id");
 
-        var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM \"Instrument\" AS a /**where**/");
+        builder.Where("a.type = @Stock", new { MarketType.Stock });
+
+        var sqlCount = builder.AddTemplate(
+            "SELECT COUNT(*) FROM instrument AS a /**innerjoin**/ /**where**/"
+        );
         var count = await _connection.ExecuteScalarAsync<int>(sqlCount.RawSql, sqlCount.Parameters);
         var result = new PageResult<StockDto>(request, count);
 
+        builder.InnerJoin(
+            "instrument_locale AS c ON a.id = c.instrument_id AND c.culture = @Culture",
+            new { Culture = CultureInfo.CurrentCulture }
+        );
         var sql = builder.AddTemplate(
             """
 SELECT
-    a."Symbol",
-    b."Name",
-    c."SubIndustry"
-FROM "Instrument" AS a
-INNER JOIN "InstrumentLocale" AS b ON a."Id" = b."InstrumentId" AND b."Culture" = @Culture
+    a.symbol,
+    c.name,
+    b.sub_industry
+FROM instrument AS a
+/**innerjoin**/
 /**where**/
-ORDER BY a."Symbol"
+ORDER BY a.symbol
 LIMIT @Limit
 OFFSET @Offset
 """,
-            new
-            {
-                Culture = CultureInfo.CurrentCulture,
-                result.Limit,
-                result.Offset,
-            }
+            new { result.Limit, result.Offset, }
         );
         var stocks = await _connection.QueryAsync<StockDto>(sql.RawSql, sql.Parameters);
         foreach (var stock in stocks)

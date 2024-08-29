@@ -8,7 +8,9 @@ public abstract class EntityLocaleConfiguration<TEntity, TLocale, TEntityId>
 {
     public virtual void Configure(EntityTypeBuilder<TLocale> builder)
     {
-        builder.Property(x => x.EntityId).HasColumnName($"{typeof(TEntity).Name}Id");
+        builder
+            .Property(x => x.EntityId)
+            .HasColumnName($"{typeof(TEntity).Name.ToSnakeCaseLower()}_id");
 
         builder.HasKey(x => new { x.EntityId, x.Culture });
 

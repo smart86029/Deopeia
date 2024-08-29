@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deopeia.Identity.Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20240816031732_Init")]
+    [Migration("20240829040418_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -29,24 +29,30 @@ namespace Deopeia.Identity.Infrastructure.Migrations
             modelBuilder.Entity("Deopeia.Common.Domain.Auditing.AuditTrail", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("created_by");
 
                     b.Property<IPAddress>("IPAddress")
                         .IsRequired()
-                        .HasColumnType("inet");
+                        .HasColumnType("inet")
+                        .HasColumnName("ip_address");
 
                     b.Property<int>("Type")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_audit_trail");
 
-                    b.ToTable("AuditTrail");
+                    b.ToTable("audit_trail", (string)null);
 
                     b.HasDiscriminator<int>("Type");
 
@@ -56,27 +62,34 @@ namespace Deopeia.Identity.Infrastructure.Migrations
             modelBuilder.Entity("Deopeia.Common.Domain.Files.FileResource", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("Extension")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("extension");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.Property<int>("Size")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("size");
 
                     b.Property<int>("Type")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_file_resource");
 
-                    b.HasIndex("Type");
+                    b.HasIndex("Type")
+                        .HasDatabaseName("ix_file_resource_type");
 
-                    b.ToTable("FileResource");
+                    b.ToTable("file_resource", (string)null);
 
                     b.HasDiscriminator<int>("Type");
 
@@ -86,94 +99,119 @@ namespace Deopeia.Identity.Infrastructure.Migrations
             modelBuilder.Entity("Deopeia.Common.Localization.LocaleResource", b =>
                 {
                     b.Property<string>("Culture")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("culture");
 
                     b.Property<int>("Type")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
 
                     b.Property<string>("Code")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("code");
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("content");
 
-                    b.HasKey("Culture", "Type", "Code");
+                    b.HasKey("Culture", "Type", "Code")
+                        .HasName("pk_locale_resource");
 
-                    b.ToTable("LocaleResource");
+                    b.ToTable("locale_resource", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Clients.Client", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<int>("GrantTypes")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("grant_types");
 
                     b.Property<bool>("IsEnabled")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_enabled");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
                     b.Property<string>("RedirectUris")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("jsonb")
+                        .HasColumnName("redirect_uris");
 
                     b.Property<string>("Scopes")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("jsonb")
+                        .HasColumnName("scopes");
 
                     b.Property<string>("Secret")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("secret");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_client");
 
-                    b.ToTable("Client");
+                    b.ToTable("client", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Grants.Grant", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<Guid>("ClientId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("client_id");
 
                     b.Property<DateTimeOffset?>("ConsumedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("consumed_at");
 
                     b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<DateTimeOffset>("ExpiresAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("expires_at");
 
                     b.Property<string>("Key")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("key");
 
                     b.Property<string>("Scopes")
                         .IsRequired()
                         .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("scopes");
 
                     b.Property<Guid?>("SubjectId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("subject_id");
 
                     b.Property<int>("Type")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_grant");
 
-                    b.HasIndex("ClientId");
+                    b.HasIndex("ClientId")
+                        .HasDatabaseName("ix_grant_client_id");
 
                     b.HasIndex("Key")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_grant_key");
 
-                    b.ToTable("Grant");
+                    b.ToTable("grant", (string)null);
 
                     b.HasDiscriminator<int>("Type");
 
@@ -183,151 +221,189 @@ namespace Deopeia.Identity.Infrastructure.Migrations
             modelBuilder.Entity("Deopeia.Identity.Domain.Permissions.Permission", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("code");
 
                     b.Property<bool>("IsEnabled")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_enabled");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_permission");
 
                     b.HasIndex("Code")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_permission_code");
 
-                    b.ToTable("Permission");
+                    b.ToTable("permission", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Permissions.PermissionLocale", b =>
                 {
                     b.Property<Guid>("EntityId")
                         .HasColumnType("uuid")
-                        .HasColumnName("PermissionId");
+                        .HasColumnName("permission_id");
 
                     b.Property<string>("Culture")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("culture");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
-                    b.HasKey("EntityId", "Culture");
+                    b.HasKey("EntityId", "Culture")
+                        .HasName("pk_permission_locale");
 
-                    b.ToTable("PermissionLocale");
+                    b.ToTable("permission_locale", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Roles.Role", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<bool>("IsEnabled")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_enabled");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_role");
 
-                    b.ToTable("Role");
+                    b.ToTable("role", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Roles.RolePermission", b =>
                 {
                     b.Property<Guid>("RoleId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
 
                     b.Property<Guid>("PermissionId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("permission_id");
 
-                    b.HasKey("RoleId", "PermissionId");
+                    b.HasKey("RoleId", "PermissionId")
+                        .HasName("pk_role_permission");
 
-                    b.HasIndex("PermissionId");
+                    b.HasIndex("PermissionId")
+                        .HasDatabaseName("ix_role_permission_permission_id");
 
-                    b.ToTable("RolePermission");
+                    b.ToTable("role_permission", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<bool>("IsEnabled")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_enabled");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("password_hash");
 
                     b.Property<string>("Salt")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("salt");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("user_name");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_user");
 
                     b.HasIndex("UserName")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_user_user_name");
 
-                    b.ToTable("User");
+                    b.ToTable("user", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Users.UserRefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTimeOffset>("ExpiredAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("expired_at");
 
                     b.Property<DateTimeOffset>("IssuedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("issued_at");
 
                     b.Property<string>("RefreshToken")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("refresh_token");
 
                     b.Property<DateTimeOffset?>("RevokedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("revoked_at");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_user_refresh_token");
 
                     b.HasIndex("RefreshToken")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasDatabaseName("ix_user_refresh_token_refresh_token");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_user_refresh_token_user_id");
 
-                    b.ToTable("UserRefreshToken");
+                    b.ToTable("user_refresh_token", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Users.UserRole", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
 
                     b.Property<Guid>("RoleId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
 
-                    b.HasKey("UserId", "RoleId");
+                    b.HasKey("UserId", "RoleId")
+                        .HasName("pk_user_role");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_user_role_role_id");
 
-                    b.ToTable("UserRole");
+                    b.ToTable("user_role", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Common.Domain.Auditing.DataAccessAuditTrail", b =>
@@ -336,23 +412,30 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
                     b.Property<string>("EntityType")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("entity_type");
 
                     b.Property<string>("Keys")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("jsonb")
+                        .HasColumnName("keys");
 
                     b.Property<string>("NewValues")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("jsonb")
+                        .HasColumnName("new_values");
 
                     b.Property<string>("OldValues")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("jsonb")
+                        .HasColumnName("old_values");
 
                     b.Property<string>("PropertyNames")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("jsonb")
+                        .HasColumnName("property_names");
+
+                    b.ToTable("audit_trail", (string)null);
 
                     b.HasDiscriminator().HasValue(2);
                 });
@@ -360,6 +443,8 @@ namespace Deopeia.Identity.Infrastructure.Migrations
             modelBuilder.Entity("Deopeia.Common.Domain.Files.Image", b =>
                 {
                     b.HasBaseType("Deopeia.Common.Domain.Files.FileResource");
+
+                    b.ToTable("file_resource", (string)null);
 
                     b.HasDiscriminator().HasValue(1);
                 });
@@ -370,19 +455,25 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
                     b.Property<string>("CodeChallenge")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("code_challenge");
 
                     b.Property<string>("CodeChallengeMethod")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("code_challenge_method");
 
                     b.Property<string>("Nonce")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("nonce");
 
                     b.Property<string>("RedirectUri")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("redirect_uri");
+
+                    b.ToTable("grant", (string)null);
 
                     b.HasDiscriminator().HasValue(1);
                 });
@@ -390,6 +481,8 @@ namespace Deopeia.Identity.Infrastructure.Migrations
             modelBuilder.Entity("Deopeia.Identity.Domain.Grants.RefreshTokens.RefreshToken", b =>
                 {
                     b.HasBaseType("Deopeia.Identity.Domain.Grants.Grant");
+
+                    b.ToTable("grant", (string)null);
 
                     b.HasDiscriminator().HasValue(4);
                 });
@@ -400,7 +493,8 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                         .WithMany("Locales")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_permission_locale_permission_permission_id");
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Roles.RolePermission", b =>
@@ -409,13 +503,15 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                         .WithMany("RolePermissions")
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_role_permission_permission_permission_id");
 
                     b.HasOne("Deopeia.Identity.Domain.Roles.Role", null)
                         .WithMany("RolePermissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_role_permission_role_role_id");
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Users.UserRefreshToken", b =>
@@ -424,7 +520,8 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                         .WithMany("UserRefreshTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_user_refresh_token_user_user_id");
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Users.UserRole", b =>
@@ -433,13 +530,15 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_user_role_role_role_id");
 
                     b.HasOne("Deopeia.Identity.Domain.Users.User", null)
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_user_role_user_user_id");
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Permissions.Permission", b =>
