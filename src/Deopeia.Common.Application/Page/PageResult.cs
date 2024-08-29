@@ -9,7 +9,7 @@ public class PageResult<TItem>
 
     public PageResult(int pageIndex, int pageSize, int itemCount)
     {
-        PageCount = Math.Ceiling(itemCount.ToDecimal() / pageSize).ToInt();
+        PageCount = Math.Max(1, Math.Ceiling(itemCount.ToDecimal() / pageSize).ToInt());
         PageIndex = Math.Min(Math.Max(1, pageIndex), PageCount);
         PageSize = pageSize;
         ItemCount = Math.Max(0, itemCount);
