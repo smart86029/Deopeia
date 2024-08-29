@@ -18,7 +18,7 @@ builder
     .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
     .WithReference(dbIdentity);
 
-builder
+var quoteApi = builder
     .AddProject<Projects.Deopeia_Quote_Api>("deopeia-quote-api")
     .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
     .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
@@ -34,6 +34,9 @@ builder
     .WithReference(rabbitMQ)
     .WithReference(dbQuote);
 
-builder.AddProject<Projects.Deopeia_Finance_Bff>("deopeia-finance-bff").WithReference(rabbitMQ);
+builder
+    .AddProject<Projects.Deopeia_Finance_Bff>("deopeia-finance-bff")
+    .WithReference(rabbitMQ)
+    .WithReference(quoteApi);
 
 builder.Build().Run();
