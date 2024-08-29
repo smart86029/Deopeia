@@ -20,6 +20,10 @@ internal class GetStocksQueryHandler(NpgsqlConnection connection, IStringLocaliz
         builder.InnerJoin("company AS b ON a.company_id = b.id");
 
         builder.Where("a.type = @Stock", new { MarketType.Stock });
+        if (request.Industry.HasValue)
+        {
+            builder.Where("b.sub_industry / 100 = @Industry", new { request.Industry });
+        }
 
         var sqlCount = builder.AddTemplate(
             "SELECT COUNT(*) FROM instrument AS a /**innerjoin**/ /**where**/"

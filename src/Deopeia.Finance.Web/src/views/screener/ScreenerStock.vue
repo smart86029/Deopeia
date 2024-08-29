@@ -1,12 +1,21 @@
 <template>
   <TableToolbar>
     <el-form :model="query" :inline="true">
-      <SelectOption :v-model="query.industry" :options="industries" />
+      <el-form-item :label="$t('finance.industry')">
+        <SelectOption v-model="query.industry" :options="industries" />
+      </el-form-item>
     </el-form>
   </TableToolbar>
 
   <el-table v-loading="loading" :data="result.items" table-layout="auto">
-    <el-table-column prop="symbol" :label="$t('finance.symbol')" />
+    <el-table-column :label="$t('finance.symbol')">
+      <template #default="{ row }">
+        <TextLink
+          :to="{ name: 'symbol.view', params: { symbol: row.symbol } }"
+          :text="row.symbol"
+        />
+      </template>
+    </el-table-column>
     <el-table-column prop="name" :label="$t('common.name')" />
     <el-table-column prop="price" :label="$t('finance.price')" />
     <el-table-column prop="priceChange" :label="$t('finance.priceChange')" />
