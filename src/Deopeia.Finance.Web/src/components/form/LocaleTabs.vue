@@ -22,7 +22,10 @@
 </template>
 
 <script setup lang="ts">
-import * as localeCodes from 'locale-codes';
+import localeCodes from 'locale-codes';
+const props = defineProps<{
+  labelWidth?: string;
+}>();
 
 const emits = defineEmits<{
   update: [locale: string];
@@ -46,6 +49,6 @@ const add = () => {
 
 <style scoped lang="scss">
 :deep(.el-tabs__header) {
-  padding-left: 200px;
+  padding-left: v-bind('props.labelWidth');
 }
 </style>

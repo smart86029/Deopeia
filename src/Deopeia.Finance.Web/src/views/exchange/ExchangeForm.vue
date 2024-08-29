@@ -14,6 +14,7 @@
     </el-form-item>
     <LocaleTabs
       v-model="culture"
+      labelWidth="200px"
       @update="addLocale"
       @tab-remove="removeLocale"
     >
