@@ -1,7 +1,7 @@
 <template>
   <el-form :model="form" label-width="200" @submit.prevent="save">
-    <el-form-item :label="$t('finance.code')">
-      <el-input v-model="form.code" />
+    <el-form-item :label="$t('finance.marketIdentifierCode')">
+      <el-input v-model="form.mic" />
     </el-form-item>
     <el-form-item :label="$t('common.timeZone')">
       <el-input v-model="form.timeZone" />
@@ -41,17 +41,15 @@ import exchangeApi, {
   type Exchange,
   type ExchangeLocale,
 } from '@/api/exchange-api';
-import { Guid } from '@/models/guid';
 import { success } from '@/plugins/element';
 
 const props = defineProps<{
   action: 'create' | 'edit';
-  id: Guid;
+  mic: string;
 }>();
 const loading = ref(false);
 const form = reactive({
-  id: Guid.empty,
-  code: '',
+  mic: '',
   timeZone: '',
   openingTime: '',
   closingTime: '',
@@ -61,7 +59,7 @@ const culture = ref('en-US');
 
 if (props.action === 'edit') {
   exchangeApi
-    .get(props.id)
+    .get(props.mic)
     .then((x) => {
       Object.assign(form, x.data);
     })

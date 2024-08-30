@@ -15,19 +15,18 @@ public class GetExchangeQueryHandler(NpgsqlConnection connection)
     {
         var sql = """
 SELECT
-    id,
-    code,
+    id AS mic,
     time_zone,
     opening_time,
     closing_time
 FROM exchange
-WHERE id = @Id;
+WHERE id = @Mic;
 
 SELECT
     culture,
     name
 FROM exchange_locale
-WHERE exchange_id = @Id;
+WHERE exchange_id = @Mic;
 """;
         using var multiple = await _connection.QueryMultipleAsync(sql, request);
         var result = multiple.ReadFirst<GetExchangeViewModel>();

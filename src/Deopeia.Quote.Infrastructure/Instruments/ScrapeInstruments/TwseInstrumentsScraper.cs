@@ -1,7 +1,6 @@
-using System.Text.Json.Nodes;
 using Deopeia.Quote.Application.Instruments.ScrapeInstruments;
 
-namespace Deopeia.Quote.Infrastructure.Ohlcvs.ScrapeHistoricalData;
+namespace Deopeia.Quote.Infrastructure.Instruments.ScrapeInstruments;
 
 internal class TwseInstrumentsScraper(HttpClient httpClient) : IInstrumentsScraper
 {

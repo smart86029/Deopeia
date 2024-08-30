@@ -23,7 +23,7 @@ internal class ScrapeInstrumentsCommandHandler(
         try
         {
             var items = await _instrumentsScraper.GetInstrumentsAsync();
-            var exchange = await _exchangeRepository.GetExchangeAsync("XTAI");
+            var exchangeId = new ExchangeId("XTAI");
             var enUS = CultureInfo.GetCultureInfo("en-US");
             var zhTW = CultureInfo.GetCultureInfo("zh-TW");
 
@@ -42,7 +42,7 @@ internal class ScrapeInstrumentsCommandHandler(
                 company.UpdateName(item.CompanyName, zhTW);
                 companies.Add(company);
 
-                var stock = new Stock(exchange.Id, item.Symbol, item.EnglishName, company.Id);
+                var stock = new Stock(exchangeId, item.Symbol, item.EnglishName, company.Id);
                 stock.UpdateName(item.Name, zhTW);
                 stocks.Add(stock);
             }

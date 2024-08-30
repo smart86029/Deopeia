@@ -11,11 +11,6 @@ internal class ExchangeRepository(QuoteContext context) : IExchangeRepository
         return _exchanges.Include(x => x.Locales).SingleAsync(x => x.Id == id);
     }
 
-    public Task<Exchange> GetExchangeAsync(string code)
-    {
-        return _exchanges.Include(x => x.Locales).SingleAsync(x => x.Code == code);
-    }
-
     public async Task AddAsync(Exchange exchange)
     {
         await _exchanges.AddAsync(exchange);

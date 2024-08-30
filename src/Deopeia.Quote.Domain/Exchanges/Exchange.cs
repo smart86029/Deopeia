@@ -7,24 +7,21 @@ public class Exchange : AggregateRoot<ExchangeId>, ILocalizable<ExchangeLocale, 
     private Exchange() { }
 
     public Exchange(
-        string code,
+        string mic,
         string name,
         TimeZoneInfo timeZone,
         TimeOnly openingTime,
         TimeOnly closingTime
     )
-        : base(new ExchangeId())
+        : base(new ExchangeId(mic))
     {
         openingTime.MustBeOnOrBefore(closingTime);
 
-        Code = code;
         _locales.Default.UpdateName(name);
         TimeZone = timeZone;
         OpeningTime = openingTime;
         ClosingTime = closingTime;
     }
-
-    public string Code { get; private init; } = string.Empty;
 
     public string Name => _locales[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
 

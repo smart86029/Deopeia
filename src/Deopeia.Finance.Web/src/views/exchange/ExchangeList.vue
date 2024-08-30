@@ -6,14 +6,14 @@
   </TableToolbar>
 
   <el-table v-loading="loading" :data="result.items">
-    <el-table-column prop="code" :label="$t('finance.code')" />
+    <el-table-column prop="mic" :label="$t('finance.mic')" />
     <el-table-column prop="name" :label="$t('common.name')" />
     <el-table-column prop="openingTime" :label="$t('finance.openingTime')" />
     <el-table-column prop="closingTime" :label="$t('finance.closingTime')" />
     <el-table-column prop="timeZone" :label="$t('common.timeZone')" />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
-        <TextLink :to="{ name: 'exchange.edit', params: { id: row.id } }" />
+        <TextLink :to="{ name: 'exchange.edit', params: { mic: row.mic } }" />
       </template>
     </el-table-column>
   </el-table>

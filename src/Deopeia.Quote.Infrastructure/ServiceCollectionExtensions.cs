@@ -1,7 +1,7 @@
 using System.Reflection;
+using Deopeia.Quote.Application.Candles.ScrapeHistoricalData;
+using Deopeia.Quote.Application.Candles.ScrapeRealTimeData;
 using Deopeia.Quote.Application.Instruments.ScrapeInstruments;
-using Deopeia.Quote.Application.Ohlcvs.ScrapeHistoricalData;
-using Deopeia.Quote.Application.Ohlcvs.ScrapeRealTimeData;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Deopeia.Quote.Infrastructure;

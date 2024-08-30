@@ -1,21 +1,18 @@
-import type { Guid } from '@/models/guid';
 import type { PageQuery, PageResult } from '@/models/page';
 import httpClient from './http-client';
 
 export interface GetExchangesQuery extends PageQuery {}
 
 export interface ExchangeRow {
-  id: Guid;
+  mic: string;
   name: string;
-  code: string;
   timeZone: string;
   openingTime: string;
   closingTime: string;
 }
 
 export interface Exchange {
-  id: Guid;
-  code: string;
+  mic: string;
   timeZone: string;
   openingTime: string;
   closingTime: string;
@@ -30,8 +27,8 @@ export interface ExchangeLocale {
 export default {
   getList: (query: GetExchangesQuery) =>
     httpClient.get<PageResult<ExchangeRow>>('/Exchanges', { params: query }),
-  get: (id: Guid) => httpClient.get<Exchange>(`/Exchanges/${id}`),
+  get: (mic: string) => httpClient.get<Exchange>(`/Exchanges/${mic}`),
   create: (exchange: Exchange) => httpClient.post('/Exchanges', exchange),
   update: (exchange: Exchange) =>
-    httpClient.put(`/Exchanges/${exchange.id}`, exchange),
+    httpClient.put(`/Exchanges/${exchange.mic}`, exchange),
 };

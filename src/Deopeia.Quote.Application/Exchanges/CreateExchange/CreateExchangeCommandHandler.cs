@@ -13,7 +13,7 @@ public class CreateExchangeCommandHandler(
     public async Task Handle(CreateExchangeCommand request, CancellationToken cancellationToken)
     {
         var exchange = new Exchange(
-            request.Code,
+            request.Mic,
             string.Empty,
             TimeZoneInfo.FindSystemTimeZoneById(request.TimeZone),
             request.OpeningTime,

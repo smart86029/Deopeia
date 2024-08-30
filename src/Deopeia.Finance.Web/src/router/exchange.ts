@@ -1,4 +1,4 @@
-import { create, edit } from './props';
+import type { RouteLocationNormalized } from 'vue-router';
 
 export default [
   {
@@ -15,13 +15,17 @@ export default [
         path: 'create',
         name: 'exchange.create',
         component: () => import('../views/exchange/ExchangeForm.vue'),
-        props: create,
+        props: () => ({ default: true, action: 'create', mic: '' }),
       },
       {
-        path: ':id',
+        path: ':mic',
         name: 'exchange.edit',
         component: () => import('../views/exchange/ExchangeForm.vue'),
-        props: edit,
+        props: (route: RouteLocationNormalized) => ({
+          default: true,
+          action: 'edit',
+          mic: route.params.mic,
+        }),
       },
     ],
   },

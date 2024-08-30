@@ -21,8 +21,7 @@ public class GetExchangesQueryHandler(NpgsqlConnection connection)
         var sql = builder.AddTemplate(
             """
 SELECT
-    a.id,
-    a.code,
+    a.id AS mic,
     b.name,
     a.time_zone,
     a.opening_time,

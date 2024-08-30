@@ -17,10 +17,10 @@ public class ExchangesController : ApiController<ExchangesController>
         return Ok(result);
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> Get([FromRoute] Guid id)
+    [HttpGet("{mic}")]
+    public async Task<IActionResult> Get([FromRoute] string mic)
     {
-        var query = new GetExchangeQuery(id);
+        var query = new GetExchangeQuery(mic);
         var result = await Sender.Send(query);
 
         return Ok(result);
@@ -34,13 +34,13 @@ public class ExchangesController : ApiController<ExchangesController>
         return Created();
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{mic}")]
     public async Task<IActionResult> Update(
-        [FromRoute] Guid id,
+        [FromRoute] string mic,
         [FromBody] UpdateExchangeCommand command
     )
     {
-        command = command with { Id = id };
+        command = command with { Mic = mic };
         await Sender.Send(command);
 
         return NoContent();

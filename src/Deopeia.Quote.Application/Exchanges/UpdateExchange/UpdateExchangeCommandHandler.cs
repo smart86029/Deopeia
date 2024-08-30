@@ -12,7 +12,7 @@ public class UpdateExchangeCommandHandler(
 
     public async Task Handle(UpdateExchangeCommand request, CancellationToken cancellationToken)
     {
-        var exchange = await _exchangeRepository.GetExchangeAsync(new ExchangeId(request.Id));
+        var exchange = await _exchangeRepository.GetExchangeAsync(new ExchangeId(request.Mic));
         exchange.UpdateOpenHours(request.OpeningTime, request.ClosingTime);
 
         var removed = exchange
