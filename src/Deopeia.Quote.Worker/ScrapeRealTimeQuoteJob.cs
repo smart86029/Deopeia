@@ -1,4 +1,4 @@
-using Deopeia.Quote.Application.Ohlcvs.ScrapeRealTimeData;
+using Deopeia.Quote.Application.Candles.ScrapeRealTimeData;
 
 namespace Deopeia.Quote.Worker;
 

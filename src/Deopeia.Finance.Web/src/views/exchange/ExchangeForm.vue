@@ -4,7 +4,7 @@
       <el-input v-model="form.mic" />
     </el-form-item>
     <el-form-item :label="$t('common.timeZone')">
-      <el-input v-model="form.timeZone" />
+      <SelectOption v-model="form.timeZone" :options="timeZones" />
     </el-form-item>
     <el-form-item :label="$t('finance.openingTime')">
       <TimePicker v-model="form.openingTime" />
@@ -41,6 +41,8 @@ import exchangeApi, {
   type Exchange,
   type ExchangeLocale,
 } from '@/api/exchange-api';
+import optionApi from '@/api/option-api';
+import type { OptionResult } from '@/models/option-result';
 import { success } from '@/plugins/element';
 
 const props = defineProps<{
@@ -48,14 +50,17 @@ const props = defineProps<{
   mic: string;
 }>();
 const loading = ref(false);
+const timeZones: Ref<OptionResult<string>[]> = ref([]);
 const form = reactive({
   mic: '',
   timeZone: '',
   openingTime: '',
   closingTime: '',
-  locales: [] as ExchangeLocale[],
+  locales: [{ culture: 'en-US', name: '' }] as ExchangeLocale[],
 });
 const culture = ref('en-US');
+
+optionApi.getTimeZones().then((x) => (timeZones.value = x.data));
 
 if (props.action === 'edit') {
   exchangeApi

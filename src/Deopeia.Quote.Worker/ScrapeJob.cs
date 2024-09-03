@@ -1,4 +1,4 @@
-using Deopeia.Quote.Application.Ohlcvs.ScrapeHistoricalData;
+using Deopeia.Quote.Application.Candles.ScrapeHistoricalData;
 
 namespace Deopeia.Quote.Worker;
 

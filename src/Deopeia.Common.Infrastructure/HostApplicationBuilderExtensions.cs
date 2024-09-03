@@ -103,6 +103,8 @@ public static class HostApplicationBuilderExtensions
             return factory.Create(typeof(LocaleResource));
         });
 
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo("en-US");
+
         return services;
     }
 }

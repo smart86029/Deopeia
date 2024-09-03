@@ -22,24 +22,31 @@ public class GetExchangesQueryHandler(NpgsqlConnection connection)
             """
 SELECT
     a.id AS mic,
-    b.name,
+    COALESCE(b.name, c.name) AS name,
     a.time_zone,
     a.opening_time,
     a.closing_time
 FROM exchange AS a
-INNER JOIN exchange_locale AS b ON a.id = b.exchange_id AND b.culture = @Culture
+LEFT JOIN exchange_locale AS b ON a.id = b.exchange_id AND b.culture = @CurrentCulture
+INNER JOIN exchange_locale AS c ON a.id = c.exchange_id AND c.culture = @DefaultThreadCurrentCulture
 /**where**/
 LIMIT @Limit
 OFFSET @Offset
 """,
             new
             {
-                Culture = CultureInfo.CurrentCulture,
+                CultureInfo.CurrentCulture,
+                CultureInfo.DefaultThreadCurrentCulture,
                 result.Limit,
                 result.Offset,
             }
         );
         var exchanges = await _connection.QueryAsync<ExchangeDto>(sql.RawSql, sql.Parameters);
+        foreach (var exchange in exchanges)
+        {
+            exchange.TimeZone = TimeZoneInfo.FindSystemTimeZoneById(exchange.TimeZone).DisplayName;
+        }
+
         result.Items = exchanges.ToList();
 
         return result;
