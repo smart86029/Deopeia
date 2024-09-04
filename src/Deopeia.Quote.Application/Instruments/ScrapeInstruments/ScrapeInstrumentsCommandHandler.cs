@@ -24,8 +24,8 @@ internal class ScrapeInstrumentsCommandHandler(
         {
             var items = await _instrumentsScraper.GetInstrumentsAsync();
             var exchangeId = new ExchangeId("XTAI");
-            var enUS = CultureInfo.GetCultureInfo("en-US");
-            var zhTW = CultureInfo.GetCultureInfo("zh-TW");
+            var en = CultureInfo.GetCultureInfo("en");
+            var zhHant = CultureInfo.GetCultureInfo("zh-Hant");
 
             var companies = new List<Company>(items.Count);
             var stocks = new List<Stock>(items.Count);
@@ -39,11 +39,11 @@ internal class ScrapeInstrumentsCommandHandler(
                 var subIndustry = GetSubIndustry(item.Industry);
                 var website = GetWebsite(item.Website);
                 var company = new Company(subIndustry, website);
-                company.UpdateName(item.CompanyName, zhTW);
+                company.UpdateName(item.CompanyName, zhHant);
                 companies.Add(company);
 
                 var stock = new Stock(exchangeId, item.Symbol, item.EnglishName, company.Id);
-                stock.UpdateName(item.Name, zhTW);
+                stock.UpdateName(item.Name, zhHant);
                 stocks.Add(stock);
             }
 

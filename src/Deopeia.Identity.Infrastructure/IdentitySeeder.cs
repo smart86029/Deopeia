@@ -1,5 +1,4 @@
 using System.Globalization;
-using System.Linq;
 using Bogus;
 using Deopeia.Common.Localization;
 using Deopeia.Identity.Domain.Clients;
@@ -51,13 +50,13 @@ public class IdentitySeeder : DbSeeder<IdentityContext>
 
     private IEnumerable<LocaleResource> GetLocaleResources()
     {
-        var enUS = CultureInfo.GetCultureInfo("en-US");
-        var resourcesENUS = new LocaleResource[] { };
+        var en = CultureInfo.GetCultureInfo("en");
+        var resourcesEN = new LocaleResource[] { };
 
-        var zhTW = CultureInfo.GetCultureInfo("zh-TW");
-        var resourcesZHTW = new LocaleResource[] { };
+        var zhHant = CultureInfo.GetCultureInfo("zh-Hant");
+        var resourcesZHHant = new LocaleResource[] { };
 
-        var results = GetCommonLocaleResources().Concat(resourcesENUS).Concat(resourcesZHTW);
+        var results = GetCommonLocaleResources().Concat(resourcesEN).Concat(resourcesZHHant);
 
         return results;
     }
@@ -104,12 +103,12 @@ public class IdentitySeeder : DbSeeder<IdentityContext>
     {
         var results = new Permission[] { new("SignIn", true), new("HumanResources", true), };
 
-        var enUS = CultureInfo.GetCultureInfo("en-US");
-        var zhTW = CultureInfo.GetCultureInfo("zh-TW");
-        results[0].UpdateName("Sign In", enUS);
-        results[0].UpdateName("登入", zhTW);
-        results[1].UpdateName("Human Resources", enUS);
-        results[1].UpdateName("人力資源", zhTW);
+        var en = CultureInfo.GetCultureInfo("en");
+        var zhHant = CultureInfo.GetCultureInfo("zh-Hant");
+        results[0].UpdateName("Sign In", en);
+        results[0].UpdateName("登入", zhHant);
+        results[1].UpdateName("Human Resources", en);
+        results[1].UpdateName("人力資源", zhHant);
 
         return results;
     }

@@ -21,7 +21,7 @@
       <el-tab-pane
         v-for="(locale, index) in form.locales"
         :key="locale.culture"
-        :label="locale.culture"
+        :label="cultures.find((x) => x.value === locale.culture)?.name"
         :name="locale.culture"
       >
         <el-form-item :label="$t('common.name')">
@@ -41,26 +41,23 @@ import exchangeApi, {
   type Exchange,
   type ExchangeLocale,
 } from '@/api/exchange-api';
-import optionApi from '@/api/option-api';
-import type { OptionResult } from '@/models/option-result';
 import { success } from '@/plugins/element';
+import { usePreferencesStore } from '@/stores/preferences';
 
 const props = defineProps<{
   action: 'create' | 'edit';
   mic: string;
 }>();
 const loading = ref(false);
-const timeZones: Ref<OptionResult<string>[]> = ref([]);
+const { cultures, timeZones } = storeToRefs(usePreferencesStore());
 const form = reactive({
   mic: '',
   timeZone: '',
   openingTime: '',
   closingTime: '',
-  locales: [{ culture: 'en-US', name: '' }] as ExchangeLocale[],
+  locales: [{ culture: 'en', name: '' }] as ExchangeLocale[],
 });
-const culture = ref('en-US');
-
-optionApi.getTimeZones().then((x) => (timeZones.value = x.data));
+const culture = ref('en');
 
 if (props.action === 'edit') {
   exchangeApi

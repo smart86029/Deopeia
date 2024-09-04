@@ -14,7 +14,7 @@ public class CreateExchangeCommandHandler(
     {
         var exchange = new Exchange(
             request.Mic,
-            request.Locales.First(x => x.Culture == "en-US").Name,
+            request.Locales.First(x => x.Culture == "en").Name,
             TimeZoneInfo.FindSystemTimeZoneById(request.TimeZone),
             request.OpeningTime,
             request.ClosingTime

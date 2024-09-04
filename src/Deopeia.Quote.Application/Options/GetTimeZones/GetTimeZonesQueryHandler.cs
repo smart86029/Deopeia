@@ -15,10 +15,11 @@ internal class GetTimeZonesQueryHandler
     )
     {
         await Task.CompletedTask;
+
         var results = TimeZoneInfo
             .GetSystemTimeZones()
             .Where(x => !DeprecatedIds.Any(y => y == x.Id))
-            .Select(x => new OptionResult<string>(x.DisplayName, x.Id))
+            .Select(x => new OptionResult<string>(x.GetDisplayName(), x.Id))
             .ToList();
 
         return results;

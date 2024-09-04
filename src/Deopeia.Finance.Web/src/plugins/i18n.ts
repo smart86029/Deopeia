@@ -1,18 +1,18 @@
 import { createI18n } from 'vue-i18n';
 
-import enUS from '../locales/en-US';
-import zhTW from '../locales/zh-TW';
+import en from '../locales/en';
+import zhHant from '../locales/zh-Hant';
 
 const i18n = createI18n({
   legacy: false,
-  locale: localStorage.getItem('locale') || 'en-US',
-  fallbackLocale: 'en-US',
+  locale: localStorage.getItem('locale') || 'en',
+  fallbackLocale: 'en',
   allowComposition: true,
   globalInjection: true,
   silentTranslationWarn: true,
   messages: {
-    'en-US': enUS,
-    'zh-TW': zhTW,
+    en: en,
+    'zh-Hant': zhHant,
   },
 });
 

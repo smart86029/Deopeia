@@ -7,31 +7,31 @@ public abstract class DbSeeder<TContext> : IDbSeeder<TContext>
 
     protected IEnumerable<LocaleResource> GetCommonLocaleResources()
     {
-        var enUS = CultureInfo.GetCultureInfo("en-US");
-        var resourcesENUS = new LocaleResource[]
+        var en = CultureInfo.GetCultureInfo("en");
+        var resourcesEN = new LocaleResource[]
         {
-            FromNone(enUS, "Name", "Name"),
-            FromError(enUS, "AccessDenied", "Access denied."),
-            FromError(enUS, "String.NotEmpty", "{Property} must not be empty."),
-            FromError(enUS, "Date.OnOrBefore", "{Property} must be on or before {Comparison}."),
-            FromError(enUS, "Date.OnOrBeforeNow", "{Property} must be on or before now."),
-            FromError(enUS, "Date.AfterNow", "{Property} must be after now."),
-            FromError(enUS, "Enum.Defined", "{Property} must be defined."),
+            FromNone(en, "Name", "Name"),
+            FromError(en, "AccessDenied", "Access denied."),
+            FromError(en, "String.NotEmpty", "{Property} must not be empty."),
+            FromError(en, "Date.OnOrBefore", "{Property} must be on or before {Comparison}."),
+            FromError(en, "Date.OnOrBeforeNow", "{Property} must be on or before now."),
+            FromError(en, "Date.AfterNow", "{Property} must be after now."),
+            FromError(en, "Enum.Defined", "{Property} must be defined."),
         };
 
-        var zhTW = CultureInfo.GetCultureInfo("zh-TW");
-        var resourcesZHTW = new LocaleResource[]
+        var zhHant = CultureInfo.GetCultureInfo("zh-Hant");
+        var resourcesZHHant = new LocaleResource[]
         {
-            FromNone(zhTW, "Name", "名稱"),
-            FromError(zhTW, "AccessDenied", "存取被拒。"),
-            FromError(zhTW, "String.NotEmpty", "{Property}不可為空。"),
-            FromError(zhTW, "Date.OnOrBefore", "{Property}必須等於或早於{Comparison}。"),
-            FromError(zhTW, "Date.OnOrBeforeNow", "{Property}必須等於或早於現在。"),
-            FromError(zhTW, "Date.AfterNow", "{Property}必須晚於現在。"),
-            FromError(zhTW, "Enum.Defined", "{Property}必須被定義。"),
+            FromNone(zhHant, "Name", "名稱"),
+            FromError(zhHant, "AccessDenied", "存取被拒。"),
+            FromError(zhHant, "String.NotEmpty", "{Property}不可為空。"),
+            FromError(zhHant, "Date.OnOrBefore", "{Property}必須等於或早於{Comparison}。"),
+            FromError(zhHant, "Date.OnOrBeforeNow", "{Property}必須等於或早於現在。"),
+            FromError(zhHant, "Date.AfterNow", "{Property}必須晚於現在。"),
+            FromError(zhHant, "Enum.Defined", "{Property}必須被定義。"),
         };
 
-        return resourcesENUS.Concat(resourcesZHTW);
+        return resourcesEN.Concat(resourcesZHHant);
     }
 
     protected LocaleResource FromNone(CultureInfo culture, string code, string content)

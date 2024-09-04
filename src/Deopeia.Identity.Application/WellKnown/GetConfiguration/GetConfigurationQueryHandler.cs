@@ -70,7 +70,7 @@ internal class GetConfigurationQueryHandler
             },
             ClaimsParameterSupported = true,
             ServiceDocumentation = "https://localhost:7099/connect/service_documentation.html",
-            UiLocalesSupported = new string[] { "en-US", "zh-TW" },
+            UiLocalesSupported = new string[] { "en", "zh-Hant" },
             IntrospectionEndpoint = "https://localhost:7099/Introspections/TokenIntrospect"
         };
 

@@ -15,7 +15,7 @@ services
     .AddServiceDiscoveryDestinationResolver();
 
 var app = builder.Build();
-app.UseRequestLocalization("en-US", "zh-TW");
+app.UseRequestLocalization("en", "zh-Hant");
 
 app.MapDefaultEndpoints();
 

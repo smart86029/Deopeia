@@ -7,7 +7,7 @@ public class EntityLocaleCollection<TLocale, TEntityId> : Collection<TLocale>
     where TLocale : EntityLocale<TEntityId>, new()
     where TEntityId : struct, IEntityId
 {
-    private static readonly CultureInfo DefaultCulture = CultureInfo.GetCultureInfo("en-US");
+    private static readonly CultureInfo DefaultCulture = CultureInfo.GetCultureInfo("en");
 
     public TLocale this[CultureInfo culture]
     {

@@ -21,7 +21,7 @@ services.AddScrapers();
 services.AddAuthentication().AddCookie();
 
 var app = builder.Build();
-app.UseRequestLocalization("en-US", "zh-TW");
+app.UseRequestLocalization("en", "zh-Hant");
 app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseStaticFiles();

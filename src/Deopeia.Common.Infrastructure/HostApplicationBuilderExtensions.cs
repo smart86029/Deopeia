@@ -40,7 +40,7 @@ public static class HostApplicationBuilderExtensions
 
         services.AddRepositories<TContext>();
         services.AddLocalization<TContext>(options =>
-            options.FallbackCulture = CultureInfo.GetCultureInfo("en-US")
+            options.FallbackCulture = CultureInfo.GetCultureInfo("en")
         );
 
         DefaultTypeMap.MatchNamesWithUnderscores = true;
@@ -103,7 +103,7 @@ public static class HostApplicationBuilderExtensions
             return factory.Create(typeof(LocaleResource));
         });
 
-        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo("en-US");
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo("en");
 
         return services;
     }

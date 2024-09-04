@@ -1,8 +1,7 @@
-type Key = 'en-US' | 'zh-TW';
+type Key = 'en' | 'zh-Hant';
 
 export interface AppLocale {
   name: string;
   key: Key;
-  languageCode: string;
   dayjsCode: string;
 }

@@ -22,7 +22,8 @@
 </template>
 
 <script setup lang="ts">
-import localeCodes from 'locale-codes';
+import { usePreferencesStore } from '@/stores/preferences';
+
 const props = defineProps<{
   labelWidth?: string;
 }>();
@@ -32,11 +33,7 @@ const emits = defineEmits<{
 }>();
 
 const dialogVisible = ref(false);
-const cultures = localeCodes.all.map((x) => ({
-  name: `${x.name} (${x.tag})`,
-  value: x.tag,
-  isEnabled: true,
-}));
+const { cultures } = storeToRefs(usePreferencesStore());
 const culture = ref('');
 
 const openDialog = () => (dialogVisible.value = true);

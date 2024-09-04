@@ -1,3 +1,4 @@
+using Deopeia.Common.Extensions;
 using Deopeia.Quote.Application.Exchanges.GetExchanges;
 
 namespace Deopeia.Quote.Infrastructure.Exchanges.GetExchanges;
@@ -44,7 +45,9 @@ OFFSET @Offset
         var exchanges = await _connection.QueryAsync<ExchangeDto>(sql.RawSql, sql.Parameters);
         foreach (var exchange in exchanges)
         {
-            exchange.TimeZone = TimeZoneInfo.FindSystemTimeZoneById(exchange.TimeZone).DisplayName;
+            exchange.TimeZone = TimeZoneInfo
+                .FindSystemTimeZoneById(exchange.TimeZone)
+                .GetDisplayName();
         }
 
         result.Items = exchanges.ToList();
