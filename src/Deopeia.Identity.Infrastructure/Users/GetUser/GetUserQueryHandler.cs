@@ -18,9 +18,15 @@ SELECT
     user_name,
     is_enabled
 FROM "user"
-WHERE id = @Id
+WHERE id = @Id;
+
+SELECT role_id
+FROM user_role
+WHERE user_id = @Id;
 """;
-        var result = await _connection.QuerySingleAsync<GetUserViewModel>(sql, request);
+        using var multiple = await _connection.QueryMultipleAsync(sql, request);
+        var result = multiple.ReadFirst<GetUserViewModel>();
+        result.RoleIds = multiple.Read<Guid>().ToList();
 
         return result;
     }

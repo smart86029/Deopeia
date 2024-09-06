@@ -7,4 +7,6 @@ public class GetUserViewModel
     public string UserName { get; set; } = string.Empty;
 
     public bool IsEnabled { get; set; }
+
+    public ICollection<Guid> RoleIds { get; set; } = [];
 }

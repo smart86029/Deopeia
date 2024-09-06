@@ -1,93 +1,67 @@
 <template>
-  User Form
-  <!-- <el-form :model="form" label-width="200" @submit.prevent="save">
-    <el-form-item :label="$t('finance.marketIdentifierCode')">
-      <el-input v-model="form.mic" />
+  <el-form :model="form" label-width="200" @submit.prevent="save">
+    <el-form-item :label="$t('identity.userName')">
+      <el-input v-model="form.userName" />
     </el-form-item>
-    <el-form-item :label="$t('common.timeZone')">
-      <SelectOption v-model="form.timeZone" :options="timeZones" />
+    <el-form-item :label="$t('identity.password')">
+      <el-input v-model="form.password" type="password" />
     </el-form-item>
-    <el-form-item :label="$t('finance.openingTime')">
-      <TimePicker v-model="form.openingTime" />
+    <el-form-item :label="$t('status.isEnabled.name')">
+      <el-switch v-model="form.isEnabled" />
     </el-form-item>
-    <el-form-item :label="$t('finance.closingTime')">
-      <TimePicker v-model="form.closingTime" />
+    <el-form-item :label="$t('identity.role')">
+      <el-checkbox-group v-model="form.roleIds">
+        <el-checkbox
+          v-for="role in roles"
+          :key="role.value"
+          :label="role.name"
+          :value="role.value"
+          :disabled="!role.isEnabled"
+        />
+      </el-checkbox-group>
     </el-form-item>
-    <LocaleTabs
-      v-model="culture"
-      labelWidth="200px"
-      @update="addLocale"
-      @tab-remove="removeLocale"
-    >
-      <el-tab-pane
-        v-for="(locale, index) in form.locales"
-        :key="locale.culture"
-        :label="cultures.find((x) => x.value === locale.culture)?.name"
-        :name="locale.culture"
-      >
-        <el-form-item :label="$t('common.name')">
-          <el-input v-model="form.locales[index].name" />
-        </el-form-item>
-      </el-tab-pane>
-    </LocaleTabs>
     <el-form-item>
       <ButtonBack />
       <ButtonSave :loading="loading" />
     </el-form-item>
-  </el-form> -->
+  </el-form>
 </template>
 
 <script setup lang="ts">
-import exchangeApi, {
-  type Exchange,
-  type ExchangeLocale,
-} from '@/api/exchange-api';
-import type { Guid } from '@/models/guid';
+import roleApi from '@/api/identity/role-api';
+import userApi, { type User } from '@/api/identity/user-api';
+import { Guid } from '@/models/guid';
+import type { OptionResult } from '@/models/option-result';
 import { success } from '@/plugins/element';
-import { usePreferencesStore } from '@/stores/preferences';
 
 const props = defineProps<{
   action: 'create' | 'edit';
   id: Guid;
 }>();
 const loading = ref(false);
-const { cultures, timeZones } = storeToRefs(usePreferencesStore());
+const roles = ref([] as OptionResult<Guid>[]);
 const form = reactive({
-  mic: '',
-  timeZone: '',
-  openingTime: '',
-  closingTime: '',
-  locales: [{ culture: 'en', name: '' }] as ExchangeLocale[],
-});
-const culture = ref('en');
+  id: Guid.empty,
+  userName: '',
+  password: '',
+  isEnabled: true,
+} as User);
+
+roleApi.getOptions().then((x) => (roles.value = x.data));
 
 if (props.action === 'edit') {
-  exchangeApi
-    .get(props.mic)
+  userApi
+    .get(props.id)
     .then((x) => {
       Object.assign(form, x.data);
     })
     .finally(() => (loading.value = false));
 }
 
-const addLocale = (locale: string) => {
-  if (form.locales.findIndex((x) => x.culture === locale) < 0) {
-    form.locales.push({ culture: locale, name: '' });
-    culture.value = locale;
-  }
-};
-
-const removeLocale = (locale: string) => {
-  const index = form.locales.findIndex((x) => x.culture === locale);
-  form.locales.splice(index, 1);
-  culture.value = form.locales.length > 0 ? form.locales[0].culture : '';
-};
-
 const save = () => {
   loading.value = true;
-  const post =
-    props.action === 'create' ? exchangeApi.create : exchangeApi.update;
-  post(form as Exchange)
+  const post = props.action === 'create' ? userApi.create : userApi.update;
+  post(form)
     .then(() => success(props.action))
     .finally(() => (loading.value = false));
 };

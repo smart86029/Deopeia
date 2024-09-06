@@ -7,7 +7,11 @@
 
   <el-table v-loading="loading" :data="result.items">
     <el-table-column prop="userName" :label="$t('identity.userName')" />
-    <el-table-column prop="isEnabled" :label="$t('finance.openingTime')" />
+    <el-table-column prop="isEnabled" :label="$t('status.isEnabled.name')">
+      <template #default="{ row }">
+        <TextBoolean :value="row.isEnabled" localeKey="status.isEnabled" />
+      </template>
+    </el-table-column>
     <el-table-column prop="userName" :label="$t('common.name')" />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
@@ -24,7 +28,10 @@
 </template>
 
 <script setup lang="ts">
-import userApi, { type GetUsersQuery, type UserRow } from '@/api/user-api';
+import userApi, {
+  type GetUsersQuery,
+  type UserRow,
+} from '@/api/identity/user-api';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
 
 const loading = ref(false);
