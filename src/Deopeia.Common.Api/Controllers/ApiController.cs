@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +12,7 @@ namespace Deopeia.Common.Api.Controllers;
 [ApiConventionType(typeof(DefaultApiConventions))]
 [Authorize]
 [Route("api/[controller]")]
+[Produces(MediaTypeNames.Application.Json)]
 public abstract class ApiController<TController> : ControllerBase
 {
     private ILogger<TController>? _logger;
