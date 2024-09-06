@@ -27,7 +27,6 @@ public class UpdateUserCommandHandler(
             user.Disable();
         }
 
-        _userRepository.Add(user);
         await _unitOfWork.CommitAsync();
     }
 }

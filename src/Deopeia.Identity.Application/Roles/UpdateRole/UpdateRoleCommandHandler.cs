@@ -33,7 +33,6 @@ public class UpdateRoleCommandHandler(
             role.UpdateDescription(locale.Description, CultureInfo.GetCultureInfo(locale.Culture));
         }
 
-        _roleRepository.Add(role);
         await _unitOfWork.CommitAsync();
     }
 }
