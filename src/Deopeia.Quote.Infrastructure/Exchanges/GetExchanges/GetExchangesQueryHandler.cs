@@ -1,4 +1,3 @@
-using Deopeia.Common.Extensions;
 using Deopeia.Quote.Application.Exchanges.GetExchanges;
 
 namespace Deopeia.Quote.Infrastructure.Exchanges.GetExchanges;

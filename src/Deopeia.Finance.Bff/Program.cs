@@ -16,11 +16,9 @@ services
 
 var app = builder.Build();
 app.UseRequestLocalization("en", "zh-Hant");
-
-app.MapDefaultEndpoints();
-
 app.UseHttpsRedirection();
 
+app.MapDefaultEndpoints();
 app.MapControllers();
 app.MapHub<RealTimeHub>("hub/RealTime");
 app.MapReverseProxy();

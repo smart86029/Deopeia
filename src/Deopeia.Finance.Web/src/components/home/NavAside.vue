@@ -37,5 +37,9 @@ const menus = [
     name: 'exchange.default',
     children: [{ name: 'exchange.list', path: '/exchanges' }],
   },
+  {
+    name: 'identity',
+    children: [{ name: 'user.list', path: '/users' }],
+  },
 ] as Menu[];
 </script>

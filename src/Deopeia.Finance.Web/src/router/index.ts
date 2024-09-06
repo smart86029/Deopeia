@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue';
 import auth from './auth';
 import exchange from './exchange';
 import { setLocale } from './i18n';
+import identity from './identity';
 import screener from './screener';
 import symbol from './symbol';
 
@@ -14,7 +15,7 @@ const router = createRouter({
       name: 'home',
       beforeEnter: setLocale,
       component: HomeView,
-      children: [...auth, ...exchange, ...screener, ...symbol],
+      children: [...auth, ...exchange, ...identity, ...screener, ...symbol],
     },
   ],
 });

@@ -11,7 +11,7 @@ var postgres = builder.AddPostgres("postgres", password: password, port: 59999).
 var dbIdentity = postgres.AddDatabase("identity");
 var dbQuote = postgres.AddDatabase("quote");
 
-builder
+var identityApi = builder
     .AddProject<Projects.Deopeia_Identity_Api>("deopeia-identity-api")
     .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
     .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
@@ -37,6 +37,7 @@ builder
 builder
     .AddProject<Projects.Deopeia_Finance_Bff>("deopeia-finance-bff")
     .WithReference(rabbitMQ)
+    .WithReference(identityApi)
     .WithReference(quoteApi);
 
 builder.Build().Run();

@@ -17,6 +17,7 @@ services.AddRazorPages();
 services.AddControllers();
 
 services.AddAuthentication().AddCookie();
+
 services.AddCors(options =>
 {
     options.AddPolicy(

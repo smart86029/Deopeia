@@ -4,7 +4,7 @@ export default {
     exchange: {
       default: '交易所',
       list: '交易所列表',
-      create: '新建',
+      create: '新建交易所',
       edit: '編輯交易所',
     },
     screener: {
@@ -16,6 +16,12 @@ export default {
       default: '總覽',
       financials: '財務',
       news: '新聞',
+    },
+    identity: '身分',
+    user: {
+      list: '使用者列表',
+      create: '新增使用者',
+      edit: '編輯使用者',
     },
   },
 };

@@ -17,5 +17,11 @@ export default {
       financials: 'Financials',
       news: 'News',
     },
+    identity: 'Identity',
+    user: {
+      list: 'User List',
+      create: 'Create User',
+      edit: 'Edit User',
+    },
   },
 };
