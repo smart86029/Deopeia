@@ -94,20 +94,30 @@ public class IdentitySeeder : DbSeeder<IdentityContext>
 
     private IEnumerable<Role> GetRoles()
     {
-        var result = new Role[] { new("Administrator", true), new("Human Resources", true) };
+        var result = new Role[]
+        {
+            new("Administrator", "The highest level of access within the system.", true),
+            new("Human Resources", null, true)
+        };
 
         return result;
     }
 
     private IEnumerable<Permission> GetPermissions()
     {
-        var results = new Permission[] { new("SignIn", true), new("HumanResources", true), };
+        var results = new Permission[]
+        {
+            new(
+                "SignIn",
+                "Sign In",
+                "Allowing the user to enter the system but not necessarily granting any further permissions.",
+                true
+            ),
+            new("HumanResources", "Human Resources", null, true),
+        };
 
-        var en = CultureInfo.GetCultureInfo("en");
         var zhHant = CultureInfo.GetCultureInfo("zh-Hant");
-        results[0].UpdateName("Sign In", en);
         results[0].UpdateName("登入", zhHant);
-        results[1].UpdateName("Human Resources", en);
         results[1].UpdateName("人力資源", zhHant);
 
         return results;

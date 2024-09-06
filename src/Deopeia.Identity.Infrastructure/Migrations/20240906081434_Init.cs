@@ -119,7 +119,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
                     is_enabled = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -159,6 +158,26 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                         name: "fk_permission_locale_permission_permission_id",
                         column: x => x.permission_id,
                         principalTable: "permission",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "role_locale",
+                columns: table => new
+                {
+                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    culture = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    description = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_role_locale", x => new { x.role_id, x.culture });
+                    table.ForeignKey(
+                        name: "fk_role_locale_role_role_id",
+                        column: x => x.role_id,
+                        principalTable: "role",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -303,6 +322,9 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "permission_locale");
+
+            migrationBuilder.DropTable(
+                name: "role_locale");
 
             migrationBuilder.DropTable(
                 name: "role_permission");

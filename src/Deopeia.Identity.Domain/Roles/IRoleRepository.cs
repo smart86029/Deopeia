@@ -10,7 +10,5 @@ public interface IRoleRepository : IRepository<Role, RoleId>
 
     void Add(Role role);
 
-    void Update(Role role);
-
     void Remove(Role role);
 }

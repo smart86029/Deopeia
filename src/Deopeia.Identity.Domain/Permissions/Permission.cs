@@ -9,11 +9,13 @@ public class Permission : AggregateRoot<PermissionId>, ILocalizable<PermissionLo
 
     private Permission() { }
 
-    public Permission(string code, bool isEnabled)
+    public Permission(string code, string name, string? description, bool isEnabled)
     {
         code.MustNotBeNullOrWhiteSpace();
 
         Code = code.Trim();
+        _locales.Default.UpdateName(name);
+        _locales.Default.UpdateDescription(description);
         IsEnabled = isEnabled;
     }
 
@@ -40,7 +42,7 @@ public class Permission : AggregateRoot<PermissionId>, ILocalizable<PermissionLo
         _locales[culture].UpdateName(name);
     }
 
-    public void UpdateDescription(string description, CultureInfo culture)
+    public void UpdateDescription(string? description, CultureInfo culture)
     {
         _locales[culture].UpdateDescription(description);
     }
@@ -53,5 +55,10 @@ public class Permission : AggregateRoot<PermissionId>, ILocalizable<PermissionLo
     public void Disable()
     {
         IsEnabled = false;
+    }
+
+    public void RemoveLocales(IEnumerable<PermissionLocale> locales)
+    {
+        _locales.Remove(locales);
     }
 }

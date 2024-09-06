@@ -275,15 +275,35 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                         .HasColumnType("boolean")
                         .HasColumnName("is_enabled");
 
+                    b.HasKey("Id")
+                        .HasName("pk_role");
+
+                    b.ToTable("role", (string)null);
+                });
+
+            modelBuilder.Entity("Deopeia.Identity.Domain.Roles.RoleLocale", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
+
+                    b.Property<string>("Culture")
+                        .HasColumnType("text")
+                        .HasColumnName("culture");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("name");
 
-                    b.HasKey("Id")
-                        .HasName("pk_role");
+                    b.HasKey("EntityId", "Culture")
+                        .HasName("pk_role_locale");
 
-                    b.ToTable("role", (string)null);
+                    b.ToTable("role_locale", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Roles.RolePermission", b =>
@@ -494,6 +514,16 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                         .HasConstraintName("fk_permission_locale_permission_permission_id");
                 });
 
+            modelBuilder.Entity("Deopeia.Identity.Domain.Roles.RoleLocale", b =>
+                {
+                    b.HasOne("Deopeia.Identity.Domain.Roles.Role", null)
+                        .WithMany("Locales")
+                        .HasForeignKey("EntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_role_locale_role_role_id");
+                });
+
             modelBuilder.Entity("Deopeia.Identity.Domain.Roles.RolePermission", b =>
                 {
                     b.HasOne("Deopeia.Identity.Domain.Permissions.Permission", null)
@@ -547,6 +577,8 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Roles.Role", b =>
                 {
+                    b.Navigation("Locales");
+
                     b.Navigation("RolePermissions");
 
                     b.Navigation("UserRoles");
