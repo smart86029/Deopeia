@@ -42,11 +42,6 @@ public class UserRepository(IdentityContext context) : IUserRepository
         _users.Add(user);
     }
 
-    public void Update(User user)
-    {
-        _users.Update(user);
-    }
-
     public void Remove(User user)
     {
         _users.Remove(user);

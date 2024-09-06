@@ -1,4 +1,7 @@
+using Deopeia.Identity.Application.Users.CreateUser;
+using Deopeia.Identity.Application.Users.GetUser;
 using Deopeia.Identity.Application.Users.GetUsers;
+using Deopeia.Identity.Application.Users.UpdateUser;
 
 namespace Deopeia.Identity.Api.Controllers;
 
@@ -11,5 +14,34 @@ public class UsersController : ApiController<UsersController>
         var results = await Sender.Send(query);
 
         return Ok(results);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<GetUserViewModel>> Get([FromRoute] Guid id)
+    {
+        var query = new GetUserQuery(id);
+        var result = await Sender.Send(query);
+
+        return Ok(result);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateUserCommand command)
+    {
+        await Sender.Send(command);
+
+        return Created();
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(
+        [FromRoute] Guid id,
+        [FromBody] UpdateUserCommand command
+    )
+    {
+        command = command with { Id = id };
+        await Sender.Send(command);
+
+        return NoContent();
     }
 }
