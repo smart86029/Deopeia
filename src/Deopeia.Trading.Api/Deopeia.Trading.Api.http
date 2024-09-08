@@ -1,0 +1,6 @@
+@Deopeia.Trading.Api_HostAddress = http://localhost:5101
+
+GET {{Deopeia.Trading.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -40,4 +40,6 @@ builder
     .WithReference(identityApi)
     .WithReference(quoteApi);
 
+builder.AddProject<Projects.Deopeia_Trading_Api>("deopeia-trading-api");
+
 builder.Build().Run();
