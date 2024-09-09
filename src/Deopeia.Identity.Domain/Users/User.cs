@@ -70,9 +70,9 @@ public class User : AggregateRoot<UserId>
         _userRoles.Add(new UserRole(Id, role.Id));
     }
 
-    public void UnassignRole(Role role)
+    public void UnassignRole(RoleId roleId)
     {
-        var userRole = _userRoles.FirstOrDefault(x => x.RoleId == role.Id);
+        var userRole = _userRoles.FirstOrDefault(x => x.RoleId == roleId);
         if (userRole is null)
         {
             return;
