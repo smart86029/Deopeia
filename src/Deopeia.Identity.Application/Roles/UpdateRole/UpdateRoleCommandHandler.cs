@@ -29,8 +29,9 @@ public class UpdateRoleCommandHandler(
 
         foreach (var locale in request.Locales)
         {
-            role.UpdateName(locale.Name, CultureInfo.GetCultureInfo(locale.Culture));
-            role.UpdateDescription(locale.Description, CultureInfo.GetCultureInfo(locale.Culture));
+            var culture = CultureInfo.GetCultureInfo(locale.Culture);
+            role.UpdateName(locale.Name, culture);
+            role.UpdateDescription(locale.Description, culture);
         }
 
         await _unitOfWork.CommitAsync();

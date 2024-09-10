@@ -10,7 +10,5 @@ public interface IPermissionRepository : IRepository<Permission, PermissionId>
 
     void Add(Permission permission);
 
-    void Update(Permission permission);
-
     void Remove(Permission permission);
 }

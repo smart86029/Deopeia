@@ -25,8 +25,9 @@ public class GetRolesQueryHandler(NpgsqlConnection connection)
         var sql = builder.AddTemplate(
             """
 SELECT
-    id,
-    is_enabled
+    a.id,
+    COALESCE(b.name, c.name) AS name,
+    a.is_enabled
 FROM role AS a
 LEFT JOIN role_locale AS b ON a.id = b.role_id AND b.culture = @CurrentCulture
 INNER JOIN role_locale AS c ON a.id = c.role_id AND c.culture = @DefaultThreadCurrentCulture
@@ -42,8 +43,8 @@ OFFSET @Offset
                 result.Offset,
             }
         );
-        var users = await _connection.QueryAsync<RoleDto>(sql.RawSql, sql.Parameters);
-        result.Items = users.ToList();
+        var roles = await _connection.QueryAsync<RoleDto>(sql.RawSql, sql.Parameters);
+        result.Items = roles.ToList();
 
         return result;
     }

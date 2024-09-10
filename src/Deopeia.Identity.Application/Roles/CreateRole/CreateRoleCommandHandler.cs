@@ -16,7 +16,9 @@ public class CreateRoleCommandHandler(
         var role = new Role(en.Name, en.Description, request.IsEnabled);
         foreach (var locale in request.Locales)
         {
-            role.UpdateName(locale.Name, CultureInfo.GetCultureInfo(locale.Culture));
+            var culture = CultureInfo.GetCultureInfo(locale.Culture);
+            role.UpdateName(locale.Name, culture);
+            role.UpdateDescription(locale.Description, culture);
         }
 
         _roleRepository.Add(role);
