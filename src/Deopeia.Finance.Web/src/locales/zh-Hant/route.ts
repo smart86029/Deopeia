@@ -23,5 +23,15 @@ export default {
       create: '新增使用者',
       edit: '編輯使用者',
     },
+    role: {
+      list: '角色列表',
+      create: '新增角色',
+      edit: '編輯角色',
+    },
+    permission: {
+      list: '權限列表',
+      create: '新增權限',
+      edit: '編輯權限',
+    },
   },
 };

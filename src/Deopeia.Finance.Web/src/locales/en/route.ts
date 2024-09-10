@@ -23,5 +23,15 @@ export default {
       create: 'Create User',
       edit: 'Edit User',
     },
+    role: {
+      list: 'Role List',
+      create: 'Create Role',
+      edit: 'Edit Role',
+    },
+    permission: {
+      list: 'Permission List',
+      create: 'Create Permission',
+      edit: 'Edit Permission',
+    },
   },
 };

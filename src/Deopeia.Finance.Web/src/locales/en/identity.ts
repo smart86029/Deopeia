@@ -3,5 +3,6 @@ export default {
     userName: 'User Name',
     password: 'Password',
     role: 'Role',
+    permission: 'Permission',
   },
 };

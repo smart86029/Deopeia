@@ -1,0 +1,40 @@
+import type { Guid } from '@/models/guid';
+import type { OptionResult } from '@/models/option-result';
+import type { PageQuery, PageResult } from '@/models/page';
+import httpClient from '../http-client';
+
+export interface GetPermissionsQuery extends PageQuery {
+  isEnabled?: boolean;
+}
+
+export interface PermissionRow {
+  id: Guid;
+  name: string;
+  isEnabled: boolean;
+}
+
+export interface Permission {
+  id: Guid;
+  isEnabled: boolean;
+  locales: PermissionLocale[];
+}
+
+export interface PermissionLocale {
+  culture: string;
+  name: string;
+  description?: string;
+}
+
+export default {
+  getOptions: () =>
+    httpClient.get<OptionResult<Guid>[]>('/Identity/Permissions/Options'),
+  getList: (query: GetPermissionsQuery) =>
+    httpClient.get<PageResult<PermissionRow>>(`/Identity/Permissions`, {
+      params: query,
+    }),
+  get: (id: Guid) => httpClient.get<Permission>(`/Identity/Permissions/${id}`),
+  create: (permission: Permission) =>
+    httpClient.post('/Identity/Permissions', permission),
+  update: (permission: Permission) =>
+    httpClient.put(`/Identity/Permissions/${permission.id}`, permission),
+};

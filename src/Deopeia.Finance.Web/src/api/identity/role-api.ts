@@ -17,6 +17,7 @@ export interface Role {
   id: Guid;
   isEnabled: boolean;
   locales: RoleLocale[];
+  permissionIds: Guid[];
 }
 
 export interface RoleLocale {

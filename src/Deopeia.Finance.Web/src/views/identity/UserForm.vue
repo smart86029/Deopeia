@@ -39,13 +39,14 @@ const props = defineProps<{
   id: Guid;
 }>();
 const loading = ref(false);
-const roles = ref([] as OptionResult<Guid>[]);
-const form = reactive({
+const roles: Ref<OptionResult<Guid>[]> = ref([]);
+const form: User = reactive({
   id: Guid.empty,
   userName: '',
   password: '',
   isEnabled: true,
-} as User);
+  roleIds: [],
+});
 
 roleApi.getOptions().then((x) => (roles.value = x.data));
 

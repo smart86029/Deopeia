@@ -25,4 +25,52 @@ export default [
       },
     ],
   },
+  {
+    path: 'roles',
+    name: 'role.list',
+    redirect: { name: 'role.default' },
+    children: [
+      {
+        path: '',
+        name: 'role.default',
+        component: () => import('../views/identity/RoleList.vue'),
+      },
+      {
+        path: 'create',
+        name: 'role.create',
+        component: () => import('../views/identity/RoleForm.vue'),
+        props: create,
+      },
+      {
+        path: ':id',
+        name: 'role.edit',
+        component: () => import('../views/identity/RoleForm.vue'),
+        props: edit,
+      },
+    ],
+  },
+  {
+    path: 'permissions',
+    name: 'permission.list',
+    redirect: { name: 'permission.default' },
+    children: [
+      {
+        path: '',
+        name: 'permission.default',
+        component: () => import('../views/identity/PermissionList.vue'),
+      },
+      {
+        path: 'create',
+        name: 'permission.create',
+        component: () => import('../views/identity/PermissionForm.vue'),
+        props: create,
+      },
+      {
+        path: ':id',
+        name: 'permission.edit',
+        component: () => import('../views/identity/PermissionForm.vue'),
+        props: edit,
+      },
+    ],
+  },
 ];

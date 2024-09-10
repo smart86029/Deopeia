@@ -1,17 +1,20 @@
 <template>
   <el-form :model="form" label-width="200" @submit.prevent="save">
-    <el-form-item :label="$t('finance.marketIdentifierCode')">
-      <el-input v-model="form.mic" />
+    <el-form-item :label="$t('status.isEnabled.name')">
+      <el-switch v-model="form.isEnabled" />
     </el-form-item>
-    <el-form-item :label="$t('common.timeZone')">
-      <SelectOption v-model="form.timeZone" :options="timeZones" />
+    <el-form-item :label="$t('identity.permission')">
+      <el-checkbox-group v-model="form.permissionIds">
+        <el-checkbox
+          v-for="role in roles"
+          :key="role.value"
+          :label="role.name"
+          :value="role.value"
+          :disabled="!role.isEnabled"
+        />
+      </el-checkbox-group>
     </el-form-item>
-    <el-form-item :label="$t('finance.openingTime')">
-      <TimePicker v-model="form.openingTime" />
-    </el-form-item>
-    <el-form-item :label="$t('finance.closingTime')">
-      <TimePicker v-model="form.closingTime" />
-    </el-form-item>
+
     <LocaleTabs
       v-model="culture"
       labelWidth="200px"
@@ -27,8 +30,12 @@
         <el-form-item :label="$t('common.name')">
           <el-input v-model="form.locales[index].name" />
         </el-form-item>
+        <el-form-item :label="$t('common.description')">
+          <el-input v-model="form.locales[index].description" type="textarea" />
+        </el-form-item>
       </el-tab-pane>
     </LocaleTabs>
+
     <el-form-item>
       <ButtonBack />
       <ButtonSave :loading="loading" />
@@ -37,31 +44,33 @@
 </template>
 
 <script setup lang="ts">
-import exchangeApi, {
-  type Exchange,
-  type ExchangeLocale,
-} from '@/api/exchange-api';
+import permissionApi from '@/api/identity/permission-api';
+import roleApi, { type Role } from '@/api/identity/role-api';
+import { Guid } from '@/models/guid';
+import type { OptionResult } from '@/models/option-result';
 import { success } from '@/plugins/element';
 import { usePreferencesStore } from '@/stores/preferences';
 
 const props = defineProps<{
   action: 'create' | 'edit';
-  mic: string;
+  id: Guid;
 }>();
 const loading = ref(false);
-const { cultures, timeZones } = storeToRefs(usePreferencesStore());
+const { cultures } = storeToRefs(usePreferencesStore());
 const culture = ref('en');
-const form = reactive({
-  mic: '',
-  timeZone: '',
-  openingTime: '',
-  closingTime: '',
-  locales: [{ culture: 'en', name: '' }] as ExchangeLocale[],
+const roles: Ref<OptionResult<Guid>[]> = ref([]);
+const form: Role = reactive({
+  id: Guid.empty,
+  isEnabled: true,
+  locales: [],
+  permissionIds: [],
 });
 
+permissionApi.getOptions().then((x) => (roles.value = x.data));
+
 if (props.action === 'edit') {
-  exchangeApi
-    .get(props.mic)
+  roleApi
+    .get(props.id)
     .then((x) => {
       Object.assign(form, x.data);
     })
@@ -83,9 +92,8 @@ const removeLocale = (locale: string) => {
 
 const save = () => {
   loading.value = true;
-  const post =
-    props.action === 'create' ? exchangeApi.create : exchangeApi.update;
-  post(form as Exchange)
+  const post = props.action === 'create' ? roleApi.create : roleApi.update;
+  post(form)
     .then(() => success(props.action))
     .finally(() => (loading.value = false));
 };

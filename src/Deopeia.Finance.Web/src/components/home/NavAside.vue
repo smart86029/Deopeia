@@ -39,7 +39,11 @@ const menus = [
   },
   {
     name: 'identity',
-    children: [{ name: 'user.list', path: '/users' }],
+    children: [
+      { name: 'user.list', path: '/users' },
+      { name: 'role.list', path: '/roles' },
+      { name: 'permission.list', path: '/permissions' },
+    ],
   },
 ] as Menu[];
 </script>
