@@ -1,10 +1,5 @@
 <template>
-  <el-menu
-    :default-active="
-      $route.matched.length > 2 ? $route.matched[2].path : $route.path
-    "
-    router
-  >
+  <el-menu :default-active="$route.name?.toString().split('.')[0]" router>
     <template v-for="menu in menus" :key="menu.name">
       <el-sub-menu v-if="menu.children" :index="menu.name">
         <template #title>
@@ -13,12 +8,13 @@
         <el-menu-item
           v-for="child in menu.children"
           :key="child.name"
-          :index="child.path"
+          :index="child.name"
+          :route="{ name: child.name }"
         >
           {{ $t(`route.${child.name}`) }}
         </el-menu-item>
       </el-sub-menu>
-      <el-menu-item v-else :index="menu.path">
+      <el-menu-item v-else :index="menu.name" :route="{ name: menu.name }">
         {{ $t(`route.${menu.name}`) }}
       </el-menu-item>
     </template>
@@ -31,18 +27,18 @@ import type { Menu } from '@/models/menu';
 const menus = [
   {
     name: 'screener.default',
-    children: [{ name: 'screener.stock', path: '/screeners/stock' }],
+    children: [{ name: 'screener.stock' }],
   },
   {
     name: 'exchange.default',
-    children: [{ name: 'exchange.list', path: '/exchanges' }],
+    children: [{ name: 'exchange.list' }],
   },
   {
     name: 'identity',
     children: [
-      { name: 'user.list', path: '/users' },
-      { name: 'role.list', path: '/roles' },
-      { name: 'permission.list', path: '/permissions' },
+      { name: 'user.list' },
+      { name: 'role.list' },
+      { name: 'permission.list' },
     ],
   },
 ] as Menu[];
