@@ -12,12 +12,8 @@
     <el-form-item :label="$t('finance.closingTime')">
       <TimePicker v-model="form.closingTime" />
     </el-form-item>
-    <LocaleTabs
-      v-model="culture"
-      labelWidth="200px"
-      @update="addLocale"
-      @tab-remove="removeLocale"
-    >
+
+    <LocaleTabs v-model:locales="form.locales" :add="add">
       <el-tab-pane
         v-for="(locale, index) in form.locales"
         :key="locale.culture"
@@ -29,6 +25,7 @@
         </el-form-item>
       </el-tab-pane>
     </LocaleTabs>
+
     <el-form-item>
       <ButtonBack />
       <ButtonSave :loading="loading" />
@@ -50,13 +47,12 @@ const props = defineProps<{
 }>();
 const loading = ref(false);
 const { cultures, timeZones } = storeToRefs(usePreferencesStore());
-const culture = ref('en');
-const form = reactive({
+const form: Exchange = reactive({
   mic: '',
   timeZone: '',
   openingTime: '',
   closingTime: '',
-  locales: [{ culture: 'en', name: '' }] as ExchangeLocale[],
+  locales: [{ culture: 'en', name: '' }],
 });
 
 if (props.action === 'edit') {
@@ -68,18 +64,10 @@ if (props.action === 'edit') {
     .finally(() => (loading.value = false));
 }
 
-const addLocale = (locale: string) => {
-  if (form.locales.findIndex((x) => x.culture === locale) < 0) {
-    form.locales.push({ culture: locale, name: '' });
-    culture.value = locale;
-  }
-};
-
-const removeLocale = (locale: string) => {
-  const index = form.locales.findIndex((x) => x.culture === locale);
-  form.locales.splice(index, 1);
-  culture.value = form.locales.length > 0 ? form.locales[0].culture : '';
-};
+const add = (culture: string): ExchangeLocale => ({
+  culture: culture,
+  name: '',
+});
 
 const save = () => {
   loading.value = true;

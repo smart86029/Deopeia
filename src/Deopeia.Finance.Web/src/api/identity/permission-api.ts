@@ -27,14 +27,14 @@ export interface PermissionLocale {
 
 export default {
   getOptions: () =>
-    httpClient.get<OptionResult<Guid>[]>('/Identity/Permissions/Options'),
+    httpClient.get<OptionResult<Guid>[]>('/Permissions/Options'),
   getList: (query: GetPermissionsQuery) =>
-    httpClient.get<PageResult<PermissionRow>>(`/Identity/Permissions`, {
+    httpClient.get<PageResult<PermissionRow>>(`/Permissions`, {
       params: query,
     }),
-  get: (id: Guid) => httpClient.get<Permission>(`/Identity/Permissions/${id}`),
+  get: (id: Guid) => httpClient.get<Permission>(`/Permissions/${id}`),
   create: (permission: Permission) =>
-    httpClient.post('/Identity/Permissions', permission),
+    httpClient.post('/Permissions', permission),
   update: (permission: Permission) =>
-    httpClient.put(`/Identity/Permissions/${permission.id}`, permission),
+    httpClient.put(`/Permissions/${permission.id}`, permission),
 };

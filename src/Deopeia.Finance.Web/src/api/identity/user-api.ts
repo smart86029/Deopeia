@@ -23,8 +23,8 @@ export interface User {
 
 export default {
   getList: (query: GetUsersQuery) =>
-    httpClient.get<PageResult<UserRow>>(`/Identity/Users`, { params: query }),
-  get: (id: Guid) => httpClient.get<User>(`/Identity/Users/${id}`),
-  create: (user: User) => httpClient.post('/Identity/Users', user),
-  update: (user: User) => httpClient.put(`/Identity/Users/${user.id}`, user),
+    httpClient.get<PageResult<UserRow>>(`/Users`, { params: query }),
+  get: (id: Guid) => httpClient.get<User>(`/Users/${id}`),
+  create: (user: User) => httpClient.post('/Users', user),
+  update: (user: User) => httpClient.put(`/Users/${user.id}`, user),
 };

@@ -27,11 +27,10 @@ export interface RoleLocale {
 }
 
 export default {
-  getOptions: () =>
-    httpClient.get<OptionResult<Guid>[]>('/Identity/Roles/Options'),
+  getOptions: () => httpClient.get<OptionResult<Guid>[]>('/Roles/Options'),
   getList: (query: GetRolesQuery) =>
-    httpClient.get<PageResult<RoleRow>>(`/Identity/Roles`, { params: query }),
-  get: (id: Guid) => httpClient.get<Role>(`/Identity/Roles/${id}`),
-  create: (role: Role) => httpClient.post('/Identity/Roles', role),
-  update: (role: Role) => httpClient.put(`/Identity/Roles/${role.id}`, role),
+    httpClient.get<PageResult<RoleRow>>(`/Roles`, { params: query }),
+  get: (id: Guid) => httpClient.get<Role>(`/Roles/${id}`),
+  create: (role: Role) => httpClient.post('/Roles', role),
+  update: (role: Role) => httpClient.put(`/Roles/${role.id}`, role),
 };

@@ -15,12 +15,7 @@
       </el-checkbox-group>
     </el-form-item>
 
-    <LocaleTabs
-      v-model="culture"
-      labelWidth="200px"
-      @update="addLocale"
-      @tab-remove="removeLocale"
-    >
+    <LocaleTabs v-model:locales="form.locales" :add="add">
       <el-tab-pane
         v-for="(locale, index) in form.locales"
         :key="locale.culture"
@@ -45,7 +40,7 @@
 
 <script setup lang="ts">
 import permissionApi from '@/api/identity/permission-api';
-import roleApi, { type Role } from '@/api/identity/role-api';
+import roleApi, { type Role, type RoleLocale } from '@/api/identity/role-api';
 import { Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import { success } from '@/plugins/element';
@@ -57,12 +52,11 @@ const props = defineProps<{
 }>();
 const loading = ref(false);
 const { cultures } = storeToRefs(usePreferencesStore());
-const culture = ref('en');
 const roles: Ref<OptionResult<Guid>[]> = ref([]);
 const form: Role = reactive({
   id: Guid.empty,
   isEnabled: true,
-  locales: [],
+  locales: [{ culture: 'en', name: '' }],
   permissionIds: [],
 });
 
@@ -77,18 +71,10 @@ if (props.action === 'edit') {
     .finally(() => (loading.value = false));
 }
 
-const addLocale = (locale: string) => {
-  if (form.locales.findIndex((x) => x.culture === locale) < 0) {
-    form.locales.push({ culture: locale, name: '' });
-    culture.value = locale;
-  }
-};
-
-const removeLocale = (locale: string) => {
-  const index = form.locales.findIndex((x) => x.culture === locale);
-  form.locales.splice(index, 1);
-  culture.value = form.locales.length > 0 ? form.locales[0].culture : '';
-};
+const add = (culture: string): RoleLocale => ({
+  culture: culture,
+  name: '',
+});
 
 const save = () => {
   loading.value = true;

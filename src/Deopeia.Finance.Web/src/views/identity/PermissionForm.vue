@@ -4,12 +4,7 @@
       <el-switch v-model="form.isEnabled" />
     </el-form-item>
 
-    <LocaleTabs
-      v-model="culture"
-      labelWidth="200px"
-      @update="addLocale"
-      @tab-remove="removeLocale"
-    >
+    <LocaleTabs v-model:locales="form.locales" :add="add">
       <el-tab-pane
         v-for="(locale, index) in form.locales"
         :key="locale.culture"
@@ -33,7 +28,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Permission } from '@/api/identity/permission-api';
+import type {
+  Permission,
+  PermissionLocale,
+} from '@/api/identity/permission-api';
 import permissionApi from '@/api/identity/permission-api';
 import { Guid } from '@/models/guid';
 import { success } from '@/plugins/element';
@@ -45,11 +43,10 @@ const props = defineProps<{
 }>();
 const loading = ref(false);
 const { cultures } = storeToRefs(usePreferencesStore());
-const culture = ref('en');
 const form: Permission = reactive({
   id: Guid.empty,
   isEnabled: true,
-  locales: [],
+  locales: [{ culture: 'en', name: '' }],
 });
 
 if (props.action === 'edit') {
@@ -61,18 +58,10 @@ if (props.action === 'edit') {
     .finally(() => (loading.value = false));
 }
 
-const addLocale = (locale: string) => {
-  if (form.locales.findIndex((x) => x.culture === locale) < 0) {
-    form.locales.push({ culture: locale, name: '' });
-    culture.value = locale;
-  }
-};
-
-const removeLocale = (locale: string) => {
-  const index = form.locales.findIndex((x) => x.culture === locale);
-  form.locales.splice(index, 1);
-  culture.value = form.locales.length > 0 ? form.locales[0].culture : '';
-};
+const add = (culture: string): PermissionLocale => ({
+  culture: culture,
+  name: '',
+});
 
 const save = () => {
   loading.value = true;

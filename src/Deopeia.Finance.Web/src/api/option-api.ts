@@ -3,7 +3,7 @@ import httpClient from './http-client';
 
 export default {
   getCultures: () =>
-    httpClient.get<OptionResult<string>[]>('/Quote/Options/Cultures'),
+    httpClient.get<OptionResult<string>[]>('/Options/Cultures'),
   getTimeZones: () =>
-    httpClient.get<OptionResult<string>[]>('/Quote/Options/TimeZones'),
+    httpClient.get<OptionResult<string>[]>('/Options/TimeZones'),
 };

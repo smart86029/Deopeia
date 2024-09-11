@@ -1,5 +1,10 @@
 <template>
-  <el-tabs editable @tab-add="openDialog">
+  <el-tabs
+    v-model="model"
+    editable
+    @tab-add="openDialog"
+    @tab-remove="removeLocale"
+  >
     <slot></slot>
 
     <el-dialog
@@ -21,16 +26,20 @@
   </el-tabs>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="TLocale extends Locale">
+import type { Locale } from '@/models/localization';
 import { usePreferencesStore } from '@/stores/preferences';
 
-const props = defineProps<{
-  labelWidth?: string;
-}>();
+const model = defineModel<string>({ default: 'en' });
+const locales = defineModel<TLocale[]>('locales', { default: () => [] });
 
-const emits = defineEmits<{
-  update: [locale: string];
-}>();
+const props = withDefaults(
+  defineProps<{
+    labelWidth?: string | number;
+    add(culture: string): TLocale;
+  }>(),
+  { labelWidth: 200 },
+);
 
 const dialogVisible = ref(false);
 const { cultures } = storeToRefs(usePreferencesStore());
@@ -39,13 +48,29 @@ const culture = ref('');
 const openDialog = () => (dialogVisible.value = true);
 
 const add = () => {
-  emits('update', culture.value);
+  if (locales.value.findIndex((x) => x.culture === culture.value) < 0) {
+    locales.value.push(props.add(culture.value));
+  }
+
   dialogVisible.value = false;
+  model.value = culture.value;
 };
+
+const removeLocale = (locale: string) => {
+  const index = locales.value.findIndex((x) => x.culture === locale);
+  locales.value.splice(index, 1);
+  model.value = locales.value.length > 0 ? locales.value[0].culture : '';
+};
+
+const labelWidth = computed(() =>
+  typeof props.labelWidth === 'number'
+    ? `${props.labelWidth}px`
+    : props.labelWidth,
+);
 </script>
 
 <style scoped lang="scss">
 :deep(.el-tabs__header) {
-  padding-left: v-bind('props.labelWidth');
+  padding-left: v-bind('labelWidth');
 }
 </style>
