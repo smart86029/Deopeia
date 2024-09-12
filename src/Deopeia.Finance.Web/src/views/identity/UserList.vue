@@ -51,13 +51,16 @@ import userApi, {
 } from '@/api/identity/user-api';
 import type { Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
-import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
+import {
+  defaultQuery,
+  defaultResult,
+  reassign,
+  type PageResult,
+} from '@/models/page';
 
 const loading = ref(false);
 const roles: Ref<OptionResult<Guid>[]> = ref([]);
 const query: GetUsersQuery = reactive({
-  roleId: undefined,
-  isEnabled: undefined,
   ...defaultQuery,
 });
 const result: PageResult<UserRow> = reactive(defaultResult());
@@ -67,11 +70,13 @@ roleApi.getOptions().then((x) => (roles.value = x.data));
 watch(
   query,
   (query) => {
-    loading.value = true;
-    userApi
-      .getList(query)
-      .then((x) => Object.assign(result, x.data))
-      .finally(() => (loading.value = false));
+    if (!loading.value) {
+      loading.value = true;
+      userApi
+        .getList(query)
+        .then((x) => reassign(query, result, x.data))
+        .finally(() => (loading.value = false));
+    }
   },
   { immediate: true },
 );

@@ -32,11 +32,15 @@ import permissionApi, {
   type GetPermissionsQuery,
   type PermissionRow,
 } from '@/api/identity/permission-api';
-import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
+import {
+  defaultQuery,
+  defaultResult,
+  reassign,
+  type PageResult,
+} from '@/models/page';
 
 const loading = ref(false);
 const query: GetPermissionsQuery = reactive({
-  isEnabled: undefined as boolean | undefined,
   ...defaultQuery,
 });
 const result: PageResult<PermissionRow> = reactive(defaultResult());
@@ -44,11 +48,13 @@ const result: PageResult<PermissionRow> = reactive(defaultResult());
 watch(
   query,
   (query) => {
-    loading.value = true;
-    permissionApi
-      .getList(query)
-      .then((x) => Object.assign(result, x.data))
-      .finally(() => (loading.value = false));
+    if (!loading.value) {
+      loading.value = true;
+      permissionApi
+        .getList(query)
+        .then((x) => reassign(query, result, x.data))
+        .finally(() => (loading.value = false));
+    }
   },
   { immediate: true },
 );

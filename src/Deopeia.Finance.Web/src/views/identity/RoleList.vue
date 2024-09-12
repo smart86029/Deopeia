@@ -31,11 +31,16 @@ import roleApi, {
   type GetRolesQuery,
   type RoleRow,
 } from '@/api/identity/role-api';
-import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
+import {
+  defaultQuery,
+  defaultResult,
+  reassign,
+  type PageResult,
+} from '@/models/page';
 
 const loading = ref(false);
 const query: GetRolesQuery = reactive({
-  isEnabled: undefined as boolean | undefined,
+  isEnabled: undefined,
   ...defaultQuery,
 });
 const result: PageResult<RoleRow> = reactive(defaultResult());
@@ -43,11 +48,13 @@ const result: PageResult<RoleRow> = reactive(defaultResult());
 watch(
   query,
   (query) => {
-    loading.value = true;
-    roleApi
-      .getList(query)
-      .then((x) => Object.assign(result, x.data))
-      .finally(() => (loading.value = false));
+    if (!loading.value) {
+      loading.value = true;
+      roleApi
+        .getList(query)
+        .then((x) => reassign(query, result, x.data))
+        .finally(() => (loading.value = false));
+    }
   },
   { immediate: true },
 );
