@@ -4,6 +4,7 @@ import httpClient from '../http-client';
 
 export interface GetUsersQuery extends PageQuery {
   isEnabled?: boolean;
+  roleId?: Guid;
 }
 
 export interface UserRow {
