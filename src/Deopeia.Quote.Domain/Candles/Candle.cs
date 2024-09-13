@@ -1,5 +1,3 @@
-using Deopeia.Quote.Domain.Instruments;
-
 namespace Deopeia.Quote.Domain.Candles;
 
 public class Candle(

@@ -1,6 +1,6 @@
+using Deopeia.Common.Domain.Finance;
 using Deopeia.Quote.Domain.Companies;
 using Deopeia.Quote.Domain.Exchanges;
-using Deopeia.Quote.Domain.Instruments;
 using Deopeia.Quote.Infrastructure.Companies;
 using Deopeia.Quote.Infrastructure.Exchanges;
 using Deopeia.Quote.Infrastructure.Instruments;

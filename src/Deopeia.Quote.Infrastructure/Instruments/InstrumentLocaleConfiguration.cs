@@ -1,3 +1,4 @@
+using Deopeia.Common.Domain.Finance;
 using Deopeia.Quote.Domain.Instruments;
 
 namespace Deopeia.Quote.Infrastructure.Instruments;

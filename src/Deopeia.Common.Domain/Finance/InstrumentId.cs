@@ -1,4 +1,4 @@
-namespace Deopeia.Quote.Domain.Instruments;
+namespace Deopeia.Common.Domain.Finance;
 
 public readonly record struct InstrumentId(Guid Guid) : IEntityId
 {
