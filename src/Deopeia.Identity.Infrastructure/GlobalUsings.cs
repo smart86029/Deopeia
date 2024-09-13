@@ -3,6 +3,7 @@ global using Dapper;
 global using Deopeia.Common;
 global using Deopeia.Common.Application.Option;
 global using Deopeia.Common.Application.Page;
+global using Deopeia.Common.Extensions;
 global using Deopeia.Common.Infrastructure;
 global using Deopeia.Common.Infrastructure.Comparers;
 global using Deopeia.Common.Infrastructure.Converters;

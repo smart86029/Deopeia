@@ -1,3 +1,4 @@
 namespace Deopeia.Identity.Application.Users.GetUsers;
 
-public record GetUsersQuery(bool? IsEnabled, Guid? RoleId) : PageQuery<UserDto> { }
+public record GetUsersQuery(string? UserName, bool? IsEnabled, Guid? RoleId)
+    : PageQuery<UserDto> { }

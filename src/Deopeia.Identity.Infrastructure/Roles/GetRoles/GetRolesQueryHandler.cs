@@ -27,6 +27,7 @@ public class GetRolesQueryHandler(NpgsqlConnection connection)
 SELECT
     a.id,
     COALESCE(b.name, c.name) AS name,
+    COALESCE(b.description, c.description) AS description,
     a.is_enabled
 FROM role AS a
 LEFT JOIN role_locale AS b ON a.id = b.role_id AND b.culture = @CurrentCulture

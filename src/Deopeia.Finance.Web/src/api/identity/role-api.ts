@@ -10,6 +10,7 @@ export interface GetRolesQuery extends PageQuery {
 export interface RoleRow {
   id: Guid;
   name: string;
+  description?: string;
   isEnabled: boolean;
 }
 

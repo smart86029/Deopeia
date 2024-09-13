@@ -13,6 +13,11 @@ public class GetPermissionsQueryHandler(NpgsqlConnection connection)
     )
     {
         var builder = new SqlBuilder();
+        if (!request.Code.IsNullOrWhiteSpace())
+        {
+            builder.Where("code LIKE @Code", new { Code = $"%{request.Code.Trim()}%" });
+        }
+
         if (request.IsEnabled.HasValue)
         {
             builder.Where("a.is_enabled = @IsEnabled", new { request.IsEnabled });
@@ -28,6 +33,7 @@ SELECT
     a.id,
     a.code,
     COALESCE(b.name, c.name) AS name,
+    COALESCE(b.description, c.description) AS description,
     a.is_enabled
 FROM permission AS a
 LEFT JOIN permission_locale AS b ON a.id = b.permission_id AND b.culture = @CurrentCulture

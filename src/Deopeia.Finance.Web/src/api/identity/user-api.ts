@@ -3,6 +3,7 @@ import type { PageQuery, PageResult } from '@/models/page';
 import httpClient from '../http-client';
 
 export interface GetUsersQuery extends PageQuery {
+  userName?: string;
   isEnabled?: boolean;
   roleId?: Guid;
 }

@@ -1,6 +1,9 @@
 <template>
   <TableToolbar>
     <el-form :model="query" :inline="true">
+      <el-form-item :label="$t('identity.userName')">
+        <el-input v-model="query.userName" />
+      </el-form-item>
       <el-form-item :label="$t('common.status')">
         <SelectBoolean
           v-model="query.isEnabled"
@@ -67,7 +70,7 @@ const result: PageResult<UserRow> = reactive(defaultResult());
 
 roleApi.getOptions().then((x) => (roles.value = x.data));
 
-watch(
+watchDebounced(
   query,
   (query) => {
     if (!loading.value) {
@@ -78,6 +81,6 @@ watch(
         .finally(() => (loading.value = false));
     }
   },
-  { immediate: true },
+  { debounce: 500, immediate: true },
 );
 </script>

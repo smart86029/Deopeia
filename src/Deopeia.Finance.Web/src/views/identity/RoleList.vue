@@ -1,5 +1,14 @@
 <template>
   <TableToolbar>
+    <el-form :model="query" :inline="true">
+      <el-form-item :label="$t('common.status')">
+        <SelectBoolean
+          v-model="query.isEnabled"
+          locale-key="status.isEnabled"
+        />
+      </el-form-item>
+    </el-form>
+
     <template #right>
       <ButtonCreate route="role.create" />
     </template>
@@ -7,6 +16,11 @@
 
   <el-table v-loading="loading" :data="result.items">
     <el-table-column prop="name" :label="$t('common.name')" />
+    <el-table-column prop="description" :label="$t('common.description')">
+      <template #default="{ row }">
+        <el-text truncated>{{ row.description }}</el-text>
+      </template>
+    </el-table-column>
     <el-table-column prop="isEnabled" :label="$t('status.isEnabled.name')">
       <template #default="{ row }">
         <TextBoolean :value="row.isEnabled" localeKey="status.isEnabled" />

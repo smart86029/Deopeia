@@ -4,5 +4,6 @@ export default {
     password: 'Password',
     role: 'Role',
     permission: 'Permission',
+    code: 'Code',
   },
 };

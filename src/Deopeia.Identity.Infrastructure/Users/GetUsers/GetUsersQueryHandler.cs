@@ -1,6 +1,4 @@
-using Dapper;
 using Deopeia.Identity.Application.Users.GetUsers;
-using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Infrastructure.Users.GetUsers;
 
@@ -15,6 +13,14 @@ public class GetUsersQueryHandler(NpgsqlConnection connection)
     )
     {
         var builder = new SqlBuilder();
+        if (!request.UserName.IsNullOrWhiteSpace())
+        {
+            builder.Where(
+                "user_name LIKE @UserName",
+                new { UserName = $"%{request.UserName.Trim()}%" }
+            );
+        }
+
         if (request.IsEnabled.HasValue)
         {
             builder.Where("is_enabled = @IsEnabled", new { request.IsEnabled });

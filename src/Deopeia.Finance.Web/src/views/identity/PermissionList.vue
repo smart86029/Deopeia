@@ -1,18 +1,35 @@
 <template>
   <TableToolbar>
+    <el-form :model="query" :inline="true">
+      <el-form-item :label="$t('identity.code')">
+        <el-input v-model="query.code" />
+      </el-form-item>
+      <el-form-item :label="$t('common.status')">
+        <SelectBoolean
+          v-model="query.isEnabled"
+          locale-key="status.isEnabled"
+        />
+      </el-form-item>
+    </el-form>
+
     <template #right>
       <ButtonCreate route="permission.create" />
     </template>
   </TableToolbar>
 
-  <el-table v-loading="loading" :data="result.items">
+  <el-table v-loading="loading" :data="result.items" s>
+    <el-table-column prop="code" :label="$t('identity.code')" />
     <el-table-column prop="name" :label="$t('common.name')" />
+    <el-table-column prop="description" :label="$t('common.description')">
+      <template #default="{ row }">
+        <el-text truncated>{{ row.description }}</el-text>
+      </template>
+    </el-table-column>
     <el-table-column prop="isEnabled" :label="$t('status.isEnabled.name')">
       <template #default="{ row }">
         <TextBoolean :value="row.isEnabled" localeKey="status.isEnabled" />
       </template>
     </el-table-column>
-    <el-table-column prop="permissionName" :label="$t('common.name')" />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
         <TextLink :to="{ name: 'permission.edit', params: { id: row.id } }" />

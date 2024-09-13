@@ -4,17 +4,21 @@ import type { PageQuery, PageResult } from '@/models/page';
 import httpClient from '../http-client';
 
 export interface GetPermissionsQuery extends PageQuery {
+  code?: string;
   isEnabled?: boolean;
 }
 
 export interface PermissionRow {
   id: Guid;
+  code: string;
   name: string;
+  description?: string;
   isEnabled: boolean;
 }
 
 export interface Permission {
   id: Guid;
+  code: string;
   isEnabled: boolean;
   locales: PermissionLocale[];
 }
