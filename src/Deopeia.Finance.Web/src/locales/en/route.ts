@@ -33,5 +33,11 @@ export default {
       create: 'Create Permission',
       edit: 'Edit Permission',
     },
+    trading: 'Trading',
+    asset: {
+      list: 'Asset List',
+      create: 'Create Asset',
+      edit: 'Edit Asset',
+    },
   },
 };

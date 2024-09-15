@@ -1,6 +1,7 @@
 export default {
   common: {
     title: 'Finance',
+    code: 'Code',
     name: 'Name',
     description: 'Description',
     type: 'Type',

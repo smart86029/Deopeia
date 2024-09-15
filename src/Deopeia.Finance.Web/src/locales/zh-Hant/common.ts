@@ -1,6 +1,7 @@
 export default {
   common: {
     title: 'Finance',
+    code: '代碼',
     name: '名稱',
     description: '描述',
     type: '類別',

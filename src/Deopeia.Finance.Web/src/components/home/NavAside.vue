@@ -34,6 +34,10 @@ const menus = [
     children: [{ name: 'exchange.list' }],
   },
   {
+    name: 'trading',
+    children: [{ name: 'asset.list' }],
+  },
+  {
     name: 'identity',
     children: [
       { name: 'user.list' },

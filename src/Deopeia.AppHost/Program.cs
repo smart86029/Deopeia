@@ -10,6 +10,7 @@ var password = builder.AddParameter("postgresql-password", secret: true);
 var postgres = builder.AddPostgres("postgres", password: password, port: 59999).WithDataVolume();
 var dbIdentity = postgres.AddDatabase("identity");
 var dbQuote = postgres.AddDatabase("quote");
+var dbTrading = postgres.AddDatabase("trading");
 
 var identityApi = builder
     .AddProject<Projects.Deopeia_Identity_Api>("deopeia-identity-api")
@@ -34,12 +35,19 @@ builder
     .WithReference(rabbitMQ)
     .WithReference(dbQuote);
 
+var tradingApi = builder
+    .AddProject<Projects.Deopeia_Trading_Api>("deopeia-trading-api")
+    .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
+    .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
+    .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
+    .WithReference(rabbitMQ)
+    .WithReference(dbTrading);
+
 builder
     .AddProject<Projects.Deopeia_Finance_Bff>("deopeia-finance-bff")
     .WithReference(rabbitMQ)
     .WithReference(identityApi)
-    .WithReference(quoteApi);
-
-builder.AddProject<Projects.Deopeia_Trading_Api>("deopeia-trading-api");
+    .WithReference(quoteApi)
+    .WithReference(tradingApi);
 
 builder.Build().Run();

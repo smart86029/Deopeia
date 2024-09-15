@@ -33,5 +33,11 @@ export default {
       create: '新增權限',
       edit: '編輯權限',
     },
+    trading: '交易',
+    asset: {
+      list: '資產列表',
+      create: '新增資產',
+      edit: '編輯資產',
+    },
   },
 };

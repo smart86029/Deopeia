@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
-using Deopeia.Common.Domain;
 
-namespace Deopeia.Common.Localization;
+namespace Deopeia.Common.Domain;
 
 public class EntityLocaleCollection<TLocale, TEntityId> : Collection<TLocale>
     where TLocale : EntityLocale<TEntityId>, new()

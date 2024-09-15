@@ -6,6 +6,7 @@ import { setLocale } from './i18n';
 import identity from './identity';
 import screener from './screener';
 import symbol from './symbol';
+import trading from './trading';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,7 +16,14 @@ const router = createRouter({
       name: 'home',
       beforeEnter: setLocale,
       component: HomeView,
-      children: [...auth, ...exchange, ...identity, ...screener, ...symbol],
+      children: [
+        ...auth,
+        ...exchange,
+        ...identity,
+        ...screener,
+        ...symbol,
+        ...trading,
+      ],
     },
   ],
 });
