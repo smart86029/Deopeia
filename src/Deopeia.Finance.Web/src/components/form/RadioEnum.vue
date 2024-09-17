@@ -1,5 +1,5 @@
 <template>
-  <el-radio-group>
+  <el-radio-group v-model="model">
     <el-radio
       v-for="value in values"
       :key="value"
@@ -10,6 +10,8 @@
 </template>
 
 <script setup lang="ts" generic="TEnum extends object">
+const model = defineModel<TEnum>();
+
 const props = defineProps<{
   enum: TEnum;
   localeKey: string;

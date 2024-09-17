@@ -164,6 +164,93 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                     b.ToTable("asset_locale", (string)null);
                 });
 
+            modelBuilder.Entity("Deopeia.Trading.Domain.Strategies.Strategy", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("CloseExpression")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("close_expression");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_enabled");
+
+                    b.Property<string>("OpenExpression")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("open_expression");
+
+                    b.HasKey("Id")
+                        .HasName("pk_strategy");
+
+                    b.ToTable("strategy", (string)null);
+                });
+
+            modelBuilder.Entity("Deopeia.Trading.Domain.Strategies.StrategyLeg", b =>
+                {
+                    b.Property<Guid>("StrategyId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("strategy_id");
+
+                    b.Property<int>("SerialNumber")
+                        .HasColumnType("integer")
+                        .HasColumnName("serial_number");
+
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("order_id");
+
+                    b.Property<int>("Side")
+                        .HasColumnType("integer")
+                        .HasColumnName("side");
+
+                    b.Property<decimal>("Ticks")
+                        .HasColumnType("numeric")
+                        .HasColumnName("ticks");
+
+                    b.Property<decimal>("Volume")
+                        .HasColumnType("numeric")
+                        .HasColumnName("volume");
+
+                    b.HasKey("StrategyId", "SerialNumber")
+                        .HasName("pk_strategy_leg");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_strategy_leg_order_id");
+
+                    b.ToTable("strategy_leg", (string)null);
+                });
+
+            modelBuilder.Entity("Deopeia.Trading.Domain.Strategies.StrategyLocale", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("strategy_id");
+
+                    b.Property<string>("Culture")
+                        .HasColumnType("text")
+                        .HasColumnName("culture");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("EntityId", "Culture")
+                        .HasName("pk_strategy_locale");
+
+                    b.ToTable("strategy_locale", (string)null);
+                });
+
             modelBuilder.Entity("Deopeia.Common.Domain.Auditing.DataAccessAuditTrail", b =>
                 {
                     b.HasBaseType("Deopeia.Common.Domain.Auditing.AuditTrail");
@@ -217,9 +304,36 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasConstraintName("fk_asset_locale_asset_asset_id");
                 });
 
+            modelBuilder.Entity("Deopeia.Trading.Domain.Strategies.StrategyLeg", b =>
+                {
+                    b.HasOne("Deopeia.Trading.Domain.Strategies.Strategy", null)
+                        .WithMany("StrategyLegs")
+                        .HasForeignKey("StrategyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_strategy_leg_strategy_strategy_id");
+                });
+
+            modelBuilder.Entity("Deopeia.Trading.Domain.Strategies.StrategyLocale", b =>
+                {
+                    b.HasOne("Deopeia.Trading.Domain.Strategies.Strategy", null)
+                        .WithMany("Locales")
+                        .HasForeignKey("EntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_strategy_locale_strategy_strategy_id");
+                });
+
             modelBuilder.Entity("Deopeia.Trading.Domain.Assets.Asset", b =>
                 {
                     b.Navigation("Locales");
+                });
+
+            modelBuilder.Entity("Deopeia.Trading.Domain.Strategies.Strategy", b =>
+                {
+                    b.Navigation("Locales");
+
+                    b.Navigation("StrategyLegs");
                 });
 #pragma warning restore 612, 618
         }

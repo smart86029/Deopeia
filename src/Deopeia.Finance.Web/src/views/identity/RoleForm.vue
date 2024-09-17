@@ -1,20 +1,5 @@
 <template>
   <el-form :model="form" label-width="200" @submit.prevent="save">
-    <el-form-item :label="$t('status.isEnabled.name')">
-      <el-switch v-model="form.isEnabled" />
-    </el-form-item>
-    <el-form-item :label="$t('identity.permission')">
-      <el-checkbox-group v-model="form.permissionIds">
-        <el-checkbox
-          v-for="role in roles"
-          :key="role.value"
-          :label="role.name"
-          :value="role.value"
-          :disabled="!role.isEnabled"
-        />
-      </el-checkbox-group>
-    </el-form-item>
-
     <LocaleTabs v-model:locales="form.locales" :add="add">
       <el-tab-pane
         v-for="(locale, index) in form.locales"
@@ -30,6 +15,21 @@
         </el-form-item>
       </el-tab-pane>
     </LocaleTabs>
+
+    <el-form-item :label="$t('status.isEnabled.name')">
+      <el-switch v-model="form.isEnabled" />
+    </el-form-item>
+    <el-form-item :label="$t('identity.permission')">
+      <el-checkbox-group v-model="form.permissionIds">
+        <el-checkbox
+          v-for="role in roles"
+          :key="role.value"
+          :label="role.name"
+          :value="role.value"
+          :disabled="!role.isEnabled"
+        />
+      </el-checkbox-group>
+    </el-form-item>
 
     <el-form-item>
       <ButtonBack />

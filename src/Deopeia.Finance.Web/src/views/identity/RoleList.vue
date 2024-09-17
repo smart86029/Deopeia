@@ -15,12 +15,16 @@
   </TableToolbar>
 
   <el-table v-loading="loading" :data="result.items">
-    <el-table-column prop="name" :label="$t('common.name')" />
-    <el-table-column prop="description" :label="$t('common.description')">
+    <el-table-column prop="name" :label="$t('common.name')">
       <template #default="{ row }">
-        <el-text truncated>{{ row.description }}</el-text>
+        <TextBoolean :value="row.isEnabled" localeKey="status.isEnabled" />
       </template>
     </el-table-column>
+    <el-table-column
+      prop="description"
+      :label="$t('common.description')"
+      show-overflow-tooltip
+    />
     <el-table-column prop="isEnabled" :label="$t('status.isEnabled.name')">
       <template #default="{ row }">
         <TextBoolean :value="row.isEnabled" localeKey="status.isEnabled" />

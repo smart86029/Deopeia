@@ -74,6 +74,20 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "strategy",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    is_enabled = table.Column<bool>(type: "boolean", nullable: false),
+                    open_expression = table.Column<string>(type: "text", nullable: false),
+                    close_expression = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_strategy", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "asset_locale",
                 columns: table => new
                 {
@@ -93,6 +107,48 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "strategy_leg",
+                columns: table => new
+                {
+                    strategy_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    serial_number = table.Column<int>(type: "integer", nullable: false),
+                    side = table.Column<int>(type: "integer", nullable: false),
+                    ticks = table.Column<decimal>(type: "numeric", nullable: false),
+                    volume = table.Column<decimal>(type: "numeric", nullable: false),
+                    order_id = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_strategy_leg", x => new { x.strategy_id, x.serial_number });
+                    table.ForeignKey(
+                        name: "fk_strategy_leg_strategy_strategy_id",
+                        column: x => x.strategy_id,
+                        principalTable: "strategy",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "strategy_locale",
+                columns: table => new
+                {
+                    strategy_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    culture = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    description = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_strategy_locale", x => new { x.strategy_id, x.culture });
+                    table.ForeignKey(
+                        name: "fk_strategy_locale_strategy_strategy_id",
+                        column: x => x.strategy_id,
+                        principalTable: "strategy",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "ix_asset_code",
                 table: "asset",
@@ -103,6 +159,12 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 name: "ix_file_resource_type",
                 table: "file_resource",
                 column: "type");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_strategy_leg_order_id",
+                table: "strategy_leg",
+                column: "order_id",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -121,7 +183,16 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 name: "locale_resource");
 
             migrationBuilder.DropTable(
+                name: "strategy_leg");
+
+            migrationBuilder.DropTable(
+                name: "strategy_locale");
+
+            migrationBuilder.DropTable(
                 name: "asset");
+
+            migrationBuilder.DropTable(
+                name: "strategy");
         }
     }
 }

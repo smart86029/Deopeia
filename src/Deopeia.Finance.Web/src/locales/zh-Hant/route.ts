@@ -39,5 +39,10 @@ export default {
       create: '新增資產',
       edit: '編輯資產',
     },
+    strategy: {
+      list: '策略列表',
+      create: '新增策略',
+      edit: '編輯策略',
+    },
   },
 };

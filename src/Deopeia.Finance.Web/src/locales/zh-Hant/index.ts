@@ -5,6 +5,7 @@ import identity from './identity';
 import operation from './operation';
 import route from './route';
 import status from './status';
+import trading from './trading';
 
 export default {
   ...auth,
@@ -14,4 +15,5 @@ export default {
   ...operation,
   ...route,
   ...status,
+  ...trading,
 };

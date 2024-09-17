@@ -39,5 +39,10 @@ export default {
       create: 'Create Asset',
       edit: 'Edit Asset',
     },
+    strategy: {
+      list: 'Strategy List',
+      create: 'Create Strategy',
+      edit: 'Edit Strategy',
+    },
   },
 };

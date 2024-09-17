@@ -1,6 +1,6 @@
 using Deopeia.Trading.Domain.Assets;
 
-namespace Deopeia.Identity.Infrastructure.Permissions;
+namespace Deopeia.Trading.Infrastructure.Assets;
 
 internal class AssetLocaleConfiguration : EntityLocaleConfiguration<Asset, AssetLocale, AssetId>
 {

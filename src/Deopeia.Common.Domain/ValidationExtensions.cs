@@ -6,6 +6,70 @@ namespace Deopeia.Common.Domain;
 
 public static partial class ValidationExtensions
 {
+    public static void MustGreaterThan(
+        this decimal value,
+        decimal comparison,
+        [CallerFilePath] string filePath = "",
+        [CallerArgumentExpression(nameof(value))] string? valueName = null
+    )
+    {
+        if (value < comparison)
+        {
+            throw new DomainException(
+                "Number.GreaterThan",
+                new { Property = GetProperty(filePath, valueName), Comparison = comparison }
+            );
+        }
+    }
+
+    public static void MustGreaterThanOrEqualTo(
+        this decimal value,
+        decimal comparison,
+        [CallerFilePath] string filePath = "",
+        [CallerArgumentExpression(nameof(value))] string? valueName = null
+    )
+    {
+        if (value < comparison)
+        {
+            throw new DomainException(
+                "Number.GreaterThanOrEqualTo",
+                new { Property = GetProperty(filePath, valueName), Comparison = comparison }
+            );
+        }
+    }
+
+    public static void MustLessThan(
+        this decimal value,
+        decimal comparison,
+        [CallerFilePath] string filePath = "",
+        [CallerArgumentExpression(nameof(value))] string? valueName = null
+    )
+    {
+        if (value < comparison)
+        {
+            throw new DomainException(
+                "Number.LessThan",
+                new { Property = GetProperty(filePath, valueName), Comparison = comparison }
+            );
+        }
+    }
+
+    public static void MustLessThanOrEqualTo(
+        this decimal value,
+        decimal comparison,
+        [CallerFilePath] string filePath = "",
+        [CallerArgumentExpression(nameof(value))] string? valueName = null
+    )
+    {
+        if (value < comparison)
+        {
+            throw new DomainException(
+                "Number.LessThanOrEqualTo",
+                new { Property = GetProperty(filePath, valueName), Comparison = comparison }
+            );
+        }
+    }
+
     public static void MustNotBeNullOrWhiteSpace(
         this string? value,
         [CallerFilePath] string filePath = "",
@@ -36,7 +100,7 @@ public static partial class ValidationExtensions
                 new
                 {
                     Property = GetProperty(filePath, valueName),
-                    Comparison = GetProperty(filePath, comparisonName)
+                    Comparison = GetProperty(filePath, comparisonName),
                 }
             );
         }
