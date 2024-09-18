@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deopeia.Quote.Infrastructure.Migrations
 {
     [DbContext(typeof(QuoteContext))]
-    [Migration("20240918073001_Init")]
+    [Migration("20240918093035_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -275,9 +275,9 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("culture");
 
-                    b.Property<string>("Acronym")
+                    b.Property<string>("Abbreviation")
                         .HasColumnType("text")
-                        .HasColumnName("acronym");
+                        .HasColumnName("abbreviation");
 
                     b.Property<string>("Name")
                         .IsRequired()

@@ -23,6 +23,7 @@ public class GetExchangesQueryHandler(NpgsqlConnection connection)
 SELECT
     a.id AS mic,
     COALESCE(b.name, c.name) AS name,
+    COALESCE(b.abbreviation, c.abbreviation) AS abbreviation,
     a.time_zone
 FROM exchange AS a
 LEFT JOIN exchange_locale AS b ON a.id = b.exchange_id AND b.culture = @CurrentCulture

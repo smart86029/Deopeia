@@ -9,9 +9,8 @@ namespace Deopeia.Trading.Api.Controllers;
 public class StrategiesController : ApiController<StrategiesController>
 {
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get([FromQuery] GetStrategiesQuery query)
     {
-        var query = new GetStrategiesQuery();
         var result = await Sender.Send(query);
 
         return Ok(result);

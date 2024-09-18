@@ -17,6 +17,9 @@
         <el-form-item :label="$t('common.name')">
           <el-input v-model="form.locales[index].name" />
         </el-form-item>
+        <el-form-item :label="$t('common.abbreviation')">
+          <el-input v-model="form.locales[index].abbreviation" />
+        </el-form-item>
       </el-tab-pane>
     </LocaleTabs>
 
@@ -52,9 +55,7 @@ const form: Exchange = reactive({
 if (props.action === 'edit') {
   exchangeApi
     .get(props.mic)
-    .then((x) => {
-      Object.assign(form, x.data);
-    })
+    .then((x) => Object.assign(form, x.data))
     .finally(() => (loading.value = false));
 }
 

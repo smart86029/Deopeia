@@ -3,6 +3,7 @@ export default {
     title: 'Finance',
     code: 'Code',
     name: 'Name',
+    abbreviation: 'Abbreviation',
     description: 'Description',
     type: 'Type',
     status: 'Status',

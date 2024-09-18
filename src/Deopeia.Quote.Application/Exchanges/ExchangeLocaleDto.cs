@@ -6,5 +6,5 @@ public class ExchangeLocaleDto
 
     public string Name { get; set; } = string.Empty;
 
-    public string? Acronym { get; set; }
+    public string? Abbreviation { get; set; }
 }

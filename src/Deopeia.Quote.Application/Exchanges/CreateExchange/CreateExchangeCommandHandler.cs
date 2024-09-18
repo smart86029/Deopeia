@@ -16,7 +16,7 @@ public class CreateExchangeCommandHandler(
         var exchange = new Exchange(
             request.Mic,
             en.Name,
-            en.Acronym,
+            en.Abbreviation,
             TimeZoneInfo.FindSystemTimeZoneById(request.TimeZone)
         );
 
@@ -24,7 +24,7 @@ public class CreateExchangeCommandHandler(
         {
             var culture = CultureInfo.GetCultureInfo(locale.Culture);
             exchange.UpdateName(locale.Name, culture);
-            exchange.UpdateAcronym(locale.Acronym, culture);
+            exchange.UpdateAbbreviation(locale.Abbreviation, culture);
         }
 
         await _exchangeRepository.AddAsync(exchange);

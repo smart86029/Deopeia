@@ -31,7 +31,7 @@
 import assetApi, {
   type Asset,
   type GetAssetsQuery,
-} from '@/api/trading/asset-api';
+} from '@/api/quote/asset-api';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
 
 const loading = ref(false);

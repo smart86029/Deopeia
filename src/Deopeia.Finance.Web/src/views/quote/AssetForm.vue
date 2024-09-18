@@ -28,10 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import assetApi, {
-  type Asset,
-  type AssetLocale,
-} from '@/api/trading/asset-api';
+import assetApi, { type Asset, type AssetLocale } from '@/api/quote/asset-api';
 import { Guid } from '@/models/guid';
 import { success } from '@/plugins/element';
 import { usePreferencesStore } from '@/stores/preferences';
@@ -41,7 +38,7 @@ const props = defineProps<{
   id: Guid;
 }>();
 const loading = ref(false);
-const { cultures, timeZones } = storeToRefs(usePreferencesStore());
+const { cultures } = storeToRefs(usePreferencesStore());
 const form: Asset = reactive({
   id: Guid.empty,
   code: '',

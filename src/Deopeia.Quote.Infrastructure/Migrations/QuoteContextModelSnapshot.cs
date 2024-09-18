@@ -272,9 +272,9 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("culture");
 
-                    b.Property<string>("Acronym")
+                    b.Property<string>("Abbreviation")
                         .HasColumnType("text")
-                        .HasColumnName("acronym");
+                        .HasColumnName("abbreviation");
 
                     b.Property<string>("Name")
                         .IsRequired()

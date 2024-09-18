@@ -23,7 +23,7 @@ public class UpdateExchangeCommandHandler(
         {
             var culture = CultureInfo.GetCultureInfo(locale.Culture);
             exchange.UpdateName(locale.Name, culture);
-            exchange.UpdateAcronym(locale.Acronym, culture);
+            exchange.UpdateAbbreviation(locale.Abbreviation, culture);
         }
 
         await _unitOfWork.CommitAsync();

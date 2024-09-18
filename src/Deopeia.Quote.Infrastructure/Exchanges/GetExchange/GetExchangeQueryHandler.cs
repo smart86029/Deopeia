@@ -22,7 +22,8 @@ WHERE id = @Mic;
 
 SELECT
     culture,
-    name
+    name,
+    abbreviation
 FROM exchange_locale
 WHERE exchange_id = @Mic;
 """;

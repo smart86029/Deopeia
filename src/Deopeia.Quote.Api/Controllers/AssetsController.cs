@@ -9,9 +9,8 @@ namespace Deopeia.Quote.Api.Controllers;
 public class AssetsController : ApiController<AssetsController>
 {
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get([FromQuery] GetAssetsQuery query)
     {
-        var query = new GetAssetsQuery();
         var result = await Sender.Send(query);
 
         return Ok(result);

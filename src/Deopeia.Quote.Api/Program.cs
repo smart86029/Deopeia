@@ -23,9 +23,6 @@ services.AddAuthentication().AddCookie();
 var app = builder.Build();
 app.UseRequestLocalization("en", "zh-Hant");
 app.UseExceptionHandler();
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -36,7 +33,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapDefaultEndpoints();
-app.MapRazorPages();
 app.MapControllers();
 
 app.Run();

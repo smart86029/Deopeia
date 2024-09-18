@@ -6,6 +6,7 @@ export interface GetExchangesQuery extends PageQuery {}
 export interface ExchangeRow {
   mic: string;
   name: string;
+  abbreviation?: string;
   timeZone: string;
 }
 
@@ -18,6 +19,7 @@ export interface Exchange {
 export interface ExchangeLocale {
   culture: string;
   name: string;
+  abbreviation?: string;
 }
 
 export default {

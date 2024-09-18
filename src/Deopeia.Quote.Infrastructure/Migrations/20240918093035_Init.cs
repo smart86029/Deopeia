@@ -177,7 +177,7 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     exchange_id = table.Column<string>(type: "text", nullable: false),
                     culture = table.Column<string>(type: "text", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
-                    acronym = table.Column<string>(type: "text", nullable: true)
+                    abbreviation = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

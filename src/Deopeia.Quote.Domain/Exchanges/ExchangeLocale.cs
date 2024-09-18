@@ -4,7 +4,7 @@ public class ExchangeLocale : EntityLocale<ExchangeId>
 {
     public string Name { get; private set; } = string.Empty;
 
-    public string? Acronym { get; private set; }
+    public string? Abbreviation { get; private set; }
 
     public void UpdateName(string name)
     {
@@ -12,8 +12,8 @@ public class ExchangeLocale : EntityLocale<ExchangeId>
         Name = name.Trim();
     }
 
-    public void UpdateAcronym(string? acronym)
+    public void UpdateAbbreviation(string? abbreviation)
     {
-        Acronym = acronym?.Trim();
+        Abbreviation = abbreviation?.Trim();
     }
 }

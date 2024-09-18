@@ -3,6 +3,7 @@ export default {
     title: 'Finance',
     code: '代碼',
     name: '名稱',
+    abbreviation: '縮寫',
     description: '描述',
     type: '類別',
     status: '狀態',

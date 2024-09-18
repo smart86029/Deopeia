@@ -6,17 +6,17 @@ public class Exchange : AggregateRoot<ExchangeId>, ILocalizable<ExchangeLocale, 
 
     private Exchange() { }
 
-    public Exchange(string mic, string name, string? acronym, TimeZoneInfo timeZone)
+    public Exchange(string mic, string name, string? abbreviation, TimeZoneInfo timeZone)
         : base(new ExchangeId(mic))
     {
         _locales.Default.UpdateName(name);
-        _locales.Default.UpdateAcronym(acronym);
+        _locales.Default.UpdateAbbreviation(abbreviation);
         TimeZone = timeZone;
     }
 
     public string Name => _locales[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
 
-    public string? Acronym => _locales[CultureInfo.CurrentCulture]?.Acronym;
+    public string? Abbreviation => _locales[CultureInfo.CurrentCulture]?.Abbreviation;
 
     public TimeZoneInfo TimeZone { get; private init; } = TimeZoneInfo.Utc;
 
@@ -27,9 +27,9 @@ public class Exchange : AggregateRoot<ExchangeId>, ILocalizable<ExchangeLocale, 
         _locales[culture].UpdateName(name);
     }
 
-    public void UpdateAcronym(string? acronym, CultureInfo culture)
+    public void UpdateAbbreviation(string? abbreviation, CultureInfo culture)
     {
-        _locales[culture].UpdateAcronym(acronym);
+        _locales[culture].UpdateAbbreviation(abbreviation);
     }
 
     public void RemoveLocales(IEnumerable<ExchangeLocale> locales)

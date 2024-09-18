@@ -6,5 +6,7 @@ public class ExchangeDto
 
     public string Name { get; set; } = string.Empty;
 
+    public string? Abbreviation { get; set; }
+
     public string TimeZone { get; set; } = string.Empty;
 }

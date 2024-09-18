@@ -15,7 +15,6 @@ var configuration = builder.Configuration;
 var services = builder.Services;
 services.AddRazorPages();
 services.AddControllers();
-
 services.AddAuthentication().AddCookie();
 
 services.AddCors(options =>

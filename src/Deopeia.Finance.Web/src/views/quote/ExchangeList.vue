@@ -8,6 +8,7 @@
   <el-table v-loading="loading" :data="result.items" table-layout="auto">
     <el-table-column prop="mic" :label="$t('finance.mic')" />
     <el-table-column prop="name" :label="$t('common.name')" />
+    <el-table-column prop="abbreviation" :label="$t('common.abbreviation')" />
     <el-table-column prop="timeZone" :label="$t('common.timeZone')" />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">

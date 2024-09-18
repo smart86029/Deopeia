@@ -9,9 +9,8 @@ namespace Deopeia.Quote.Api.Controllers;
 public class ExchangesController : ApiController<ExchangesController>
 {
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get([FromQuery] GetExchangesQuery query)
     {
-        var query = new GetExchangesQuery();
         var result = await Sender.Send(query);
 
         return Ok(result);
