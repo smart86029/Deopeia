@@ -1,5 +1,3 @@
-using Deopeia.Quote.Domain.Exchanges;
-
 namespace Deopeia.Quote.Domain.Instruments;
 
 public abstract class Instrument

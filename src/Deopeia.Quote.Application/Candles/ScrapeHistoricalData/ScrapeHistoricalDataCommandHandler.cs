@@ -1,5 +1,4 @@
 using Deopeia.Quote.Domain.Candles;
-using Deopeia.Quote.Domain.Exchanges;
 using Deopeia.Quote.Domain.Instruments;
 
 namespace Deopeia.Quote.Application.Candles.ScrapeHistoricalData;

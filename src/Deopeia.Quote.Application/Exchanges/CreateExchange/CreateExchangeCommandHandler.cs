@@ -12,16 +12,19 @@ public class CreateExchangeCommandHandler(
 
     public async Task Handle(CreateExchangeCommand request, CancellationToken cancellationToken)
     {
+        var en = request.Locales.First(x => x.Culture == "en");
         var exchange = new Exchange(
             request.Mic,
-            request.Locales.First(x => x.Culture == "en").Name,
-            TimeZoneInfo.FindSystemTimeZoneById(request.TimeZone),
-            request.OpeningTime,
-            request.ClosingTime
+            en.Name,
+            en.Acronym,
+            TimeZoneInfo.FindSystemTimeZoneById(request.TimeZone)
         );
+
         foreach (var locale in request.Locales)
         {
-            exchange.UpdateName(locale.Name, CultureInfo.GetCultureInfo(locale.Culture));
+            var culture = CultureInfo.GetCultureInfo(locale.Culture);
+            exchange.UpdateName(locale.Name, culture);
+            exchange.UpdateAcronym(locale.Acronym, culture);
         }
 
         await _exchangeRepository.AddAsync(exchange);

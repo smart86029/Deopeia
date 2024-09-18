@@ -1,5 +1,4 @@
 using Deopeia.Quote.Domain.Companies;
-using Deopeia.Quote.Domain.Exchanges;
 
 namespace Deopeia.Quote.Domain.Instruments;
 

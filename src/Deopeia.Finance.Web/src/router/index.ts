@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import auth from './auth';
-import exchange from './exchange';
 import { setLocale } from './i18n';
 import identity from './identity';
+import quote from './quote';
 import screener from './screener';
 import symbol from './symbol';
 import trading from './trading';
@@ -18,8 +18,8 @@ const router = createRouter({
       component: HomeView,
       children: [
         ...auth,
-        ...exchange,
         ...identity,
+        ...quote,
         ...screener,
         ...symbol,
         ...trading,

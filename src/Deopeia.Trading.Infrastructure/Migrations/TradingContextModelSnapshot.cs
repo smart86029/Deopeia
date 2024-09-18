@@ -118,52 +118,6 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                     b.ToTable("locale_resource", (string)null);
                 });
 
-            modelBuilder.Entity("Deopeia.Trading.Domain.Assets.Asset", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("code");
-
-                    b.HasKey("Id")
-                        .HasName("pk_asset");
-
-                    b.HasIndex("Code")
-                        .IsUnique()
-                        .HasDatabaseName("ix_asset_code");
-
-                    b.ToTable("asset", (string)null);
-                });
-
-            modelBuilder.Entity("Deopeia.Trading.Domain.Assets.AssetLocale", b =>
-                {
-                    b.Property<Guid>("EntityId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("asset_id");
-
-                    b.Property<string>("Culture")
-                        .HasColumnType("text")
-                        .HasColumnName("culture");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text")
-                        .HasColumnName("description");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.HasKey("EntityId", "Culture")
-                        .HasName("pk_asset_locale");
-
-                    b.ToTable("asset_locale", (string)null);
-                });
-
             modelBuilder.Entity("Deopeia.Trading.Domain.Strategies.Strategy", b =>
                 {
                     b.Property<Guid>("Id")
@@ -294,20 +248,10 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue(1);
                 });
 
-            modelBuilder.Entity("Deopeia.Trading.Domain.Assets.AssetLocale", b =>
-                {
-                    b.HasOne("Deopeia.Trading.Domain.Assets.Asset", null)
-                        .WithMany("Locales")
-                        .HasForeignKey("EntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_asset_locale_asset_asset_id");
-                });
-
             modelBuilder.Entity("Deopeia.Trading.Domain.Strategies.StrategyLeg", b =>
                 {
                     b.HasOne("Deopeia.Trading.Domain.Strategies.Strategy", null)
-                        .WithMany("StrategyLegs")
+                        .WithMany("Legs")
                         .HasForeignKey("StrategyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
@@ -324,16 +268,11 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasConstraintName("fk_strategy_locale_strategy_strategy_id");
                 });
 
-            modelBuilder.Entity("Deopeia.Trading.Domain.Assets.Asset", b =>
-                {
-                    b.Navigation("Locales");
-                });
-
             modelBuilder.Entity("Deopeia.Trading.Domain.Strategies.Strategy", b =>
                 {
-                    b.Navigation("Locales");
+                    b.Navigation("Legs");
 
-                    b.Navigation("StrategyLegs");
+                    b.Navigation("Locales");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,15 +1,37 @@
 export default {
   route: {
-    home: 'Home',
+    asset: {
+      list: 'Asset List',
+      create: 'Create Asset',
+      edit: 'Edit Asset',
+    },
     exchange: {
       default: 'Exchange',
       list: 'Exchange List',
       create: 'Create Exchange',
       edit: 'Edit Exchange',
     },
+    home: 'Home',
+    identity: 'Identity',
+    permission: {
+      list: 'Permission List',
+      create: 'Create Permission',
+      edit: 'Edit Permission',
+    },
+    quote: 'Quote',
+    role: {
+      list: 'Role List',
+      create: 'Create Role',
+      edit: 'Edit Role',
+    },
     screener: {
       default: 'Screener',
       stock: 'Stock Screener',
+    },
+    strategy: {
+      list: 'Strategy List',
+      create: 'Create Strategy',
+      edit: 'Edit Strategy',
     },
     symbol: {
       view: 'Symbol {symbol}',
@@ -17,32 +39,11 @@ export default {
       financials: 'Financials',
       news: 'News',
     },
-    identity: 'Identity',
+    trading: 'Trading',
     user: {
       list: 'User List',
       create: 'Create User',
       edit: 'Edit User',
-    },
-    role: {
-      list: 'Role List',
-      create: 'Create Role',
-      edit: 'Edit Role',
-    },
-    permission: {
-      list: 'Permission List',
-      create: 'Create Permission',
-      edit: 'Edit Permission',
-    },
-    trading: 'Trading',
-    asset: {
-      list: 'Asset List',
-      create: 'Create Asset',
-      edit: 'Edit Asset',
-    },
-    strategy: {
-      list: 'Strategy List',
-      create: 'Create Strategy',
-      edit: 'Edit Strategy',
     },
   },
 };

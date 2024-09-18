@@ -1,11 +1,17 @@
+using System.Reactive.Joins;
 using Deopeia.Common.Localization;
+using Deopeia.Quote.Domain.Assets;
 using Deopeia.Quote.Domain.Companies;
 using Deopeia.Quote.Domain.Exchanges;
+using Deopeia.Quote.Domain.Instruments;
 
 namespace Deopeia.Quote.Infrastructure;
 
 public class QuoteSeeder : DbSeeder<QuoteContext>
 {
+    private static readonly CultureInfo EN = CultureInfo.GetCultureInfo("en");
+    private static readonly CultureInfo ZHHant = CultureInfo.GetCultureInfo("zh-Hant");
+
     public override async Task SeedAsync(QuoteContext context)
     {
         if (context.Set<LocaleResource>().Any())
@@ -14,6 +20,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
         }
 
         context.Set<LocaleResource>().AddRange(GetLocaleResources());
+        context.Set<Asset>().AddRange(GetAssets());
         context.Set<Exchange>().AddRange(GetExchanges());
 
         await context.SaveChangesAsync();
@@ -21,244 +28,242 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
 
     private IEnumerable<LocaleResource> GetLocaleResources()
     {
-        var en = CultureInfo.GetCultureInfo("en");
         var resourcesEN = new LocaleResource[]
         {
-            FromEnum(en, Sector.Energy, "Energy"),
-            FromEnum(en, Sector.Materials, "Materials"),
-            FromEnum(en, Sector.Industrials, "Industrials"),
-            FromEnum(en, Sector.ConsumerDiscretionary, "Consumer Discretionary"),
-            FromEnum(en, Sector.ConsumerStaples, "Consumer Staples"),
-            FromEnum(en, Sector.HealthCare, "Health Care"),
-            FromEnum(en, Sector.Financials, "Financials"),
-            FromEnum(en, Sector.InformationTechnology, "Information Technology"),
-            FromEnum(en, Sector.CommunicationServices, "Communication Services"),
-            FromEnum(en, Sector.Utilities, "Utilities"),
-            FromEnum(en, Sector.RealEstate, "Real Estate"),
-            FromEnum(en, Industry.EnergyEquipmentAndServices, "Energy Equipment & Services"),
-            FromEnum(en, Industry.OilGasAndConsumableFuels, "Oil, Gas & Consumable Fuels"),
-            FromEnum(en, Industry.Chemicals, "Chemicals"),
-            FromEnum(en, Industry.ConstructionMaterials, "Construction Materials"),
-            FromEnum(en, Industry.ContainersAndPackaging, "Containers & Packaging"),
-            FromEnum(en, Industry.MetalsAndMining, "Metals & Mining"),
-            FromEnum(en, Industry.PaperAndForestProducts, "Paper & Forest Products"),
-            FromEnum(en, Industry.AerospaceAndDefense, "Aerospace & Defense"),
-            FromEnum(en, Industry.BuildingProducts, "Building Products"),
-            FromEnum(en, Industry.ConstructionAndEngineering, "Construction & Engineering"),
-            FromEnum(en, Industry.ElectricalEquipment, "Electrical Equipment"),
-            FromEnum(en, Industry.IndustrialConglomerates, "Industrial Conglomerates"),
-            FromEnum(en, Industry.Machinery, "Machinery"),
+            FromEnum(EN, Sector.Energy, "Energy"),
+            FromEnum(EN, Sector.Materials, "Materials"),
+            FromEnum(EN, Sector.Industrials, "Industrials"),
+            FromEnum(EN, Sector.ConsumerDiscretionary, "Consumer Discretionary"),
+            FromEnum(EN, Sector.ConsumerStaples, "Consumer Staples"),
+            FromEnum(EN, Sector.HealthCare, "Health Care"),
+            FromEnum(EN, Sector.Financials, "Financials"),
+            FromEnum(EN, Sector.InformationTechnology, "Information Technology"),
+            FromEnum(EN, Sector.CommunicationServices, "Communication Services"),
+            FromEnum(EN, Sector.Utilities, "Utilities"),
+            FromEnum(EN, Sector.RealEstate, "Real Estate"),
+            FromEnum(EN, Industry.EnergyEquipmentAndServices, "Energy Equipment & Services"),
+            FromEnum(EN, Industry.OilGasAndConsumableFuels, "Oil, Gas & Consumable Fuels"),
+            FromEnum(EN, Industry.Chemicals, "Chemicals"),
+            FromEnum(EN, Industry.ConstructionMaterials, "Construction Materials"),
+            FromEnum(EN, Industry.ContainersAndPackaging, "Containers & Packaging"),
+            FromEnum(EN, Industry.MetalsAndMining, "Metals & Mining"),
+            FromEnum(EN, Industry.PaperAndForestProducts, "Paper & Forest Products"),
+            FromEnum(EN, Industry.AerospaceAndDefense, "Aerospace & Defense"),
+            FromEnum(EN, Industry.BuildingProducts, "Building Products"),
+            FromEnum(EN, Industry.ConstructionAndEngineering, "Construction & Engineering"),
+            FromEnum(EN, Industry.ElectricalEquipment, "Electrical Equipment"),
+            FromEnum(EN, Industry.IndustrialConglomerates, "Industrial Conglomerates"),
+            FromEnum(EN, Industry.Machinery, "Machinery"),
             FromEnum(
-                en,
+                EN,
                 Industry.TradingCompaniesAndDistributors,
                 "Trading Companies & Distributors"
             ),
-            FromEnum(en, Industry.CommercialServicesAndSupplies, "Commercial Services & Supplies"),
-            FromEnum(en, Industry.ProfessionalServices, "Professional Services"),
-            FromEnum(en, Industry.AirFreightAndLogistics, "Air Freight & Logistics"),
-            FromEnum(en, Industry.PassengerAirlines, "Passenger Airlines"),
-            FromEnum(en, Industry.MarineTransportation, "Marine Transportation"),
-            FromEnum(en, Industry.GroundTransportation, "Ground Transportation"),
-            FromEnum(en, Industry.TransportationInfrastructure, "Transportation Infrastructure"),
-            FromEnum(en, Industry.AutomobileComponents, "Automobile Components"),
-            FromEnum(en, Industry.Automobiles, "Automobiles"),
-            FromEnum(en, Industry.HouseholdDurables, "Household Durables"),
-            FromEnum(en, Industry.LeisureProducts, "Leisure Products"),
+            FromEnum(EN, Industry.CommercialServicesAndSupplies, "Commercial Services & Supplies"),
+            FromEnum(EN, Industry.ProfessionalServices, "Professional Services"),
+            FromEnum(EN, Industry.AirFreightAndLogistics, "Air Freight & Logistics"),
+            FromEnum(EN, Industry.PassengerAirlines, "Passenger Airlines"),
+            FromEnum(EN, Industry.MarineTransportation, "Marine Transportation"),
+            FromEnum(EN, Industry.GroundTransportation, "Ground Transportation"),
+            FromEnum(EN, Industry.TransportationInfrastructure, "Transportation Infrastructure"),
+            FromEnum(EN, Industry.AutomobileComponents, "Automobile Components"),
+            FromEnum(EN, Industry.Automobiles, "Automobiles"),
+            FromEnum(EN, Industry.HouseholdDurables, "Household Durables"),
+            FromEnum(EN, Industry.LeisureProducts, "Leisure Products"),
             FromEnum(
-                en,
+                EN,
                 Industry.TextilesApparelAndLuxuryGoods,
                 "Textiles, Apparel & Luxury Goods"
             ),
-            FromEnum(en, Industry.HotelsRestaurantsAndLeisure, "Hotels, Restaurants & Leisure"),
-            FromEnum(en, Industry.DiversifiedConsumerServices, "Diversified Consumer Services"),
-            FromEnum(en, Industry.Distributors, "Distributors"),
-            FromEnum(en, Industry.BroadlineRetail, "Broadline Retail"),
-            FromEnum(en, Industry.SpecialtyRetail, "Specialty Retail"),
+            FromEnum(EN, Industry.HotelsRestaurantsAndLeisure, "Hotels, Restaurants & Leisure"),
+            FromEnum(EN, Industry.DiversifiedConsumerServices, "Diversified Consumer Services"),
+            FromEnum(EN, Industry.Distributors, "Distributors"),
+            FromEnum(EN, Industry.BroadlineRetail, "Broadline Retail"),
+            FromEnum(EN, Industry.SpecialtyRetail, "Specialty Retail"),
             FromEnum(
-                en,
+                EN,
                 Industry.ConsumerStaplesDistributionAndRetail,
                 "Consumer Staples Distribution & Retail"
             ),
-            FromEnum(en, Industry.Beverages, "Beverages"),
-            FromEnum(en, Industry.FoodProducts, "Food Products"),
-            FromEnum(en, Industry.Tobacco, "Tobacco"),
-            FromEnum(en, Industry.HouseholdProducts, "Household Products"),
-            FromEnum(en, Industry.PersonalCareProducts, "Personal Care Products"),
+            FromEnum(EN, Industry.Beverages, "Beverages"),
+            FromEnum(EN, Industry.FoodProducts, "Food Products"),
+            FromEnum(EN, Industry.Tobacco, "Tobacco"),
+            FromEnum(EN, Industry.HouseholdProducts, "Household Products"),
+            FromEnum(EN, Industry.PersonalCareProducts, "Personal Care Products"),
             FromEnum(
-                en,
+                EN,
                 Industry.HealthCareEquipmentAndSupplies,
                 "Health Care Equipment & Supplies"
             ),
             FromEnum(
-                en,
+                EN,
                 Industry.HealthCareProvidersAndServices,
                 "Health Care Providers & Services"
             ),
-            FromEnum(en, Industry.HealthCareTechnology, "Health Care Technology"),
-            FromEnum(en, Industry.Biotechnology, "Biotechnology"),
-            FromEnum(en, Industry.Pharmaceuticals, "Pharmaceuticals"),
-            FromEnum(en, Industry.LifeSciencesToolsAndServices, "Life Sciences Tools & Services"),
-            FromEnum(en, Industry.Banks, "Banks"),
-            FromEnum(en, Industry.FinancialServices, " Financial Services"),
-            FromEnum(en, Industry.ConsumerFinance, "Consumer Finance"),
-            FromEnum(en, Industry.CapitalMarkets, "Capital Markets"),
+            FromEnum(EN, Industry.HealthCareTechnology, "Health Care Technology"),
+            FromEnum(EN, Industry.Biotechnology, "Biotechnology"),
+            FromEnum(EN, Industry.Pharmaceuticals, "Pharmaceuticals"),
+            FromEnum(EN, Industry.LifeSciencesToolsAndServices, "Life Sciences Tools & Services"),
+            FromEnum(EN, Industry.Banks, "Banks"),
+            FromEnum(EN, Industry.FinancialServices, " Financial Services"),
+            FromEnum(EN, Industry.ConsumerFinance, "Consumer Finance"),
+            FromEnum(EN, Industry.CapitalMarkets, "Capital Markets"),
             FromEnum(
-                en,
+                EN,
                 Industry.MortgageRealEstateInvestmentTrusts,
                 "Mortgage Real Estate Investment Trusts (REITs)"
             ),
-            FromEnum(en, Industry.Insurance, "Insurance"),
-            FromEnum(en, Industry.ITServices, "IT Services"),
-            FromEnum(en, Industry.Software, "Software"),
-            FromEnum(en, Industry.CommunicationsEquipment, "Communications Equipment"),
+            FromEnum(EN, Industry.Insurance, "Insurance"),
+            FromEnum(EN, Industry.ITServices, "IT Services"),
+            FromEnum(EN, Industry.Software, "Software"),
+            FromEnum(EN, Industry.CommunicationsEquipment, "Communications Equipment"),
             FromEnum(
-                en,
+                EN,
                 Industry.TechnologyHardwareStorageAndPeripherals,
                 "Technology Hardware, Storage & Peripherals"
             ),
             FromEnum(
-                en,
+                EN,
                 Industry.ElectronicEquipmentInstrumentsAndComponents,
                 "Electronic Equipment, Instruments & Components"
             ),
             FromEnum(
-                en,
+                EN,
                 Industry.SemiconductorsAndSemiconductorEquipment,
                 "Semiconductors & Semiconductor Equipment"
             ),
             FromEnum(
-                en,
+                EN,
                 Industry.DiversifiedTelecommunicationServices,
                 "Diversified Telecommunication Services"
             ),
             FromEnum(
-                en,
+                EN,
                 Industry.WirelessTelecommunicationServices,
                 "Wireless Telecommunication Services"
             ),
-            FromEnum(en, Industry.Media, "Media"),
-            FromEnum(en, Industry.Entertainment, "Entertainment"),
-            FromEnum(en, Industry.InteractiveMediaAndServices, "Interactive Media & Services"),
-            FromEnum(en, Industry.ElectricUtilities, "Electric Utilities"),
-            FromEnum(en, Industry.GasUtilities, "Gas Utilities"),
-            FromEnum(en, Industry.MultiUtilities, "Multi-Utilities"),
-            FromEnum(en, Industry.WaterUtilities, "Water Utilities"),
+            FromEnum(EN, Industry.Media, "Media"),
+            FromEnum(EN, Industry.Entertainment, "Entertainment"),
+            FromEnum(EN, Industry.InteractiveMediaAndServices, "Interactive Media & Services"),
+            FromEnum(EN, Industry.ElectricUtilities, "Electric Utilities"),
+            FromEnum(EN, Industry.GasUtilities, "Gas Utilities"),
+            FromEnum(EN, Industry.MultiUtilities, "Multi-Utilities"),
+            FromEnum(EN, Industry.WaterUtilities, "Water Utilities"),
             FromEnum(
-                en,
+                EN,
                 Industry.IndependentPowerAndRenewableElectricityProducers,
                 "Independent Power and Renewable Electricity Producers"
             ),
-            FromEnum(en, Industry.DiversifiedReits, "Diversified REITs"),
-            FromEnum(en, Industry.IndustrialReits, "Industrial REITs"),
-            FromEnum(en, Industry.HotelAndResortReits, "Hotel & Resort REITs"),
-            FromEnum(en, Industry.OfficeReits, "Office REITs"),
-            FromEnum(en, Industry.HealthCareReits, "Health Care REITs"),
-            FromEnum(en, Industry.ResidentialReits, "Residential REITs"),
-            FromEnum(en, Industry.RetailReits, "Retail REITs"),
-            FromEnum(en, Industry.SpecializedReits, "Specialized REITs"),
+            FromEnum(EN, Industry.DiversifiedReits, "Diversified REITs"),
+            FromEnum(EN, Industry.IndustrialReits, "Industrial REITs"),
+            FromEnum(EN, Industry.HotelAndResortReits, "Hotel & Resort REITs"),
+            FromEnum(EN, Industry.OfficeReits, "Office REITs"),
+            FromEnum(EN, Industry.HealthCareReits, "Health Care REITs"),
+            FromEnum(EN, Industry.ResidentialReits, "Residential REITs"),
+            FromEnum(EN, Industry.RetailReits, "Retail REITs"),
+            FromEnum(EN, Industry.SpecializedReits, "Specialized REITs"),
             FromEnum(
-                en,
+                EN,
                 Industry.RealEstateManagementAndDevelopment,
                 "Real Estate Management & Development"
             ),
-            FromModel(en, "Exchange.OpeningTime", "Opening Time"),
-            FromModel(en, "Exchange.ClosingTime", "Closing Time"),
+            FromModel(EN, "Exchange.OpeningTime", "Opening Time"),
+            FromModel(EN, "Exchange.ClosingTime", "Closing Time"),
         };
 
-        var zhHant = CultureInfo.GetCultureInfo("zh-Hant");
         var resourcesZHHant = new LocaleResource[]
         {
-            FromEnum(zhHant, Sector.Energy, "能源"),
-            FromEnum(zhHant, Sector.Materials, "原材料"),
-            FromEnum(zhHant, Sector.Industrials, "工業"),
-            FromEnum(zhHant, Sector.ConsumerDiscretionary, "可選消費品"),
-            FromEnum(zhHant, Sector.ConsumerStaples, "日常消費品"),
-            FromEnum(zhHant, Sector.HealthCare, "醫療保健"),
-            FromEnum(zhHant, Sector.Financials, "金融"),
-            FromEnum(zhHant, Sector.InformationTechnology, "資訊科技"),
-            FromEnum(zhHant, Sector.CommunicationServices, "通訊服務"),
-            FromEnum(zhHant, Sector.Utilities, "公用事業"),
-            FromEnum(zhHant, Sector.RealEstate, "房地產"),
-            FromEnum(zhHant, Industry.EnergyEquipmentAndServices, "能源設備與服務"),
-            FromEnum(zhHant, Industry.OilGasAndConsumableFuels, "石油、天然氣和消費用燃料"),
-            FromEnum(zhHant, Industry.Chemicals, "化學製品"),
-            FromEnum(zhHant, Industry.ConstructionMaterials, "建築材料"),
-            FromEnum(zhHant, Industry.ContainersAndPackaging, "容器與包裝"),
-            FromEnum(zhHant, Industry.MetalsAndMining, "金屬與採礦"),
-            FromEnum(zhHant, Industry.PaperAndForestProducts, "紙類與林業產品"),
-            FromEnum(zhHant, Industry.AerospaceAndDefense, "航空航太與國防"),
-            FromEnum(zhHant, Industry.BuildingProducts, "建築產品"),
-            FromEnum(zhHant, Industry.ConstructionAndEngineering, "建築與工程"),
-            FromEnum(zhHant, Industry.ElectricalEquipment, "電氣設備"),
-            FromEnum(zhHant, Industry.IndustrialConglomerates, "工業集團企業"),
-            FromEnum(zhHant, Industry.Machinery, "機械製造"),
-            FromEnum(zhHant, Industry.TradingCompaniesAndDistributors, "貿易公司與經銷商"),
-            FromEnum(zhHant, Industry.CommercialServicesAndSupplies, "商業服務與商業用品"),
-            FromEnum(zhHant, Industry.ProfessionalServices, "專業服務"),
-            FromEnum(zhHant, Industry.AirFreightAndLogistics, "航空貨運與物流"),
-            FromEnum(zhHant, Industry.PassengerAirlines, "客運航空公司"),
-            FromEnum(zhHant, Industry.MarineTransportation, "海運"),
-            FromEnum(zhHant, Industry.GroundTransportation, "陸運"),
-            FromEnum(zhHant, Industry.TransportationInfrastructure, "交通基本設施"),
-            FromEnum(zhHant, Industry.AutomobileComponents, "汽車零部件"),
-            FromEnum(zhHant, Industry.Automobiles, "汽車"),
-            FromEnum(zhHant, Industry.HouseholdDurables, "家庭耐用消費品"),
-            FromEnum(zhHant, Industry.LeisureProducts, "休閒用品"),
-            FromEnum(zhHant, Industry.TextilesApparelAndLuxuryGoods, "紡織品、服裝與奢侈品"),
-            FromEnum(zhHant, Industry.HotelsRestaurantsAndLeisure, "酒店、餐廳與休閒"),
-            FromEnum(zhHant, Industry.DiversifiedConsumerServices, "多元化消費者服務"),
-            FromEnum(zhHant, Industry.Distributors, "經銷商"),
-            FromEnum(zhHant, Industry.BroadlineRetail, "多元化零售"),
-            FromEnum(zhHant, Industry.SpecialtyRetail, "專營零售"),
-            FromEnum(zhHant, Industry.ConsumerStaplesDistributionAndRetail, "日常消費品分銷與零售"),
-            FromEnum(zhHant, Industry.Beverages, "飲品"),
-            FromEnum(zhHant, Industry.FoodProducts, "食品"),
-            FromEnum(zhHant, Industry.Tobacco, "煙草"),
-            FromEnum(zhHant, Industry.HouseholdProducts, "家庭用品"),
-            FromEnum(zhHant, Industry.PersonalCareProducts, "個人護理用品"),
-            FromEnum(zhHant, Industry.HealthCareEquipmentAndSupplies, "醫療保健設備與用品"),
-            FromEnum(zhHant, Industry.HealthCareProvidersAndServices, "健康保健供應商與服務"),
-            FromEnum(zhHant, Industry.HealthCareTechnology, "醫療保健技術"),
-            FromEnum(zhHant, Industry.Biotechnology, "生物科技"),
-            FromEnum(zhHant, Industry.Pharmaceuticals, "製藥"),
-            FromEnum(zhHant, Industry.LifeSciencesToolsAndServices, "生命科學工具與服務"),
-            FromEnum(zhHant, Industry.Banks, "銀行"),
-            FromEnum(zhHant, Industry.FinancialServices, " 金融服務"),
-            FromEnum(zhHant, Industry.ConsumerFinance, "消費者金融"),
-            FromEnum(zhHant, Industry.CapitalMarkets, "資本市場"),
-            FromEnum(zhHant, Industry.MortgageRealEstateInvestmentTrusts, "按揭房地產投資信託基金"),
-            FromEnum(zhHant, Industry.Insurance, "保險"),
-            FromEnum(zhHant, Industry.ITServices, "資訊科技服務"),
-            FromEnum(zhHant, Industry.Software, "軟體"),
-            FromEnum(zhHant, Industry.CommunicationsEquipment, "通訊設備"),
-            FromEnum(zhHant, Industry.TechnologyHardwareStorageAndPeripherals, "電腦硬體、儲存及週邊設備"),
-            FromEnum(zhHant, Industry.ElectronicEquipmentInstrumentsAndComponents, "電子設備、儀器與零件"),
-            FromEnum(zhHant, Industry.SemiconductorsAndSemiconductorEquipment, "半導體產品與設備"),
-            FromEnum(zhHant, Industry.DiversifiedTelecommunicationServices, "綜合電訊服務"),
-            FromEnum(zhHant, Industry.WirelessTelecommunicationServices, "無線電訊服務"),
-            FromEnum(zhHant, Industry.Media, "媒體"),
-            FromEnum(zhHant, Industry.Entertainment, "娛樂"),
-            FromEnum(zhHant, Industry.InteractiveMediaAndServices, "互動媒體與服務"),
-            FromEnum(zhHant, Industry.ElectricUtilities, "電力公用事業"),
-            FromEnum(zhHant, Industry.GasUtilities, "燃氣公用事業"),
-            FromEnum(zhHant, Industry.MultiUtilities, "複合型公用事業"),
-            FromEnum(zhHant, Industry.WaterUtilities, "水務公用事業"),
+            FromEnum(ZHHant, Sector.Energy, "能源"),
+            FromEnum(ZHHant, Sector.Materials, "原材料"),
+            FromEnum(ZHHant, Sector.Industrials, "工業"),
+            FromEnum(ZHHant, Sector.ConsumerDiscretionary, "可選消費品"),
+            FromEnum(ZHHant, Sector.ConsumerStaples, "日常消費品"),
+            FromEnum(ZHHant, Sector.HealthCare, "醫療保健"),
+            FromEnum(ZHHant, Sector.Financials, "金融"),
+            FromEnum(ZHHant, Sector.InformationTechnology, "資訊科技"),
+            FromEnum(ZHHant, Sector.CommunicationServices, "通訊服務"),
+            FromEnum(ZHHant, Sector.Utilities, "公用事業"),
+            FromEnum(ZHHant, Sector.RealEstate, "房地產"),
+            FromEnum(ZHHant, Industry.EnergyEquipmentAndServices, "能源設備與服務"),
+            FromEnum(ZHHant, Industry.OilGasAndConsumableFuels, "石油、天然氣和消費用燃料"),
+            FromEnum(ZHHant, Industry.Chemicals, "化學製品"),
+            FromEnum(ZHHant, Industry.ConstructionMaterials, "建築材料"),
+            FromEnum(ZHHant, Industry.ContainersAndPackaging, "容器與包裝"),
+            FromEnum(ZHHant, Industry.MetalsAndMining, "金屬與採礦"),
+            FromEnum(ZHHant, Industry.PaperAndForestProducts, "紙類與林業產品"),
+            FromEnum(ZHHant, Industry.AerospaceAndDefense, "航空航太與國防"),
+            FromEnum(ZHHant, Industry.BuildingProducts, "建築產品"),
+            FromEnum(ZHHant, Industry.ConstructionAndEngineering, "建築與工程"),
+            FromEnum(ZHHant, Industry.ElectricalEquipment, "電氣設備"),
+            FromEnum(ZHHant, Industry.IndustrialConglomerates, "工業集團企業"),
+            FromEnum(ZHHant, Industry.Machinery, "機械製造"),
+            FromEnum(ZHHant, Industry.TradingCompaniesAndDistributors, "貿易公司與經銷商"),
+            FromEnum(ZHHant, Industry.CommercialServicesAndSupplies, "商業服務與商業用品"),
+            FromEnum(ZHHant, Industry.ProfessionalServices, "專業服務"),
+            FromEnum(ZHHant, Industry.AirFreightAndLogistics, "航空貨運與物流"),
+            FromEnum(ZHHant, Industry.PassengerAirlines, "客運航空公司"),
+            FromEnum(ZHHant, Industry.MarineTransportation, "海運"),
+            FromEnum(ZHHant, Industry.GroundTransportation, "陸運"),
+            FromEnum(ZHHant, Industry.TransportationInfrastructure, "交通基本設施"),
+            FromEnum(ZHHant, Industry.AutomobileComponents, "汽車零部件"),
+            FromEnum(ZHHant, Industry.Automobiles, "汽車"),
+            FromEnum(ZHHant, Industry.HouseholdDurables, "家庭耐用消費品"),
+            FromEnum(ZHHant, Industry.LeisureProducts, "休閒用品"),
+            FromEnum(ZHHant, Industry.TextilesApparelAndLuxuryGoods, "紡織品、服裝與奢侈品"),
+            FromEnum(ZHHant, Industry.HotelsRestaurantsAndLeisure, "酒店、餐廳與休閒"),
+            FromEnum(ZHHant, Industry.DiversifiedConsumerServices, "多元化消費者服務"),
+            FromEnum(ZHHant, Industry.Distributors, "經銷商"),
+            FromEnum(ZHHant, Industry.BroadlineRetail, "多元化零售"),
+            FromEnum(ZHHant, Industry.SpecialtyRetail, "專營零售"),
+            FromEnum(ZHHant, Industry.ConsumerStaplesDistributionAndRetail, "日常消費品分銷與零售"),
+            FromEnum(ZHHant, Industry.Beverages, "飲品"),
+            FromEnum(ZHHant, Industry.FoodProducts, "食品"),
+            FromEnum(ZHHant, Industry.Tobacco, "煙草"),
+            FromEnum(ZHHant, Industry.HouseholdProducts, "家庭用品"),
+            FromEnum(ZHHant, Industry.PersonalCareProducts, "個人護理用品"),
+            FromEnum(ZHHant, Industry.HealthCareEquipmentAndSupplies, "醫療保健設備與用品"),
+            FromEnum(ZHHant, Industry.HealthCareProvidersAndServices, "健康保健供應商與服務"),
+            FromEnum(ZHHant, Industry.HealthCareTechnology, "醫療保健技術"),
+            FromEnum(ZHHant, Industry.Biotechnology, "生物科技"),
+            FromEnum(ZHHant, Industry.Pharmaceuticals, "製藥"),
+            FromEnum(ZHHant, Industry.LifeSciencesToolsAndServices, "生命科學工具與服務"),
+            FromEnum(ZHHant, Industry.Banks, "銀行"),
+            FromEnum(ZHHant, Industry.FinancialServices, " 金融服務"),
+            FromEnum(ZHHant, Industry.ConsumerFinance, "消費者金融"),
+            FromEnum(ZHHant, Industry.CapitalMarkets, "資本市場"),
+            FromEnum(ZHHant, Industry.MortgageRealEstateInvestmentTrusts, "按揭房地產投資信託基金"),
+            FromEnum(ZHHant, Industry.Insurance, "保險"),
+            FromEnum(ZHHant, Industry.ITServices, "資訊科技服務"),
+            FromEnum(ZHHant, Industry.Software, "軟體"),
+            FromEnum(ZHHant, Industry.CommunicationsEquipment, "通訊設備"),
+            FromEnum(ZHHant, Industry.TechnologyHardwareStorageAndPeripherals, "電腦硬體、儲存及週邊設備"),
+            FromEnum(ZHHant, Industry.ElectronicEquipmentInstrumentsAndComponents, "電子設備、儀器與零件"),
+            FromEnum(ZHHant, Industry.SemiconductorsAndSemiconductorEquipment, "半導體產品與設備"),
+            FromEnum(ZHHant, Industry.DiversifiedTelecommunicationServices, "綜合電訊服務"),
+            FromEnum(ZHHant, Industry.WirelessTelecommunicationServices, "無線電訊服務"),
+            FromEnum(ZHHant, Industry.Media, "媒體"),
+            FromEnum(ZHHant, Industry.Entertainment, "娛樂"),
+            FromEnum(ZHHant, Industry.InteractiveMediaAndServices, "互動媒體與服務"),
+            FromEnum(ZHHant, Industry.ElectricUtilities, "電力公用事業"),
+            FromEnum(ZHHant, Industry.GasUtilities, "燃氣公用事業"),
+            FromEnum(ZHHant, Industry.MultiUtilities, "複合型公用事業"),
+            FromEnum(ZHHant, Industry.WaterUtilities, "水務公用事業"),
             FromEnum(
-                zhHant,
+                ZHHant,
                 Industry.IndependentPowerAndRenewableElectricityProducers,
                 "獨立電力及可再生電力生產商"
             ),
-            FromEnum(zhHant, Industry.DiversifiedReits, "多元化房地產投資信託基金"),
-            FromEnum(zhHant, Industry.IndustrialReits, "工業房地產投資信託基金"),
-            FromEnum(zhHant, Industry.HotelAndResortReits, "酒店及度假村房地產投資信託基金"),
-            FromEnum(zhHant, Industry.OfficeReits, "辦公室房地產投資信託基金"),
-            FromEnum(zhHant, Industry.HealthCareReits, "醫療保健房地產投資信託基金"),
-            FromEnum(zhHant, Industry.ResidentialReits, "住宅房地產投資信託基金"),
-            FromEnum(zhHant, Industry.RetailReits, "零售業房地產投資信託基金"),
-            FromEnum(zhHant, Industry.SpecializedReits, "特種房地產投資信託基金"),
-            FromEnum(zhHant, Industry.RealEstateManagementAndDevelopment, "房地產管理與開發"),
-            FromModel(zhHant, "Exchange.OpeningTime", "開盤時間"),
-            FromModel(zhHant, "Exchange.ClosingTime", "收盤時間"),
+            FromEnum(ZHHant, Industry.DiversifiedReits, "多元化房地產投資信託基金"),
+            FromEnum(ZHHant, Industry.IndustrialReits, "工業房地產投資信託基金"),
+            FromEnum(ZHHant, Industry.HotelAndResortReits, "酒店及度假村房地產投資信託基金"),
+            FromEnum(ZHHant, Industry.OfficeReits, "辦公室房地產投資信託基金"),
+            FromEnum(ZHHant, Industry.HealthCareReits, "醫療保健房地產投資信託基金"),
+            FromEnum(ZHHant, Industry.ResidentialReits, "住宅房地產投資信託基金"),
+            FromEnum(ZHHant, Industry.RetailReits, "零售業房地產投資信託基金"),
+            FromEnum(ZHHant, Industry.SpecializedReits, "特種房地產投資信託基金"),
+            FromEnum(ZHHant, Industry.RealEstateManagementAndDevelopment, "房地產管理與開發"),
+            FromModel(ZHHant, "Exchange.OpeningTime", "開盤時間"),
+            FromModel(ZHHant, "Exchange.ClosingTime", "收盤時間"),
         };
 
         var results = GetCommonLocaleResources().Concat(resourcesEN).Concat(resourcesZHHant);
@@ -266,18 +271,58 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
         return results;
     }
 
+    private IEnumerable<Asset> GetAssets()
+    {
+        var results = new Asset[]
+        {
+            new("XAU", "Gold", null),
+            new("XAG", "Silver", null),
+            new("XPD", "Palladium", null),
+            new("XPT", "Platinum", null),
+        };
+
+        results[0].UpdateName("黃金", ZHHant);
+        results[1].UpdateName("白銀", ZHHant);
+        results[2].UpdateName("鈀金", ZHHant);
+        results[3].UpdateName("鉑金", ZHHant);
+
+        return results;
+    }
+
     private IEnumerable<Exchange> GetExchanges()
     {
-        var exchangeXtai = new Exchange(
-            "XTAI",
-            "Taiwan Stock Exchange",
-            TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time"),
-            new TimeOnly(9, 0),
-            new TimeOnly(13, 30)
-        );
-        exchangeXtai.UpdateName("臺灣證券交易所", CultureInfo.GetCultureInfo("zh-Hant"));
+        var taipei = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        var china = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
+        var gmt = TimeZoneInfo.FindSystemTimeZoneById("GMT Standard Time");
+        var tokyo = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
+        var eastern = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
 
-        var results = new[] { exchangeXtai, };
+        var results = new[]
+        {
+            new Exchange("XTAI", "Taiwan Stock Exchange", "TWSE", taipei),
+            new Exchange("XTAF", "Taiwan Futures Exchange", "TAIFEX", taipei),
+            new Exchange("XZCE", "Zhengzhou Commodity Exchange", "ZCE", china),
+            new Exchange("XDCE", "Dalian Commodity Exchange", "DCE", china),
+            new Exchange("XSGE", "Shanghai Futures Exchange", "SHFE", china),
+            new Exchange("CCFX", "China Financial Futures Exchange", "CFFEX", china),
+            new Exchange("XHKF", "Hong Kong Futures Exchange", "HKFE", china),
+            new Exchange("XLME", "London Metal Exchange", "LME", gmt),
+            new Exchange("XTKT", "Tokyo Commodity Exchange", "TOCOM", tokyo),
+            new Exchange("XNYM", "New York Mercantile Exchange", "NYMEX", eastern),
+            new Exchange("XCEC", "Commodities Exchange Center", "COMEX", eastern),
+        };
+
+        results[0].UpdateName("臺灣證券交易所", ZHHant);
+        results[1].UpdateName("臺灣期貨交易所", ZHHant);
+        results[2].UpdateName("鄭州商品交易所", ZHHant);
+        results[3].UpdateName("大連商品交易所", ZHHant);
+        results[4].UpdateName("上海期貨交易所", ZHHant);
+        results[5].UpdateName("中國金融期貨交易所", ZHHant);
+        results[6].UpdateName("香港期貨交易所", ZHHant);
+        results[7].UpdateName("倫敦金屬交易所", ZHHant);
+        results[8].UpdateName("東京商品交易所", ZHHant);
+        results[9].UpdateName("紐約商業交易所", ZHHant);
+        results[10].UpdateName("紐約商品交易所", ZHHant);
 
         return results;
     }

@@ -1,7 +1,5 @@
-using Deopeia.Trading.Domain.Assets;
 using Deopeia.Trading.Domain.Orders;
 using Deopeia.Trading.Domain.Strategies;
-using Deopeia.Trading.Infrastructure.Assets;
 using Deopeia.Trading.Infrastructure.Orders;
 using Deopeia.Trading.Infrastructure.Strategies;
 
@@ -13,8 +11,8 @@ public class TradingContext(DbContextOptions<TradingContext> options) : DbContex
     {
         configurationBuilder.ApplyConventions();
 
-        configurationBuilder.Properties<AssetId>().HaveConversion<AssetIdConverter>();
         configurationBuilder.Properties<OrderId>().HaveConversion<OrderIdConverter>();
+
         configurationBuilder.Properties<StrategyId>().HaveConversion<StrategyIdConverter>();
     }
 

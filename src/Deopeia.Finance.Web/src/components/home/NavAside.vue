@@ -30,12 +30,12 @@ const menus = [
     children: [{ name: 'screener.stock' }],
   },
   {
-    name: 'exchange.default',
-    children: [{ name: 'exchange.list' }],
+    name: 'quote',
+    children: [{ name: 'asset.list' }, { name: 'exchange.list' }],
   },
   {
     name: 'trading',
-    children: [{ name: 'asset.list' }, { name: 'strategy.list' }],
+    children: [{ name: 'strategy.list' }],
   },
   {
     name: 'identity',

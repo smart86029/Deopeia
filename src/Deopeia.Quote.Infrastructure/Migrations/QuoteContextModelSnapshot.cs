@@ -118,6 +118,52 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     b.ToTable("locale_resource", (string)null);
                 });
 
+            modelBuilder.Entity("Deopeia.Quote.Domain.Assets.Asset", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("code");
+
+                    b.HasKey("Id")
+                        .HasName("pk_asset");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_asset_code");
+
+                    b.ToTable("asset", (string)null);
+                });
+
+            modelBuilder.Entity("Deopeia.Quote.Domain.Assets.AssetLocale", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("asset_id");
+
+                    b.Property<string>("Culture")
+                        .HasColumnType("text")
+                        .HasColumnName("culture");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("EntityId", "Culture")
+                        .HasName("pk_asset_locale");
+
+                    b.ToTable("asset_locale", (string)null);
+                });
+
             modelBuilder.Entity("Deopeia.Quote.Domain.Candles.Candle", b =>
                 {
                     b.Property<Guid>("InstrumentId")
@@ -205,14 +251,6 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("id");
 
-                    b.Property<TimeOnly>("ClosingTime")
-                        .HasColumnType("time without time zone")
-                        .HasColumnName("closing_time");
-
-                    b.Property<TimeOnly>("OpeningTime")
-                        .HasColumnType("time without time zone")
-                        .HasColumnName("opening_time");
-
                     b.Property<string>("TimeZone")
                         .IsRequired()
                         .HasColumnType("text")
@@ -233,6 +271,10 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     b.Property<string>("Culture")
                         .HasColumnType("text")
                         .HasColumnName("culture");
+
+                    b.Property<string>("Acronym")
+                        .HasColumnType("text")
+                        .HasColumnName("acronym");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -365,6 +407,16 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue(1);
                 });
 
+            modelBuilder.Entity("Deopeia.Quote.Domain.Assets.AssetLocale", b =>
+                {
+                    b.HasOne("Deopeia.Quote.Domain.Assets.Asset", null)
+                        .WithMany("Locales")
+                        .HasForeignKey("EntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_asset_locale_asset_asset_id");
+                });
+
             modelBuilder.Entity("Deopeia.Quote.Domain.Companies.CompanyLocale", b =>
                 {
                     b.HasOne("Deopeia.Quote.Domain.Companies.Company", null)
@@ -393,6 +445,11 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_instrument_locale_instrument_instrument_id");
+                });
+
+            modelBuilder.Entity("Deopeia.Quote.Domain.Assets.Asset", b =>
+                {
+                    b.Navigation("Locales");
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Companies.Company", b =>

@@ -7,8 +7,4 @@ public class ExchangeDto
     public string Name { get; set; } = string.Empty;
 
     public string TimeZone { get; set; } = string.Empty;
-
-    public TimeOnly OpeningTime { get; set; }
-
-    public TimeOnly ClosingTime { get; set; }
 }

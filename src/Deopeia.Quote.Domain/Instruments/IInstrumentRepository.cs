@@ -1,6 +1,3 @@
-using Deopeia.Common.Domain.Finance;
-using Deopeia.Quote.Domain.Exchanges;
-
 namespace Deopeia.Quote.Domain.Instruments;
 
 public interface IInstrumentRepository : IRepository<Instrument, InstrumentId>

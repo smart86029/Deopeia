@@ -1,7 +1,6 @@
 using Deopeia.Common.Localization;
 using Deopeia.Quote.Application.Stocks.GetStocks;
 using Deopeia.Quote.Domain.Companies;
-using Deopeia.Quote.Domain.Instruments;
 
 namespace Deopeia.Quote.Infrastructure.Stocks.GetStocks;
 

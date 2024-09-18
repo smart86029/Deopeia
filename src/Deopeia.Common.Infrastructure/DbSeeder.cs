@@ -17,7 +17,7 @@ public abstract class DbSeeder<TContext> : IDbSeeder<TContext>
             FromError(en, "Number.GreaterThan", "{Property} must be greater than {Comparison}."),
             FromError(
                 en,
-                "Number.GreaterThan",
+                "Number.GreaterThanOrEqualTo",
                 "{Property} must be greater than or equal to {Comparison}."
             ),
             FromError(en, "Number.LessThan", "{Property} must be less than {Comparison}."),

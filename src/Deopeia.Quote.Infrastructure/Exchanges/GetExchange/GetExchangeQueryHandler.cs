@@ -16,9 +16,7 @@ public class GetExchangeQueryHandler(NpgsqlConnection connection)
         var sql = """
 SELECT
     id AS mic,
-    time_zone,
-    opening_time,
-    closing_time
+    time_zone
 FROM exchange
 WHERE id = @Mic;
 
