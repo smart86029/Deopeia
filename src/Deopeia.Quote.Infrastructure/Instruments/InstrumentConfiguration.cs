@@ -8,8 +8,9 @@ internal class InstrumentConfiguration : IEntityTypeConfiguration<Instrument>
     {
         builder
             .HasDiscriminator(x => x.Type)
-            .HasValue<Stock>(MarketType.Stock)
-            .HasValue<ExchangeTradedFund>(MarketType.ExchangeTradedFund);
+            .HasValue<Stock>(InstrumentType.Stock)
+            .HasValue<ExchangeTradedFund>(InstrumentType.ExchangeTradedFund)
+            .HasValue<Futures>(InstrumentType.Futures);
 
         builder.HasKey(x => x.Id);
 

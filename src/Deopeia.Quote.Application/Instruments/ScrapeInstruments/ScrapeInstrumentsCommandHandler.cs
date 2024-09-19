@@ -26,6 +26,7 @@ internal class ScrapeInstrumentsCommandHandler(
             var exchangeId = new ExchangeId("XTAI");
             var en = CultureInfo.GetCultureInfo("en");
             var zhHant = CultureInfo.GetCultureInfo("zh-Hant");
+            var twd = new Currency("TWD");
 
             var companies = new List<Company>(items.Count);
             var stocks = new List<Stock>(items.Count);
@@ -42,7 +43,7 @@ internal class ScrapeInstrumentsCommandHandler(
                 company.UpdateName(item.CompanyName, zhHant);
                 companies.Add(company);
 
-                var stock = new Stock(exchangeId, item.Symbol, item.EnglishName, company.Id);
+                var stock = new Stock(exchangeId, item.Symbol, item.EnglishName, twd, company.Id);
                 stock.UpdateName(item.Name, zhHant);
                 stocks.Add(stock);
             }

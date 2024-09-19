@@ -8,7 +8,13 @@ public abstract class Instrument
 
     protected Instrument() { }
 
-    protected Instrument(MarketType type, ExchangeId exchangeId, string symbol, string name)
+    protected Instrument(
+        InstrumentType type,
+        ExchangeId exchangeId,
+        string symbol,
+        string name,
+        Currency currency
+    )
     {
         type.MustBeDefined();
 
@@ -16,15 +22,18 @@ public abstract class Instrument
         ExchangeId = exchangeId;
         Symbol = symbol;
         _locales.Default.UpdateName(name);
+        Currency = currency;
     }
 
-    public MarketType Type { get; private init; }
+    public InstrumentType Type { get; private init; }
 
     public ExchangeId ExchangeId { get; set; }
 
     public string Symbol { get; private init; } = string.Empty;
 
     public string Name => _locales[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
+
+    public Currency Currency { get; private init; }
 
     public IReadOnlyCollection<InstrumentLocale> Locales => _locales;
 

@@ -6,8 +6,14 @@ public class Stock : Instrument
 {
     private Stock() { }
 
-    public Stock(ExchangeId exchangeId, string symbol, string name, CompanyId companyId)
-        : base(MarketType.Stock, exchangeId, symbol, name)
+    public Stock(
+        ExchangeId exchangeId,
+        string symbol,
+        string name,
+        Currency currency,
+        CompanyId companyId
+    )
+        : base(InstrumentType.Stock, exchangeId, symbol, name, currency)
     {
         CompanyId = companyId;
     }

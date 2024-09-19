@@ -110,6 +110,11 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     type = table.Column<int>(type: "integer", nullable: false),
                     exchange_id = table.Column<string>(type: "text", nullable: false),
                     symbol = table.Column<string>(type: "text", nullable: false),
+                    currency = table.Column<string>(type: "text", nullable: false),
+                    underlying_asset_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    tick_size = table.Column<decimal>(type: "numeric", nullable: true),
+                    contract_size_quantity = table.Column<decimal>(type: "numeric", nullable: true),
+                    contract_size_unit_code = table.Column<string>(type: "text", nullable: true),
                     company_id = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
