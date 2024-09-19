@@ -1,9 +1,7 @@
-using System.Reactive.Joins;
-using Deopeia.Common.Localization;
 using Deopeia.Quote.Domain.Assets;
 using Deopeia.Quote.Domain.Companies;
 using Deopeia.Quote.Domain.Exchanges;
-using Deopeia.Quote.Domain.Instruments;
+using Deopeia.Quote.Domain.Instruments.FuturesContracts;
 
 namespace Deopeia.Quote.Infrastructure;
 
@@ -19,9 +17,13 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
             return;
         }
 
+        var assets = GetAssets().ToDictionary(x => x.Code);
+        var exchanges = GetExchanges().ToDictionary(x => x.Id.Mic);
+
         context.Set<LocaleResource>().AddRange(GetLocaleResources());
-        context.Set<Asset>().AddRange(GetAssets());
-        context.Set<Exchange>().AddRange(GetExchanges());
+        context.Set<Asset>().AddRange(assets.Values);
+        context.Set<Exchange>().AddRange(exchanges.Values);
+        context.Set<FuturesContract>().AddRange(GetFuturesContracts(assets, exchanges));
 
         await context.SaveChangesAsync();
     }
@@ -323,6 +325,28 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
         results[8].UpdateName("東京商品交易所", ZHHant);
         results[9].UpdateName("紐約商業交易所", ZHHant);
         results[10].UpdateName("紐約商品交易所", ZHHant);
+
+        return results;
+    }
+
+    private IEnumerable<FuturesContract> GetFuturesContracts(
+        Dictionary<string, Asset> assets,
+        Dictionary<string, Exchange> exchanges
+    )
+    {
+        var gold = assets["XAU"].Id;
+        var results = new[]
+        {
+            new FuturesContract(
+                exchanges["XSGE"].Id,
+                "CU",
+                "Gold",
+                new Currency("CNY"),
+                gold,
+                new ContractSize(1000, "GRM"),
+                0.02M
+            ),
+        };
 
         return results;
     }

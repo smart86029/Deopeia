@@ -27,7 +27,7 @@ public abstract class Instrument
 
     public InstrumentType Type { get; private init; }
 
-    public ExchangeId ExchangeId { get; set; }
+    public ExchangeId ExchangeId { get; private init; }
 
     public string Symbol { get; private init; } = string.Empty;
 

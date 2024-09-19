@@ -54,4 +54,28 @@ export default [
       },
     ],
   },
+  {
+    path: 'futures',
+    name: 'futures.list',
+    redirect: { name: 'futures.default' },
+    children: [
+      {
+        path: '',
+        name: 'futures.default',
+        component: () => import('../views/quote/FuturesList.vue'),
+      },
+      {
+        path: 'create',
+        name: 'futures.create',
+        component: () => import('../views/quote/FuturesForm.vue'),
+        props: create,
+      },
+      {
+        path: ':id',
+        name: 'futures.edit',
+        component: () => import('../views/quote/FuturesForm.vue'),
+        props: edit,
+      },
+    ],
+  },
 ];

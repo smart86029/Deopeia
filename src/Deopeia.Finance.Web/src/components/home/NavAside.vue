@@ -31,7 +31,11 @@ const menus = [
   },
   {
     name: 'quote',
-    children: [{ name: 'asset.list' }, { name: 'exchange.list' }],
+    children: [
+      { name: 'asset.list' },
+      { name: 'exchange.list' },
+      { name: 'futures.list' },
+    ],
   },
   {
     name: 'trading',

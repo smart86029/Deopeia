@@ -1,4 +1,5 @@
 using Deopeia.Quote.Domain.Instruments;
+using Deopeia.Quote.Domain.Instruments.FuturesContracts;
 
 namespace Deopeia.Quote.Infrastructure.Instruments;
 
@@ -10,7 +11,7 @@ internal class InstrumentConfiguration : IEntityTypeConfiguration<Instrument>
             .HasDiscriminator(x => x.Type)
             .HasValue<Stock>(InstrumentType.Stock)
             .HasValue<ExchangeTradedFund>(InstrumentType.ExchangeTradedFund)
-            .HasValue<Futures>(InstrumentType.Futures);
+            .HasValue<FuturesContract>(InstrumentType.Futures);
 
         builder.HasKey(x => x.Id);
 

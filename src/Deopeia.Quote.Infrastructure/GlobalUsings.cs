@@ -7,6 +7,7 @@ global using Deopeia.Common.Domain.Finance;
 global using Deopeia.Common.Extensions;
 global using Deopeia.Common.Infrastructure;
 global using Deopeia.Common.Infrastructure.Localization;
+global using Deopeia.Common.Localization;
 global using MediatR;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;

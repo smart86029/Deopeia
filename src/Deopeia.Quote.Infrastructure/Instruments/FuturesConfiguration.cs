@@ -1,10 +1,10 @@
-using Deopeia.Quote.Domain.Instruments;
+using Deopeia.Quote.Domain.Instruments.FuturesContracts;
 
 namespace Deopeia.Quote.Infrastructure.Instruments;
 
-internal class FuturesConfiguration : IEntityTypeConfiguration<Futures>
+internal class FuturesConfiguration : IEntityTypeConfiguration<FuturesContract>
 {
-    public void Configure(EntityTypeBuilder<Futures> builder)
+    public void Configure(EntityTypeBuilder<FuturesContract> builder)
     {
         builder.ComplexProperty(x => x.ContractSize);
     }
