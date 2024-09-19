@@ -1,4 +1,5 @@
 import type { Guid } from '@/models/guid';
+import type { OptionResult } from '@/models/option-result';
 import type { PageQuery, PageResult } from '@/models/page';
 import httpClient from '../http-client';
 
@@ -24,6 +25,7 @@ export interface AssetLocale {
 }
 
 export default {
+  getOptions: () => httpClient.get<OptionResult<Guid>[]>('/Assets/Options'),
   getList: (query: GetAssetsQuery) =>
     httpClient.get<PageResult<AssetRow>>('/Assets', { params: query }),
   get: (id: Guid) => httpClient.get<Asset>(`/Assets/${id}`),

@@ -4,7 +4,7 @@ public class FuturesContractDto
 {
     public Guid Id { get; set; }
 
-    public Guid ExchangeId { get; set; }
+    public string Exchange { get; set; } = string.Empty;
 
     public string Symbol { get; set; } = string.Empty;
 
@@ -12,5 +12,5 @@ public class FuturesContractDto
 
     public string Currency { get; set; } = string.Empty;
 
-    public Guid UnderlyingAssetId { get; set; }
+    public string UnderlyingAsset { get; set; } = string.Empty;
 }

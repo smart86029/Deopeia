@@ -338,6 +338,15 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
         var results = new[]
         {
             new FuturesContract(
+                exchanges["XTAF"].Id,
+                "GDF",
+                "TAIFEX Gold Futures",
+                new Currency("USD"),
+                gold,
+                new ContractSize(10, "APZ"),
+                0.1M
+            ),
+            new FuturesContract(
                 exchanges["XSGE"].Id,
                 "CU",
                 "Gold",
@@ -346,7 +355,48 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 new ContractSize(1000, "GRM"),
                 0.02M
             ),
+            new FuturesContract(
+                exchanges["XHKF"].Id,
+                "GDU",
+                "USD Gold Futures",
+                new Currency("USD"),
+                gold,
+                new ContractSize(1000, "GRM"),
+                0.01M
+            ),
+            new FuturesContract(
+                exchanges["XTKT"].Id,
+                "JAU",
+                "Gold Standard Futures",
+                new Currency("JPY"),
+                gold,
+                new ContractSize(1, "KGM"),
+                1M
+            ),
+            new FuturesContract(
+                exchanges["XTKT"].Id,
+                "JAM",
+                "Gold Mini Futures",
+                new Currency("JPY"),
+                gold,
+                new ContractSize(100, "GRM"),
+                0.5M
+            ),
+            new FuturesContract(
+                exchanges["XCEC"].Id,
+                "GC",
+                "Gold Futures",
+                new Currency("USD"),
+                gold,
+                new ContractSize(100, "APZ"),
+                0.1M
+            ),
         };
+
+        results[0].UpdateName("黃金期貨", ZHHant);
+        results[1].UpdateName("黃金", ZHHant);
+        results[2].UpdateName("美元黃金", ZHHant);
+        results[5].UpdateName("黃金期貨", ZHHant);
 
         return results;
     }

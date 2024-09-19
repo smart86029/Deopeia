@@ -17,6 +17,7 @@ export default {
     startTime: 'Start Time',
     endTime: 'End Time',
     timeZone: 'Time Zone',
+    currency: 'Currency',
     reason: 'Reason',
     message: {
       success: '{action} Successfully',

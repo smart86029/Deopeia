@@ -6,9 +6,11 @@ export interface GetFuturessQuery extends PageQuery {}
 
 export interface FuturesRow {
   id: Guid;
-  code: string;
+  exchange: string;
+  symbol: string;
   name: string;
-  description?: string;
+  currency: string;
+  underlyingAsset: string;
 }
 
 export interface Futures {
@@ -25,9 +27,11 @@ export interface FuturesLocale {
 
 export default {
   getList: (query: GetFuturessQuery) =>
-    httpClient.get<PageResult<FuturesRow>>('/Futuress', { params: query }),
-  get: (id: Guid) => httpClient.get<Futures>(`/Futuress/${id}`),
-  create: (futures: Futures) => httpClient.post('/Futuress', futures),
+    httpClient.get<PageResult<FuturesRow>>('/FuturesContracts', {
+      params: query,
+    }),
+  get: (id: Guid) => httpClient.get<Futures>(`/FuturesContracts/${id}`),
+  create: (futures: Futures) => httpClient.post('/FuturesContracts', futures),
   update: (futures: Futures) =>
-    httpClient.put(`/Futuress/${futures.id}`, futures),
+    httpClient.put(`/FuturesContracts/${futures.id}`, futures),
 };

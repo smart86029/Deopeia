@@ -1,5 +1,6 @@
 using Deopeia.Quote.Application.Assets.CreateAsset;
 using Deopeia.Quote.Application.Assets.GetAsset;
+using Deopeia.Quote.Application.Assets.GetAssetOptions;
 using Deopeia.Quote.Application.Assets.GetAssets;
 using Deopeia.Quote.Application.Assets.UpdateAsset;
 
@@ -8,6 +9,15 @@ namespace Deopeia.Quote.Api.Controllers;
 [AllowAnonymous]
 public class AssetsController : ApiController<AssetsController>
 {
+    [HttpGet("Options")]
+    public async Task<IActionResult> GetOptions()
+    {
+        var query = new GetAssetOptionsQuery();
+        var result = await Sender.Send(query);
+
+        return Ok(result);
+    }
+
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] GetAssetsQuery query)
     {

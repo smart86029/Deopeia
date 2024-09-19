@@ -17,6 +17,7 @@ export default {
     startTime: '開始時間',
     endTime: '結束時間',
     timeZone: '時區',
+    currency: '貨幣',
     reason: '原因',
     message: {
       success: '{action}成功',

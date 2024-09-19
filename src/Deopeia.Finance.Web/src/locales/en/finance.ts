@@ -1,5 +1,6 @@
 export default {
   finance: {
+    exchange: 'Exchange',
     symbol: 'Symbol',
     price: 'Price',
     priceChange: 'Price Change',
@@ -12,5 +13,6 @@ export default {
     marketIdentifierCode: 'Market Identifier Code',
     openingTime: 'Opening Time',
     closingTime: 'Closing Time',
+    underlyingAsset: 'Underlying Asset',
   },
 };

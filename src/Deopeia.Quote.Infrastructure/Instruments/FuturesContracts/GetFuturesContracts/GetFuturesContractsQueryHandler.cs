@@ -16,31 +16,49 @@ internal class GetFuturesContractsQueryHandler(
     )
     {
         var builder = new SqlBuilder();
-        builder.Where("a.type = @Futures", new { InstrumentType.Futures });
+        builder.Where("type = @Futures", new { InstrumentType.Futures });
 
-        var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM instrument AS a /**where**/");
+        var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM instrument /**where**/");
         var count = await _connection.ExecuteScalarAsync<int>(sqlCount.RawSql, sqlCount.Parameters);
         var result = new PageResult<FuturesContractDto>(request, count);
 
         var sql = builder.AddTemplate(
             """
 SELECT
-    a.id,
-    a.exchange_id,
-    a.symbol,
-    b.name,
-    a.currency,
-    a.underlying_asset_id
-FROM instrument AS a
-INNER JOIN instrument_locale AS b ON a.id = b.instrument_id AND b.culture = @CurrentCulture
-/**where**/
-ORDER BY a.exchange_id, a.symbol
-LIMIT @Limit
-OFFSET @Offset
+    a.*,
+    COALESCE(b.name, c.name) AS name,
+    COALESCE(d.name, e.name) AS exchange,
+    COALESCE(f.name, g.name) AS underlying_asset
+FROM (
+    SELECT
+        id,
+        exchange_id,
+        symbol,
+        currency,
+        underlying_asset_id
+    FROM instrument
+    /**where**/
+    ORDER BY exchange_id, symbol
+    LIMIT @Limit
+    OFFSET @Offset
+) AS a
+LEFT JOIN instrument_locale AS b
+    ON a.id = b.instrument_id AND b.culture = @CurrentCulture
+INNER JOIN instrument_locale AS c
+    ON a.id = c.instrument_id AND c.culture = @DefaultThreadCurrentCulture
+LEFT JOIN exchange_locale AS d
+    ON a.exchange_id = d.exchange_id AND d.culture = @CurrentCulture
+INNER JOIN exchange_locale AS e
+    ON a.exchange_id = e.exchange_id AND e.culture = @DefaultThreadCurrentCulture
+LEFT JOIN asset_locale AS f
+    ON a.underlying_asset_id = f.asset_id AND f.culture = @CurrentCulture
+INNER JOIN asset_locale AS g
+    ON a.underlying_asset_id = g.asset_id AND g.culture = @DefaultThreadCurrentCulture
 """,
             new
             {
                 CultureInfo.CurrentCulture,
+                CultureInfo.DefaultThreadCurrentCulture,
                 result.Limit,
                 result.Offset,
             }

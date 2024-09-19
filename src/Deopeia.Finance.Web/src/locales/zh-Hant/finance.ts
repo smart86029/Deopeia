@@ -1,6 +1,7 @@
 export default {
   finance: {
-    symbol: '代號',
+    exchange: '交易所',
+    symbol: '代碼',
     price: '價格',
     priceChange: '漲跌',
     volume: '成交量',
@@ -12,5 +13,6 @@ export default {
     marketIdentifierCode: '市場識別編碼',
     openingTime: '開盤時間',
     closingTime: '收盤時間',
+    underlyingAsset: '標的資產',
   },
 };
