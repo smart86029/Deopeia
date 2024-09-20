@@ -1,19 +1,18 @@
 <template>
   <el-form :model="form" label-width="200" @submit.prevent="save">
     <LocaleTabs v-model:locales="form.locales" :add="addLocale">
-      <el-tab-pane
-        v-for="(locale, index) in form.locales"
+      <LocaleTabPane
+        v-for="locale in form.locales"
+        :locale="locale"
         :key="locale.culture"
-        :label="cultures.find((x) => x.value === locale.culture)?.name"
-        :name="locale.culture"
       >
         <el-form-item :label="$t('common.name')">
-          <el-input v-model="form.locales[index].name" />
+          <el-input v-model="locale.name" />
         </el-form-item>
         <el-form-item :label="$t('common.description')">
-          <el-input v-model="form.locales[index].description" type="textarea" />
+          <el-input v-model="locale.description" type="textarea" />
         </el-form-item>
-      </el-tab-pane>
+      </LocaleTabPane>
     </LocaleTabs>
 
     <el-form-item :label="$t('status.isEnabled.name')">
@@ -81,7 +80,6 @@ import strategyApi from '@/api/trading/strategy-api';
 import { emptyGuid, type Guid } from '@/models/guid';
 import { OrderSide } from '@/models/trading/order-side';
 import { success } from '@/plugins/element';
-import { usePreferencesStore } from '@/stores/preferences';
 import { Minus, Plus } from '@element-plus/icons-vue';
 
 const props = defineProps<{
@@ -89,7 +87,6 @@ const props = defineProps<{
   id: Guid;
 }>();
 const loading = ref(false);
-const { cultures } = storeToRefs(usePreferencesStore());
 const form: Strategy = reactive({
   id: emptyGuid,
   isEnabled: true,

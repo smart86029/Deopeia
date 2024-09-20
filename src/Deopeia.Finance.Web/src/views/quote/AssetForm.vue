@@ -5,19 +5,18 @@
     </el-form-item>
 
     <LocaleTabs v-model:locales="form.locales" :add="add">
-      <el-tab-pane
-        v-for="(locale, index) in form.locales"
+      <LocaleTabPane
+        v-for="locale in form.locales"
+        :locale="locale"
         :key="locale.culture"
-        :label="cultures.find((x) => x.value === locale.culture)?.name"
-        :name="locale.culture"
       >
         <el-form-item :label="$t('common.name')">
-          <el-input v-model="form.locales[index].name" />
+          <el-input v-model="locale.name" />
         </el-form-item>
         <el-form-item :label="$t('common.description')">
-          <el-input v-model="form.locales[index].description" type="textarea" />
+          <el-input v-model="locale.description" type="textarea" />
         </el-form-item>
-      </el-tab-pane>
+      </LocaleTabPane>
     </LocaleTabs>
 
     <el-form-item>
@@ -31,14 +30,12 @@
 import assetApi, { type Asset, type AssetLocale } from '@/api/quote/asset-api';
 import { emptyGuid, type Guid } from '@/models/guid';
 import { success } from '@/plugins/element';
-import { usePreferencesStore } from '@/stores/preferences';
 
 const props = defineProps<{
   action: 'create' | 'edit';
   id: Guid;
 }>();
 const loading = ref(false);
-const { cultures } = storeToRefs(usePreferencesStore());
 const form: Asset = reactive({
   id: emptyGuid,
   code: '',

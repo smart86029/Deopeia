@@ -1,7 +1,7 @@
 <template>
   <el-tabs
     v-model="model"
-    editable
+    addable
     @tab-add="openDialog"
     @tab-remove="removeLocale"
   >

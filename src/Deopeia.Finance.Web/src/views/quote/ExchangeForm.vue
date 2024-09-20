@@ -8,19 +8,18 @@
     </el-form-item>
 
     <LocaleTabs v-model:locales="form.locales" :add="add">
-      <el-tab-pane
-        v-for="(locale, index) in form.locales"
+      <LocaleTabPane
+        v-for="locale in form.locales"
+        :locale="locale"
         :key="locale.culture"
-        :label="cultures.find((x) => x.value === locale.culture)?.name"
-        :name="locale.culture"
       >
         <el-form-item :label="$t('common.name')">
-          <el-input v-model="form.locales[index].name" />
+          <el-input v-model="locale.name" />
         </el-form-item>
         <el-form-item :label="$t('common.abbreviation')">
-          <el-input v-model="form.locales[index].abbreviation" />
+          <el-input v-model="locale.abbreviation" />
         </el-form-item>
-      </el-tab-pane>
+      </LocaleTabPane>
     </LocaleTabs>
 
     <el-form-item>
@@ -43,7 +42,7 @@ const props = defineProps<{
   mic: string;
 }>();
 const loading = ref(false);
-const { cultures, timeZones } = storeToRefs(usePreferencesStore());
+const { timeZones } = storeToRefs(usePreferencesStore());
 const form: Exchange = reactive({
   mic: '',
   timeZone: '',

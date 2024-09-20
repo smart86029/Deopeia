@@ -2,7 +2,21 @@ namespace Deopeia.Quote.Application.FuturesContracts.GetFuturesContract;
 
 public class GetFuturesContractViewModel
 {
-    public string Mic { get; set; } = string.Empty;
+    public Guid Id { get; set; }
 
-    public string TimeZone { get; set; } = string.Empty;
+    public string ExchangeId { get; set; } = string.Empty;
+
+    public string Symbol { get; set; } = string.Empty;
+
+    public string Currency { get; set; } = string.Empty;
+
+    public Guid UnderlyingAssetId { get; set; }
+
+    public decimal TickSize { get; set; }
+
+    public decimal ContractSizeQuantity { get; set; }
+
+    public string ContractSizeUnitCode { get; set; } = string.Empty;
+
+    public ICollection<FuturesContractLocaleDto> Locales { get; set; } = [];
 }

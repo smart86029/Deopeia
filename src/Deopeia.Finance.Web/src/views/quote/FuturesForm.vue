@@ -5,16 +5,15 @@
     </el-form-item>
 
     <LocaleTabs v-model:locales="form.locales" :add="add">
-      <el-tab-pane
-        v-for="(locale, index) in form.locales"
+      <LocaleTabPane
+        v-for="locale in form.locales"
+        :locale="locale"
         :key="locale.culture"
-        :label="cultures.find((x) => x.value === locale.culture)?.name"
-        :name="locale.culture"
       >
         <el-form-item :label="$t('common.name')">
-          <el-input v-model="form.locales[index].name" />
+          <el-input v-model="locale.name" />
         </el-form-item>
-      </el-tab-pane>
+      </LocaleTabPane>
     </LocaleTabs>
 
     <el-form-item :label="$t('finance.exchange')">
@@ -24,7 +23,17 @@
       <SelectOption v-model="form.underlyingAssetId" :options="assets" />
     </el-form-item>
     <el-form-item :label="$t('common.currency')">
-      <SelectOption v-model="form.currencyCode" :options="currencies" />
+      <SelectOption v-model="form.currency" :options="currencies" />
+    </el-form-item>
+    <el-form-item :label="$t('finance.tickSize')">
+      <el-input v-model="form.tickSize" />
+    </el-form-item>
+    <el-form-item :label="$t('finance.contractSize')">
+      <el-input v-model="form.contractSizeQuantity">
+        <template #append>
+          <SelectOption v-model="form.currency" :options="currencies" />
+        </template>
+      </el-input>
     </el-form-item>
 
     <el-form-item>
@@ -44,14 +53,12 @@ import futuresApi, {
 import { emptyGuid, type Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import { success } from '@/plugins/element';
-import { usePreferencesStore } from '@/stores/preferences';
 
 const props = defineProps<{
   action: 'create' | 'edit';
   id: Guid;
 }>();
 const loading = ref(false);
-const { cultures } = storeToRefs(usePreferencesStore());
 const assets: Ref<OptionResult<Guid>[]> = ref([]);
 const exchanges: Ref<OptionResult<string>[]> = ref([]);
 const currencies: Ref<OptionResult<string>[]> = ref([]);
@@ -60,11 +67,12 @@ const form: Futures = reactive({
   symbol: '',
   exchangeId: '',
   underlyingAssetId: emptyGuid,
-  currencyCode: '',
+  currency: '',
+  tickSize: 1,
+  contractSizeQuantity: 1,
+  contractSizeUnitCode: '',
   locales: [{ culture: 'en', name: '' }],
 });
-
-console.log(form.underlyingAssetId);
 
 assetApi.getOptions().then((x) => (assets.value = x.data));
 exchangeApi.getOptions().then((x) => (exchanges.value = x.data));

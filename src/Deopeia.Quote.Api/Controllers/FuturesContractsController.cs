@@ -16,10 +16,10 @@ public class FuturesContractsController : ApiController<FuturesContractsControll
         return Ok(result);
     }
 
-    [HttpGet("{mic}")]
-    public async Task<IActionResult> Get([FromRoute] string mic)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get([FromRoute] Guid id)
     {
-        var query = new GetFuturesContractQuery(mic);
+        var query = new GetFuturesContractQuery(id);
         var result = await Sender.Send(query);
 
         return Ok(result);

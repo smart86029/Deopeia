@@ -15,11 +15,7 @@
   </TableToolbar>
 
   <el-table v-loading="loading" :data="result.items">
-    <el-table-column prop="name" :label="$t('common.name')">
-      <template #default="{ row }">
-        <TextBoolean :value="row.isEnabled" localeKey="status.isEnabled" />
-      </template>
-    </el-table-column>
+    <el-table-column prop="name" :label="$t('common.name')" />
     <el-table-column
       prop="description"
       :label="$t('common.description')"

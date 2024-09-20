@@ -44,7 +44,13 @@ instance.interceptors.response.use(
       case 400:
       case 500:
         ElMessageBox.close();
-        ElMessageBox.alert(response.data.title || t('common.message.error'));
+        ElMessageBox.alert(
+          response.data.title?.replace('\r\n', '<br>') ||
+            t('common.message.error'),
+          {
+            dangerouslyUseHTMLString: true,
+          },
+        );
         return Promise.reject();
       case 401:
         authStore.signIn();

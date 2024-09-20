@@ -18,7 +18,10 @@ export interface Futures {
   symbol: string;
   exchangeId: string;
   underlyingAssetId: Guid;
-  currencyCode: string;
+  currency: string;
+  tickSize: number;
+  contractSizeQuantity: number;
+  contractSizeUnitCode: string;
   locales: FuturesLocale[];
 }
 
