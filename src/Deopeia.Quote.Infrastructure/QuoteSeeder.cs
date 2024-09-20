@@ -1,3 +1,4 @@
+using System.Linq;
 using Deopeia.Quote.Domain.Assets;
 using Deopeia.Quote.Domain.Companies;
 using Deopeia.Quote.Domain.Exchanges;
@@ -335,14 +336,20 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
         Dictionary<string, Exchange> exchanges
     )
     {
+        var comex = exchanges["XCEC"].Id;
+
+        var cny = new CurrencyCode("CNY");
+        var jpy = new CurrencyCode("JPY");
+        var usd = new CurrencyCode("USD");
+
         var gold = assets["XAU"].Id;
-        var results = new[]
+        var goldContracts = new[]
         {
             new FuturesContract(
                 exchanges["XTAF"].Id,
                 "GDF",
                 "TAIFEX Gold Futures",
-                new CurrencyCode("USD"),
+                usd,
                 gold,
                 new ContractSize(10, "APZ"),
                 0.1M
@@ -351,7 +358,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 exchanges["XSGE"].Id,
                 "CU",
                 "Gold",
-                new CurrencyCode("CNY"),
+                cny,
                 gold,
                 new ContractSize(1000, "GRM"),
                 0.02M
@@ -360,7 +367,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 exchanges["XHKF"].Id,
                 "GDU",
                 "USD Gold Futures",
-                new CurrencyCode("USD"),
+                usd,
                 gold,
                 new ContractSize(1000, "GRM"),
                 0.01M
@@ -369,7 +376,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 exchanges["XTKT"].Id,
                 "JAU",
                 "Gold Standard Futures",
-                new CurrencyCode("JPY"),
+                jpy,
                 gold,
                 new ContractSize(1, "KGM"),
                 1M
@@ -378,27 +385,113 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 exchanges["XTKT"].Id,
                 "JAM",
                 "Gold Mini Futures",
-                new CurrencyCode("JPY"),
+                jpy,
                 gold,
                 new ContractSize(100, "GRM"),
                 0.5M
             ),
             new FuturesContract(
-                exchanges["XCEC"].Id,
+                comex,
                 "GC",
                 "Gold Futures",
-                new CurrencyCode("USD"),
+                usd,
                 gold,
                 new ContractSize(100, "APZ"),
                 0.1M
             ),
+            new FuturesContract(
+                comex,
+                "QO",
+                "E-mini Gold Futures",
+                usd,
+                gold,
+                new ContractSize(50, "APZ"),
+                0.25M
+            ),
+            new FuturesContract(
+                comex,
+                "MGC",
+                "Micro Gold Futures",
+                usd,
+                gold,
+                new ContractSize(10, "APZ"),
+                0.1M
+            ),
         };
 
-        results[0].UpdateName("黃金期貨", ZHHant);
-        results[1].UpdateName("黃金", ZHHant);
-        results[2].UpdateName("美元黃金", ZHHant);
-        results[5].UpdateName("黃金期貨", ZHHant);
+        goldContracts[0].UpdateName("黃金期貨", ZHHant);
+        goldContracts[1].UpdateName("黃金", ZHHant);
+        goldContracts[2].UpdateName("美元黃金", ZHHant);
+        goldContracts[5].UpdateName("黃金期貨", ZHHant);
+        goldContracts[5].UpdateName("黃金期貨", ZHHant);
+        goldContracts[6].UpdateName("E-迷你黃金期貨", ZHHant);
+        goldContracts[7].UpdateName("微型黃金期貨", ZHHant);
 
-        return results;
+        var silver = assets["XAG"].Id;
+        var silverContracts = new[]
+        {
+            new FuturesContract(
+                exchanges["XSGE"].Id,
+                "AG",
+                "Silver",
+                cny,
+                silver,
+                new ContractSize(15, "KGS"),
+                1M
+            ),
+            new FuturesContract(
+                exchanges["XHKF"].Id,
+                "SIU",
+                "USD Silver Futures",
+                usd,
+                silver,
+                new ContractSize(30, "KGS"),
+                0.05M
+            ),
+            new FuturesContract(
+                exchanges["XTKT"].Id,
+                "JSV",
+                "Silver Futures",
+                jpy,
+                silver,
+                new ContractSize(30, "KGS"),
+                1M
+            ),
+            new FuturesContract(
+                comex,
+                "SI",
+                "Silver Futures",
+                usd,
+                silver,
+                new ContractSize(5000, "APZ"),
+                25M
+            ),
+            new FuturesContract(
+                comex,
+                "QI",
+                "E-mini Silver Futures",
+                usd,
+                silver,
+                new ContractSize(2500, "APZ"),
+                0.0125M
+            ),
+            new FuturesContract(
+                comex,
+                "SIL",
+                "Micro Silver Futures",
+                usd,
+                silver,
+                new ContractSize(1000, "APZ"),
+                0.005M
+            ),
+        };
+
+        silverContracts[0].UpdateName("白銀", ZHHant);
+        silverContracts[1].UpdateName("美元白銀", ZHHant);
+        silverContracts[3].UpdateName("白銀期貨", ZHHant);
+        silverContracts[4].UpdateName("E-迷你白銀期貨", ZHHant);
+        silverContracts[5].UpdateName("微型白銀期貨", ZHHant);
+
+        return goldContracts.Concat(silverContracts);
     }
 }
