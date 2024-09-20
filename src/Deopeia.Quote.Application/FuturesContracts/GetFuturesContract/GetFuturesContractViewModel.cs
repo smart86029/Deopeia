@@ -8,7 +8,7 @@ public class GetFuturesContractViewModel
 
     public string Symbol { get; set; } = string.Empty;
 
-    public string Currency { get; set; } = string.Empty;
+    public string CurrencyCode { get; set; } = string.Empty;
 
     public Guid UnderlyingAssetId { get; set; }
 

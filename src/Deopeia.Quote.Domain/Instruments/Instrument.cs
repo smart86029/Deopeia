@@ -13,7 +13,7 @@ public abstract class Instrument
         ExchangeId exchangeId,
         string symbol,
         string name,
-        Currency currency
+        CurrencyCode currencyCode
     )
     {
         type.MustBeDefined();
@@ -22,7 +22,7 @@ public abstract class Instrument
         ExchangeId = exchangeId;
         Symbol = symbol;
         _locales.Default.UpdateName(name);
-        Currency = currency;
+        CurrencyCode = currencyCode;
     }
 
     public InstrumentType Type { get; private init; }
@@ -33,7 +33,7 @@ public abstract class Instrument
 
     public string Name => _locales[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
 
-    public Currency Currency { get; private init; }
+    public CurrencyCode CurrencyCode { get; private init; }
 
     public IReadOnlyCollection<InstrumentLocale> Locales => _locales;
 

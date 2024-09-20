@@ -76,6 +76,19 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "currency",
+                columns: table => new
+                {
+                    code = table.Column<string>(type: "text", nullable: false),
+                    symbol = table.Column<string>(type: "text", nullable: true),
+                    decimals = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_currency", x => x.code);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "exchange",
                 columns: table => new
                 {
@@ -110,7 +123,7 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     type = table.Column<int>(type: "integer", nullable: false),
                     exchange_id = table.Column<string>(type: "text", nullable: false),
                     symbol = table.Column<string>(type: "text", nullable: false),
-                    currency = table.Column<string>(type: "text", nullable: false),
+                    currency_code = table.Column<string>(type: "text", nullable: false),
                     underlying_asset_id = table.Column<Guid>(type: "uuid", nullable: true),
                     tick_size = table.Column<decimal>(type: "numeric", nullable: true),
                     contract_size_quantity = table.Column<decimal>(type: "numeric", nullable: true),
@@ -172,6 +185,25 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         column: x => x.company_id,
                         principalTable: "company",
                         principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "currency_locale",
+                columns: table => new
+                {
+                    currency_code = table.Column<string>(type: "text", nullable: false),
+                    culture = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_currency_locale", x => new { x.currency_code, x.culture });
+                    table.ForeignKey(
+                        name: "fk_currency_locale_currency_currency_id",
+                        column: x => x.currency_code,
+                        principalTable: "currency",
+                        principalColumn: "code",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -248,6 +280,9 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 name: "company_locale");
 
             migrationBuilder.DropTable(
+                name: "currency_locale");
+
+            migrationBuilder.DropTable(
                 name: "exchange_locale");
 
             migrationBuilder.DropTable(
@@ -264,6 +299,9 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "company");
+
+            migrationBuilder.DropTable(
+                name: "currency");
 
             migrationBuilder.DropTable(
                 name: "exchange");

@@ -16,7 +16,7 @@ public static class ModelConfigurationBuilderExtensions
 
         builder.Properties<CultureInfo>().HaveConversion<CultureInfoConverter>();
 
-        builder.Properties<Currency>().HaveConversion<CurrencyConverter>();
+        builder.Properties<CurrencyCode>().HaveConversion<CurrencyCodeConverter>();
 
         builder.Properties<DateTimeOffset>().HaveConversion<DateTimeOffsetConverter>();
 

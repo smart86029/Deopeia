@@ -20,6 +20,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
         var assets = GetAssets().ToDictionary(x => x.Code);
         var exchanges = GetExchanges().ToDictionary(x => x.Id.Mic);
 
+        context.Set<Currency>().AddRange(GetCurrencies());
         context.Set<LocaleResource>().AddRange(GetLocaleResources());
         context.Set<Asset>().AddRange(assets.Values);
         context.Set<Exchange>().AddRange(exchanges.Values);
@@ -341,7 +342,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 exchanges["XTAF"].Id,
                 "GDF",
                 "TAIFEX Gold Futures",
-                new Currency("USD"),
+                new CurrencyCode("USD"),
                 gold,
                 new ContractSize(10, "APZ"),
                 0.1M
@@ -350,7 +351,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 exchanges["XSGE"].Id,
                 "CU",
                 "Gold",
-                new Currency("CNY"),
+                new CurrencyCode("CNY"),
                 gold,
                 new ContractSize(1000, "GRM"),
                 0.02M
@@ -359,7 +360,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 exchanges["XHKF"].Id,
                 "GDU",
                 "USD Gold Futures",
-                new Currency("USD"),
+                new CurrencyCode("USD"),
                 gold,
                 new ContractSize(1000, "GRM"),
                 0.01M
@@ -368,7 +369,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 exchanges["XTKT"].Id,
                 "JAU",
                 "Gold Standard Futures",
-                new Currency("JPY"),
+                new CurrencyCode("JPY"),
                 gold,
                 new ContractSize(1, "KGM"),
                 1M
@@ -377,7 +378,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 exchanges["XTKT"].Id,
                 "JAM",
                 "Gold Mini Futures",
-                new Currency("JPY"),
+                new CurrencyCode("JPY"),
                 gold,
                 new ContractSize(100, "GRM"),
                 0.5M
@@ -386,7 +387,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 exchanges["XCEC"].Id,
                 "GC",
                 "Gold Futures",
-                new Currency("USD"),
+                new CurrencyCode("USD"),
                 gold,
                 new ContractSize(100, "APZ"),
                 0.1M

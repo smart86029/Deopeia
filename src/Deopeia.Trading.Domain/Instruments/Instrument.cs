@@ -13,7 +13,7 @@ public abstract class Instrument
         string symbol,
         string name,
         string? description,
-        Currency currency,
+        CurrencyCode currency,
         decimal contractSize
     )
     {
@@ -35,7 +35,7 @@ public abstract class Instrument
 
     public string? Description => _locales[CultureInfo.CurrentCulture]?.Description;
 
-    public Currency Currency { get; private init; }
+    public CurrencyCode Currency { get; private init; }
 
     public decimal ContractSize { get; private init; }
 

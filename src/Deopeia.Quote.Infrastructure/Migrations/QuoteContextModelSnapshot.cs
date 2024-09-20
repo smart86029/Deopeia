@@ -94,6 +94,47 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     b.UseTphMappingStrategy();
                 });
 
+            modelBuilder.Entity("Deopeia.Common.Domain.Finance.Currency", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text")
+                        .HasColumnName("code");
+
+                    b.Property<int>("Decimals")
+                        .HasColumnType("integer")
+                        .HasColumnName("decimals");
+
+                    b.Property<string>("Symbol")
+                        .HasColumnType("text")
+                        .HasColumnName("symbol");
+
+                    b.HasKey("Id")
+                        .HasName("pk_currency");
+
+                    b.ToTable("currency", (string)null);
+                });
+
+            modelBuilder.Entity("Deopeia.Common.Domain.Finance.CurrencyLocale", b =>
+                {
+                    b.Property<string>("EntityId")
+                        .HasColumnType("text")
+                        .HasColumnName("currency_code");
+
+                    b.Property<string>("Culture")
+                        .HasColumnType("text")
+                        .HasColumnName("culture");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("EntityId", "Culture")
+                        .HasName("pk_currency_locale");
+
+                    b.ToTable("currency_locale", (string)null);
+                });
+
             modelBuilder.Entity("Deopeia.Common.Localization.LocaleResource", b =>
                 {
                     b.Property<string>("Culture")
@@ -294,10 +335,10 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("Currency")
+                    b.Property<string>("CurrencyCode")
                         .IsRequired()
                         .HasColumnType("text")
-                        .HasColumnName("currency");
+                        .HasColumnName("currency_code");
 
                     b.Property<string>("ExchangeId")
                         .IsRequired()
@@ -400,7 +441,7 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue(2);
                 });
 
-            modelBuilder.Entity("Deopeia.Quote.Domain.Instruments.Futures", b =>
+            modelBuilder.Entity("Deopeia.Quote.Domain.Instruments.FuturesContracts.FuturesContract", b =>
                 {
                     b.HasBaseType("Deopeia.Quote.Domain.Instruments.Instrument");
 
@@ -412,7 +453,7 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("underlying_asset_id");
 
-                    b.ComplexProperty<Dictionary<string, object>>("ContractSize", "Deopeia.Quote.Domain.Instruments.Futures.ContractSize#ContractSize", b1 =>
+                    b.ComplexProperty<Dictionary<string, object>>("ContractSize", "Deopeia.Quote.Domain.Instruments.FuturesContracts.FuturesContract.ContractSize#ContractSize", b1 =>
                         {
                             b1.Property<decimal>("Quantity")
                                 .HasColumnType("numeric")
@@ -440,6 +481,16 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     b.ToTable("instrument", (string)null);
 
                     b.HasDiscriminator().HasValue(1);
+                });
+
+            modelBuilder.Entity("Deopeia.Common.Domain.Finance.CurrencyLocale", b =>
+                {
+                    b.HasOne("Deopeia.Common.Domain.Finance.Currency", null)
+                        .WithMany("Locales")
+                        .HasForeignKey("EntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_currency_locale_currency_currency_id");
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Assets.AssetLocale", b =>
@@ -480,6 +531,11 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_instrument_locale_instrument_instrument_id");
+                });
+
+            modelBuilder.Entity("Deopeia.Common.Domain.Finance.Currency", b =>
+                {
+                    b.Navigation("Locales");
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Assets.Asset", b =>

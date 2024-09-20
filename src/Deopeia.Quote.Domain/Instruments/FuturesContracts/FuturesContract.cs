@@ -8,7 +8,7 @@ public class FuturesContract : Instrument
         ExchangeId exchangeId,
         string symbol,
         string name,
-        Currency currency,
+        CurrencyCode currency,
         AssetId underlyingAssetId,
         ContractSize contractSize,
         decimal tickSize

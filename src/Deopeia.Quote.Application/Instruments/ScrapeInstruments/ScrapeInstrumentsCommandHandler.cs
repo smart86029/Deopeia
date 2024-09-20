@@ -26,7 +26,7 @@ internal class ScrapeInstrumentsCommandHandler(
             var exchangeId = new ExchangeId("XTAI");
             var en = CultureInfo.GetCultureInfo("en");
             var zhHant = CultureInfo.GetCultureInfo("zh-Hant");
-            var twd = new Currency("TWD");
+            var twd = new CurrencyCode("TWD");
 
             var companies = new List<Company>(items.Count);
             var stocks = new List<Stock>(items.Count);

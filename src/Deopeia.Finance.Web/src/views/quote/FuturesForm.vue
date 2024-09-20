@@ -23,7 +23,7 @@
       <SelectOption v-model="form.underlyingAssetId" :options="assets" />
     </el-form-item>
     <el-form-item :label="$t('common.currency')">
-      <SelectOption v-model="form.currency" :options="currencies" />
+      <SelectOption v-model="form.currencyCode" :options="currencies" />
     </el-form-item>
     <el-form-item :label="$t('finance.tickSize')">
       <el-input v-model="form.tickSize" />
@@ -31,7 +31,7 @@
     <el-form-item :label="$t('finance.contractSize')">
       <el-input v-model="form.contractSizeQuantity">
         <template #append>
-          <SelectOption v-model="form.currency" :options="currencies" />
+          <SelectOption v-model="form.currencyCode" :options="currencies" />
         </template>
       </el-input>
     </el-form-item>
@@ -44,6 +44,7 @@
 </template>
 
 <script setup lang="ts">
+import optionApi from '@/api/option-api';
 import assetApi from '@/api/quote/asset-api';
 import exchangeApi from '@/api/quote/exchange-api';
 import futuresApi, {
@@ -67,7 +68,7 @@ const form: Futures = reactive({
   symbol: '',
   exchangeId: '',
   underlyingAssetId: emptyGuid,
-  currency: '',
+  currencyCode: '',
   tickSize: 1,
   contractSizeQuantity: 1,
   contractSizeUnitCode: '',
@@ -76,6 +77,7 @@ const form: Futures = reactive({
 
 assetApi.getOptions().then((x) => (assets.value = x.data));
 exchangeApi.getOptions().then((x) => (exchanges.value = x.data));
+optionApi.getCurrencies().then((x) => (currencies.value = x.data));
 
 if (props.action === 'edit') {
   futuresApi

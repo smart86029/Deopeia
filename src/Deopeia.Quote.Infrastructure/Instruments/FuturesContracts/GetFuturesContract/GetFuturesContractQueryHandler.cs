@@ -18,7 +18,7 @@ SELECT
     id,
     exchange_id,
     symbol,
-    currency,
+    currency_code,
     underlying_asset_id,
     tick_size,
     contract_size_quantity,

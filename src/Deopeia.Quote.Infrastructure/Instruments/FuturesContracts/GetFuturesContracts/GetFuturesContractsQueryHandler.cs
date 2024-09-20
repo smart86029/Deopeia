@@ -28,13 +28,14 @@ SELECT
     a.*,
     COALESCE(b.name, c.name) AS name,
     COALESCE(d.name, e.name) AS exchange,
-    COALESCE(f.name, g.name) AS underlying_asset
+    COALESCE(f.name, g.name) AS underlying_asset,
+    COALESCE(h.name, i.name) AS currency
 FROM (
     SELECT
         id,
         exchange_id,
         symbol,
-        currency,
+        currency_code,
         underlying_asset_id
     FROM instrument
     /**where**/
@@ -54,6 +55,10 @@ LEFT JOIN asset_locale AS f
     ON a.underlying_asset_id = f.asset_id AND f.culture = @CurrentCulture
 INNER JOIN asset_locale AS g
     ON a.underlying_asset_id = g.asset_id AND g.culture = @DefaultThreadCurrentCulture
+LEFT JOIN currency_locale AS h
+    ON a.currency_code = h.currency_code AND h.culture = @CurrentCulture
+INNER JOIN currency_locale AS i
+    ON a.currency_code = i.currency_code AND i.culture = @DefaultThreadCurrentCulture
 """,
             new
             {

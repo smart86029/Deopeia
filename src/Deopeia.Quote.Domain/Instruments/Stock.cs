@@ -10,7 +10,7 @@ public class Stock : Instrument
         ExchangeId exchangeId,
         string symbol,
         string name,
-        Currency currency,
+        CurrencyCode currency,
         CompanyId companyId
     )
         : base(InstrumentType.Stock, exchangeId, symbol, name, currency)
