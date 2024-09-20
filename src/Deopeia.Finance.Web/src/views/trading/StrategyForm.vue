@@ -78,7 +78,7 @@
 <script setup lang="ts">
 import type { Strategy, StrategyLocale } from '@/api/trading/strategy-api';
 import strategyApi from '@/api/trading/strategy-api';
-import { Guid } from '@/models/guid';
+import { emptyGuid, type Guid } from '@/models/guid';
 import { OrderSide } from '@/models/trading/order-side';
 import { success } from '@/plugins/element';
 import { usePreferencesStore } from '@/stores/preferences';
@@ -91,7 +91,7 @@ const props = defineProps<{
 const loading = ref(false);
 const { cultures } = storeToRefs(usePreferencesStore());
 const form: Strategy = reactive({
-  id: Guid.empty,
+  id: emptyGuid,
   isEnabled: true,
   openExpression: '',
   closeExpression: '',

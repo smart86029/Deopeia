@@ -1,4 +1,4 @@
-import { Guid } from '@/models/guid';
+import { emptyGuid, type Guid, parseGuid } from '@/models/guid';
 import { useQuoteStore } from '@/stores/quote';
 import type { RouteLocationNormalized } from 'vue-router';
 
@@ -9,7 +9,7 @@ export const create = (): {
 } => ({
   default: true,
   action: 'create',
-  id: Guid.empty,
+  id: emptyGuid,
 });
 
 export const edit = (
@@ -22,8 +22,8 @@ export const edit = (
   default: true,
   action: 'edit',
   id: Array.isArray(route.params.id)
-    ? Guid.parse(route.params.id[0])
-    : Guid.parse(route.params.id),
+    ? parseGuid(route.params.id[0])
+    : parseGuid(route.params.id),
 });
 
 export const symbol = (

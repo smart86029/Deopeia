@@ -1,6 +1,6 @@
 using Deopeia.Quote.Application.Exchanges.GetExchangeOptions;
 
-namespace Deopeia.Quote.Infrastructure.Assets.GetAssetOptions;
+namespace Deopeia.Quote.Infrastructure.Exchanges.GetExchangeOptions;
 
 internal class GetExchangeOptionsQueryHandler(NpgsqlConnection connection)
     : IRequestHandler<GetExchangeOptionsQuery, ICollection<OptionResult<string>>>

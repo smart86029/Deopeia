@@ -41,7 +41,7 @@
 <script setup lang="ts">
 import permissionApi from '@/api/identity/permission-api';
 import roleApi, { type Role, type RoleLocale } from '@/api/identity/role-api';
-import { Guid } from '@/models/guid';
+import { emptyGuid, type Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import { success } from '@/plugins/element';
 import { usePreferencesStore } from '@/stores/preferences';
@@ -54,7 +54,7 @@ const loading = ref(false);
 const { cultures } = storeToRefs(usePreferencesStore());
 const roles: Ref<OptionResult<Guid>[]> = ref([]);
 const form: Role = reactive({
-  id: Guid.empty,
+  id: emptyGuid,
   isEnabled: true,
   locales: [{ culture: 'en', name: '' }],
   permissionIds: [],
@@ -65,9 +65,7 @@ permissionApi.getOptions().then((x) => (roles.value = x.data));
 if (props.action === 'edit') {
   roleApi
     .get(props.id)
-    .then((x) => {
-      Object.assign(form, x.data);
-    })
+    .then((x) => Object.assign(form, x.data))
     .finally(() => (loading.value = false));
 }
 

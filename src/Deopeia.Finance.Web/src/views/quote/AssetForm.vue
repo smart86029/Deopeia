@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
 import assetApi, { type Asset, type AssetLocale } from '@/api/quote/asset-api';
-import { Guid } from '@/models/guid';
+import { emptyGuid, type Guid } from '@/models/guid';
 import { success } from '@/plugins/element';
 import { usePreferencesStore } from '@/stores/preferences';
 
@@ -40,7 +40,7 @@ const props = defineProps<{
 const loading = ref(false);
 const { cultures } = storeToRefs(usePreferencesStore());
 const form: Asset = reactive({
-  id: Guid.empty,
+  id: emptyGuid,
   code: '',
   locales: [{ culture: 'en', name: '' }],
 });

@@ -41,7 +41,7 @@ import futuresApi, {
   type Futures,
   type FuturesLocale,
 } from '@/api/quote/futures-api';
-import { Guid } from '@/models/guid';
+import { emptyGuid, type Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import { success } from '@/plugins/element';
 import { usePreferencesStore } from '@/stores/preferences';
@@ -56,10 +56,10 @@ const assets: Ref<OptionResult<Guid>[]> = ref([]);
 const exchanges: Ref<OptionResult<string>[]> = ref([]);
 const currencies: Ref<OptionResult<string>[]> = ref([]);
 const form: Futures = reactive({
-  id: Guid.empty,
+  id: emptyGuid,
   symbol: '',
   exchangeId: '',
-  underlyingAssetId: Guid.empty,
+  underlyingAssetId: emptyGuid,
   currencyCode: '',
   locales: [{ culture: 'en', name: '' }],
 });

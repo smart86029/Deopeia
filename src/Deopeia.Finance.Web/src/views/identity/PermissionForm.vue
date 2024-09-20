@@ -33,7 +33,7 @@ import type {
   PermissionLocale,
 } from '@/api/identity/permission-api';
 import permissionApi from '@/api/identity/permission-api';
-import { Guid } from '@/models/guid';
+import { emptyGuid, type Guid } from '@/models/guid';
 import { success } from '@/plugins/element';
 import { usePreferencesStore } from '@/stores/preferences';
 
@@ -44,7 +44,8 @@ const props = defineProps<{
 const loading = ref(false);
 const { cultures } = storeToRefs(usePreferencesStore());
 const form: Permission = reactive({
-  id: Guid.empty,
+  id: emptyGuid,
+  code: '',
   isEnabled: true,
   locales: [{ culture: 'en', name: '' }],
 });
@@ -52,9 +53,7 @@ const form: Permission = reactive({
 if (props.action === 'edit') {
   permissionApi
     .get(props.id)
-    .then((x) => {
-      Object.assign(form, x.data);
-    })
+    .then((x) => Object.assign(form, x.data))
     .finally(() => (loading.value = false));
 }
 

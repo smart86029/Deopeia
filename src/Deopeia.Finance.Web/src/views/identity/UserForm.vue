@@ -30,7 +30,7 @@
 <script setup lang="ts">
 import roleApi from '@/api/identity/role-api';
 import userApi, { type User } from '@/api/identity/user-api';
-import { Guid } from '@/models/guid';
+import { emptyGuid, type Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import { success } from '@/plugins/element';
 
@@ -41,7 +41,7 @@ const props = defineProps<{
 const loading = ref(false);
 const roles: Ref<OptionResult<Guid>[]> = ref([]);
 const form: User = reactive({
-  id: Guid.empty,
+  id: emptyGuid,
   userName: '',
   password: '',
   isEnabled: true,
@@ -53,9 +53,7 @@ roleApi.getOptions().then((x) => (roles.value = x.data));
 if (props.action === 'edit') {
   userApi
     .get(props.id)
-    .then((x) => {
-      Object.assign(form, x.data);
-    })
+    .then((x) => Object.assign(form, x.data))
     .finally(() => (loading.value = false));
 }
 
