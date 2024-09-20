@@ -1,5 +1,6 @@
 using Deopeia.Quote.Application.Exchanges.CreateExchange;
 using Deopeia.Quote.Application.Exchanges.GetExchange;
+using Deopeia.Quote.Application.Exchanges.GetExchangeOptions;
 using Deopeia.Quote.Application.Exchanges.GetExchanges;
 using Deopeia.Quote.Application.Exchanges.UpdateExchange;
 
@@ -8,6 +9,15 @@ namespace Deopeia.Quote.Api.Controllers;
 [AllowAnonymous]
 public class ExchangesController : ApiController<ExchangesController>
 {
+    [HttpGet("Options")]
+    public async Task<IActionResult> GetOptions()
+    {
+        var query = new GetExchangeOptionsQuery();
+        var result = await Sender.Send(query);
+
+        return Ok(result);
+    }
+
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] GetExchangesQuery query)
     {

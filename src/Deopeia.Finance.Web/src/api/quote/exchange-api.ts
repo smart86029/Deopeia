@@ -1,3 +1,4 @@
+import type { OptionResult } from '@/models/option-result';
 import type { PageQuery, PageResult } from '@/models/page';
 import httpClient from '../http-client';
 
@@ -23,6 +24,8 @@ export interface ExchangeLocale {
 }
 
 export default {
+  getOptions: () =>
+    httpClient.get<OptionResult<string>[]>('/Exchanges/Options'),
   getList: (query: GetExchangesQuery) =>
     httpClient.get<PageResult<ExchangeRow>>('/Exchanges', { params: query }),
   get: (mic: string) => httpClient.get<Exchange>(`/Exchanges/${mic}`),

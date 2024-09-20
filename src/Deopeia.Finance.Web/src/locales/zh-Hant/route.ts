@@ -8,8 +8,13 @@ export default {
     exchange: {
       default: '交易所',
       list: '交易所列表',
-      create: '新建交易所',
+      create: '新增交易所',
       edit: '編輯交易所',
+    },
+    futures: {
+      list: '期貨列表',
+      create: '新增期貨',
+      edit: '編輯期貨',
     },
     home: '首頁',
     identity: '身分',

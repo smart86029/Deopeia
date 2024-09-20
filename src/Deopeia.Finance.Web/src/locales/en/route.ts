@@ -11,6 +11,11 @@ export default {
       create: 'Create Exchange',
       edit: 'Edit Exchange',
     },
+    futures: {
+      list: 'Futures List',
+      create: 'Create Futures',
+      edit: 'Edit Futures',
+    },
     home: 'Home',
     identity: 'Identity',
     permission: {

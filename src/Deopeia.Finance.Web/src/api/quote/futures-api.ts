@@ -15,14 +15,16 @@ export interface FuturesRow {
 
 export interface Futures {
   id: Guid;
-  code: string;
+  symbol: string;
+  exchangeId: string;
+  underlyingAssetId: Guid;
+  currencyCode: string;
   locales: FuturesLocale[];
 }
 
 export interface FuturesLocale {
   culture: string;
   name: string;
-  description?: string;
 }
 
 export default {
