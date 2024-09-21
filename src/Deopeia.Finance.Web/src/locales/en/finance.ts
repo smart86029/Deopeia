@@ -15,6 +15,7 @@ export default {
     closingTime: 'Closing Time',
     underlyingAsset: 'Underlying Asset',
     tickSize: 'Tick Size',
+    contract: 'Contract',
     contractSize: 'Contract Size',
   },
 };

@@ -15,6 +15,9 @@
       </LocaleTabPane>
     </LocaleTabs>
 
+    <el-form-item :label="$t('finance.underlyingAsset')">
+      <SelectOption v-model="assetId" :options="assets" />
+    </el-form-item>
     <el-form-item :label="$t('status.isEnabled.name')">
       <el-switch v-model="form.isEnabled" />
     </el-form-item>
@@ -26,7 +29,7 @@
     </el-form-item>
 
     <el-form-item label-width="0">
-      <el-table :data="form.legs">
+      <el-table :data="form.legs" table-layout="auto">
         <el-table-column prop="serialNumber" align="right" width="200">
           <template #default="{ row }">
             {{ $t('trading.order') }} {{ row.serialNumber }}
@@ -39,6 +42,11 @@
               :enum="OrderSide"
               locale-key="trading.orderSide"
             />
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('finance.contract')">
+          <template #default="{ row }">
+            <SelectOption v-model="row.instrumentId" :options="futures" />
           </template>
         </el-table-column>
         <el-table-column :label="$t('trading.ticks')">
@@ -75,9 +83,14 @@
 </template>
 
 <script setup lang="ts">
-import type { Strategy, StrategyLocale } from '@/api/trading/strategy-api';
-import strategyApi from '@/api/trading/strategy-api';
+import assetApi from '@/api/quote/asset-api';
+import futuresApi from '@/api/quote/futures-api';
+import strategyApi, {
+  type Strategy,
+  type StrategyLocale,
+} from '@/api/trading/strategy-api';
 import { emptyGuid, type Guid } from '@/models/guid';
+import type { OptionResult } from '@/models/option-result';
 import { OrderSide } from '@/models/trading/order-side';
 import { success } from '@/plugins/element';
 import { Minus, Plus } from '@element-plus/icons-vue';
@@ -87,6 +100,9 @@ const props = defineProps<{
   id: Guid;
 }>();
 const loading = ref(false);
+const assetId = ref(emptyGuid);
+const assets: Ref<OptionResult<Guid>[]> = ref([]);
+const futures: Ref<OptionResult<Guid>[]> = ref([]);
 const form: Strategy = reactive({
   id: emptyGuid,
   isEnabled: true,
@@ -97,16 +113,25 @@ const form: Strategy = reactive({
     {
       serialNumber: 1,
       side: OrderSide.Buy,
+      instrumentId: emptyGuid,
       ticks: 0,
       volume: 1,
     },
     {
       serialNumber: 2,
       side: OrderSide.Sell,
+      instrumentId: emptyGuid,
       ticks: 0,
       volume: 1,
     },
   ],
+});
+
+assetApi.getOptions().then((x) => (assets.value = x.data));
+
+watch(assetId, (assetId) => {
+  futuresApi.getOptions(assetId).then((x) => (futures.value = x.data));
+  form.legs.forEach((x) => (x.instrumentId = emptyGuid));
 });
 
 if (props.action === 'edit') {
@@ -126,6 +151,7 @@ const addLeg = (): void => {
   form.legs.push({
     serialNumber: serialNumber,
     side: OrderSide.Buy,
+    instrumentId: emptyGuid,
     ticks: 0,
     volume: 1,
   });

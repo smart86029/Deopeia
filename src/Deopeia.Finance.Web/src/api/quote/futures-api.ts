@@ -1,4 +1,5 @@
 import type { Guid } from '@/models/guid';
+import type { OptionResult } from '@/models/option-result';
 import type { PageQuery, PageResult } from '@/models/page';
 import httpClient from '../http-client';
 
@@ -31,6 +32,10 @@ export interface FuturesLocale {
 }
 
 export default {
+  getOptions: (assetId: Guid) =>
+    httpClient.get<OptionResult<Guid>[]>('/FuturesContracts/Options', {
+      params: { assetId },
+    }),
   getList: (query: GetFuturessQuery) =>
     httpClient.get<PageResult<FuturesRow>>('/FuturesContracts', {
       params: query,

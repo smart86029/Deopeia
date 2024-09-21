@@ -1,5 +1,6 @@
 using Deopeia.Quote.Application.FuturesContracts.CreateFuturesContract;
 using Deopeia.Quote.Application.FuturesContracts.GetFuturesContract;
+using Deopeia.Quote.Application.FuturesContracts.GetFuturesContractOptions;
 using Deopeia.Quote.Application.FuturesContracts.GetFuturesContracts;
 using Deopeia.Quote.Application.FuturesContracts.UpdateFuturesContract;
 
@@ -8,6 +9,14 @@ namespace Deopeia.Quote.Api.Controllers;
 [AllowAnonymous]
 public class FuturesContractsController : ApiController<FuturesContractsController>
 {
+    [HttpGet("Options")]
+    public async Task<IActionResult> GetOptions([FromQuery] GetFuturesContractOptionsQuery query)
+    {
+        var result = await Sender.Send(query);
+
+        return Ok(result);
+    }
+
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] GetFuturesContractsQuery query)
     {

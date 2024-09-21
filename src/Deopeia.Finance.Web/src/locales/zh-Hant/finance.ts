@@ -15,6 +15,7 @@ export default {
     closingTime: '收盤時間',
     underlyingAsset: '標的資產',
     tickSize: 'Tick Size',
+    contract: '契約',
     contractSize: '契約規模',
   },
 };

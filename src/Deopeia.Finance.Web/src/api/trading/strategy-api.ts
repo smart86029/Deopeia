@@ -30,6 +30,7 @@ export interface StrategyLocale {
 export interface StrategyLeg {
   serialNumber: number;
   side: OrderSide;
+  instrumentId: Guid;
   ticks: number;
   volume: number;
 }
