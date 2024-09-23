@@ -2,6 +2,7 @@ using Deopeia.Common.Infrastructure.Auditing;
 using Deopeia.Common.Infrastructure.Files;
 using Deopeia.Common.Infrastructure.Finance;
 using Deopeia.Common.Infrastructure.Localization;
+using Deopeia.Common.Infrastructure.Measurement;
 
 namespace Deopeia.Common.Infrastructure;
 
@@ -17,6 +18,8 @@ public static class ModelBuilderExtensions
             .ApplyConfiguration(new FileResourceConfiguration())
             .ApplyConfiguration(new ImageConfiguration())
             .ApplyConfiguration(new LocaleResourceConfiguration())
+            .ApplyConfiguration(new UnitConfiguration())
+            .ApplyConfiguration(new UnitLocaleConfiguration())
             .Ignore<DomainEvent>();
 
         return builder;

@@ -1,6 +1,7 @@
 using Deopeia.Quote.Application.Options.GetCultures;
 using Deopeia.Quote.Application.Options.GetCurrencies;
 using Deopeia.Quote.Application.Options.GetTimeZones;
+using Deopeia.Quote.Application.Options.GetUnits;
 
 namespace Deopeia.Quote.Api.Controllers;
 
@@ -29,6 +30,15 @@ public class OptionsController : ApiController<OptionsController>
     public async Task<IActionResult> GetTimeZones()
     {
         var query = new GetTimeZonesQuery();
+        var result = await Sender.Send(query);
+
+        return Ok(result);
+    }
+
+    [HttpGet("Units")]
+    public async Task<IActionResult> GetUnits()
+    {
+        var query = new GetUnitsQuery();
         var result = await Sender.Send(query);
 
         return Ok(result);

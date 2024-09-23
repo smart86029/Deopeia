@@ -8,4 +8,5 @@ export default {
     httpClient.get<OptionResult<string>[]>('/Options/Currencies'),
   getTimeZones: () =>
     httpClient.get<OptionResult<string>[]>('/Options/TimeZones'),
+  getUnits: () => httpClient.get<OptionResult<string>[]>('/Options/Units'),
 };

@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deopeia.Quote.Infrastructure.Migrations
 {
     [DbContext(typeof(QuoteContext))]
-    [Migration("20240920164142_Init")]
+    [Migration("20240923081612_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -136,6 +136,43 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .HasName("pk_currency_locale");
 
                     b.ToTable("currency_locale", (string)null);
+                });
+
+            modelBuilder.Entity("Deopeia.Common.Domain.Measurement.Unit", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text")
+                        .HasColumnName("code");
+
+                    b.Property<string>("Symbol")
+                        .HasColumnType("text")
+                        .HasColumnName("symbol");
+
+                    b.HasKey("Id")
+                        .HasName("pk_unit");
+
+                    b.ToTable("unit", (string)null);
+                });
+
+            modelBuilder.Entity("Deopeia.Common.Domain.Measurement.UnitLocale", b =>
+                {
+                    b.Property<string>("EntityId")
+                        .HasColumnType("text")
+                        .HasColumnName("unit_code");
+
+                    b.Property<string>("Culture")
+                        .HasColumnType("text")
+                        .HasColumnName("culture");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("EntityId", "Culture")
+                        .HasName("pk_unit_locale");
+
+                    b.ToTable("unit_locale", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Common.Localization.LocaleResource", b =>
@@ -496,6 +533,16 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .HasConstraintName("fk_currency_locale_currency_currency_id");
                 });
 
+            modelBuilder.Entity("Deopeia.Common.Domain.Measurement.UnitLocale", b =>
+                {
+                    b.HasOne("Deopeia.Common.Domain.Measurement.Unit", null)
+                        .WithMany("Locales")
+                        .HasForeignKey("EntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_unit_locale_unit_unit_id");
+                });
+
             modelBuilder.Entity("Deopeia.Quote.Domain.Assets.AssetLocale", b =>
                 {
                     b.HasOne("Deopeia.Quote.Domain.Assets.Asset", null)
@@ -537,6 +584,11 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("Deopeia.Common.Domain.Finance.Currency", b =>
+                {
+                    b.Navigation("Locales");
+                });
+
+            modelBuilder.Entity("Deopeia.Common.Domain.Measurement.Unit", b =>
                 {
                     b.Navigation("Locales");
                 });

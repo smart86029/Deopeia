@@ -31,7 +31,7 @@
     <el-form-item :label="$t('finance.contractSize')">
       <el-input v-model="form.contractSizeQuantity">
         <template #append>
-          <SelectOption v-model="form.currencyCode" :options="currencies" />
+          <SelectOption v-model="form.contractSizeUnitCode" :options="units" />
         </template>
       </el-input>
     </el-form-item>
@@ -63,6 +63,7 @@ const loading = ref(false);
 const assets: Ref<OptionResult<Guid>[]> = ref([]);
 const exchanges: Ref<OptionResult<string>[]> = ref([]);
 const currencies: Ref<OptionResult<string>[]> = ref([]);
+const units: Ref<OptionResult<string>[]> = ref([]);
 const form: Futures = reactive({
   id: emptyGuid,
   symbol: '',
@@ -78,6 +79,7 @@ const form: Futures = reactive({
 assetApi.getOptions().then((x) => (assets.value = x.data));
 exchangeApi.getOptions().then((x) => (exchanges.value = x.data));
 optionApi.getCurrencies().then((x) => (currencies.value = x.data));
+optionApi.getUnits().then((x) => (units.value = x.data));
 
 if (props.action === 'edit') {
   futuresApi

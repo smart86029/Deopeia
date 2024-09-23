@@ -1,8 +1,11 @@
 using Deopeia.Common.Domain.Auditing;
 using Deopeia.Common.Domain.Files;
 using Deopeia.Common.Domain.Finance;
+using Deopeia.Common.Domain.Measurement;
 using Deopeia.Common.Infrastructure.Auditing;
 using Deopeia.Common.Infrastructure.Files;
+using Deopeia.Common.Infrastructure.Finance;
+using Deopeia.Common.Infrastructure.Measurement;
 
 namespace Deopeia.Common.Infrastructure;
 
@@ -25,6 +28,8 @@ public static class ModelConfigurationBuilderExtensions
         builder.Properties<FileResourceId>().HaveConversion<FileResourceIdConverter>();
 
         builder.Properties<InstrumentId>().HaveConversion<InstrumentIdConverter>();
+
+        builder.Properties<UnitCode>().HaveConversion<UnitCodeConverter>();
 
         builder.Properties<Type>().HaveConversion<TypeConverter>();
 

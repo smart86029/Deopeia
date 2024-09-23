@@ -1,4 +1,5 @@
 using Deopeia.Common.Domain.Finance;
+using Deopeia.Common.Domain.Measurement;
 
 namespace Deopeia.Common.Infrastructure;
 
@@ -73,6 +74,30 @@ public abstract class DbSeeder<TContext> : IDbSeeder<TContext>
         };
 
         return resourcesEN.Concat(resourcesZHHant);
+    }
+
+    protected IEnumerable<Unit> GetUnits()
+    {
+        var results = new Unit[]
+        {
+            new("GRN", "Grain", "gr"),
+            new("DWT", "Pennyweight", "dwt"),
+            new("APZ", "Troy ounce", "oz t"),
+            new("LBR", "Troy pound ", "lb t"),
+            new("MGM", "Milligram", "mg"),
+            new("GRM", "Gram", "g"),
+            new("KGM", "Kilogram", "kg"),
+        };
+
+        results[0].UpdateName("格令", ZHHant);
+        results[1].UpdateName("英錢", ZHHant);
+        results[2].UpdateName("金衡盎司", ZHHant);
+        results[3].UpdateName("金衡磅", ZHHant);
+        results[4].UpdateName("毫克", ZHHant);
+        results[5].UpdateName("公克", ZHHant);
+        results[6].UpdateName("公斤", ZHHant);
+
+        return results;
     }
 
     protected LocaleResource FromNone(CultureInfo culture, string code, string content)

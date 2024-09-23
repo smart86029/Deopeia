@@ -150,6 +150,18 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "unit",
+                columns: table => new
+                {
+                    code = table.Column<string>(type: "text", nullable: false),
+                    symbol = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_unit", x => x.code);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "asset_locale",
                 columns: table => new
                 {
@@ -246,6 +258,25 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "unit_locale",
+                columns: table => new
+                {
+                    unit_code = table.Column<string>(type: "text", nullable: false),
+                    culture = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_unit_locale", x => new { x.unit_code, x.culture });
+                    table.ForeignKey(
+                        name: "fk_unit_locale_unit_unit_id",
+                        column: x => x.unit_code,
+                        principalTable: "unit",
+                        principalColumn: "code",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "ix_asset_code",
                 table: "asset",
@@ -295,6 +326,9 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 name: "locale_resource");
 
             migrationBuilder.DropTable(
+                name: "unit_locale");
+
+            migrationBuilder.DropTable(
                 name: "asset");
 
             migrationBuilder.DropTable(
@@ -308,6 +342,9 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "instrument");
+
+            migrationBuilder.DropTable(
+                name: "unit");
         }
     }
 }

@@ -1,8 +1,9 @@
-using System.Linq;
+using Deopeia.Common.Domain.Measurement;
 using Deopeia.Quote.Domain.Assets;
 using Deopeia.Quote.Domain.Companies;
 using Deopeia.Quote.Domain.Exchanges;
 using Deopeia.Quote.Domain.Instruments.FuturesContracts;
+using Unit = Deopeia.Common.Domain.Measurement.Unit;
 
 namespace Deopeia.Quote.Infrastructure;
 
@@ -23,6 +24,8 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
 
         context.Set<Currency>().AddRange(GetCurrencies());
         context.Set<LocaleResource>().AddRange(GetLocaleResources());
+        context.Set<Unit>().AddRange(GetUnits());
+
         context.Set<Asset>().AddRange(assets.Values);
         context.Set<Exchange>().AddRange(exchanges.Values);
         context.Set<FuturesContract>().AddRange(GetFuturesContracts(assets, exchanges));
@@ -342,6 +345,10 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
         var jpy = new CurrencyCode("JPY");
         var usd = new CurrencyCode("USD");
 
+        var troyOunce = new UnitCode("APZ");
+        var gram = new UnitCode("GRM");
+        var kilogram = new UnitCode("KGM");
+
         var gold = assets["XAU"].Id;
         var goldContracts = new[]
         {
@@ -351,7 +358,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 "TAIFEX Gold Futures",
                 usd,
                 gold,
-                new ContractSize(10, "APZ"),
+                new ContractSize(10, troyOunce),
                 0.1M
             ),
             new FuturesContract(
@@ -360,7 +367,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 "Gold",
                 cny,
                 gold,
-                new ContractSize(1000, "GRM"),
+                new ContractSize(1000, gram),
                 0.02M
             ),
             new FuturesContract(
@@ -369,7 +376,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 "USD Gold Futures",
                 usd,
                 gold,
-                new ContractSize(1000, "GRM"),
+                new ContractSize(1000, gram),
                 0.01M
             ),
             new FuturesContract(
@@ -378,7 +385,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 "Gold Standard Futures",
                 jpy,
                 gold,
-                new ContractSize(1, "KGM"),
+                new ContractSize(1, kilogram),
                 1M
             ),
             new FuturesContract(
@@ -387,7 +394,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 "Gold Mini Futures",
                 jpy,
                 gold,
-                new ContractSize(100, "GRM"),
+                new ContractSize(100, gram),
                 0.5M
             ),
             new FuturesContract(
@@ -396,7 +403,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 "Gold Futures",
                 usd,
                 gold,
-                new ContractSize(100, "APZ"),
+                new ContractSize(100, troyOunce),
                 0.1M
             ),
             new FuturesContract(
@@ -405,7 +412,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 "E-mini Gold Futures",
                 usd,
                 gold,
-                new ContractSize(50, "APZ"),
+                new ContractSize(50, troyOunce),
                 0.25M
             ),
             new FuturesContract(
@@ -414,7 +421,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 "Micro Gold Futures",
                 usd,
                 gold,
-                new ContractSize(10, "APZ"),
+                new ContractSize(10, troyOunce),
                 0.1M
             ),
         };
@@ -436,7 +443,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 "Silver",
                 cny,
                 silver,
-                new ContractSize(15, "KGS"),
+                new ContractSize(15, kilogram),
                 1M
             ),
             new FuturesContract(
@@ -445,7 +452,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 "USD Silver Futures",
                 usd,
                 silver,
-                new ContractSize(30, "KGS"),
+                new ContractSize(30, kilogram),
                 0.05M
             ),
             new FuturesContract(
@@ -454,7 +461,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 "Silver Futures",
                 jpy,
                 silver,
-                new ContractSize(30, "KGS"),
+                new ContractSize(30, kilogram),
                 1M
             ),
             new FuturesContract(
@@ -463,8 +470,8 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 "Silver Futures",
                 usd,
                 silver,
-                new ContractSize(5000, "APZ"),
-                25M
+                new ContractSize(5000, troyOunce),
+                0.005M
             ),
             new FuturesContract(
                 comex,
@@ -472,7 +479,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 "E-mini Silver Futures",
                 usd,
                 silver,
-                new ContractSize(2500, "APZ"),
+                new ContractSize(2500, troyOunce),
                 0.0125M
             ),
             new FuturesContract(
@@ -481,7 +488,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
                 "Micro Silver Futures",
                 usd,
                 silver,
-                new ContractSize(1000, "APZ"),
+                new ContractSize(1000, troyOunce),
                 0.005M
             ),
         };
