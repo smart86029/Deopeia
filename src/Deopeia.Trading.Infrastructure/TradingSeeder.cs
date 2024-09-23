@@ -19,9 +19,19 @@ public class TradingSeeder : DbSeeder<TradingContext>
 
     private IEnumerable<LocaleResource> GetLocaleResources()
     {
-        var resourcesEN = new LocaleResource[] { };
+        var resourcesEN = new LocaleResource[]
+        {
+            FromModel(EN, "Strategy.OpenExpression", "Open Expression"),
+            FromModel(EN, "Strategy.CloseExpression", "Close Expression"),
+            FromError(EN, "Strategy.Expression", "{Property} is invalid."),
+        };
 
-        var resourcesZHHant = new LocaleResource[] { };
+        var resourcesZHHant = new LocaleResource[]
+        {
+            FromModel(ZHHant, "Strategy.OpenExpression", "開倉表達式"),
+            FromModel(ZHHant, "Strategy.CloseExpression", "關倉表達式"),
+            FromError(ZHHant, "Strategy.Expression", "{Property}不合法。"),
+        };
 
         var results = GetCommonLocaleResources().Concat(resourcesEN).Concat(resourcesZHHant);
 

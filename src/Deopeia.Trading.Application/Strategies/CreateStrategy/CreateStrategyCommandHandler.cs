@@ -1,3 +1,7 @@
+using System.Data;
+using System.Linq.Expressions;
+using System.Text.RegularExpressions;
+using Deopeia.Common.Extensions;
 using Deopeia.Trading.Domain.Strategies;
 
 namespace Deopeia.Trading.Application.Strategies.CreateStrategy;
