@@ -324,6 +324,88 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     b.ToTable("company_locale", (string)null);
                 });
 
+            modelBuilder.Entity("Deopeia.Quote.Domain.ContractSpecifications.ContractSpecification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("currency_code");
+
+                    b.Property<string>("ExchangeId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("exchange_id");
+
+                    b.Property<string>("Symbol")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("symbol");
+
+                    b.Property<string>("SymbolTemplate")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("symbol_template");
+
+                    b.Property<decimal>("TickSize")
+                        .HasColumnType("numeric")
+                        .HasColumnName("tick_size");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
+
+                    b.Property<Guid>("UnderlyingAssetId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("underlying_asset_id");
+
+                    b.ComplexProperty<Dictionary<string, object>>("ContractSize", "Deopeia.Quote.Domain.ContractSpecifications.ContractSpecification.ContractSize#ContractSize", b1 =>
+                        {
+                            b1.Property<decimal>("Quantity")
+                                .HasColumnType("numeric")
+                                .HasColumnName("contract_size_quantity");
+
+                            b1.Property<string>("UnitCode")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("contract_size_unit_code");
+                        });
+
+                    b.HasKey("Id")
+                        .HasName("pk_contract_specification");
+
+                    b.ToTable("contract_specification", (string)null);
+                });
+
+            modelBuilder.Entity("Deopeia.Quote.Domain.ContractSpecifications.ContractSpecificationLocale", b =>
+                {
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("contract_specification_id");
+
+                    b.Property<string>("Culture")
+                        .HasColumnType("text")
+                        .HasColumnName("culture");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<string>("NameTemplate")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name_template");
+
+                    b.HasKey("EntityId", "Culture")
+                        .HasName("pk_contract_specification_locale");
+
+                    b.ToTable("contract_specification_locale", (string)null);
+                });
+
             modelBuilder.Entity("Deopeia.Quote.Domain.Exchanges.Exchange", b =>
                 {
                     b.Property<string>("Id")
@@ -482,25 +564,16 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 {
                     b.HasBaseType("Deopeia.Quote.Domain.Instruments.Instrument");
 
-                    b.Property<decimal>("TickSize")
-                        .HasColumnType("numeric")
-                        .HasColumnName("tick_size");
-
-                    b.Property<Guid>("UnderlyingAssetId")
+                    b.Property<Guid>("ContractSpecificationId")
                         .HasColumnType("uuid")
-                        .HasColumnName("underlying_asset_id");
+                        .HasColumnName("contract_specification_id");
 
-                    b.ComplexProperty<Dictionary<string, object>>("ContractSize", "Deopeia.Quote.Domain.Instruments.FuturesContracts.FuturesContract.ContractSize#ContractSize", b1 =>
-                        {
-                            b1.Property<decimal>("Quantity")
-                                .HasColumnType("numeric")
-                                .HasColumnName("contract_size_quantity");
+                    b.Property<DateOnly>("ExpirationDate")
+                        .HasColumnType("date")
+                        .HasColumnName("expiration_date");
 
-                            b1.Property<string>("UnitCode")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("contract_size_unit_code");
-                        });
+                    b.HasIndex("ContractSpecificationId")
+                        .HasDatabaseName("ix_instrument_contract_specification_id");
 
                     b.ToTable("instrument", (string)null);
 
@@ -560,6 +633,16 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .HasConstraintName("fk_company_locale_company_company_id");
                 });
 
+            modelBuilder.Entity("Deopeia.Quote.Domain.ContractSpecifications.ContractSpecificationLocale", b =>
+                {
+                    b.HasOne("Deopeia.Quote.Domain.ContractSpecifications.ContractSpecification", null)
+                        .WithMany("Locales")
+                        .HasForeignKey("EntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_contract_specification_locale_contract_specification_contra");
+                });
+
             modelBuilder.Entity("Deopeia.Quote.Domain.Exchanges.ExchangeLocale", b =>
                 {
                     b.HasOne("Deopeia.Quote.Domain.Exchanges.Exchange", null)
@@ -596,6 +679,11 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Companies.Company", b =>
+                {
+                    b.Navigation("Locales");
+                });
+
+            modelBuilder.Entity("Deopeia.Quote.Domain.ContractSpecifications.ContractSpecification", b =>
                 {
                     b.Navigation("Locales");
                 });

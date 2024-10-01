@@ -76,6 +76,26 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "contract_specification",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    type = table.Column<int>(type: "integer", nullable: false),
+                    exchange_id = table.Column<string>(type: "text", nullable: false),
+                    symbol = table.Column<string>(type: "text", nullable: false),
+                    symbol_template = table.Column<string>(type: "text", nullable: false),
+                    currency_code = table.Column<string>(type: "text", nullable: false),
+                    underlying_asset_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    tick_size = table.Column<decimal>(type: "numeric", nullable: false),
+                    contract_size_quantity = table.Column<decimal>(type: "numeric", nullable: false),
+                    contract_size_unit_code = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_contract_specification", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "currency",
                 columns: table => new
                 {
@@ -124,10 +144,8 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     exchange_id = table.Column<string>(type: "text", nullable: false),
                     symbol = table.Column<string>(type: "text", nullable: false),
                     currency_code = table.Column<string>(type: "text", nullable: false),
-                    underlying_asset_id = table.Column<Guid>(type: "uuid", nullable: true),
-                    tick_size = table.Column<decimal>(type: "numeric", nullable: true),
-                    contract_size_quantity = table.Column<decimal>(type: "numeric", nullable: true),
-                    contract_size_unit_code = table.Column<string>(type: "text", nullable: true),
+                    contract_specification_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    expiration_date = table.Column<DateOnly>(type: "date", nullable: true),
                     company_id = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
@@ -196,6 +214,26 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         name: "fk_company_locale_company_company_id",
                         column: x => x.company_id,
                         principalTable: "company",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "contract_specification_locale",
+                columns: table => new
+                {
+                    contract_specification_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    culture = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    name_template = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_contract_specification_locale", x => new { x.contract_specification_id, x.culture });
+                    table.ForeignKey(
+                        name: "fk_contract_specification_locale_contract_specification_contra",
+                        column: x => x.contract_specification_id,
+                        principalTable: "contract_specification",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -289,6 +327,11 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 column: "type");
 
             migrationBuilder.CreateIndex(
+                name: "ix_instrument_contract_specification_id",
+                table: "instrument",
+                column: "contract_specification_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_instrument_type_exchange_id_symbol",
                 table: "instrument",
                 columns: new[] { "type", "exchange_id", "symbol" },
@@ -309,6 +352,9 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "company_locale");
+
+            migrationBuilder.DropTable(
+                name: "contract_specification_locale");
 
             migrationBuilder.DropTable(
                 name: "currency_locale");
@@ -333,6 +379,9 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "company");
+
+            migrationBuilder.DropTable(
+                name: "contract_specification");
 
             migrationBuilder.DropTable(
                 name: "currency");

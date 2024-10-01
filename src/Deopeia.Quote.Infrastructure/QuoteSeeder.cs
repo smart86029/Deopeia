@@ -1,6 +1,7 @@
 using Deopeia.Common.Domain.Measurement;
 using Deopeia.Quote.Domain.Assets;
 using Deopeia.Quote.Domain.Companies;
+using Deopeia.Quote.Domain.ContractSpecifications;
 using Deopeia.Quote.Domain.Exchanges;
 using Deopeia.Quote.Domain.Instruments.FuturesContracts;
 using Unit = Deopeia.Common.Domain.Measurement.Unit;
@@ -21,6 +22,8 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
 
         var assets = GetAssets().ToDictionary(x => x.Code);
         var exchanges = GetExchanges().ToDictionary(x => x.Id.Mic);
+        var contractSpecifications = GetContractSpecifications(assets, exchanges)
+            .ToDictionary(x => x.Symbol);
 
         context.Set<Currency>().AddRange(GetCurrencies());
         context.Set<LocaleResource>().AddRange(GetLocaleResources());
@@ -28,7 +31,8 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
 
         context.Set<Asset>().AddRange(assets.Values);
         context.Set<Exchange>().AddRange(exchanges.Values);
-        context.Set<FuturesContract>().AddRange(GetFuturesContracts(assets, exchanges));
+        context.Set<ContractSpecification>().AddRange(contractSpecifications.Values);
+        context.Set<FuturesContract>().AddRange(GetFuturesContracts(contractSpecifications));
 
         await context.SaveChangesAsync();
     }
@@ -334,7 +338,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
         return results;
     }
 
-    private IEnumerable<FuturesContract> GetFuturesContracts(
+    private IEnumerable<ContractSpecification> GetContractSpecifications(
         Dictionary<string, Asset> assets,
         Dictionary<string, Exchange> exchanges
     )
@@ -352,73 +356,67 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
         var gold = assets["XAU"].Id;
         var goldContracts = new[]
         {
-            new FuturesContract(
+            NewFutures(
                 exchanges["XTAF"].Id,
                 "GDF",
+                "{Symbol}{MonthCode}{Date:yyyy}",
                 "TAIFEX Gold Futures",
+                "{Name} ({Date:MMM yyyy})",
                 usd,
                 gold,
                 new ContractSize(10, troyOunce),
                 0.1M
             ),
-            new FuturesContract(
+            NewFutures(
                 exchanges["XSGE"].Id,
-                "CU",
+                "AU",
+                "au{Date:yyMM}",
                 "Gold",
+                "{Name} {Date:yyMM}",
                 cny,
                 gold,
                 new ContractSize(1000, gram),
                 0.02M
             ),
-            new FuturesContract(
+            NewFutures(
                 exchanges["XHKF"].Id,
                 "GDU",
+                "{Symbol}{MonthCode}{Date:yyyy}",
                 "USD Gold Futures",
+                "{Name} ({Date:MMM yyyy})",
                 usd,
                 gold,
                 new ContractSize(1000, gram),
                 0.01M
             ),
-            new FuturesContract(
-                exchanges["XTKT"].Id,
-                "JAU",
-                "Gold Standard Futures",
-                jpy,
-                gold,
-                new ContractSize(1, kilogram),
-                1M
-            ),
-            new FuturesContract(
-                exchanges["XTKT"].Id,
-                "JAM",
-                "Gold Mini Futures",
-                jpy,
-                gold,
-                new ContractSize(100, gram),
-                0.5M
-            ),
-            new FuturesContract(
+            NewFutures(
                 comex,
                 "GC",
+                "{Symbol}{MonthCode}{Date:yyyy}",
                 "Gold Futures",
+                "{Name} ({Date:MMM yyyy})",
                 usd,
                 gold,
                 new ContractSize(100, troyOunce),
                 0.1M
             ),
-            new FuturesContract(
+            NewFutures(
                 comex,
                 "QO",
+                "{Symbol}{MonthCode}{Date:yyyy}",
                 "E-mini Gold Futures",
+                "{Name} ({Date:MMM yyyy})",
                 usd,
                 gold,
                 new ContractSize(50, troyOunce),
                 0.25M
             ),
-            new FuturesContract(
+            NewFutures(
                 comex,
                 "MGC",
+                "{Symbol}{MonthCode}{Date:yyyy}",
                 "Micro Gold Futures",
+                "{Name} ({Date:MMM yyyy})",
                 usd,
                 gold,
                 new ContractSize(10, troyOunce),
@@ -429,63 +427,65 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
         goldContracts[0].UpdateName("黃金期貨", ZHHant);
         goldContracts[1].UpdateName("黃金", ZHHant);
         goldContracts[2].UpdateName("美元黃金", ZHHant);
-        goldContracts[5].UpdateName("黃金期貨", ZHHant);
-        goldContracts[5].UpdateName("黃金期貨", ZHHant);
-        goldContracts[6].UpdateName("E-迷你黃金期貨", ZHHant);
-        goldContracts[7].UpdateName("微型黃金期貨", ZHHant);
+        goldContracts[3].UpdateName("黃金期貨", ZHHant);
+        goldContracts[4].UpdateName("E-迷你黃金期貨", ZHHant);
+        goldContracts[5].UpdateName("微型黃金期貨", ZHHant);
+
+        goldContracts[1].UpdateNameTemplate("滬金{Date:yyMM}", ZHHant);
 
         var silver = assets["XAG"].Id;
         var silverContracts = new[]
         {
-            new FuturesContract(
+            NewFutures(
                 exchanges["XSGE"].Id,
                 "AG",
+                "ag{Date:yyMM}",
                 "Silver",
+                "{Name}{Date:yyMM}",
                 cny,
                 silver,
                 new ContractSize(15, kilogram),
                 1M
             ),
-            new FuturesContract(
+            NewFutures(
                 exchanges["XHKF"].Id,
                 "SIU",
+                "{Symbol}{MonthCode}{Date:yyyy}",
                 "USD Silver Futures",
+                "{Name} ({Date:MMM yyyy})",
                 usd,
                 silver,
                 new ContractSize(30, kilogram),
                 0.05M
             ),
-            new FuturesContract(
-                exchanges["XTKT"].Id,
-                "JSV",
-                "Silver Futures",
-                jpy,
-                silver,
-                new ContractSize(30, kilogram),
-                1M
-            ),
-            new FuturesContract(
+            NewFutures(
                 comex,
                 "SI",
+                "{Symbol}{MonthCode}{Date:yyyy}",
                 "Silver Futures",
+                "{Name} ({Date:MMM yyyy})",
                 usd,
                 silver,
                 new ContractSize(5000, troyOunce),
                 0.005M
             ),
-            new FuturesContract(
+            NewFutures(
                 comex,
                 "QI",
+                "{Symbol}{MonthCode}{Date:yyyy}",
                 "E-mini Silver Futures",
+                "{Name} ({Date:MMM yyyy})",
                 usd,
                 silver,
                 new ContractSize(2500, troyOunce),
                 0.0125M
             ),
-            new FuturesContract(
+            NewFutures(
                 comex,
                 "SIL",
+                "{Symbol}{MonthCode}{Date:yyyy}",
                 "Micro Silver Futures",
+                "{Name} ({Date:MMM yyyy})",
                 usd,
                 silver,
                 new ContractSize(1000, troyOunce),
@@ -495,9 +495,116 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
 
         silverContracts[0].UpdateName("白銀", ZHHant);
         silverContracts[1].UpdateName("美元白銀", ZHHant);
-        silverContracts[3].UpdateName("白銀期貨", ZHHant);
-        silverContracts[4].UpdateName("E-迷你白銀期貨", ZHHant);
-        silverContracts[5].UpdateName("微型白銀期貨", ZHHant);
+        silverContracts[2].UpdateName("白銀期貨", ZHHant);
+        silverContracts[3].UpdateName("E-迷你白銀期貨", ZHHant);
+        silverContracts[4].UpdateName("微型白銀期貨", ZHHant);
+
+        silverContracts[0].UpdateNameTemplate("滬銀{Date:yyMM}", ZHHant);
+
+        return goldContracts.Concat(silverContracts);
+
+        ContractSpecification NewFutures(
+            ExchangeId exchangeId,
+            string symbol,
+            string symbolTemplate,
+            string name,
+            string nameTemplate,
+            CurrencyCode currencyCode,
+            AssetId underlyingAssetId,
+            ContractSize contractSize,
+            decimal tickSize
+        )
+        {
+            return new ContractSpecification(
+                InstrumentType.Futures,
+                exchangeId,
+                symbol,
+                symbolTemplate,
+                name,
+                nameTemplate,
+                currencyCode,
+                underlyingAssetId,
+                contractSize,
+                tickSize
+            );
+        }
+    }
+
+    private IEnumerable<FuturesContract> GetFuturesContracts(
+        Dictionary<string, ContractSpecification> contractSpecifications
+    )
+    {
+        var goldContracts = new FuturesContract[]
+        {
+            new(contractSpecifications["GDF"], new DateOnly(2024, 10, 29)),
+            new(contractSpecifications["GDF"], new DateOnly(2024, 12, 27)),
+            new(contractSpecifications["GDF"], new DateOnly(2025, 02, 25)),
+            new(contractSpecifications["GDF"], new DateOnly(2025, 04, 28)),
+            new(contractSpecifications["GDF"], new DateOnly(2025, 06, 26)),
+            new(contractSpecifications["GDF"], new DateOnly(2025, 08, 27)),
+            new(contractSpecifications["AU"], new DateOnly(2024, 10, 15)),
+            new(contractSpecifications["AU"], new DateOnly(2024, 11, 15)),
+            new(contractSpecifications["AU"], new DateOnly(2024, 12, 16)),
+            new(contractSpecifications["AU"], new DateOnly(2025, 02, 17)),
+            new(contractSpecifications["AU"], new DateOnly(2025, 04, 15)),
+            new(contractSpecifications["AU"], new DateOnly(2025, 06, 16)),
+            new(contractSpecifications["AU"], new DateOnly(2025, 08, 15)),
+            new(contractSpecifications["AU"], new DateOnly(2025, 10, 15)),
+            new(contractSpecifications["GDU"], new DateOnly(2024, 10, 21)),
+            new(contractSpecifications["GDU"], new DateOnly(2024, 11, 18)),
+            new(contractSpecifications["GDU"], new DateOnly(2024, 12, 16)),
+            new(contractSpecifications["GDU"], new DateOnly(2025, 01, 20)),
+            new(contractSpecifications["GDU"], new DateOnly(2025, 02, 17)),
+            new(contractSpecifications["GDU"], new DateOnly(2025, 03, 17)),
+            new(contractSpecifications["GDU"], new DateOnly(2025, 04, 22)),
+            new(contractSpecifications["GDU"], new DateOnly(2025, 05, 19)),
+            new(contractSpecifications["GDU"], new DateOnly(2025, 06, 16)),
+            new(contractSpecifications["GDU"], new DateOnly(2025, 07, 21)),
+            new(contractSpecifications["GDU"], new DateOnly(2025, 08, 18)),
+            new(contractSpecifications["GDU"], new DateOnly(2025, 09, 15)),
+            new(contractSpecifications["GC"], new DateOnly(2024, 10, 29)),
+            new(contractSpecifications["GC"], new DateOnly(2024, 11, 26)),
+            new(contractSpecifications["GC"], new DateOnly(2024, 12, 27)),
+            new(contractSpecifications["GC"], new DateOnly(2025, 02, 26)),
+            new(contractSpecifications["GC"], new DateOnly(2025, 04, 28)),
+            new(contractSpecifications["GC"], new DateOnly(2025, 06, 26)),
+            new(contractSpecifications["GC"], new DateOnly(2025, 08, 27)),
+        };
+
+        var silverContracts = new FuturesContract[]
+        {
+            new(contractSpecifications["AG"], new DateOnly(2024, 10, 15)),
+            new(contractSpecifications["AG"], new DateOnly(2024, 11, 15)),
+            new(contractSpecifications["AG"], new DateOnly(2024, 12, 16)),
+            new(contractSpecifications["AG"], new DateOnly(2025, 01, 15)),
+            new(contractSpecifications["AG"], new DateOnly(2025, 02, 17)),
+            new(contractSpecifications["AG"], new DateOnly(2025, 03, 17)),
+            new(contractSpecifications["AG"], new DateOnly(2025, 04, 15)),
+            new(contractSpecifications["AG"], new DateOnly(2025, 05, 15)),
+            new(contractSpecifications["AG"], new DateOnly(2025, 06, 16)),
+            new(contractSpecifications["AG"], new DateOnly(2025, 07, 15)),
+            new(contractSpecifications["AG"], new DateOnly(2025, 08, 15)),
+            new(contractSpecifications["AG"], new DateOnly(2025, 09, 15)),
+            new(contractSpecifications["SIU"], new DateOnly(2024, 10, 21)),
+            new(contractSpecifications["SIU"], new DateOnly(2024, 11, 18)),
+            new(contractSpecifications["SIU"], new DateOnly(2024, 12, 16)),
+            new(contractSpecifications["SIU"], new DateOnly(2025, 01, 20)),
+            new(contractSpecifications["SIU"], new DateOnly(2025, 02, 17)),
+            new(contractSpecifications["SIU"], new DateOnly(2025, 03, 17)),
+            new(contractSpecifications["SIU"], new DateOnly(2025, 04, 22)),
+            new(contractSpecifications["SIU"], new DateOnly(2025, 05, 19)),
+            new(contractSpecifications["SIU"], new DateOnly(2025, 06, 16)),
+            new(contractSpecifications["SIU"], new DateOnly(2025, 07, 21)),
+            new(contractSpecifications["SIU"], new DateOnly(2025, 08, 18)),
+            new(contractSpecifications["SIU"], new DateOnly(2025, 09, 15)),
+            new(contractSpecifications["SI"], new DateOnly(2024, 10, 29)),
+            new(contractSpecifications["SI"], new DateOnly(2024, 11, 26)),
+            new(contractSpecifications["SI"], new DateOnly(2024, 12, 27)),
+            new(contractSpecifications["SI"], new DateOnly(2025, 02, 26)),
+            new(contractSpecifications["SI"], new DateOnly(2025, 04, 28)),
+            new(contractSpecifications["SI"], new DateOnly(2025, 06, 26)),
+            new(contractSpecifications["SI"], new DateOnly(2025, 08, 27)),
+        };
 
         return goldContracts.Concat(silverContracts);
     }

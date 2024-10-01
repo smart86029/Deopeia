@@ -19,7 +19,9 @@ SELECT
 FROM instrument AS a
 LEFT JOIN instrument_locale AS b ON a.id = b.instrument_id AND b.culture = @CurrentCulture
 INNER JOIN instrument_locale AS c ON a.id = c.instrument_id AND c.culture = @DefaultThreadCurrentCulture
-WHERE a.type = @Futures AND a.underlying_asset_id = @AssetId
+INNER JOIN contract_specification AS d ON a.contract_specification_id = d.id
+WHERE a.type = @Futures AND d.underlying_asset_id = @AssetId AND a.expiration_date > NOW()
+ORDER BY a.symbol
 """;
         var optoins = await _connection.QueryAsync<OptionResult<Guid>>(
             sql,

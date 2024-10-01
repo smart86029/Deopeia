@@ -15,16 +15,17 @@ internal class GetFuturesContractQueryHandler(NpgsqlConnection connection)
     {
         var sql = """
 SELECT
-    id,
-    exchange_id,
-    symbol,
-    currency_code,
-    underlying_asset_id,
-    tick_size,
-    contract_size_quantity,
-    contract_size_unit_code
-FROM instrument
-WHERE id = @Id AND type = @Futures;
+    a.id,
+    a.exchange_id,
+    a.symbol,
+    a.currency_code,
+    b.underlying_asset_id,
+    b.tick_size,
+    b.contract_size_quantity,
+    b.contract_size_unit_code
+FROM instrument AS a
+INNER JOIN contract_specification AS b ON a.contract_specification_id = b.id
+WHERE a.id = @Id AND a.type = @Futures;
 
 SELECT
     culture,
