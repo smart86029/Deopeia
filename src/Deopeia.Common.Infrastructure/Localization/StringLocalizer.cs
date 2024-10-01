@@ -1,15 +1,10 @@
-using System.Text.RegularExpressions;
 using Microsoft.Extensions.Localization;
 
 namespace Deopeia.Common.Infrastructure.Localization;
 
-internal partial class StringLocalizer(
-    IEnumerable<LocaleResource> contents,
-    LocalizationOptions options
-) : IStringLocalizer
+internal class StringLocalizer(IEnumerable<LocaleResource> contents, LocalizationOptions options)
+    : IStringLocalizer
 {
-    private readonly Regex _keyRegex = KeyRegex();
-
     private readonly Dictionary<(CultureInfo Culture, string Code), string> _contents =
         contents.ToDictionary(x => (x.Culture, $"{x.Type}.{x.Code}"), x => x.Content);
 
@@ -39,7 +34,7 @@ internal partial class StringLocalizer(
             }
 
             var placeholderValues = ParsePlaceholderValues(arguments.First());
-            var formatted = Format(value, placeholderValues);
+            var formatted = value.Format(placeholderValues);
 
             return new LocalizedString(name, formatted, !found);
         }
@@ -92,32 +87,4 @@ internal partial class StringLocalizer(
 
         return results;
     }
-
-    private string Format(string template, Dictionary<string, object> values)
-    {
-        var result = _keyRegex.Replace(
-            template,
-            match =>
-            {
-                var key = match.Groups[1].Value;
-                if (!values.TryGetValue(key, out var value))
-                {
-                    return match.Value;
-                }
-
-                if (match.Groups[2].Success)
-                {
-                    var format = match.Groups[2].Value;
-                    return string.Format($"{{0:{format}}}", value);
-                }
-
-                return value?.ToString() ?? string.Empty;
-            }
-        );
-
-        return result;
-    }
-
-    [GeneratedRegex("{([^{}:]+)(?::([^{}]+))?}", RegexOptions.Compiled)]
-    private static partial Regex KeyRegex();
 }

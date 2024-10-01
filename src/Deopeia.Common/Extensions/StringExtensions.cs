@@ -41,6 +41,35 @@ public static partial class StringExtensions
         return JsonNamingPolicy.SnakeCaseLower.ConvertName(value);
     }
 
+    public static string Format(this string template, Dictionary<string, object> values)
+    {
+        var result = KeyRegex()
+            .Replace(
+                template,
+                match =>
+                {
+                    var key = match.Groups[1].Value;
+                    if (!values.TryGetValue(key, out var value))
+                    {
+                        return match.Value;
+                    }
+
+                    if (match.Groups[2].Success)
+                    {
+                        var format = match.Groups[2].Value;
+                        return string.Format($"{{0:{format}}}", value);
+                    }
+
+                    return value?.ToString() ?? string.Empty;
+                }
+            );
+
+        return result;
+    }
+
     [GeneratedRegex(@"\b\w")]
     private static partial Regex FirstLetterRegex();
+
+    [GeneratedRegex("{([^{}:]+)(?::([^{}]+))?}")]
+    private static partial Regex KeyRegex();
 }
