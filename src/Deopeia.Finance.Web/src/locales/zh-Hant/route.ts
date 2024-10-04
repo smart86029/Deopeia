@@ -5,6 +5,11 @@ export default {
       create: '新增資產',
       edit: '編輯資產',
     },
+    contractSpecification: {
+      list: '契約規格列表',
+      create: '新增契約規格',
+      edit: '編輯契約規格',
+    },
     exchange: {
       default: '交易所',
       list: '交易所列表',

@@ -2,6 +2,7 @@ export default {
   finance: {
     exchange: '交易所',
     symbol: '代碼',
+    symbolTemplate: '代碼樣板',
     price: '價格',
     priceChange: '漲跌',
     volume: '成交量',
@@ -13,6 +14,7 @@ export default {
     marketIdentifierCode: '市場識別編碼',
     openingTime: '開盤時間',
     closingTime: '收盤時間',
+    nameTemplate: '名稱樣板',
     underlyingAsset: '標的資產',
     tickSize: 'Tick Size',
     contract: '契約',

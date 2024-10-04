@@ -55,6 +55,30 @@ export default [
     ],
   },
   {
+    path: 'contractSpecification',
+    name: 'contractSpecification.list',
+    redirect: { name: 'contractSpecification.default' },
+    children: [
+      {
+        path: '',
+        name: 'contractSpecification.default',
+        component: () => import('../views/quote/ContractSpecificationList.vue'),
+      },
+      {
+        path: 'create',
+        name: 'contractSpecification.create',
+        component: () => import('../views/quote/ContractSpecificationForm.vue'),
+        props: create,
+      },
+      {
+        path: ':id',
+        name: 'contractSpecification.edit',
+        component: () => import('../views/quote/ContractSpecificationForm.vue'),
+        props: edit,
+      },
+    ],
+  },
+  {
     path: 'futures',
     name: 'futures.list',
     redirect: { name: 'futures.default' },

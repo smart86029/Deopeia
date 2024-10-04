@@ -5,6 +5,11 @@ export default {
       create: 'Create Asset',
       edit: 'Edit Asset',
     },
+    contractSpecification: {
+      list: 'Contract Specifications',
+      create: 'Create Contract Specification',
+      edit: 'Edit Contract Specification',
+    },
     exchange: {
       default: 'Exchange',
       list: 'Exchange List',

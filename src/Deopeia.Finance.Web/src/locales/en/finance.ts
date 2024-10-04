@@ -2,6 +2,7 @@ export default {
   finance: {
     exchange: 'Exchange',
     symbol: 'Symbol',
+    symbolTemplate: 'Symbol Template',
     price: 'Price',
     priceChange: 'Price Change',
     volume: 'Volume',
@@ -13,6 +14,7 @@ export default {
     marketIdentifierCode: 'Market Identifier Code',
     openingTime: 'Opening Time',
     closingTime: 'Closing Time',
+    nameTemplate: 'Name Template',
     underlyingAsset: 'Underlying Asset',
     tickSize: 'Tick Size',
     contract: 'Contract',

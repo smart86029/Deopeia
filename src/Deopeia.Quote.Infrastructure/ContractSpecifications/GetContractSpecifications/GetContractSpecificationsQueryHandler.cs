@@ -1,39 +1,38 @@
-using Deopeia.Quote.Application.FuturesContracts.GetFuturesContracts;
+using Deopeia.Quote.Application.ContractSpecifications.GetContractSpecifications;
 
-namespace Deopeia.Quote.Infrastructure.Instruments.FuturesContracts.GetFuturesContracts;
+namespace Deopeia.Quote.Infrastructure.ContractSpecifications.GetContractSpecifications;
 
-internal class GetFuturesContractsQueryHandler(
+internal class GetContractSpecificationsQueryHandler(
     NpgsqlConnection connection,
     IStringLocalizer localizer
-) : IRequestHandler<GetFuturesContractsQuery, PageResult<FuturesContractDto>>
+) : IRequestHandler<GetContractSpecificationsQuery, PageResult<ContractSpecificationDto>>
 {
     private readonly NpgsqlConnection _connection = connection;
     private readonly IStringLocalizer _localizer = localizer;
 
-    public async Task<PageResult<FuturesContractDto>> Handle(
-        GetFuturesContractsQuery request,
+    public async Task<PageResult<ContractSpecificationDto>> Handle(
+        GetContractSpecificationsQuery request,
         CancellationToken cancellationToken
     )
     {
         var builder = new SqlBuilder();
-        builder.InnerJoin("contract_specification AS b ON a.contract_specification_id = b.id");
-        builder.Where("a.type = @Futures", new { InstrumentType.Futures });
+        builder.Where("type = @Futures", new { InstrumentType.Futures });
 
         if (!request.ExchangeId.IsNullOrWhiteSpace())
         {
-            builder.Where("a.exchange_id = @ExchangeId", new { request.ExchangeId });
+            builder.Where("exchange_id = @ExchangeId", new { request.ExchangeId });
         }
 
         if (request.AssetId.HasValue)
         {
-            builder.Where("b.underlying_asset_id = @AssetId", new { request.AssetId });
+            builder.Where("underlying_asset_id = @AssetId", new { request.AssetId });
         }
 
         var sqlCount = builder.AddTemplate(
-            "SELECT COUNT(*) FROM instrument AS a /**innerjoin**/ /**where**/"
+            "SELECT COUNT(*) FROM contract_specification /**where**/"
         );
         var count = await _connection.ExecuteScalarAsync<int>(sqlCount.RawSql, sqlCount.Parameters);
-        var result = new PageResult<FuturesContractDto>(request, count);
+        var result = new PageResult<ContractSpecificationDto>(request, count);
 
         var sql = builder.AddTemplate(
             """
@@ -45,22 +44,21 @@ SELECT
     COALESCE(h.name, i.name) AS currency
 FROM (
     SELECT
-        a.id,
-        a.exchange_id,
-        a.symbol,
-        a.currency_code,
-        b.underlying_asset_id
-    FROM instrument AS a
-    /**innerjoin**/
+        id,
+        exchange_id,
+        symbol,
+        currency_code,
+        underlying_asset_id
+    FROM contract_specification
     /**where**/
-    ORDER BY a.exchange_id, a.symbol
+    ORDER BY exchange_id, symbol
     LIMIT @Limit
     OFFSET @Offset
 ) AS a
-LEFT JOIN instrument_locale AS b
-    ON a.id = b.instrument_id AND b.culture = @CurrentCulture
-INNER JOIN instrument_locale AS c
-    ON a.id = c.instrument_id AND c.culture = @DefaultThreadCurrentCulture
+LEFT JOIN contract_specification_locale AS b
+    ON a.id = b.contract_specification_id AND b.culture = @CurrentCulture
+INNER JOIN contract_specification_locale AS c
+    ON a.id = c.contract_specification_id AND c.culture = @DefaultThreadCurrentCulture
 LEFT JOIN exchange_locale AS d
     ON a.exchange_id = d.exchange_id AND d.culture = @CurrentCulture
 INNER JOIN exchange_locale AS e
@@ -82,7 +80,7 @@ INNER JOIN currency_locale AS i
                 result.Offset,
             }
         );
-        var futuresContracts = await _connection.QueryAsync<FuturesContractDto>(
+        var futuresContracts = await _connection.QueryAsync<ContractSpecificationDto>(
             sql.RawSql,
             sql.Parameters
         );
