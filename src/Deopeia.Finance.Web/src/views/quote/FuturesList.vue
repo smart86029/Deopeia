@@ -1,5 +1,13 @@
 <template>
   <TableToolbar>
+    <el-form :model="query" :inline="true">
+      <el-form-item :label="$t('finance.exchange')">
+        <SelectOption v-model="query.exchangeId" :options="exchanges" />
+      </el-form-item>
+      <el-form-item :label="$t('finance.underlyingAsset')">
+        <SelectOption v-model="query.assetId" :options="assets" />
+      </el-form-item>
+    </el-form>
     <template #right>
       <ButtonCreate route="futures.create" />
     </template>
@@ -30,21 +38,24 @@
 
 <script setup lang="ts">
 import assetApi from '@/api/quote/asset-api';
+import exchangeApi from '@/api/quote/exchange-api';
 import futuresApi, {
   type FuturesRow,
-  type GetFuturessQuery,
+  type GetFuturesQuery,
 } from '@/api/quote/futures-api';
-import type { Guid } from '@/models/guid';
+import { type Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
 
 const loading = ref(false);
+const exchanges: Ref<OptionResult<string>[]> = ref([]);
 const assets: Ref<OptionResult<Guid>[]> = ref([]);
-const query: GetFuturessQuery = reactive({
+const query: GetFuturesQuery = reactive({
   ...defaultQuery,
 });
 const result: PageResult<FuturesRow> = reactive(defaultResult());
 
+exchangeApi.getOptions().then((x) => (exchanges.value = x.data));
 assetApi.getOptions().then((x) => (assets.value = x.data));
 
 watch(

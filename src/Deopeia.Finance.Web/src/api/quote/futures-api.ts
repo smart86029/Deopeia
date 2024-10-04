@@ -3,7 +3,10 @@ import type { OptionResult } from '@/models/option-result';
 import type { PageQuery, PageResult } from '@/models/page';
 import httpClient from '../http-client';
 
-export interface GetFuturessQuery extends PageQuery {}
+export interface GetFuturesQuery extends PageQuery {
+  exchangeId?: string;
+  assetId?: Guid;
+}
 
 export interface FuturesRow {
   id: Guid;
@@ -36,7 +39,7 @@ export default {
     httpClient.get<OptionResult<Guid>[]>('/FuturesContracts/Options', {
       params: { assetId },
     }),
-  getList: (query: GetFuturessQuery) =>
+  getList: (query: GetFuturesQuery) =>
     httpClient.get<PageResult<FuturesRow>>('/FuturesContracts', {
       params: query,
     }),

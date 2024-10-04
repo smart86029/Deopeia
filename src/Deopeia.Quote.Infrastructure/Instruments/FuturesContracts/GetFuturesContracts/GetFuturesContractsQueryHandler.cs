@@ -16,9 +16,22 @@ internal class GetFuturesContractsQueryHandler(
     )
     {
         var builder = new SqlBuilder();
-        builder.Where("type = @Futures", new { InstrumentType.Futures });
+        builder.InnerJoin("contract_specification AS b ON a.contract_specification_id = b.id");
+        builder.Where("a.type = @Futures", new { InstrumentType.Futures });
 
-        var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM instrument /**where**/");
+        if (!request.ExchangeId.IsNullOrWhiteSpace())
+        {
+            builder.Where("a.exchange_id = @ExchangeId", new { request.ExchangeId });
+        }
+
+        if (request.AssetId.HasValue)
+        {
+            builder.Where("b.underlying_asset_id = @AssetId", new { request.AssetId });
+        }
+
+        var sqlCount = builder.AddTemplate(
+            "SELECT COUNT(*) FROM instrument AS a /**innerjoin**/ /**where**/"
+        );
         var count = await _connection.ExecuteScalarAsync<int>(sqlCount.RawSql, sqlCount.Parameters);
         var result = new PageResult<FuturesContractDto>(request, count);
 
@@ -28,18 +41,19 @@ SELECT
     a.*,
     COALESCE(b.name, c.name) AS name,
     COALESCE(d.name, e.name) AS exchange,
-    COALESCE(g.name, h.name) AS underlying_asset,
-    COALESCE(i.name, j.name) AS currency
+    COALESCE(f.name, g.name) AS underlying_asset,
+    COALESCE(h.name, i.name) AS currency
 FROM (
     SELECT
-        id,
-        exchange_id,
-        symbol,
-        currency_code,
-        contract_specification_id
-    FROM instrument
+        a.id,
+        a.exchange_id,
+        a.symbol,
+        a.currency_code,
+        b.underlying_asset_id::uuid
+    FROM instrument AS a
+    /**innerjoin**/
     /**where**/
-    ORDER BY exchange_id, symbol
+    ORDER BY a.exchange_id, a.symbol
     LIMIT @Limit
     OFFSET @Offset
 ) AS a
@@ -51,16 +65,14 @@ LEFT JOIN exchange_locale AS d
     ON a.exchange_id = d.exchange_id AND d.culture = @CurrentCulture
 INNER JOIN exchange_locale AS e
     ON a.exchange_id = e.exchange_id AND e.culture = @DefaultThreadCurrentCulture
-INNER JOIN contract_specification AS f
-    ON a.contract_specification_id = f.id
-LEFT JOIN asset_locale AS g
-    ON f.underlying_asset_id = g.asset_id AND g.culture = @CurrentCulture
-INNER JOIN asset_locale AS h
-    ON f.underlying_asset_id = h.asset_id AND h.culture = @DefaultThreadCurrentCulture
-LEFT JOIN currency_locale AS i
-    ON a.currency_code = i.currency_code AND i.culture = @CurrentCulture
-INNER JOIN currency_locale AS j
-    ON a.currency_code = j.currency_code AND j.culture = @DefaultThreadCurrentCulture
+LEFT JOIN asset_locale AS f
+    ON a.underlying_asset_id = f.asset_id AND f.culture = @CurrentCulture
+INNER JOIN asset_locale AS g
+    ON a.underlying_asset_id = g.asset_id AND g.culture = @DefaultThreadCurrentCulture
+LEFT JOIN currency_locale AS h
+    ON a.currency_code = h.currency_code AND h.culture = @CurrentCulture
+INNER JOIN currency_locale AS i
+    ON a.currency_code = i.currency_code AND i.culture = @DefaultThreadCurrentCulture
 """,
             new
             {
