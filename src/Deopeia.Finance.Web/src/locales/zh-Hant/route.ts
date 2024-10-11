@@ -16,10 +16,10 @@ export default {
       create: '新增交易所',
       edit: '編輯交易所',
     },
-    futures: {
-      list: '期貨列表',
-      create: '新增期貨',
-      edit: '編輯期貨',
+    futuresContract: {
+      list: '期貨契約列表',
+      create: '新增期貨契約',
+      edit: '編輯期貨契約',
     },
     home: '首頁',
     identity: '身分',

@@ -16,8 +16,10 @@ export default {
     closingTime: '收盤時間',
     nameTemplate: '名稱樣板',
     underlyingAsset: '標的資產',
-    tickSize: 'Tick Size',
+    minimumPriceFluctuation: '最小變動價位',
     contract: '契約',
+    contractSpecification: '契約規格',
     contractSize: '契約規模',
+    expirationDate: '到期日',
   },
 };

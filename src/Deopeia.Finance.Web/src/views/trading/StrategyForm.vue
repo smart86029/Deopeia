@@ -84,7 +84,7 @@
 
 <script setup lang="ts">
 import assetApi from '@/api/quote/asset-api';
-import futuresApi from '@/api/quote/futures-api';
+import futuresApi from '@/api/quote/futures-contract-api';
 import strategyApi, {
   type Strategy,
   type StrategyLocale,

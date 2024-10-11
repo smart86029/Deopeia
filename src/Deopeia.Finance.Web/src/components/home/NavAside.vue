@@ -35,7 +35,7 @@ const menus = [
       { name: 'asset.list' },
       { name: 'exchange.list' },
       { name: 'contractSpecification.list' },
-      { name: 'futures.list' },
+      { name: 'futuresContract.list' },
     ],
   },
   {

@@ -1,37 +1,32 @@
-using Deopeia.Quote.Application.Exchanges.CreateExchange;
-using Deopeia.Quote.Domain.Exchanges;
+using Deopeia.Quote.Domain.ContractSpecifications;
+using Deopeia.Quote.Domain.Instruments.FuturesContracts;
 
 namespace Deopeia.Quote.Application.FuturesContracts.CreateFuturesContract;
 
 public class CreateFuturesContractCommandHandler(
     IQuoteUnitOfWork unitOfWork,
-    IExchangeRepository exchangeRepository
+    IContractSpecificationRepository contractSpecificationRepository,
+    IFuturesContractRepository futuresContractRepository
 ) : IRequestHandler<CreateFuturesContractCommand>
 {
     private readonly IQuoteUnitOfWork _unitOfWork = unitOfWork;
-    private readonly IExchangeRepository _exchangeRepository = exchangeRepository;
+    private readonly IContractSpecificationRepository _contractSpecificationRepository =
+        contractSpecificationRepository;
+    private readonly IFuturesContractRepository _futuresContractRepository =
+        futuresContractRepository;
 
     public async Task Handle(
         CreateFuturesContractCommand request,
         CancellationToken cancellationToken
     )
     {
-        //var en = request.Locales.First(x => x.Culture == "en");
-        //var exchange = new Exchange(
-        //    request.Mic,
-        //    en.Name,
-        //    en.Abbreviation,
-        //    TimeZoneInfo.FindSystemTimeZoneById(request.TimeZone)
-        //);
+        var contractSpecification =
+            await _contractSpecificationRepository.GetContractSpecificationAsync(
+                new ContractSpecificationId(request.ContractSpecificationId)
+            );
+        var futuresContract = new FuturesContract(contractSpecification, request.ExpirationDate);
 
-        //foreach (var locale in request.Locales)
-        //{
-        //    var culture = CultureInfo.GetCultureInfo(locale.Culture);
-        //    exchange.UpdateName(locale.Name, culture);
-        //    exchange.UpdateAbbreviation(locale.Abbreviation, culture);
-        //}
-
-        //await _exchangeRepository.AddAsync(exchange);
+        await _futuresContractRepository.AddAsync(futuresContract);
         await _unitOfWork.CommitAsync();
     }
 }

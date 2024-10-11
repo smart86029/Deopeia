@@ -1,3 +1,7 @@
 namespace Deopeia.Quote.Application.FuturesContracts.UpdateFuturesContract;
 
-public record UpdateFuturesContractCommand(string Mic, string TimeZone) : IRequest { }
+public record UpdateFuturesContractCommand(
+    Guid Id,
+    DateOnly ExpirationDate,
+    ICollection<FuturesContractLocaleDto> Locales
+) : IRequest { }

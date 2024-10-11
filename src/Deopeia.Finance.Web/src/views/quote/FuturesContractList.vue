@@ -9,7 +9,7 @@
       </el-form-item>
     </el-form>
     <template #right>
-      <ButtonCreate route="futures.create" />
+      <ButtonCreate route="futuresContract.create" />
     </template>
   </TableToolbar>
 
@@ -24,7 +24,9 @@
     <el-table-column prop="currency" :label="$t('common.currency')" />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
-        <TextLink :to="{ name: 'futures.edit', params: { id: row.id } }" />
+        <TextLink
+          :to="{ name: 'futuresContract.edit', params: { id: row.id } }"
+        />
       </template>
     </el-table-column>
   </el-table>
@@ -40,9 +42,9 @@
 import assetApi from '@/api/quote/asset-api';
 import exchangeApi from '@/api/quote/exchange-api';
 import futuresApi, {
-  type FuturesRow,
-  type GetFuturesQuery,
-} from '@/api/quote/futures-api';
+  type FuturesContractRow,
+  type GetFuturesContractsQuery,
+} from '@/api/quote/futures-contract-api';
 import { type Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
@@ -50,10 +52,10 @@ import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
 const loading = ref(false);
 const exchanges: Ref<OptionResult<string>[]> = ref([]);
 const assets: Ref<OptionResult<Guid>[]> = ref([]);
-const query: GetFuturesQuery = reactive({
+const query: GetFuturesContractsQuery = reactive({
   ...defaultQuery,
 });
-const result: PageResult<FuturesRow> = reactive(defaultResult());
+const result: PageResult<FuturesContractRow> = reactive(defaultResult());
 
 exchangeApi.getOptions().then((x) => (exchanges.value = x.data));
 assetApi.getOptions().then((x) => (assets.value = x.data));

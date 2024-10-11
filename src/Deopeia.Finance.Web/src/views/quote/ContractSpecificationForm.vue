@@ -31,7 +31,7 @@
     <el-form-item :label="$t('common.currency')">
       <SelectOption v-model="form.currencyCode" :options="currencies" />
     </el-form-item>
-    <el-form-item :label="$t('finance.tickSize')">
+    <el-form-item :label="$t('finance.minimumPriceFluctuation')">
       <el-input v-model="form.tickSize" />
     </el-form-item>
     <el-form-item :label="$t('finance.contractSize')">

@@ -41,4 +41,9 @@ public abstract class Instrument
     {
         _locales[culture].UpdateName(name);
     }
+
+    public void RemoveLocales(IEnumerable<InstrumentLocale> locales)
+    {
+        _locales.Remove(locales);
+    }
 }

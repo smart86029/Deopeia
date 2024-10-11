@@ -57,7 +57,12 @@ public class FuturesContract : Instrument
 
     public ContractSpecificationId ContractSpecificationId { get; private init; }
 
-    public DateOnly ExpirationDate { get; private init; }
+    public DateOnly ExpirationDate { get; private set; }
+
+    public void UpdateExpirationDate(DateOnly expirationDate)
+    {
+        ExpirationDate = expirationDate;
+    }
 
     private static string FormatSymbol(
         string symbolTemplate,

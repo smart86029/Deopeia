@@ -15,7 +15,7 @@ internal class GetContractSpecificationOptionsQueryHandler(NpgsqlConnection conn
         var sql = """
 SELECT
     a.id AS value,
-    COALESCE(b.name, c.name) AS name
+    CONCAT(COALESCE(b.name, c.name), ' (', a.symbol, ')') AS name
 FROM contract_specification AS a
 LEFT JOIN contract_specification_locale AS b ON a.id = b.contract_specification_id AND b.culture = @CurrentCulture
 INNER JOIN contract_specification_locale AS c ON a.id = c.contract_specification_id AND c.culture = @DefaultThreadCurrentCulture

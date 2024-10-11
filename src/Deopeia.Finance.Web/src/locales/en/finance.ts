@@ -16,8 +16,10 @@ export default {
     closingTime: 'Closing Time',
     nameTemplate: 'Name Template',
     underlyingAsset: 'Underlying Asset',
-    tickSize: 'Tick Size',
+    minimumPriceFluctuation: 'Minimum Price Fluctuation',
     contract: 'Contract',
+    contractSpecification: 'Contract Specification',
     contractSize: 'Contract Size',
+    expirationDate: 'Expiration Date',
   },
 };

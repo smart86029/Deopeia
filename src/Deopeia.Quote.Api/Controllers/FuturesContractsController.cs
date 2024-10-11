@@ -42,13 +42,13 @@ public class FuturesContractsController : ApiController<FuturesContractsControll
         return Created();
     }
 
-    [HttpPut("{mic}")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> Update(
-        [FromRoute] string mic,
+        [FromRoute] Guid id,
         [FromBody] UpdateFuturesContractCommand command
     )
     {
-        command = command with { Mic = mic };
+        command = command with { Id = id };
         await Sender.Send(command);
 
         return NoContent();
