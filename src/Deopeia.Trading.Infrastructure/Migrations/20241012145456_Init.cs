@@ -13,6 +13,23 @@ namespace Deopeia.Trading.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "account",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    account_number = table.Column<string>(type: "text", nullable: false),
+                    is_enabled = table.Column<bool>(type: "boolean", nullable: false),
+                    balance_amount = table.Column<decimal>(type: "numeric", nullable: false),
+                    balance_currency_code = table.Column<string>(type: "text", nullable: false),
+                    margin_amount = table.Column<decimal>(type: "numeric", nullable: false),
+                    margin_currency_code = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_account", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "audit_trail",
                 columns: table => new
                 {
@@ -30,6 +47,19 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_audit_trail", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "currency",
+                columns: table => new
+                {
+                    code = table.Column<string>(type: "text", nullable: false),
+                    symbol = table.Column<string>(type: "text", nullable: true),
+                    decimals = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_currency", x => x.code);
                 });
 
             migrationBuilder.CreateTable(
@@ -76,6 +106,37 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "unit",
+                columns: table => new
+                {
+                    code = table.Column<string>(type: "text", nullable: false),
+                    symbol = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_unit", x => x.code);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "currency_locale",
+                columns: table => new
+                {
+                    currency_code = table.Column<string>(type: "text", nullable: false),
+                    culture = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_currency_locale", x => new { x.currency_code, x.culture });
+                    table.ForeignKey(
+                        name: "fk_currency_locale_currency_currency_id",
+                        column: x => x.currency_code,
+                        principalTable: "currency",
+                        principalColumn: "code",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "strategy_leg",
                 columns: table => new
                 {
@@ -117,6 +178,25 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "unit_locale",
+                columns: table => new
+                {
+                    unit_code = table.Column<string>(type: "text", nullable: false),
+                    culture = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_unit_locale", x => new { x.unit_code, x.culture });
+                    table.ForeignKey(
+                        name: "fk_unit_locale_unit_unit_id",
+                        column: x => x.unit_code,
+                        principalTable: "unit",
+                        principalColumn: "code",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "ix_file_resource_type",
                 table: "file_resource",
@@ -133,7 +213,13 @@ namespace Deopeia.Trading.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "account");
+
+            migrationBuilder.DropTable(
                 name: "audit_trail");
+
+            migrationBuilder.DropTable(
+                name: "currency_locale");
 
             migrationBuilder.DropTable(
                 name: "file_resource");
@@ -148,7 +234,16 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 name: "strategy_locale");
 
             migrationBuilder.DropTable(
+                name: "unit_locale");
+
+            migrationBuilder.DropTable(
+                name: "currency");
+
+            migrationBuilder.DropTable(
                 name: "strategy");
+
+            migrationBuilder.DropTable(
+                name: "unit");
         }
     }
 }

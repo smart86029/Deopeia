@@ -1,5 +1,10 @@
 export default {
   route: {
+    account: {
+      list: 'Accounts',
+      create: 'Create Account',
+      edit: 'Edit Account',
+    },
     asset: {
       list: 'Asset List',
       create: 'Create Asset',

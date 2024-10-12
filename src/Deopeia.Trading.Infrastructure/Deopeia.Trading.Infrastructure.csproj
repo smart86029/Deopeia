@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Deopeia.Trading.Domain\Deopeia.Trading.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Accounts/" />
+  </ItemGroup>
+
 </Project>

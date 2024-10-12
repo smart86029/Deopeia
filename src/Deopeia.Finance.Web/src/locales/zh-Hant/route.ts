@@ -1,5 +1,10 @@
 export default {
   route: {
+    account: {
+      list: '帳戶列表',
+      create: '新增帳戶',
+      edit: '編輯帳戶',
+    },
     asset: {
       list: '資產列表',
       create: '新增資產',

@@ -1,16 +1,15 @@
+using Deopeia.Trading.Application.Accounts.CreateAccount;
+using Deopeia.Trading.Application.Accounts.GetAccount;
+using Deopeia.Trading.Application.Accounts.GetAccounts;
 using Deopeia.Trading.Application.Accounts.UpdateAccount;
-using Deopeia.Trading.Application.Strategies.CreateStrategy;
-using Deopeia.Trading.Application.Strategies.GetStrategies;
-using Deopeia.Trading.Application.Strategies.GetStrategy;
-using Deopeia.Trading.Application.Strategies.UpdateStrategy;
 
 namespace Deopeia.Trading.Api.Controllers;
 
 [AllowAnonymous]
-public class StrategiesController : ApiController<StrategiesController>
+public class AccountsController : ApiController<AccountsController>
 {
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] GetStrategiesQuery query)
+    public async Task<IActionResult> Get([FromQuery] GetAccountsQuery query)
     {
         var result = await Sender.Send(query);
 
@@ -20,14 +19,14 @@ public class StrategiesController : ApiController<StrategiesController>
     [HttpGet("{id}")]
     public async Task<IActionResult> Get([FromRoute] Guid id)
     {
-        var query = new GetStrategyQuery(id);
+        var query = new GetAccountQuery(id);
         var result = await Sender.Send(query);
 
         return Ok(result);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateStrategyCommand command)
+    public async Task<IActionResult> Create([FromBody] CreateAccountCommand command)
     {
         await Sender.Send(command);
 
@@ -37,7 +36,7 @@ public class StrategiesController : ApiController<StrategiesController>
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(
         [FromRoute] Guid id,
-        [FromBody] UpdateStrategyCommand command
+        [FromBody] UpdateAccountCommand command
     )
     {
         command = command with { Id = id };

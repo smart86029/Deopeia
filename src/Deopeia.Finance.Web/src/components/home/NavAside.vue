@@ -5,12 +5,8 @@
         <template #title>
           {{ $t(`route.${menu.name}`) }}
         </template>
-        <el-menu-item
-          v-for="child in menu.children"
-          :key="child.name"
-          :index="child.name"
-          :route="{ name: child.name }"
-        >
+        <el-menu-item v-for="child in menu.children" :key="child.name" :index="child.name"
+          :route="{ name: child.name }">
           {{ $t(`route.${child.name}`) }}
         </el-menu-item>
       </el-sub-menu>
@@ -40,7 +36,7 @@ const menus = [
   },
   {
     name: 'trading',
-    children: [{ name: 'strategy.list' }],
+    children: [{ name: 'account.list' }, { name: 'strategy.list' }],
   },
   {
     name: 'identity',

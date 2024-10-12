@@ -1,5 +1,6 @@
 export default {
   trading: {
+    accountNumber: 'Account Number',
     openExpression: 'Open Expression',
     closeExpression: 'Close Expression',
     order: 'Order',
