@@ -8,6 +8,7 @@ export interface AccountRow {
   id: Guid;
   accountNumber: string;
   isEnabled: boolean;
+  currency: string;
 }
 
 export interface Account {

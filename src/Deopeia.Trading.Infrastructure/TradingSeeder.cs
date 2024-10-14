@@ -1,3 +1,5 @@
+using Unit = Deopeia.Common.Domain.Measurement.Unit;
+
 namespace Deopeia.Trading.Infrastructure;
 
 public class TradingSeeder : DbSeeder<TradingContext>
@@ -12,7 +14,9 @@ public class TradingSeeder : DbSeeder<TradingContext>
             return;
         }
 
+        context.Set<Currency>().AddRange(GetCurrencies());
         context.Set<LocaleResource>().AddRange(GetLocaleResources());
+        context.Set<Unit>().AddRange(GetUnits());
 
         await context.SaveChangesAsync();
     }

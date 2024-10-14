@@ -2,6 +2,8 @@ global using System.Globalization;
 global using Dapper;
 global using Deopeia.Common;
 global using Deopeia.Common.Application.Page;
+global using Deopeia.Common.Domain.Finance;
+global using Deopeia.Common.Domain.Measurement;
 global using Deopeia.Common.Infrastructure;
 global using Deopeia.Common.Infrastructure.Localization;
 global using Deopeia.Common.Localization;

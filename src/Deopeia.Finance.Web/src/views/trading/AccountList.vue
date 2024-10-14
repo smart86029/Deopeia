@@ -6,12 +6,16 @@
   </TableToolbar>
 
   <el-table v-loading="loading" :data="result.items">
-    <el-table-column prop="accountNumber" :label="$t('trading.accountNumber')" />
+    <el-table-column
+      prop="accountNumber"
+      :label="$t('trading.accountNumber')"
+    />
     <el-table-column prop="isEnabled" :label="$t('common.status')">
       <template #default="{ row }">
         <TextBoolean :value="row.isEnabled" localeKey="status.isEnabled" />
       </template>
     </el-table-column>
+    <el-table-column prop="currency" :label="$t('common.currency')" />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
         <TextLink :to="{ name: 'account.edit', params: { id: row.id } }" />
@@ -28,8 +32,8 @@
 
 <script setup lang="ts">
 import accountApi, {
-  type GetAccountsQuery,
   type AccountRow,
+  type GetAccountsQuery,
 } from '@/api/trading/account-api';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
 

@@ -15,25 +15,36 @@ public class GetAccountsQueryHandler(NpgsqlConnection connection)
         var builder = new SqlBuilder();
         if (request.IsEnabled.HasValue)
         {
-            builder.Where("is_enabled = @IsEnabled", new { request.IsEnabled });
+            builder.Where("a.is_enabled = @IsEnabled", new { request.IsEnabled });
         }
 
-        var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM account /**where**/");
+        var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM account AS a /**where**/");
         var count = await _connection.ExecuteScalarAsync<int>(sqlCount.RawSql, sqlCount.Parameters);
         var result = new PageResult<AccountDto>(request, count);
 
         var sql = builder.AddTemplate(
             """
 SELECT
-    id,
-    account_number,
-    is_enabled
-FROM account
+    a.id,
+    a.account_number,
+    a.is_enabled,
+    COALESCE(b.name, c.name) AS currency
+FROM account AS a
+LEFT JOIN currency_locale AS b
+    ON a.balance_currency_code = b.currency_code AND b.culture = @CurrentCulture
+INNER JOIN currency_locale AS c
+    ON a.balance_currency_code = c.currency_code AND c.culture = @DefaultThreadCurrentCulture
 /**where**/
 LIMIT @Limit
 OFFSET @Offset
 """,
-            new { result.Limit, result.Offset }
+            new
+            {
+                CultureInfo.CurrentCulture,
+                CultureInfo.DefaultThreadCurrentCulture,
+                result.Limit,
+                result.Offset,
+            }
         );
         var accounts = await _connection.QueryAsync<AccountDto>(sql.RawSql, sql.Parameters);
         result.Items = accounts.ToList();

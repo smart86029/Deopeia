@@ -7,4 +7,6 @@ public class AccountDto
     public string AccountNumber { get; set; } = string.Empty;
 
     public bool IsEnabled { get; set; }
+
+    public string Currency { get; set; } = string.Empty;
 }
