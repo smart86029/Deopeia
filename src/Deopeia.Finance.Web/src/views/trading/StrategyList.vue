@@ -17,6 +17,14 @@
         <TextBoolean :value="row.isEnabled" localeKey="status.isEnabled" />
       </template>
     </el-table-column>
+    <el-table-column
+      prop="openExpression"
+      :label="$t('trading.openExpression')"
+    />
+    <el-table-column
+      prop="closeExpression"
+      :label="$t('trading.closeExpression')"
+    />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
         <TextLink :to="{ name: 'strategy.edit', params: { id: row.id } }" />

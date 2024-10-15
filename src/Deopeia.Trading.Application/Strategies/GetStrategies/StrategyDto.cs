@@ -9,4 +9,8 @@ public class StrategyDto
     public string? Description { get; set; }
 
     public bool IsEnabled { get; set; }
+
+    public string OpenExpression { get; set; } = string.Empty;
+
+    public string CloseExpression { get; set; } = string.Empty;
 }

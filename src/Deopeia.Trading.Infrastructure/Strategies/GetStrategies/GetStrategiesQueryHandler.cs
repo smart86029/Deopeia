@@ -24,7 +24,9 @@ SELECT
     a.id,
     a.is_enabled,
     COALESCE(b.name, c.name) AS name,
-    COALESCE(b.description, c.description) AS description
+    COALESCE(b.description, c.description) AS description,
+    open_expression,
+    close_expression
 FROM strategy AS a
 LEFT JOIN strategy_locale AS b ON a.id = b.strategy_id AND b.culture = @CurrentCulture
 INNER JOIN strategy_locale AS c ON a.id = c.strategy_id AND c.culture = @DefaultThreadCurrentCulture
@@ -40,8 +42,8 @@ OFFSET @Offset
                 result.Offset,
             }
         );
-        var strategys = await _connection.QueryAsync<StrategyDto>(sql.RawSql, sql.Parameters);
-        result.Items = strategys.ToList();
+        var strategies = await _connection.QueryAsync<StrategyDto>(sql.RawSql, sql.Parameters);
+        result.Items = strategies.ToList();
 
         return result;
     }

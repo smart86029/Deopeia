@@ -2,7 +2,7 @@ export default {
   trading: {
     accountNumber: '帳戶號碼',
     openExpression: '開倉表達式',
-    closeExpression: '關倉表達式',
+    closeExpression: '平倉表達式',
     order: '訂單',
     orderSide: {
       name: '訂單方向',

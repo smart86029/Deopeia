@@ -80,11 +80,11 @@ INNER JOIN currency_locale AS i
                 result.Offset,
             }
         );
-        var futuresContracts = await _connection.QueryAsync<ContractSpecificationDto>(
+        var contractSpecifications = await _connection.QueryAsync<ContractSpecificationDto>(
             sql.RawSql,
             sql.Parameters
         );
-        result.Items = futuresContracts.ToList();
+        result.Items = contractSpecifications.ToList();
 
         return result;
     }

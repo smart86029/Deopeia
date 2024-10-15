@@ -33,7 +33,7 @@ public class TradingSeeder : DbSeeder<TradingContext>
         var resourcesZHHant = new LocaleResource[]
         {
             FromModel(ZHHant, "Strategy.OpenExpression", "開倉表達式"),
-            FromModel(ZHHant, "Strategy.CloseExpression", "關倉表達式"),
+            FromModel(ZHHant, "Strategy.CloseExpression", "平倉表達式"),
             FromError(ZHHant, "Strategy.Expression", "{Property}不合法。"),
         };
 

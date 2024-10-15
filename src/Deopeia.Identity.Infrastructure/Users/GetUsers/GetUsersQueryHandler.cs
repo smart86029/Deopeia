@@ -53,7 +53,6 @@ OFFSET @Offset
             new { result.Limit, result.Offset, }
         );
         var users = await _connection.QueryAsync<UserDto>(sql.RawSql, sql.Parameters);
-        result.Items = users.ToList();
 
         var sqlRole = """
 SELECT
