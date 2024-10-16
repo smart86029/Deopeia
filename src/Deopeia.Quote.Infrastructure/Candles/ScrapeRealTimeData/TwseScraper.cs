@@ -26,7 +26,7 @@ internal class TwseScraper(HttpClient httpClient) : IRealTimeScraper
         var jsonArray = JsonNode.Parse(json)?.AsObject()?["msgArray"]?.AsArray();
         if (jsonArray is null)
         {
-            return new List<RealTimeDto>();
+            return [];
         }
 
         var results = jsonArray

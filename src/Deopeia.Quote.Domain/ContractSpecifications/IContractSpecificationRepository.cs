@@ -5,6 +5,8 @@ public interface IContractSpecificationRepository
 {
     Task<ContractSpecification> GetContractSpecificationAsync(ContractSpecificationId id);
 
+    Task<ContractSpecification> GetContractSpecificationAsync(string symbol);
+
     Task AddAsync(ContractSpecification contractSpecification);
 
     Task<bool> Exists(string symbol);

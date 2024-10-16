@@ -15,6 +15,13 @@ internal class ContractSpecificationRepository(QuoteContext context)
         return await _contractSpecifications.Include(x => x.Locales).FirstAsync(x => x.Id == id);
     }
 
+    public async Task<ContractSpecification> GetContractSpecificationAsync(string symbol)
+    {
+        return await _contractSpecifications
+            .Include(x => x.Locales)
+            .FirstAsync(x => x.Symbol == symbol);
+    }
+
     public async Task AddAsync(ContractSpecification contractSpecification)
     {
         await _contractSpecifications.AddAsync(contractSpecification);
