@@ -7,7 +7,7 @@ import type { Ohlcv } from '@/models/quote/ohlcv';
 import { usePreferencesStore } from '@/stores/preferences';
 import { useQuoteStore } from '@/stores/quote';
 import { dayjs } from 'element-plus';
-import { ColorType, createChart } from 'lightweight-charts';
+import { ColorType, createChart, type UTCTimestamp } from 'lightweight-charts';
 
 const props = defineProps<{
   symbol: string;
@@ -67,7 +67,7 @@ onMounted(async () => {
       .filter((x) => x.symbol == props.symbol)
       .map((x) => {
         return {
-          time: dayjs(x.lastTradedAt).utc().local().unix(),
+          time: dayjs(x.lastTradedAt).unix() as UTCTimestamp,
           value: x.lastTradedPrice,
         };
       })

@@ -6,6 +6,7 @@ import duration from 'dayjs/plugin/duration';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
+import utc from 'dayjs/plugin/utc';
 import { dayjs } from 'element-plus';
 
 dayjs.locale(zhTW);
@@ -16,6 +17,7 @@ dayjs.extend(duration);
 dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
+dayjs.extend(utc);
 
 dayjs.updateLocale('en', {
   formats: {
