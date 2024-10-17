@@ -10,7 +10,7 @@ builder
     .AddApi()
     .AddApplication()
     .AddInfrastructure<TradingContext, TradingSeeder>()
-    .AddEventBus("eventbus");
+    .AddEventBus();
 
 var configuration = builder.Configuration;
 var services = builder.Services;

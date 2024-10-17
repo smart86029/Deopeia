@@ -1,5 +1,5 @@
-using System.Reflection;
 using Deopeia.Common.Application.Validation;
+using Deopeia.Common.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -10,12 +10,7 @@ public static class HostApplicationBuilderExtensions
 {
     public static IHostApplicationBuilder AddApplication(this IHostApplicationBuilder builder)
     {
-        var assemblies = Assembly
-            .GetEntryAssembly()!
-            .GetReferencedAssemblies()
-            .Where(x => x.Name!.StartsWith("Deopeia."))
-            .Select(Assembly.Load)
-            .ToArray();
+        var assemblies = AssemblyUtility.GetAssemblies().ToArray();
         builder.Services.AddMediatR(options =>
         {
             options.RegisterServicesFromAssemblies(assemblies);

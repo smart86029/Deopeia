@@ -20,7 +20,7 @@ public static class HostApplicationBuilderExtensions
     )
         where TContext : DbContext
     {
-        var database = Assembly.GetEntryAssembly()!.FullName!.Split('.')[1];
+        var database = AssemblyUtility.ServiceName;
         builder.AddNpgsqlDbContext<TContext>(
             database,
             configureDbContextOptions: options => options.UseSnakeCaseNamingConvention()
@@ -67,7 +67,7 @@ public static class HostApplicationBuilderExtensions
     private static IServiceCollection AddRepositories<TContext>(this IServiceCollection services)
         where TContext : DbContext
     {
-        var types = TypeUtility
+        var types = AssemblyUtility
             .GetTypes(".Infrastructure")
             .Where(x =>
                 x.IsAssignableToGenericType(typeof(IRepository<,>))

@@ -1,4 +1,4 @@
-using System.Reflection;
+using Deopeia.Common.Utilities;
 using Deopeia.Quote.Application.Candles.ScrapeHistoricalData;
 using Deopeia.Quote.Application.Candles.ScrapeRealTimeData;
 using Deopeia.Quote.Application.Instruments.ScrapeInstruments;
@@ -10,13 +10,8 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddScrapers(this IServiceCollection services)
     {
-        var types = Assembly
-            .GetEntryAssembly()!
-            .GetReferencedAssemblies()
-            .Where(x => x.Name!.StartsWith("Deopeia.") && x.Name.EndsWith(".Infrastructure"))
-            .Select(Assembly.Load)
-            .SelectMany(x => x.GetTypes())
-            .Where(x => x.IsClass && !x.IsAbstract && !x.IsGenericType)
+        var types = AssemblyUtility
+            .GetTypes()
             .Where(x =>
                 x.IsAssignableTo(typeof(IScraper))
                 || x.IsAssignableTo(typeof(IRealTimeScraper))

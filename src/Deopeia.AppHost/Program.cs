@@ -4,7 +4,7 @@ var minIOEndpoint = builder.AddParameter("MinIOEndpoint");
 var minIOAccessKey = builder.AddParameter("MinIOAccessKey");
 var minIOSecretKey = builder.AddParameter("MinIOSecretKey");
 
-var rabbitMQ = builder.AddRabbitMQ("eventbus");
+var kafka = builder.AddKafka("kafka").WithKafkaUI(x => x.WithHostPort(9100)).WithDataVolume();
 
 var password = builder.AddParameter("postgresql-password", secret: true);
 var postgres = builder.AddPostgres("postgres", password: password, port: 59999).WithDataVolume();
@@ -24,7 +24,7 @@ var quoteApi = builder
     .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
     .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
     .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
-    .WithReference(rabbitMQ)
+    .WithReference(kafka)
     .WithReference(dbQuote);
 
 builder
@@ -32,7 +32,7 @@ builder
     .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
     .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
     .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
-    .WithReference(rabbitMQ)
+    .WithReference(kafka)
     .WithReference(dbQuote);
 
 var tradingApi = builder
@@ -40,12 +40,12 @@ var tradingApi = builder
     .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
     .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
     .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
-    .WithReference(rabbitMQ)
+    .WithReference(kafka)
     .WithReference(dbTrading);
 
 builder
     .AddProject<Projects.Deopeia_Finance_Bff>("deopeia-finance-bff")
-    .WithReference(rabbitMQ)
+    .WithReference(kafka)
     .WithReference(identityApi)
     .WithReference(quoteApi)
     .WithReference(tradingApi);

@@ -1,115 +1,61 @@
-using System.Net.Sockets;
 using System.Text;
+using Confluent.Kafka;
 using Deopeia.Common.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Polly;
-using Polly.Retry;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using RabbitMQ.Client.Exceptions;
 
 namespace Deopeia.Common.Infrastructure.Events;
 
 internal class EventBus(
     ILogger<EventBus> logger,
     IServiceProvider serviceProvider,
-    IOptions<EventBusOptions> options,
+    IProducer<string, byte[]> producer,
+    IConsumer<string, byte[]> consumer,
     IOptions<EventBusSubscription> subscriptionOptions
 ) : IEventBus, IHostedService, IDisposable
 {
     private const string ExchangeName = "deopeia";
 
     private readonly ILogger<EventBus> _logger = logger;
-    private readonly ResiliencePipeline _pipeline = CreateResiliencePipeline(
-        options.Value.RetryCount
-    );
-    private readonly string _queueName = options.Value.SubscriptionClientName;
+    private readonly IServiceProvider _serviceProvider = serviceProvider;
+    private readonly IProducer<string, byte[]> _producer = producer;
+    private readonly IConsumer<string, byte[]> _consumer = consumer;
+
     private readonly EventBusSubscription _subscription = subscriptionOptions.Value;
 
-    private IConnection? _connection;
-    private IModel? _consumerChannel;
-
-    public Task PublishAsync(Event @event)
+    public async Task PublishAsync(Event @event)
     {
-        using var channel =
-            _connection?.CreateModel()
-            ?? throw new InvalidOperationException("RabbitMQ connection is not open");
-        channel.ExchangeDeclare(exchange: ExchangeName, type: "direct");
+        var key = @event.GetType().Name;
+        var value = @event.ToUtf8Bytes();
 
-        var routingKey = @event.GetType().Name;
-        var body = @event.ToUtf8Bytes();
-
-        return _pipeline.Execute(() =>
-        {
-            var properties = channel.CreateBasicProperties();
-            properties.DeliveryMode = 2;
-
-            channel.BasicPublish(
-                exchange: ExchangeName,
-                routingKey: routingKey,
-                mandatory: true,
-                basicProperties: properties,
-                body: body
-            );
-
-            return Task.CompletedTask;
-        });
+        await _producer.ProduceAsync(
+            ExchangeName,
+            new Message<string, byte[]> { Key = key, Value = value }
+        );
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
         _ = Task.Factory.StartNew(
-            () =>
+            async () =>
             {
-                try
+                _consumer.Subscribe(ExchangeName);
+                while (!cancellationToken.IsCancellationRequested)
                 {
-                    _logger.LogInformation("Starting RabbitMQ connection on a background thread");
-
-                    _connection = serviceProvider.GetRequiredService<IConnection>();
-                    if (!_connection.IsOpen)
+                    try
                     {
-                        return;
+                        var consumeResult = _consumer.Consume(cancellationToken);
+                        var key = consumeResult.Message.Key;
+                        var value = Encoding.UTF8.GetString(consumeResult.Message.Value);
+                        await Handle(key, value);
+                        _consumer.Commit();
                     }
-
-                    _consumerChannel = _connection.CreateModel();
-                    _consumerChannel.CallbackException += (sender, e) =>
+                    catch (Exception exception)
                     {
-                        _logger.LogWarning(e.Exception, "Error with RabbitMQ consumer channel");
-                    };
-
-                    _consumerChannel.ExchangeDeclare(exchange: ExchangeName, type: "direct");
-                    _consumerChannel.QueueDeclare(
-                        queue: _queueName,
-                        durable: true,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null
-                    );
-
-                    var consumer = new AsyncEventingBasicConsumer(_consumerChannel);
-                    consumer.Received += OnMessageReceived;
-
-                    _consumerChannel.BasicConsume(
-                        queue: _queueName,
-                        autoAck: false,
-                        consumer: consumer
-                    );
-
-                    foreach (var (eventName, _) in _subscription.EventTypes)
-                    {
-                        _consumerChannel.QueueBind(
-                            queue: _queueName,
-                            exchange: ExchangeName,
-                            routingKey: eventName
-                        );
+                        _logger.LogError(exception, "Error starting Kafka connection");
                     }
-                }
-                catch (Exception exception)
-                {
-                    _logger.LogError(exception, "Error starting RabbitMQ connection");
                 }
             },
             TaskCreationOptions.LongRunning
@@ -125,48 +71,14 @@ internal class EventBus(
 
     public void Dispose()
     {
-        _consumerChannel?.Dispose();
-        _connection?.Dispose();
+        _consumer?.Dispose();
     }
 
-    private static ResiliencePipeline CreateResiliencePipeline(int retryCount)
+    private async Task Handle(string eventName, string message)
     {
-        var retryOptions = new RetryStrategyOptions
-        {
-            ShouldHandle = new PredicateBuilder()
-                .Handle<BrokerUnreachableException>()
-                .Handle<SocketException>(),
-            MaxRetryAttempts = retryCount,
-            DelayGenerator = (context) =>
-            {
-                var seconds = Math.Pow(2, context.AttemptNumber);
-                var delay = TimeSpan.FromSeconds(seconds) as TimeSpan?;
-
-                return ValueTask.FromResult(delay);
-            },
-        };
-
-        return new ResiliencePipelineBuilder().AddRetry(retryOptions).Build();
-    }
-
-    private async Task OnMessageReceived(object sender, BasicDeliverEventArgs eventArgs)
-    {
-        var eventName = eventArgs.RoutingKey;
-        var message = Encoding.UTF8.GetString(eventArgs.Body.Span);
-
         try
         {
-            if (
-                message.Contains(
-                    "throw-fake-exception",
-                    StringComparison.InvariantCultureIgnoreCase
-                )
-            )
-            {
-                throw new InvalidOperationException($"Fake exception requested: \"{message}\"");
-            }
-
-            await using var scope = serviceProvider.CreateAsyncScope();
+            await using var scope = _serviceProvider.CreateAsyncScope();
 
             if (!_subscription.EventTypes.TryGetValue(eventName, out var eventType))
             {
@@ -192,7 +104,5 @@ internal class EventBus(
         {
             _logger.LogWarning(exception, "Error Processing message \"{Message}\"", message);
         }
-
-        _consumerChannel?.BasicAck(eventArgs.DeliveryTag, multiple: false);
     }
 }

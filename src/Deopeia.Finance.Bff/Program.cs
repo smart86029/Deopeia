@@ -4,7 +4,7 @@ using Deopeia.Finance.Bff;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
-builder.AddEventBus("eventbus").AddSubscription<PriceChangedEvent, PriceChangedEventHandler>();
+builder.AddEventBus().AddSubscription<PriceChangedEvent, PriceChangedEventHandler>();
 
 var services = builder.Services;
 services.AddControllers();

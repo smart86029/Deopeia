@@ -10,7 +10,7 @@ builder
     .AddApi()
     .AddApplication()
     .AddInfrastructure<QuoteContext, QuoteSeeder>()
-    .AddEventBus("eventbus");
+    .AddEventBus();
 
 var configuration = builder.Configuration;
 var services = builder.Services;

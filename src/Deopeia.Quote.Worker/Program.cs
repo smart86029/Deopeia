@@ -8,11 +8,7 @@ using Deopeia.Quote.Infrastructure;
 using Deopeia.Quote.Worker;
 
 var builder = Host.CreateApplicationBuilder(args);
-builder
-    .AddServiceDefaults()
-    .AddApplication()
-    .AddInfrastructure<QuoteContext>()
-    .AddEventBus("eventbus");
+builder.AddServiceDefaults().AddApplication().AddInfrastructure<QuoteContext>().AddEventBus();
 
 builder.Services.AddScheduler();
 builder.Services.AddScoped<ScrapeJob>();
