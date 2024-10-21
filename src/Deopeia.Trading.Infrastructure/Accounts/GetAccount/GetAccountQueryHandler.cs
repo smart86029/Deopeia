@@ -16,7 +16,8 @@ public class GetAccountQueryHandler(NpgsqlConnection connection)
 SELECT
     id,
     account_number,
-    is_enabled
+    is_enabled,
+    balance_currency_code AS currency_code
 FROM account
 WHERE id = @Id
 """;

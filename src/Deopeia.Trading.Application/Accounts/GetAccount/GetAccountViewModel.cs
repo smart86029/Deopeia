@@ -7,4 +7,6 @@ public class GetAccountViewModel
     public string AccountNumber { get; set; } = string.Empty;
 
     public bool IsEnabled { get; set; }
+
+    public string CurrencyCode { get; set; } = string.Empty;
 }
