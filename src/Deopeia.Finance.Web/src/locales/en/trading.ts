@@ -5,7 +5,7 @@ export default {
     closeExpression: 'Close Expression',
     order: 'Order',
     orderSide: {
-      name: 'Order Side',
+      k6: 'Order Side',
       '0': 'Buy',
       '1': 'Sell',
     },

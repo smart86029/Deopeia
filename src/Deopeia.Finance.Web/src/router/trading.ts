@@ -49,4 +49,28 @@ export default [
       },
     ],
   },
+  {
+    path: 'positions',
+    name: 'position.list',
+    redirect: { name: 'position.default' },
+    children: [
+      {
+        path: '',
+        name: 'position.default',
+        component: () => import('../views/trading/PositionList.vue'),
+      },
+      {
+        path: 'create',
+        name: 'position.create',
+        component: () => import('../views/trading/StrategyForm.vue'),
+        props: create,
+      },
+      {
+        path: ':id',
+        name: 'position.edit',
+        component: () => import('../views/trading/StrategyForm.vue'),
+        props: edit,
+      },
+    ],
+  },
 ];
