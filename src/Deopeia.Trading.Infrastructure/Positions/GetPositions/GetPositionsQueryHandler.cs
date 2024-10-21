@@ -35,7 +35,6 @@ SELECT
     a.open_price_amount AS open_price,
     a.opened_at
 FROM position AS a
-INNER JOIN 
 LEFT JOIN currency_locale AS b
     ON a.margin_currency_code = b.currency_code AND b.culture = @CurrentCulture
 INNER JOIN currency_locale AS c

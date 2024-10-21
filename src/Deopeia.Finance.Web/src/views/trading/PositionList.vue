@@ -13,8 +13,10 @@
     <el-table-column prop="name" :label="$t('common.name')" />
     <el-table-column prop="side" :label="$t('trading.orderSide.name')" />
     <el-table-column prop="volume" :label="$t('trading.volume')" />
-    <el-table-column prop="margin" :label="$t('trading.margin')" />
+    <el-table-column prop="currency" :label="$t('common.currency')" />
     <el-table-column prop="openPrice" :label="$t('common.openPrice')" />
+    <el-table-column :label="$t('trading.pnl')" />
+    <el-table-column prop="margin" :label="$t('trading.margin')" />
     <el-table-column prop="openedAt" :label="$t('common.openedAt')" />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
