@@ -66,9 +66,10 @@ public class TradingSeeder : DbSeeder<TradingContext>
     {
         return new Faker<Position>()
             .RuleFor(x => x.OpenedBy, x => x.PickRandom(accounts).Id)
-            .RuleFor(x => x.Volume, x => x.Finance.Amount(1, 10, 0))
+            .RuleFor(x => x.Type, x => x.PickRandom<PositionType>())
+            .RuleFor(x => x.Volume, x => x.Finance.Amount(1, 10, 0) * 1000)
             .RuleFor(x => x.Margin, x => new Money(Usd, x.Finance.Amount()))
             .RuleFor(x => x.OpenPrice, x => new Money(Usd, x.Finance.Amount()))
-            .Generate(1);
+            .Generate(5);
     }
 }
