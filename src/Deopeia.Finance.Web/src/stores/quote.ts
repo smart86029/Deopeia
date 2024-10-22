@@ -5,7 +5,7 @@ export const useQuoteStore = defineStore('quote', () => {
   const symbol = ref('');
   const realTimeQuotes = ref([] as RealTimeQuote[]);
   realTimeQuotes.value.push({
-    symbol: '2330',
+    symbol: 'GCZ2024',
     lastTradedAt: new Date(),
     lastTradedPrice: 960,
     previousClose: 934,
@@ -25,10 +25,14 @@ export const useQuoteStore = defineStore('quote', () => {
       )
     ) {
       realTimeQuotes.value.push(quote);
+      quotes.get('QCZ2024').value = new Date().getSeconds() * 12;
     }
   });
 
   hubConnection.start();
+
+  const quotes = reactive(new Map());
+  quotes.set('QCZ2024', ref(0));
 
   const lastTraded = computed(() =>
     realTimeQuotes.value.findLast((x) => x.symbol == symbol.value),
@@ -51,6 +55,7 @@ export const useQuoteStore = defineStore('quote', () => {
   );
 
   return {
+    quotes,
     symbol,
     realTimeQuotes,
     lastTradedPrice,

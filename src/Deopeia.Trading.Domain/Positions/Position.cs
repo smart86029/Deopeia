@@ -7,9 +7,9 @@ public class Position : AggregateRoot<PositionId>
 {
     private readonly List<PositionOrder> _positionOrders = [];
 
-    public InstrumentId InstrumentId { get; init; }
+    public PositionType Type { get; private init; }
 
-    public OrderSide Side { get; private init; }
+    public InstrumentId InstrumentId { get; init; }
 
     public OrderStatus Status { get; private set; }
 

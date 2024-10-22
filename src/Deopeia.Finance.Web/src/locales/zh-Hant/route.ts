@@ -33,6 +33,9 @@ export default {
       create: '新增權限',
       edit: '編輯權限',
     },
+    position: {
+      list: '倉位列表',
+    },
     quote: '報價',
     role: {
       list: '角色列表',

@@ -324,13 +324,13 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("opened_by");
 
-                    b.Property<int>("Side")
-                        .HasColumnType("integer")
-                        .HasColumnName("side");
-
                     b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("status");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
 
                     b.Property<decimal>("Volume")
                         .HasColumnType("numeric")

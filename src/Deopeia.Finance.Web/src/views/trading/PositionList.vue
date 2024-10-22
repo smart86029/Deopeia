@@ -1,23 +1,34 @@
 <template>
   <TableToolbar>
-    <template #right>
-      <ButtonCreate route="position.create" />
-    </template>
+    <el-form :model="query" :inline="true">
+      <el-form-item :label="$t('finance.industry')">
+        <!-- <SelectOption v-model="query.openedBy" :options="industries" /> -->
+      </el-form-item>
+    </el-form>
   </TableToolbar>
 
-  <el-table v-loading="loading" :data="result.items">
-    <el-table-column
-      prop="accountNumber"
-      :label="$t('trading.accountNumber')"
-    />
+  <el-table v-loading="loading" :data="result.items" table-layout="auto">
+    <el-table-column prop="accountNumber" :label="$t('trading.account')" />
     <el-table-column prop="name" :label="$t('common.name')" />
-    <el-table-column prop="side" :label="$t('trading.orderSide.name')" />
-    <el-table-column prop="volume" :label="$t('trading.volume')" />
+    <TableColumnEnum
+      prop="type"
+      :label="$t('common.type')"
+      localeKey="trading.positionType"
+    />
+    <TableColumnInteger prop="volume" :label="$t('trading.volume')" />
     <el-table-column prop="currency" :label="$t('common.currency')" />
-    <el-table-column prop="openPrice" :label="$t('common.openPrice')" />
-    <el-table-column :label="$t('trading.pnl')" />
-    <el-table-column prop="margin" :label="$t('trading.margin')" />
-    <el-table-column prop="openedAt" :label="$t('common.openedAt')" />
+    <TableColumnDecimal prop="openPrice" :label="$t('trading.openPrice')" />
+    <TableColumnDecimal prop="margin" :label="$t('trading.margin')" />
+    <TableColumnFluctuation
+      prop="price"
+      :label="$t('finance.price')"
+      comparisonProp="openPrice"
+    />
+    <TableColumnFluctuation
+      prop="unrealisedPnL"
+      :label="$t('trading.unrealisedPnL')"
+    />
+    <TableColumnDateTime prop="openedAt" :label="$t('trading.openedAt')" />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
         <!-- <TextLink :to="{ name: 'position.edit', params: { id: row.id } }" /> -->
@@ -35,15 +46,17 @@
 <script setup lang="ts">
 import positionApi, {
   type GetPositionsQuery,
-  type Position,
+  type PositionRow,
 } from '@/api/trading/position-api';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
+import { useQuoteStore } from '@/stores/quote';
 
 const loading = ref(false);
 const query: GetPositionsQuery = reactive({
   ...defaultQuery,
 });
-const result: PageResult<Position> = reactive(defaultResult());
+const result: PageResult<PositionRow> = reactive(defaultResult());
+const { quotes } = storeToRefs(useQuoteStore());
 
 watch(
   query,
@@ -55,5 +68,17 @@ watch(
       .finally(() => (loading.value = false));
   },
   { immediate: true },
+);
+
+watch(
+  quotes,
+  (quotes) => {
+    result.items.forEach((x) => {
+      const price = quotes.get('QCZ2024')?.value;
+      x.price = price;
+      x.unrealisedPnL = (price - x.openPrice) * 1000;
+    });
+  },
+  { deep: true },
 );
 </script>

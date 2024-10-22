@@ -33,6 +33,9 @@ export default {
       create: 'Create Permission',
       edit: 'Edit Permission',
     },
+    position: {
+      list: 'Positions',
+    },
     quote: 'Quote',
     role: {
       list: 'Role List',

@@ -22,11 +22,11 @@
 
   <el-table v-loading="loading" :data="result.items">
     <el-table-column prop="userName" :label="$t('identity.userName')" />
-    <el-table-column prop="isEnabled" :label="$t('common.status')">
-      <template #default="{ row }">
-        <TextBoolean :value="row.isEnabled" localeKey="status.isEnabled" />
-      </template>
-    </el-table-column>
+    <TableColumnBoolean
+      prop="isEnabled"
+      :label="$t('common.status')"
+      localeKey="status.isEnabled"
+    />
     <el-table-column prop="roleIds" :label="$t('identity.role')">
       <template #default="{ row }">
         <TagList v-model="row.roleIds" :options="roles" />

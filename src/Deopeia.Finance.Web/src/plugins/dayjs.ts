@@ -40,19 +40,10 @@ export const rangeWeek = (): Date[] => {
   return [today.subtract(6, 'day').toDate(), today.add(1, 'day').toDate()];
 };
 
-export const dateFormatter = (row: any, column: any, cellValue: any): string =>
-  formatDate(cellValue);
-
 export const formatDate = (value: any): string => {
   const date = dayjs(value);
   return date.isValid() ? date.format('L') : value.toString();
 };
-
-export const dateTimeFormatter = (
-  row: any,
-  column: any,
-  cellValue: any,
-): string => formatDateTime(cellValue);
 
 export const formatDateTime = (value: any): string => {
   const date = dayjs(value);

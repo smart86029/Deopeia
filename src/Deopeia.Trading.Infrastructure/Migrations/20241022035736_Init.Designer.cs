@@ -14,8 +14,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deopeia.Trading.Infrastructure.Migrations
 {
     [DbContext(typeof(TradingContext))]
-    [Migration("20241018145412_Order")]
-    partial class Order
+    [Migration("20241022035736_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -327,13 +327,13 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("opened_by");
 
-                    b.Property<int>("Side")
-                        .HasColumnType("integer")
-                        .HasColumnName("side");
-
                     b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("status");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
 
                     b.Property<decimal>("Volume")
                         .HasColumnType("numeric")

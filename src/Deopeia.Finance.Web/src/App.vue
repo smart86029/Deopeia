@@ -6,13 +6,13 @@
 
 <script setup lang="ts">
 import { usePreferencesStore } from '@/stores/preferences';
-import { en as enUS, zhTw as zhTW } from 'element-plus/es/locales';
+import { en, zhTw } from 'element-plus/es/locales';
 import { emptyGuid } from './models/guid';
 
-type ElLocale = typeof enUS | typeof zhTW;
+type ElLocale = typeof en | typeof zhTw;
 const map = new Map<string, ElLocale>([
-  ['en-US', enUS],
-  ['zh-TW', zhTW],
+  ['en', en],
+  ['zh-Hant', zhTw],
 ]);
 
 const { locale } = storeToRefs(usePreferencesStore());

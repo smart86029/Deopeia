@@ -10,11 +10,11 @@
       prop="accountNumber"
       :label="$t('trading.accountNumber')"
     />
-    <el-table-column prop="isEnabled" :label="$t('common.status')">
-      <template #default="{ row }">
-        <TextBoolean :value="row.isEnabled" localeKey="status.isEnabled" />
-      </template>
-    </el-table-column>
+    <TableColumnBoolean
+      prop="isEnabled"
+      :label="$t('common.status')"
+      localeKey="status.isEnabled"
+    />
     <el-table-column prop="currency" :label="$t('common.currency')" />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">

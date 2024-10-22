@@ -26,9 +26,9 @@ public class GetPositionsQueryHandler(NpgsqlConnection connection)
             """
 SELECT
     a.id,
+    a.type,
     d.account_number,
     a.instrument_id,
-    a.side,
     a.volume,
     COALESCE(b.name, c.name) AS currency,
     a.margin_amount AS margin,

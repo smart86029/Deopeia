@@ -3,13 +3,17 @@ import type { PageQuery, PageResult } from '@/models/page';
 import type { OrderSide } from '@/models/trading/order-side';
 import httpClient from '../http-client';
 
-export interface GetPositionsQuery extends PageQuery {}
+export interface GetPositionsQuery extends PageQuery {
+  openedBy?: Guid;
+}
 
 export interface PositionRow {
   id: Guid;
+  type: number;
   name: string;
-  description?: string;
-  isEnabled: boolean;
+  openPrice: number;
+  price: number;
+  unrealisedPnL: number;
 }
 
 export interface Position {
