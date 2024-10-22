@@ -49,6 +49,7 @@ import positionApi, {
   type PositionRow,
 } from '@/api/trading/position-api';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
+import { PositionType } from '@/models/trading/position-type';
 import { useQuoteStore } from '@/stores/quote';
 
 const loading = ref(false);
@@ -74,9 +75,10 @@ watch(
   quotes,
   (quotes) => {
     result.items.forEach((x) => {
+      const sign = x.type == PositionType.Long ? 1 : -1;
       const price = quotes.get('QCZ2024')?.value;
       x.price = price;
-      x.unrealisedPnL = (price - x.openPrice) * 1000;
+      x.unrealisedPnL = (price - x.openPrice) * 1000 * sign;
     });
   },
   { deep: true },
