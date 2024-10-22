@@ -1,3 +1,4 @@
+using Deopeia.Trading.Application.Positions.GetPosition;
 using Deopeia.Trading.Application.Positions.GetPositions;
 
 namespace Deopeia.Trading.Api.Controllers;
@@ -13,15 +14,14 @@ public class PositionsController : ApiController<PositionsController>
         return Ok(result);
     }
 
-    //[HttpGet("{id}")]
-    //public async Task<IActionResult> Get([FromRoute] Guid id)
-    //{
-    //    var query = new GetPositionQuery(id);
-    //    var result = await Sender.Send(query);
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get([FromRoute] Guid id)
+    {
+        var query = new GetPositionQuery(id);
+        var result = await Sender.Send(query);
 
-    //    return Ok(result);
-    //}
-
+        return Ok(result);
+    }
 
     //[HttpPut("{id}")]
     //public async Task<IActionResult> Update(

@@ -35,7 +35,10 @@
     <TableColumnDateTime prop="openedAt" :label="$t('trading.openedAt')" />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
-        <!-- <TextLink :to="{ name: 'position.edit', params: { id: row.id } }" /> -->
+        <TextLink
+          :to="{ name: 'position.close', params: { id: row.id } }"
+          :text="$t('trading.close')"
+        />
       </template>
     </el-table-column>
   </el-table>

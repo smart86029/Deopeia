@@ -5,6 +5,11 @@ export default {
     openExpression: '開倉表達式',
     closeExpression: '平倉表達式',
     order: '訂單',
+    orderType: {
+      name: '訂單類型',
+      '0': '市價',
+      '1': '限價',
+    },
     orderSide: {
       name: '訂單方向',
       '0': '買',
@@ -24,5 +29,6 @@ export default {
     pnl: '損益',
     unrealisedPnL: '未實現盈虧',
     openedAt: '開倉時間',
+    close: '平倉',
   },
 };

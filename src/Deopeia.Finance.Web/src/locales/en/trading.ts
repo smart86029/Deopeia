@@ -5,6 +5,11 @@ export default {
     openExpression: 'Open Expression',
     closeExpression: 'Close Expression',
     order: 'Order',
+    orderType: {
+      name: 'Order Type',
+      '0': 'Market',
+      '1': 'Limit',
+    },
     orderSide: {
       name: 'Order Side',
       '0': 'Buy',
@@ -23,5 +28,6 @@ export default {
     margin: 'Margin',
     unrealisedPnL: 'Unrealised P&L',
     openedAt: 'Opened At',
+    close: 'Close',
   },
 };

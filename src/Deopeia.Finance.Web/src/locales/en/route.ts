@@ -35,6 +35,7 @@ export default {
     },
     position: {
       list: 'Positions',
+      close: 'Close Position',
     },
     quote: 'Quote',
     role: {

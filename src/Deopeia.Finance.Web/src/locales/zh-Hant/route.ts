@@ -35,6 +35,7 @@ export default {
     },
     position: {
       list: '倉位列表',
+      close: '平倉',
     },
     quote: '報價',
     role: {
