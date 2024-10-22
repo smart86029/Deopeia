@@ -1,5 +1,5 @@
 <template>
-  <el-select clearable>
+  <el-select v-model="model" clearable>
     <el-option
       v-for="value in values"
       :key="value"
@@ -10,6 +10,8 @@
 </template>
 
 <script setup lang="ts" generic="TEnum extends object">
+const model = defineModel<number>();
+
 const props = defineProps<{
   enum: TEnum;
   localeKey: string;

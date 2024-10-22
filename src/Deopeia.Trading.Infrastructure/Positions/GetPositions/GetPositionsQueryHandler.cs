@@ -13,9 +13,9 @@ public class GetPositionsQueryHandler(NpgsqlConnection connection)
     )
     {
         var builder = new SqlBuilder();
-        if (request.OpenedBy.HasValue)
+        if (request.Type.HasValue)
         {
-            builder.Where("a.opened_by = @OpenedBy", new { request.OpenedBy });
+            builder.Where("a.type = @Type", new { request.Type });
         }
 
         var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM position AS a /**where**/");

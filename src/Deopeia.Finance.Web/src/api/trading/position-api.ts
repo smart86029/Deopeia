@@ -1,10 +1,11 @@
 import type { Guid } from '@/models/guid';
 import type { PageQuery, PageResult } from '@/models/page';
 import type { OrderSide } from '@/models/trading/order-side';
+import type { PositionType } from '@/models/trading/position-type';
 import httpClient from '../http-client';
 
 export interface GetPositionsQuery extends PageQuery {
-  openedBy?: Guid;
+  type?: PositionType;
 }
 
 export interface PositionRow {

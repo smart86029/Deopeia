@@ -1,8 +1,12 @@
 <template>
   <TableToolbar>
     <el-form :model="query" :inline="true">
-      <el-form-item :label="$t('finance.industry')">
-        <!-- <SelectOption v-model="query.openedBy" :options="industries" /> -->
+      <el-form-item :label="$t('common.type')">
+        <SelectEnum
+          v-model="query.type"
+          :enum="PositionType"
+          localeKey="trading.positionType"
+        />
       </el-form-item>
     </el-form>
   </TableToolbar>
