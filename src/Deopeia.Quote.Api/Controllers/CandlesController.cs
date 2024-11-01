@@ -5,12 +5,12 @@ namespace Deopeia.Quote.Api.Controllers;
 [AllowAnonymous]
 public class CandlesController : ApiController<CandlesController>
 {
-    [HttpGet("{symbol}/History")]
+    [HttpGet("{idOrSymbol}/History")]
     public async Task<ActionResult<GetHistoricalDataViewModel>> GetHistoricalData(
-        [FromRoute] string symbol
+        [FromRoute] string idOrSymbol
     )
     {
-        var query = new GetHistoricalDataQuery(symbol);
+        var query = new GetHistoricalDataQuery(idOrSymbol);
         var result = await Sender.Send(query);
 
         return Ok(result);

@@ -2,5 +2,5 @@ namespace Deopeia.Quote.Domain.Instruments;
 
 public interface IInstrumentRepository : IRepository<Instrument, InstrumentId>
 {
-    Task<IReadOnlyDictionary<string, InstrumentId>> GetSymbolMap(ExchangeId exchangeId);
+    Task<IReadOnlyDictionary<string, InstrumentId>> GetSymbolMapAsync(ExchangeId exchangeId);
 }

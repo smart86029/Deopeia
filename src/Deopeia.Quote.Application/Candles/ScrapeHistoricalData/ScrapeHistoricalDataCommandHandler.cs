@@ -26,7 +26,7 @@ internal class ScrapeHistoricalDataCommandHandler(
             return;
         }
 
-        var map = await _instrumentRepository.GetSymbolMap(new ExchangeId("XTAI"));
+        var map = await _instrumentRepository.GetSymbolMapAsync(new ExchangeId("XTAI"));
         var items = await _scraper.GetOhlcvsAsync(request.Date);
         var candles = items
             .Select(x => new Candle(

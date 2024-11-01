@@ -25,14 +25,14 @@ export const useQuoteStore = defineStore('quote', () => {
       )
     ) {
       realTimeQuotes.value.push(quote);
-      quotes.get('QCZ2024').value = new Date().getSeconds() * 12;
+      quotes.get(quote.symbol).value = quote.lastTradedPrice;
     }
   });
 
   hubConnection.start();
 
   const quotes = reactive(new Map());
-  quotes.set('QCZ2024', ref(0));
+  quotes.set('GCZ2024', ref(0));
 
   const lastTraded = computed(() =>
     realTimeQuotes.value.findLast((x) => x.symbol == symbol.value),

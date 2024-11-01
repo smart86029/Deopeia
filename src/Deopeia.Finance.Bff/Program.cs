@@ -13,6 +13,12 @@ services
     .AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
     .AddServiceDiscoveryDestinationResolver();
+services
+    .AddRefitClient<IQuoteApi>()
+    .ConfigureHttpClient(c => c.BaseAddress = new("http://deopeia-quote-api"));
+services
+    .AddRefitClient<ITradingApi>()
+    .ConfigureHttpClient(c => c.BaseAddress = new("http://deopeia-trading-api"));
 
 var app = builder.Build();
 app.UseRequestLocalization("en", "zh-Hant");

@@ -13,11 +13,18 @@ internal class GetHistoricalDataQueryHandler(NpgsqlConnection connection)
     )
     {
         var builder = new SqlBuilder();
-        builder.Where("symbol = @Symbol", new { request.Symbol });
+        if (Guid.TryParse(request.IdOrSymbol, out var instrumentId))
+        {
+            builder.Where("instrument_id = @InstrumentId", new { InstrumentId = instrumentId });
+        }
+        else
+        {
+            builder.Where("symbol = @Symbol", new { Symbol = request.IdOrSymbol });
+        }
+
         var sql = builder.AddTemplate(
             """
 SELECT
-    symbol,
     timestamp AS date,
     open,
     high,
@@ -27,8 +34,10 @@ SELECT
 FROM candle
 /**where**/
 ORDER BY timestamp
+LIMIT 1
 """
         );
+
         var quotes = await _connection.QueryAsync<CandleDto>(sql.RawSql, sql.Parameters);
         var result = new GetHistoricalDataViewModel { Quotes = quotes.ToList() };
 
