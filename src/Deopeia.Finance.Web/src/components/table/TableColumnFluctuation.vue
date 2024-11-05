@@ -3,8 +3,10 @@
     <template #default="{ row }">
       <span
         :class="{
-          positive: row[prop] > (comparisonProp ? row[comparisonProp] : 0),
-          negative: row[prop] < (comparisonProp ? row[comparisonProp] : 0),
+          positive:
+            row[prop] > (comparisonProp ? row[comparisonProp] : comparison),
+          negative:
+            row[prop] < (comparisonProp ? row[comparisonProp] : comparison),
         }"
       >
         {{ row[prop] !== undefined ? $n(row[prop], 'decimal') : '' }}
@@ -14,10 +16,16 @@
 </template>
 
 <script setup lang="ts">
-defineProps<{
-  prop: string;
-  comparisonProp?: string;
-}>();
+withDefaults(
+  defineProps<{
+    prop: string;
+    comparisonProp?: string;
+    comparison?: number;
+  }>(),
+  {
+    comparison: 0,
+  },
+);
 </script>
 
 <style scoped lang="scss">
