@@ -1,8 +1,9 @@
+import type { Order } from '@/models/quote/order';
 import type { RealTimeQuote } from '@/models/quote/real-time-quote';
 import { HttpTransportType, HubConnectionBuilder } from '@microsoft/signalr';
 
 export const useQuoteStore = defineStore('quote', () => {
-  const symbol = ref('');
+  const symbol = ref('GCZ2024');
   const realTimeQuotes = ref([] as RealTimeQuote[]);
   realTimeQuotes.value.push({
     symbol: 'GCZ2024',
@@ -10,6 +11,10 @@ export const useQuoteStore = defineStore('quote', () => {
     lastTradedPrice: 960,
     previousClose: 934,
   });
+
+  const bids = ref([] as Order[]);
+  const asks = ref([] as Order[]);
+
   const hubConnection = new HubConnectionBuilder()
     .withUrl('/hub/RealTime', {
       accessTokenFactory: () => 'BB',
@@ -29,7 +34,14 @@ export const useQuoteStore = defineStore('quote', () => {
     }
   });
 
-  hubConnection.start();
+  hubConnection.on('ReceiveOrderBook', (newBids: Order[], newAsks: Order[]) => {
+    bids.value = newBids;
+    asks.value = newAsks;
+  });
+
+  hubConnection
+    .start()
+    .then(() => hubConnection.invoke('ChangeSymbol', symbol.value));
 
   const quotes = reactive(new Map());
   quotes.set('GCZ2024', ref(0));
@@ -54,10 +66,16 @@ export const useQuoteStore = defineStore('quote', () => {
       : Math.round((priceChange.value / previousClose.value) * 10000) / 100,
   );
 
+  watch(symbol, (symbol) => {
+    hubConnection.invoke('ChangeSymbol', symbol);
+  });
+
   return {
     quotes,
     symbol,
     realTimeQuotes,
+    bids,
+    asks,
     lastTradedPrice,
     priceChange,
     priceRateOfChange,

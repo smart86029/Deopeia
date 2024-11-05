@@ -33,7 +33,7 @@
       </el-form-item>
     </el-form>
 
-    <OrderBook />
+    <OrderBook :bids="bids" :asks="asks" :price="price" />
   </div>
 </template>
 
@@ -59,7 +59,7 @@ const form: Position = reactive({
   price: 0,
   volume: 0,
 });
-const { quotes } = storeToRefs(useQuoteStore());
+const { quotes, bids, asks } = storeToRefs(useQuoteStore());
 const price = computed(() => quotes.value.get('GCZ2024').value);
 
 optionApi.getCurrencies().then((x) => (currencies.value = x.data));
