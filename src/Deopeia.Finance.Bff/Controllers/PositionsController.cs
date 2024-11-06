@@ -1,3 +1,5 @@
+using Deopeia.Finance.Bff.Models.Positions;
+
 namespace Deopeia.Finance.Bff.Controllers;
 
 [ApiController]
@@ -8,9 +10,9 @@ public class PositionsController(IQuoteApi quoteApi, ITradingApi tradingApi) : C
     private readonly ITradingApi _tradingApi = tradingApi;
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> Get([FromQuery] GetPositionsQuery query)
     {
-        var result = await _tradingApi.GetPositionsAsync();
+        var result = await _tradingApi.GetPositionsAsync(query);
         foreach (var position in result.Items)
         {
             var candles = await _quoteApi.GetCandlesAsync(position.InstrumentId);
