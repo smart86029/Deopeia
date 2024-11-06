@@ -5,10 +5,10 @@ namespace Deopeia.Quote.Api.Controllers;
 [AllowAnonymous]
 public class InstrumentsController : ApiController<InstrumentsController>
 {
-    [HttpGet("{symbol}")]
-    public async Task<IActionResult> Get([FromRoute] string symbol)
+    [HttpGet("{idOrSymbol}")]
+    public async Task<IActionResult> Get([FromRoute] string idOrSymbol)
     {
-        var query = new GetInstrumentQuery(symbol);
+        var query = new GetInstrumentQuery(idOrSymbol);
         var result = await Sender.Send(query);
 
         return Ok(result);

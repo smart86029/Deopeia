@@ -6,6 +6,8 @@ public class PositionDto
 
     public int Type { get; set; }
 
+    public string Name { get; set; } = string.Empty;
+
     public string AccountNumber { get; set; } = string.Empty;
 
     public Guid InstrumentId { get; set; }

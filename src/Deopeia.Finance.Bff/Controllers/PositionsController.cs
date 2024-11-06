@@ -16,6 +16,9 @@ public class PositionsController(IQuoteApi quoteApi, ITradingApi tradingApi) : C
         foreach (var position in result.Items)
         {
             var candles = await _quoteApi.GetCandlesAsync(position.InstrumentId);
+            var instrument = await _quoteApi.GetInstrumentAsync(position.InstrumentId.ToString());
+            position.Name = instrument.Name;
+
             var last = candles.Quotes.LastOrDefault();
             if (last is not null)
             {
