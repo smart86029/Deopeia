@@ -24,7 +24,7 @@
         <el-input v-else v-model="form.price" />
       </el-form-item>
       <el-form-item :label="$t('trading.volume')">
-        <el-input v-model="form.volume" />
+        <InputNumber v-model="form.volume" />
       </el-form-item>
 
       <el-form-item>

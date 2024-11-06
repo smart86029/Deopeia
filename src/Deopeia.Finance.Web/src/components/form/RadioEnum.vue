@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts" generic="TEnum extends object">
-const model = defineModel<TEnum>();
+const model = defineModel<number>();
 
 const props = defineProps<{
   enum: TEnum;
