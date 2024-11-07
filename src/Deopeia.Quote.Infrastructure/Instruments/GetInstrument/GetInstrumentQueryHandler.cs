@@ -27,7 +27,8 @@ internal class GetInstrumentQueryHandler(NpgsqlConnection connection)
 SELECT
     a.id,
     a.symbol,
-    COALESCE(b.name, c.name) AS name
+    COALESCE(b.name, c.name) AS name,
+    currency_code
 FROM instrument AS a
 LEFT JOIN instrument_locale AS b ON a.id = b.instrument_id AND b.culture = @CurrentCulture
 INNER JOIN instrument_locale AS c ON a.id = c.instrument_id AND c.culture = @DefaultThreadCurrentCulture

@@ -2,8 +2,8 @@
   <div>
     <h2>{{ instrument.name }}</h2>
     <div class="quote">
-      <span class="ltp">{{ lastTradedPrice }}</span>
-      <span class="currency">TWD</span>
+      <span class="ltp">{{ $n(lastTradedPrice, 'decimal') }}</span>
+      <span class="currency">{{ instrument.currencyCode }}</span>
       <TextPrice :value="priceChange" />
       <TextPrice :value="priceRateOfChange" percentage />
     </div>

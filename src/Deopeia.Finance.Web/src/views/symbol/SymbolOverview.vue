@@ -3,9 +3,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Ohlcv } from '@/models/quote/ohlcv';
+import candleApi from '@/api/quote/candle-api';
 import { usePreferencesStore } from '@/stores/preferences';
 import { useQuoteStore } from '@/stores/quote';
+import utc from 'dayjs/plugin/utc';
 import { dayjs } from 'element-plus';
 import { ColorType, createChart, type UTCTimestamp } from 'lightweight-charts';
 
@@ -15,7 +16,11 @@ const props = defineProps<{
 
 const { locale } = storeToRefs(usePreferencesStore());
 const { realTimeQuotes } = storeToRefs(useQuoteStore());
-const ohlcvs = ref([] as Ohlcv[]);
+
+dayjs.extend(utc);
+
+const toUTCTimestamp = (date: Date) =>
+  dayjs(date.toLocaleString()).utc(true).unix() as UTCTimestamp;
 
 onMounted(async () => {
   const color = useCssVar('--el-bg-color-overlay', ref(null)).value;
@@ -38,26 +43,20 @@ onMounted(async () => {
     bottomColor: 'rgba(242,	54,	69, 0.28)',
   });
 
-  // const candlestickSeries = chart.addCandlestickSeries({
-  //   upColor: useCssVar('--el-color-error', ref(null)).value,
-  //   downColor: useCssVar('--el-color-success', ref(null)).value,
-  //   borderVisible: false,
-  //   wickUpColor: useCssVar('--el-color-error', ref(null)).value,
-  //   wickDownColor: useCssVar('--el-color-success', ref(null)).value,
-  // });
+  const history = await candleApi.getHistory(props.symbol);
+  const candles = history.data.quotes
+    .map((quote) => {
+      return {
+        time: toUTCTimestamp(quote.date),
+        value: quote.open,
+      };
+    })
+    .filter(
+      (value, index, array) =>
+        array.findIndex((x) => x.time === value.time) === index,
+    );
+  areaSeries.setData(candles);
 
-  // const aa = await ohlcvApi.getHistory(props.symbol);
-  // ohlcvs.value = aa.data.quotes.map((quote) => {
-  //   return {
-  //     time: dayjs(quote.date).unix(),
-  //     open: quote.open,
-  //     high: quote.high,
-  //     low: quote.low,
-  //     close: quote.close,
-  //   };
-  // });
-
-  // candlestickSeries.setData(ohlcvs.value);
   chart.timeScale().fitContent();
   chart.timeScale().scrollToPosition(5, true);
 
@@ -67,7 +66,7 @@ onMounted(async () => {
       .filter((x) => x.symbol == props.symbol)
       .map((x) => {
         return {
-          time: dayjs(x.lastTradedAt).unix() as UTCTimestamp,
+          time: toUTCTimestamp(x.lastTradedAt),
           value: x.lastTradedPrice,
         };
       })

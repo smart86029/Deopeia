@@ -12,18 +12,15 @@ internal class GetHistoricalDataQueryHandler(NpgsqlConnection connection)
         CancellationToken cancellationToken
     )
     {
-        var builder = new SqlBuilder();
-        if (Guid.TryParse(request.IdOrSymbol, out var instrumentId))
+        if (!Guid.TryParse(request.IdOrSymbol, out var instrumentId))
         {
-            builder.Where("instrument_id = @InstrumentId", new { InstrumentId = instrumentId });
-        }
-        else
-        {
-            builder.Where("symbol = @Symbol", new { Symbol = request.IdOrSymbol });
+            instrumentId = await _connection.ExecuteScalarAsync<Guid>(
+                "SELECT Id FROM instrument WHERE symbol = @Symbol",
+                new { Symbol = request.IdOrSymbol }
+            );
         }
 
-        var sql = builder.AddTemplate(
-            """
+        var sql = """
 SELECT
     timestamp AS date,
     open,
@@ -32,13 +29,15 @@ SELECT
     close,
     volume
 FROM candle
-/**where**/
+WHERE instrument_id = @InstrumentId
 ORDER BY timestamp
-LIMIT 1
-"""
-        );
+LIMIT 100
+""";
 
-        var quotes = await _connection.QueryAsync<CandleDto>(sql.RawSql, sql.Parameters);
+        var quotes = await _connection.QueryAsync<CandleDto>(
+            sql,
+            new { InstrumentId = instrumentId }
+        );
         var result = new GetHistoricalDataViewModel { Quotes = quotes.ToList() };
 
         return result;

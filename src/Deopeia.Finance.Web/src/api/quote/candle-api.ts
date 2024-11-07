@@ -1,12 +1,12 @@
-import httpClient from './http-client';
+import httpClient from '../http-client';
 
 export interface HistoricalData {
   symbol?: string;
-  quotes: Ohlcv[];
+  quotes: Candle[];
 }
 
-export interface Ohlcv {
-  date: string;
+export interface Candle {
+  date: Date;
   open: number;
   high: number;
   low: number;
@@ -16,5 +16,5 @@ export interface Ohlcv {
 
 export default {
   getHistory: (symbol: string) =>
-    httpClient.get<HistoricalData>(`/Ohlcvs/${symbol}/history`),
+    httpClient.get<HistoricalData>(`/Candles/${symbol}/history`),
 };
