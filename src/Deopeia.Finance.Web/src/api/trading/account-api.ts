@@ -2,13 +2,17 @@ import type { Guid } from '@/models/guid';
 import type { PageQuery, PageResult } from '@/models/page';
 import httpClient from '../http-client';
 
-export interface GetAccountsQuery extends PageQuery {}
+export interface GetAccountsQuery extends PageQuery {
+  isEnabled?: boolean;
+  currencyCode?: string;
+}
 
 export interface AccountRow {
   id: Guid;
   accountNumber: string;
   isEnabled: boolean;
   currency: string;
+  balance: number;
 }
 
 export interface Account {

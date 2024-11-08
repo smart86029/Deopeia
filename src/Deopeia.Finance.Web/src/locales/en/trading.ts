@@ -2,6 +2,7 @@ export default {
   trading: {
     account: 'Account',
     accountNumber: 'Account Number',
+    balance: 'Balance',
     openExpression: 'Open Expression',
     closeExpression: 'Close Expression',
     order: 'Order',

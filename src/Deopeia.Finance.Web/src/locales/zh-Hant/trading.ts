@@ -2,6 +2,7 @@ export default {
   trading: {
     account: '帳戶',
     accountNumber: '帳戶號碼',
+    balance: '結餘',
     openExpression: '開倉表達式',
     closeExpression: '平倉表達式',
     order: '訂單',

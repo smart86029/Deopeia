@@ -33,9 +33,5 @@ defineProps<{
 .order-book {
   display: flex;
   flex-direction: row;
-
-  .el-table:not(:first-child) {
-    margin: 0;
-  }
 }
 </style>

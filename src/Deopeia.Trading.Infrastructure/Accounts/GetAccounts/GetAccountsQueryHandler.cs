@@ -1,3 +1,4 @@
+using Deopeia.Common.Extensions;
 using Deopeia.Trading.Application.Accounts.GetAccounts;
 
 namespace Deopeia.Trading.Infrastructure.Accounts.GetAccounts;
@@ -18,6 +19,11 @@ public class GetAccountsQueryHandler(NpgsqlConnection connection)
             builder.Where("a.is_enabled = @IsEnabled", new { request.IsEnabled });
         }
 
+        if (!request.CurrencyCode.IsNullOrWhiteSpace())
+        {
+            builder.Where("a.balance_currency_code = @CurrencyCode", new { request.CurrencyCode });
+        }
+
         var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM account AS a /**where**/");
         var count = await _connection.ExecuteScalarAsync<int>(sqlCount.RawSql, sqlCount.Parameters);
         var result = new PageResult<AccountDto>(request, count);
@@ -28,7 +34,8 @@ SELECT
     a.id,
     a.account_number,
     a.is_enabled,
-    COALESCE(b.name, c.name) AS currency
+    COALESCE(b.name, c.name) AS currency,
+    a.balance_amount AS balance
 FROM account AS a
 LEFT JOIN currency_locale AS b
     ON a.balance_currency_code = b.currency_code AND b.culture = @CurrentCulture

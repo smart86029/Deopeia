@@ -56,10 +56,6 @@ h1 {
     height: 100%;
   }
 
-  :deep(.el-table:not(:first-child)) {
-    margin-top: 18px;
-  }
-
   :deep(.scrollbar-view) {
     padding: var(--el-main-padding);
   }

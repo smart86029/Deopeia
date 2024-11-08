@@ -31,4 +31,10 @@ public class Account : AggregateRoot<AccountId>
     {
         IsEnabled = false;
     }
+
+    public void Deposit(Money money)
+    {
+        money.Amount.MustGreaterThanOrEqualTo(0);
+        Balance += money;
+    }
 }

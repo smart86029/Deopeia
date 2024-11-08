@@ -24,5 +24,7 @@ export default {
     contractSpecification: '契約規格',
     contractSize: '契約規模',
     expirationDate: '到期日',
+    deposit: '存款',
+    withdraw: '提款',
   },
 };

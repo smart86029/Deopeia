@@ -24,5 +24,7 @@ export default {
     contractSpecification: 'Contract Specification',
     contractSize: 'Contract Size',
     expirationDate: 'Expiration Date',
+    deposit: 'Deposit',
+    withdraw: 'Withdraw',
   },
 };
