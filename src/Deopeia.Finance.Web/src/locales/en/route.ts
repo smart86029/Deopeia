@@ -6,7 +6,7 @@ export default {
       edit: 'Edit Account',
     },
     asset: {
-      list: 'Asset List',
+      list: 'Assets',
       create: 'Create Asset',
       edit: 'Edit Asset',
     },
@@ -17,7 +17,7 @@ export default {
     },
     exchange: {
       default: 'Exchange',
-      list: 'Exchange List',
+      list: 'Exchanges',
       create: 'Create Exchange',
       edit: 'Edit Exchange',
     },
@@ -29,7 +29,7 @@ export default {
     home: 'Home',
     identity: 'Identity',
     permission: {
-      list: 'Permission List',
+      list: 'Permissions',
       create: 'Create Permission',
       edit: 'Edit Permission',
     },
@@ -39,7 +39,7 @@ export default {
     },
     quote: 'Quote',
     role: {
-      list: 'Role List',
+      list: 'Roles',
       create: 'Create Role',
       edit: 'Edit Role',
     },
@@ -48,7 +48,7 @@ export default {
       stock: 'Stock Screener',
     },
     strategy: {
-      list: 'Strategy List',
+      list: 'Strategies',
       create: 'Create Strategy',
       edit: 'Edit Strategy',
     },
@@ -60,7 +60,7 @@ export default {
     },
     trading: 'Trading',
     user: {
-      list: 'User List',
+      list: 'Users',
       create: 'Create User',
       edit: 'Edit User',
     },
