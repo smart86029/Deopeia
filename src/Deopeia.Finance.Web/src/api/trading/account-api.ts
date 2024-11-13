@@ -1,5 +1,6 @@
 import type { Guid } from '@/models/guid';
 import type { PageQuery, PageResult } from '@/models/page';
+import type { Money } from '@/models/trading/money';
 import httpClient from '../http-client';
 
 export interface GetAccountsQuery extends PageQuery {
@@ -11,6 +12,7 @@ export interface AccountRow {
   id: Guid;
   accountNumber: string;
   isEnabled: boolean;
+  currencyCode: string;
   currency: string;
   balance: number;
 }
@@ -29,4 +31,8 @@ export default {
   create: (account: Account) => httpClient.post('/Accounts', account),
   update: (account: Account) =>
     httpClient.put(`/Accounts/${account.id}`, account),
+  deposit: (id: Guid, money: Money) =>
+    httpClient.post(`/Accounts/${id}/Deposit`, money),
+  withdraw: (id: Guid, money: Money) =>
+    httpClient.post(`/Accounts/${id}/Withdraw`, money),
 };

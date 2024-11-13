@@ -1,3 +1,5 @@
+using Deopeia.Common.Domain;
+
 namespace Deopeia.Trading.Domain.Accounts;
 
 public class Account : AggregateRoot<AccountId>
@@ -36,5 +38,12 @@ public class Account : AggregateRoot<AccountId>
     {
         money.Amount.MustGreaterThanOrEqualTo(0);
         Balance += money;
+    }
+
+    public void Withdraw(Money money)
+    {
+        money.Amount.MustGreaterThanOrEqualTo(0);
+        money.Amount.MustLessThanOrEqualTo(Balance.Amount);
+        Balance -= money;
     }
 }

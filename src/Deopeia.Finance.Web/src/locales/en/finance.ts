@@ -26,5 +26,6 @@ export default {
     expirationDate: 'Expiration Date',
     deposit: 'Deposit',
     withdraw: 'Withdraw',
+    amount: 'Amount',
   },
 };

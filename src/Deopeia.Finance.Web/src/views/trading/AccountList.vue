@@ -23,21 +23,26 @@
       :label="$t('common.status')"
       localeKey="status.isEnabled"
     />
-    <el-table-column prop="currency" :label="$t('common.currency')" />
+    <el-table-column prop="currency" :label="$t('common.currency')">
+      <template #default="{ row }">
+        {{ currencies.find((x) => x.value === row.currencyCode)?.name }}
+      </template>
+    </el-table-column>
     <TableColumnDecimal prop="balance" :label="$t('trading.balance')" />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
         <el-space spacer="|">
           <TextLink :to="{ name: 'account.edit', params: { id: row.id } }" />
-          <TextLink
-            :to="{ name: 'account.edit', params: { id: row.id } }"
-            :text="$t('finance.deposit')"
-          />
-          <TextLink
-            :to="{ name: 'account.edit', params: { id: row.id } }"
-            :text="$t('finance.withdraw')"
+          <el-link type="primary" @click="deposit(row)">
+            {{ $t('finance.deposit') }}
+          </el-link>
+          <el-link
+            type="primary"
+            @click="withdraw(row)"
             :disabled="row.balance <= 0"
-          />
+          >
+            {{ $t('finance.withdraw') }}
+          </el-link>
         </el-space>
       </template>
     </el-table-column>
@@ -48,6 +53,9 @@
     v-model:page-size="query.pageSize"
     :total="result.itemCount"
   />
+
+  <DialogDeposit v-model="depositVisible" :account="account" />
+  <DialogWithdraw v-model="withdrawVisible" :account="account" />
 </template>
 
 <script setup lang="ts">
@@ -60,6 +68,9 @@ import type { OptionResult } from '@/models/option-result';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
 
 const loading = ref(false);
+const depositVisible = ref(false);
+const withdrawVisible = ref(false);
+const account = ref({} as AccountRow);
 const currencies: Ref<OptionResult<string>[]> = ref([]);
 const query: GetAccountsQuery = reactive({
   ...defaultQuery,
@@ -67,6 +78,16 @@ const query: GetAccountsQuery = reactive({
 const result: PageResult<AccountRow> = reactive(defaultResult());
 
 optionApi.getCurrencies().then((x) => (currencies.value = x.data));
+
+const deposit = (row: AccountRow) => {
+  account.value = row;
+  depositVisible.value = true;
+};
+
+const withdraw = (row: AccountRow) => {
+  account.value = row;
+  withdrawVisible.value = true;
+};
 
 watch(
   query,

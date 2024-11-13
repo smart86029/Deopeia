@@ -26,5 +26,6 @@ export default {
     expirationDate: '到期日',
     deposit: '存款',
     withdraw: '提款',
+    amount: '金額',
   },
 };

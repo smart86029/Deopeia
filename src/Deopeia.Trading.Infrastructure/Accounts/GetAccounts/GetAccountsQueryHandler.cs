@@ -1,4 +1,3 @@
-using Deopeia.Common.Extensions;
 using Deopeia.Trading.Application.Accounts.GetAccounts;
 
 namespace Deopeia.Trading.Infrastructure.Accounts.GetAccounts;
@@ -16,32 +15,29 @@ public class GetAccountsQueryHandler(NpgsqlConnection connection)
         var builder = new SqlBuilder();
         if (request.IsEnabled.HasValue)
         {
-            builder.Where("a.is_enabled = @IsEnabled", new { request.IsEnabled });
+            builder.Where("is_enabled = @IsEnabled", new { request.IsEnabled });
         }
 
         if (!request.CurrencyCode.IsNullOrWhiteSpace())
         {
-            builder.Where("a.balance_currency_code = @CurrencyCode", new { request.CurrencyCode });
+            builder.Where("balance_currency_code = @CurrencyCode", new { request.CurrencyCode });
         }
 
-        var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM account AS a /**where**/");
+        var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM account /**where**/");
         var count = await _connection.ExecuteScalarAsync<int>(sqlCount.RawSql, sqlCount.Parameters);
         var result = new PageResult<AccountDto>(request, count);
 
         var sql = builder.AddTemplate(
             """
 SELECT
-    a.id,
-    a.account_number,
-    a.is_enabled,
-    COALESCE(b.name, c.name) AS currency,
-    a.balance_amount AS balance
-FROM account AS a
-LEFT JOIN currency_locale AS b
-    ON a.balance_currency_code = b.currency_code AND b.culture = @CurrentCulture
-INNER JOIN currency_locale AS c
-    ON a.balance_currency_code = c.currency_code AND c.culture = @DefaultThreadCurrentCulture
+    id,
+    account_number,
+    is_enabled,
+    balance_currency_code AS currency_code,
+    balance_amount AS balance
+FROM account
 /**where**/
+ORDER BY account_number
 LIMIT @Limit
 OFFSET @Offset
 """,
