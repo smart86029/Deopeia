@@ -35,11 +35,8 @@ public class AccountsController : ApiController<AccountsController>
         return Created();
     }
 
-    [HttpPost("{id}/Withdraw")]
-    public async Task<IActionResult> Withdraw(
-        [FromRoute] Guid id,
-        [FromBody] WithdrawCommand command
-    )
+    [HttpPost("{id}/Deposit")]
+    public async Task<IActionResult> Deposit([FromRoute] Guid id, [FromBody] DepositCommand command)
     {
         command = command with { Id = id };
         await Sender.Send(command);
@@ -47,8 +44,11 @@ public class AccountsController : ApiController<AccountsController>
         return Created();
     }
 
-    [HttpPost("{id}/Deposit")]
-    public async Task<IActionResult> Deposit([FromRoute] Guid id, [FromBody] DepositCommand command)
+    [HttpPost("{id}/Withdraw")]
+    public async Task<IActionResult> Withdraw(
+        [FromRoute] Guid id,
+        [FromBody] WithdrawCommand command
+    )
     {
         command = command with { Id = id };
         await Sender.Send(command);

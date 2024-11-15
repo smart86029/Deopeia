@@ -31,7 +31,7 @@
     <TableColumnDecimal prop="balance" :label="$t('trading.balance')" />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
-        <el-space spacer="|">
+        <DividerSpace>
           <TextLink :to="{ name: 'account.edit', params: { id: row.id } }" />
           <el-link type="primary" @click="deposit(row)">
             {{ $t('finance.deposit') }}
@@ -43,7 +43,7 @@
           >
             {{ $t('finance.withdraw') }}
           </el-link>
-        </el-space>
+        </DividerSpace>
       </template>
     </el-table-column>
   </el-table>

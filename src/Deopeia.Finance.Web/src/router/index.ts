@@ -16,7 +16,13 @@ const router = createRouter({
       name: 'home',
       beforeEnter: setLocale,
       component: HomeView,
+      redirect: { name: 'dashboard.default' },
       children: [
+        {
+          path: '',
+          name: 'dashboard.default',
+          component: () => import('../views/dashboard/DashboardView.vue'),
+        },
         ...auth,
         ...identity,
         ...quote,
