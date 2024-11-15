@@ -50,6 +50,19 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "currency",
+                columns: table => new
+                {
+                    code = table.Column<string>(type: "text", nullable: false),
+                    symbol = table.Column<string>(type: "text", nullable: true),
+                    decimals = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_currency", x => x.code);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "file_resource",
                 columns: table => new
                 {
@@ -127,6 +140,18 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "unit",
+                columns: table => new
+                {
+                    code = table.Column<string>(type: "text", nullable: false),
+                    symbol = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_unit", x => x.code);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "user",
                 columns: table => new
                 {
@@ -140,6 +165,25 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_user", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "currency_locale",
+                columns: table => new
+                {
+                    currency_code = table.Column<string>(type: "text", nullable: false),
+                    culture = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_currency_locale", x => new { x.currency_code, x.culture });
+                    table.ForeignKey(
+                        name: "fk_currency_locale_currency_currency_id",
+                        column: x => x.currency_code,
+                        principalTable: "currency",
+                        principalColumn: "code",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,6 +247,25 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                         column: x => x.role_id,
                         principalTable: "role",
                         principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "unit_locale",
+                columns: table => new
+                {
+                    unit_code = table.Column<string>(type: "text", nullable: false),
+                    culture = table.Column<string>(type: "text", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_unit_locale", x => new { x.unit_code, x.culture });
+                    table.ForeignKey(
+                        name: "fk_unit_locale_unit_unit_id",
+                        column: x => x.unit_code,
+                        principalTable: "unit",
+                        principalColumn: "code",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -312,6 +375,9 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 name: "client");
 
             migrationBuilder.DropTable(
+                name: "currency_locale");
+
+            migrationBuilder.DropTable(
                 name: "file_resource");
 
             migrationBuilder.DropTable(
@@ -330,13 +396,22 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 name: "role_permission");
 
             migrationBuilder.DropTable(
+                name: "unit_locale");
+
+            migrationBuilder.DropTable(
                 name: "user_refresh_token");
 
             migrationBuilder.DropTable(
                 name: "user_role");
 
             migrationBuilder.DropTable(
+                name: "currency");
+
+            migrationBuilder.DropTable(
                 name: "permission");
+
+            migrationBuilder.DropTable(
+                name: "unit");
 
             migrationBuilder.DropTable(
                 name: "role");

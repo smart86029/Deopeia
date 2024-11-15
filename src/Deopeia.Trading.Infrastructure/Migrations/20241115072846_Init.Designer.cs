@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deopeia.Trading.Infrastructure.Migrations
 {
     [DbContext(typeof(TradingContext))]
-    [Migration("20241022035736_Init")]
+    [Migration("20241115072846_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -22,7 +22,7 @@ namespace Deopeia.Trading.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
