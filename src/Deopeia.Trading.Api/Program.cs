@@ -26,6 +26,7 @@ app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
+    app.Migrate<TradingContext>();
     app.UseSwagger();
     app.UseSwaggerUI();
 }

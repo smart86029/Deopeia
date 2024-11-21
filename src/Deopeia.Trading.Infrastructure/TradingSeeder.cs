@@ -5,13 +5,13 @@ using Unit = Deopeia.Common.Domain.Measurement.Unit;
 
 namespace Deopeia.Trading.Infrastructure;
 
-public class TradingSeeder : DbSeeder<TradingContext>
+public class TradingSeeder : DbSeeder
 {
     private static readonly CultureInfo EN = CultureInfo.GetCultureInfo("en");
     private static readonly CultureInfo ZHHant = CultureInfo.GetCultureInfo("zh-Hant");
     private static readonly CurrencyCode Usd = new("USD");
 
-    public override async Task SeedAsync(TradingContext context)
+    public override void Seed(DbContext context)
     {
         if (context.Set<LocaleResource>().Any())
         {
@@ -27,7 +27,7 @@ public class TradingSeeder : DbSeeder<TradingContext>
         context.Set<Account>().AddRange(accounts);
         context.Set<Position>().AddRange(GetPositions(accounts));
 
-        await context.SaveChangesAsync();
+        context.SaveChanges();
     }
 
     private IEnumerable<LocaleResource> GetLocaleResources()

@@ -8,9 +8,9 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Infrastructure;
 
-public class IdentitySeeder : DbSeeder<IdentityContext>
+public class IdentitySeeder : DbSeeder
 {
-    public override async Task SeedAsync(IdentityContext context)
+    public override void Seed(DbContext context)
     {
         if (context.Set<LocaleResource>().Any())
         {
@@ -44,7 +44,7 @@ public class IdentitySeeder : DbSeeder<IdentityContext>
         context.Set<Role>().AddRange(roles);
         context.Set<Permission>().AddRange(permissions);
 
-        await context.SaveChangesAsync();
+        context.SaveChanges();
     }
 
     private IEnumerable<LocaleResource> GetLocaleResources()

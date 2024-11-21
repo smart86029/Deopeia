@@ -8,12 +8,12 @@ using Unit = Deopeia.Common.Domain.Measurement.Unit;
 
 namespace Deopeia.Quote.Infrastructure;
 
-public class QuoteSeeder : DbSeeder<QuoteContext>
+public class QuoteSeeder : DbSeeder
 {
     private static readonly CultureInfo EN = CultureInfo.GetCultureInfo("en");
     private static readonly CultureInfo ZHHant = CultureInfo.GetCultureInfo("zh-Hant");
 
-    public override async Task SeedAsync(QuoteContext context)
+    public override void Seed(DbContext context)
     {
         if (context.Set<LocaleResource>().Any())
         {
@@ -34,7 +34,7 @@ public class QuoteSeeder : DbSeeder<QuoteContext>
         context.Set<ContractSpecification>().AddRange(contractSpecifications.Values);
         context.Set<FuturesContract>().AddRange(GetFuturesContracts(contractSpecifications));
 
-        await context.SaveChangesAsync();
+        context.SaveChanges();
     }
 
     private IEnumerable<LocaleResource> GetLocaleResources()

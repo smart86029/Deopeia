@@ -1,4 +1,3 @@
-using System.Reflection;
 using Deopeia.Common.Domain.Files;
 using Deopeia.Common.Infrastructure.Files;
 using Deopeia.Common.Infrastructure.Localization;
@@ -15,15 +14,27 @@ namespace Deopeia.Common.Infrastructure;
 
 public static class HostApplicationBuilderExtensions
 {
-    public static IHostApplicationBuilder AddInfrastructure<TContext>(
+    public static IHostApplicationBuilder AddInfrastructure<TContext, TSeeder>(
         this IHostApplicationBuilder builder
     )
         where TContext : DbContext
+        where TSeeder : DbSeeder, new()
     {
         var database = AssemblyUtility.ServiceName;
         builder.AddNpgsqlDbContext<TContext>(
             database,
-            configureDbContextOptions: options => options.UseSnakeCaseNamingConvention()
+            configureDbContextOptions: options =>
+            {
+                options
+                    .UseSnakeCaseNamingConvention()
+                    .UseSeeding(
+                        (context, _) =>
+                        {
+                            var seeder = new TSeeder();
+                            seeder.Seed(context);
+                        }
+                    );
+            }
         );
 
         var services = builder.Services;
@@ -49,19 +60,6 @@ public static class HostApplicationBuilderExtensions
         SqlMapper.AddTypeHandler(new TimeOnlyTypeHandler());
 
         return builder;
-    }
-
-    public static IHostApplicationBuilder AddInfrastructure<TContext, TSeeder>(
-        this IHostApplicationBuilder builder
-    )
-        where TContext : DbContext
-        where TSeeder : class, IDbSeeder<TContext>
-    {
-        var services = builder.Services;
-        services.AddScoped<IDbSeeder<TContext>, TSeeder>();
-        services.AddHostedService<MigrationWorker<TContext>>();
-
-        return builder.AddInfrastructure<TContext>();
     }
 
     private static IServiceCollection AddRepositories<TContext>(this IServiceCollection services)

@@ -3,13 +3,12 @@ using Deopeia.Common.Domain.Measurement;
 
 namespace Deopeia.Common.Infrastructure;
 
-public abstract class DbSeeder<TContext> : IDbSeeder<TContext>
-    where TContext : DbContext
+public abstract class DbSeeder
 {
     private static readonly CultureInfo EN = CultureInfo.GetCultureInfo("en");
     private static readonly CultureInfo ZHHant = CultureInfo.GetCultureInfo("zh-Hant");
 
-    public abstract Task SeedAsync(TContext context);
+    public abstract void Seed(DbContext context);
 
     protected IEnumerable<Currency> GetCurrencies()
     {
