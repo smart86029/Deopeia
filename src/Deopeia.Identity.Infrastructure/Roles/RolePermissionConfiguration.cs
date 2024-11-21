@@ -6,8 +6,6 @@ internal class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermis
 {
     public void Configure(EntityTypeBuilder<RolePermission> builder)
     {
-        builder.Ignore(x => x.Id);
-
         builder.HasKey(x => new { x.RoleId, x.PermissionId });
     }
 }

@@ -26,10 +26,15 @@ SELECT
     description
 FROM role_locale
 WHERE role_id = @Id;
+
+SELECT permission_id
+FROM role_permission
+WHERE role_id = @Id;
 """;
         using var multiple = await _connection.QueryMultipleAsync(sql, request);
         var result = multiple.ReadFirst<GetRoleViewModel>();
         result.Locales = multiple.Read<RoleLocaleDto>().ToList();
+        result.PermissionIds = multiple.Read<Guid>().ToList();
 
         return result;
     }

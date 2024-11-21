@@ -1,4 +1,3 @@
-using System.Globalization;
 using Bogus;
 using Deopeia.Common.Localization;
 using Deopeia.Identity.Domain.Clients;

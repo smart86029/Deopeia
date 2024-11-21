@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deopeia.Identity.Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20241115071129_Init")]
+    [Migration("20241120072920_Init")]
     partial class Init
     {
         /// <inheritdoc />
