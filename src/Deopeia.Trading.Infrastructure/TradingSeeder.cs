@@ -65,11 +65,14 @@ public class TradingSeeder : DbSeeder
     private IEnumerable<Position> GetPositions(IEnumerable<Account> accounts)
     {
         return new Faker<Position>()
-            .RuleFor(x => x.OpenedBy, x => x.PickRandom(accounts).Id)
-            .RuleFor(x => x.Type, x => x.PickRandom<PositionType>())
-            .RuleFor(x => x.Volume, x => x.Finance.Amount(1, 10, 0) * 1000)
-            .RuleFor(x => x.Margin, x => new Money(Usd, x.Finance.Amount()))
-            .RuleFor(x => x.OpenPrice, x => new Money(Usd, x.Finance.Amount()))
+            .CustomInstantiator(x => new Position(
+                x.PickRandom<PositionType>(),
+                new InstrumentId(Guid.Parse("019352c5-ade4-7125-bc19-28419937a665")),
+                x.Finance.Amount(1, 10, 0) * 1000,
+                new Money(Usd, x.Finance.Amount()),
+                null,
+                null
+            ))
             .Generate(5);
     }
 }

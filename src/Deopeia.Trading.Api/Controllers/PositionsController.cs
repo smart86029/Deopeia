@@ -1,5 +1,6 @@
 using Deopeia.Trading.Application.Positions.GetPosition;
 using Deopeia.Trading.Application.Positions.GetPositions;
+using Deopeia.Trading.Application.Positions.OpenPosition;
 
 namespace Deopeia.Trading.Api.Controllers;
 
@@ -23,15 +24,11 @@ public class PositionsController : ApiController<PositionsController>
         return Ok(result);
     }
 
-    //[HttpPut("{id}")]
-    //public async Task<IActionResult> Update(
-    //    [FromRoute] Guid id,
-    //    [FromBody] UpdatePositionCommand command
-    //)
-    //{
-    //    command = command with { Id = id };
-    //    await Sender.Send(command);
+    [HttpPost]
+    public async Task<IActionResult> Open([FromBody] OpenPositionCommand command)
+    {
+        await Sender.Send(command);
 
-    //    return NoContent();
-    //}
+        return NoContent();
+    }
 }

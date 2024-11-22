@@ -6,8 +6,8 @@ internal class PositionConfiguration : IEntityTypeConfiguration<Position>
 {
     public void Configure(EntityTypeBuilder<Position> builder)
     {
-        builder.ComplexProperty(x => x.Margin);
-
         builder.ComplexProperty(x => x.OpenPrice);
+
+        builder.ComplexProperty(x => x.Margin);
     }
 }

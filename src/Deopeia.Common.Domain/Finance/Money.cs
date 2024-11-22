@@ -2,6 +2,9 @@ namespace Deopeia.Common.Domain.Finance;
 
 public readonly record struct Money(CurrencyCode CurrencyCode, decimal Amount)
 {
+    public Money()
+        : this(new CurrencyCode("USD"), 0) { }
+
     public static Money operator +(Money augend, Money addend)
     {
         if (augend.CurrencyCode != addend.CurrencyCode)

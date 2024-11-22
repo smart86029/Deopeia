@@ -92,32 +92,6 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "order",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    type = table.Column<int>(type: "integer", nullable: false),
-                    instrument_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    side = table.Column<int>(type: "integer", nullable: false),
-                    status = table.Column<int>(type: "integer", nullable: false),
-                    volume = table.Column<decimal>(type: "numeric", nullable: false),
-                    created_by = table.Column<Guid>(type: "uuid", nullable: false),
-                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    executed_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    price_amount = table.Column<decimal>(type: "numeric", nullable: false),
-                    price_currency_code = table.Column<string>(type: "text", nullable: false),
-                    limit_price_amount = table.Column<decimal>(type: "numeric", nullable: true),
-                    limit_price_currency_code = table.Column<string>(type: "text", nullable: true),
-                    triggeredby = table.Column<Guid>(type: "uuid", nullable: true),
-                    stop_price_amount = table.Column<decimal>(type: "numeric", nullable: true),
-                    stop_price_currency_code = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_order", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "position",
                 columns: table => new
                 {
@@ -185,17 +159,30 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "position_order",
+                name: "order",
                 columns: table => new
                 {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    type = table.Column<int>(type: "integer", nullable: false),
                     position_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    order_id = table.Column<Guid>(type: "uuid", nullable: false)
+                    side = table.Column<int>(type: "integer", nullable: false),
+                    volume = table.Column<decimal>(type: "numeric", nullable: false),
+                    created_by = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    executed_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    price_amount = table.Column<decimal>(type: "numeric", nullable: false),
+                    price_currency_code = table.Column<string>(type: "text", nullable: false),
+                    limit_price_amount = table.Column<decimal>(type: "numeric", nullable: true),
+                    limit_price_currency_code = table.Column<string>(type: "text", nullable: true),
+                    triggeredby = table.Column<Guid>(type: "uuid", nullable: true),
+                    stop_price_amount = table.Column<decimal>(type: "numeric", nullable: true),
+                    stop_price_currency_code = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_position_order", x => new { x.position_id, x.order_id });
+                    table.PrimaryKey("pk_order", x => x.id);
                     table.ForeignKey(
-                        name: "fk_position_order_position_position_id",
+                        name: "fk_order_position_position_id",
                         column: x => x.position_id,
                         principalTable: "position",
                         principalColumn: "id",
@@ -269,6 +256,11 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 column: "type");
 
             migrationBuilder.CreateIndex(
+                name: "ix_order_position_id",
+                table: "order",
+                column: "position_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_order_triggeredby",
                 table: "order",
                 column: "triggeredby");
@@ -300,9 +292,6 @@ namespace Deopeia.Trading.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "order");
-
-            migrationBuilder.DropTable(
-                name: "position_order");
 
             migrationBuilder.DropTable(
                 name: "strategy_leg");

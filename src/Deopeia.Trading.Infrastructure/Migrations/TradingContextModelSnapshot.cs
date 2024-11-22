@@ -260,17 +260,13 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("executed_at");
 
-                    b.Property<Guid>("InstrumentId")
+                    b.Property<Guid>("PositionId")
                         .HasColumnType("uuid")
-                        .HasColumnName("instrument_id");
+                        .HasColumnName("position_id");
 
                     b.Property<int>("Side")
                         .HasColumnType("integer")
                         .HasColumnName("side");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
-                        .HasColumnName("status");
 
                     b.Property<int>("Type")
                         .HasColumnType("integer")
@@ -294,6 +290,9 @@ namespace Deopeia.Trading.Infrastructure.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_order");
+
+                    b.HasIndex("PositionId")
+                        .HasDatabaseName("ix_order_position_id");
 
                     b.ToTable("order", (string)null);
 
@@ -364,22 +363,6 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasName("pk_position");
 
                     b.ToTable("position", (string)null);
-                });
-
-            modelBuilder.Entity("Deopeia.Trading.Domain.Positions.PositionOrder", b =>
-                {
-                    b.Property<Guid>("PositionId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("position_id");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("order_id");
-
-                    b.HasKey("PositionId", "OrderId")
-                        .HasName("pk_position_order");
-
-                    b.ToTable("position_order", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Trading.Domain.Strategies.Strategy", b =>
@@ -590,14 +573,14 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasConstraintName("fk_unit_locale_unit_unit_id");
                 });
 
-            modelBuilder.Entity("Deopeia.Trading.Domain.Positions.PositionOrder", b =>
+            modelBuilder.Entity("Deopeia.Trading.Domain.Orders.Order", b =>
                 {
                     b.HasOne("Deopeia.Trading.Domain.Positions.Position", null)
-                        .WithMany("PositionOrders")
+                        .WithMany("Orders")
                         .HasForeignKey("PositionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_position_order_position_position_id");
+                        .HasConstraintName("fk_order_position_position_id");
                 });
 
             modelBuilder.Entity("Deopeia.Trading.Domain.Strategies.StrategyLeg", b =>
@@ -632,7 +615,7 @@ namespace Deopeia.Trading.Infrastructure.Migrations
 
             modelBuilder.Entity("Deopeia.Trading.Domain.Positions.Position", b =>
                 {
-                    b.Navigation("PositionOrders");
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("Deopeia.Trading.Domain.Strategies.Strategy", b =>

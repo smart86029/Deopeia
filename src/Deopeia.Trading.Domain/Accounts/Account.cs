@@ -1,5 +1,3 @@
-using Deopeia.Common.Domain;
-
 namespace Deopeia.Trading.Domain.Accounts;
 
 public class Account : AggregateRoot<AccountId>
