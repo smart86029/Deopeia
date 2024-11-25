@@ -9,5 +9,6 @@ public record OpenPositionCommand(
     string CurrencyCode,
     decimal? Price,
     decimal? StopLossPrice,
-    decimal? TakeProfitPrice
+    decimal? TakeProfitPrice,
+    Guid AccountId
 ) : IRequest { }

@@ -71,7 +71,8 @@ public class TradingSeeder : DbSeeder
                 x.Finance.Amount(1, 10, 0) * 1000,
                 new Money(Usd, x.Finance.Amount()),
                 null,
-                null
+                null,
+                x.PickRandom(accounts).Id
             ))
             .Generate(5);
     }

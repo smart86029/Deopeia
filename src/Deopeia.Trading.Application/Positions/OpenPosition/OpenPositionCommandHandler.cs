@@ -1,3 +1,4 @@
+using Deopeia.Trading.Domain.Accounts;
 using Deopeia.Trading.Domain.Positions;
 
 namespace Deopeia.Trading.Application.Positions.OpenPosition;
@@ -13,6 +14,7 @@ internal class OpenPositionCommandHandler(
     public async Task Handle(OpenPositionCommand request, CancellationToken cancellationToken)
     {
         var instrumentId = new InstrumentId(request.InstrumentId);
+        var openedBy = new AccountId(request.AccountId);
         var currencyCode = new CurrencyCode(request.CurrencyCode);
         var position = new Position(
             request.Type,
@@ -20,7 +22,8 @@ internal class OpenPositionCommandHandler(
             request.Volume,
             request.Price?.ToMoney(currencyCode),
             request.StopLossPrice?.ToMoney(currencyCode),
-            request.TakeProfitPrice?.ToMoney(currencyCode)
+            request.TakeProfitPrice?.ToMoney(currencyCode),
+            openedBy
         );
 
         await _positionRepository.AddAsync(position);

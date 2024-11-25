@@ -18,7 +18,8 @@ public class Position : AggregateRoot<PositionId>
         decimal volume,
         Money? openPrice,
         Money? stopLimitPrice,
-        Money? takeProfitPrice
+        Money? takeProfitPrice,
+        AccountId openedBy
     )
     {
         type.MustBeDefined();
@@ -28,6 +29,7 @@ public class Position : AggregateRoot<PositionId>
         InstrumentId = instrumentId;
         Volume = volume;
         OpenPrice = openPrice ?? new Money();
+        OpenedBy = openedBy;
 
         var side = type == PositionType.Long ? OrderSide.Buy : OrderSide.Sell;
 
