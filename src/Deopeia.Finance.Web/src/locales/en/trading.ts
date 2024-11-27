@@ -16,6 +16,7 @@ export default {
       '0': 'Buy',
       '1': 'Sell',
     },
+    newOrder: 'New Order',
     ticks: 'Ticks',
     volume: 'Volume',
     timeout: 'Timeout',
@@ -30,5 +31,7 @@ export default {
     unrealisedPnL: 'Unrealised P&L',
     openedAt: 'Opened At',
     close: 'Close',
+    stopLoss: 'Stop Loss',
+    takeProfit: 'Take Profit',
   },
 };

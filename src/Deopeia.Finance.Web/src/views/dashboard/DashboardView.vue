@@ -1,5 +1,6 @@
 <template>
   <FundOverview :funds="funds" />
+  <TradeForm class="trade-form" />
 </template>
 
 <script setup lang="ts">
@@ -10,3 +11,9 @@ const funds = [
   { currencyCode: 'JPY', name: '日圓', marginUsed: 1000, balance: 10000 },
 ];
 </script>
+
+<style scoped lang="scss">
+.trade-form {
+  width: 300px;
+}
+</style>

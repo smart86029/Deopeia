@@ -26,6 +26,8 @@ export const usePreferencesStore = defineStore('preferences', () => {
 
   const cultures: Ref<OptionResult<string>[]> = ref([]);
   const timeZones: Ref<OptionResult<string>[]> = ref([]);
+  const positive = ref('danger');
+  const negative = ref('success');
 
   watch(
     locale,
@@ -41,5 +43,21 @@ export const usePreferencesStore = defineStore('preferences', () => {
     { immediate: true },
   );
 
-  return { locales, locale, cultures, timeZones };
+  watch(
+    locale,
+    (appLocale) => {
+      const style = document.documentElement.style;
+      style.setProperty(
+        '--el-color-positive',
+        useCssVar('--el-color-danger-light-5', ref(null)).value,
+      );
+      style.setProperty(
+        '--el-color-negative',
+        useCssVar('--el-color-success-light-5', ref(null)).value,
+      );
+    },
+    { immediate: true },
+  );
+
+  return { locales, locale, cultures, timeZones, positive, negative };
 });

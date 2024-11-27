@@ -16,6 +16,7 @@ export default {
       '0': '買',
       '1': '賣',
     },
+    newOrder: '新增訂單',
     ticks: '跳動點',
     volume: '交易量',
     timeout: '超時',
@@ -31,5 +32,7 @@ export default {
     unrealisedPnL: '未實現盈虧',
     openedAt: '開倉時間',
     close: '平倉',
+    stopLoss: '止損',
+    takeProfit: '止盈',
   },
 };
