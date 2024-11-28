@@ -9,7 +9,6 @@ public abstract class Order : AggregateRoot<OrderId>
 
     protected Order(
         OrderType type,
-        PositionId positionId,
         OrderSide side,
         decimal volume,
         Money price,
@@ -17,7 +16,6 @@ public abstract class Order : AggregateRoot<OrderId>
     )
     {
         Type = type;
-        PositionId = positionId;
         Side = side;
         Volume = volume;
         Price = price;

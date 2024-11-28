@@ -2,7 +2,7 @@
   <div>
     <h2>{{ $t('trading.newOrder') }}</h2>
 
-    <el-form :model="form" label-position="top">
+    <el-form :model="form" label-position="top" @submit.prevent>
       <el-form-item>
         <el-radio-group v-model="radio1">
           <el-radio-button label="Market" value="Market" />
@@ -13,10 +13,10 @@
         <template v-if="radio1 === 'Market'">
           {{ 100 }}
         </template>
-        <InputNumber v-else v-model="form.amount" />
+        <InputNumber v-else v-model="form.price" />
       </el-form-item>
       <el-form-item :label="$t('trading.volume')">
-        <InputNumber v-model="form.amount" />
+        <InputNumber v-model="form.volume" />
       </el-form-item>
       <el-form-item :label="$t('trading.leverage')">
         <el-radio-group v-model="form.leverage">
@@ -38,17 +38,17 @@
       </div>
 
       <el-form-item :label="$t('trading.stopLoss')">
-        <InputNumber v-model="form.stopLoss" />
+        <InputNumber v-model="form.stopLossPrice" />
       </el-form-item>
       <el-form-item :label="$t('trading.takeProfit')">
-        <InputNumber v-model="form.takeProfit" />
+        <InputNumber v-model="form.takeProfitPrice" />
       </el-form-item>
 
       <el-form-item>
-        <el-button :type="positive" class="button-trade">
+        <el-button :type="positive" class="button-trade" @click="buy">
           {{ $t(`trading.orderSide.${OrderSide.Buy}`) }}
         </el-button>
-        <el-button :type="negative" class="button-trade">
+        <el-button :type="negative" class="button-trade" @click="sell">
           {{ $t(`trading.orderSide.${OrderSide.Sell}`) }}
         </el-button>
       </el-form-item>
@@ -57,22 +57,52 @@
 </template>
 
 <script setup lang="ts">
+import orderApi, { type Order } from '@/api/trading/order-api';
+import { emptyGuid } from '@/models/guid';
 import { OrderSide } from '@/models/trading/order-side';
 import { usePreferencesStore } from '@/stores/preferences';
+import { ElMessage } from 'element-plus';
 
 const { positive, negative } = storeToRefs(usePreferencesStore());
 
 const radio1 = ref('Market');
-
-const form = reactive({
+const { t } = useI18n();
+const loading = ref(false);
+const form: Order = reactive({
+  side: OrderSide.Buy,
+  instrumentId: emptyGuid,
+  volume: 0,
   currencyCode: '',
-  amount: 0,
   leverage: 1,
-  stopLoss: undefined,
-  takeProfit: undefined,
+  price: undefined,
+  stopLossPrice: undefined,
+  takeProfitPrice: undefined,
+  accountId: emptyGuid,
 });
 
-const margin = computed(() => form.amount / form.leverage);
+const margin = computed(() => form.volume / form.leverage);
+
+const buy = () => {
+  form.side = OrderSide.Buy;
+  save();
+};
+
+const sell = () => {
+  form.side = OrderSide.Sell;
+  save();
+};
+
+const save = () => {
+  loading.value = true;
+  orderApi
+    .create(form)
+    .then(() =>
+      ElMessage.success({
+        message: t('common.message.createSuccess'),
+      }),
+    )
+    .finally(() => (loading.value = false));
+};
 </script>
 
 <style lang="scss" scoped>

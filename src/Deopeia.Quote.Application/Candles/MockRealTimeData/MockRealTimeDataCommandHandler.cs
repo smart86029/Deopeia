@@ -31,7 +31,7 @@ internal class MockRealTimeDataCommandHandler(
         var symbol = "GCZ2024";
 
         await MockPriceAsync(symbol);
-        await MockOrderBookAsync(symbol);
+        //await MockOrderBookAsync(symbol);
     }
 
     private async Task MockPriceAsync(string symbol)

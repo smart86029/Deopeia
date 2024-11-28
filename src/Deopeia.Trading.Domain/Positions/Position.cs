@@ -35,7 +35,7 @@ public class Position : AggregateRoot<PositionId>
 
         if (openPrice.HasValue)
         {
-            _orders.Add(new LimitOrder(Id, side, volume, OpenPrice, OpenedBy));
+            _orders.Add(new LimitOrder(side, volume, OpenPrice, OpenedBy));
         }
         else
         {

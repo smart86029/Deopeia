@@ -24,4 +24,14 @@ public readonly record struct Money(CurrencyCode CurrencyCode, decimal Amount)
 
         return new Money(minuend.CurrencyCode, minuend.Amount - subtrahend.Amount);
     }
+
+    public static bool operator <(Money x, Money y)
+    {
+        return x.Amount < y.Amount;
+    }
+
+    public static bool operator >(Money x, Money y)
+    {
+        return x.Amount > y.Amount;
+    }
 }
