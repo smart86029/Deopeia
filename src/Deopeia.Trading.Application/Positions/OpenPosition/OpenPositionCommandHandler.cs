@@ -13,7 +13,7 @@ internal class OpenPositionCommandHandler(
 
     public async Task Handle(OpenPositionCommand request, CancellationToken cancellationToken)
     {
-        var instrumentId = new InstrumentId(request.InstrumentId);
+        var instrumentId = new Symbol(request.Symbol);
         var openedBy = new AccountId(request.AccountId);
         var currencyCode = new CurrencyCode(request.CurrencyCode);
         var position = new Position(

@@ -15,8 +15,8 @@ internal class PlaceOrderCommandHandler(
 
     public async Task Handle(PlaceOrderCommand request, CancellationToken cancellationToken)
     {
-        var instrumentId = new InstrumentId(request.InstrumentId);
-        var orderBook = await _orderBookRepository.GetOrderBookAsync(instrumentId);
+        var symbol = new Symbol(request.Symbol);
+        var orderBook = await _orderBookRepository.GetOrderBookAsync(symbol);
 
         var openedBy = new AccountId(request.AccountId);
         var currencyCode = new CurrencyCode(request.CurrencyCode);

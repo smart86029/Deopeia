@@ -13,8 +13,6 @@ public static class ModelConfigurationBuilderExtensions
 {
     public static ModelConfigurationBuilder ApplyConventions(this ModelConfigurationBuilder builder)
     {
-        builder.Properties<AssetId>().HaveConversion<AssetIdConverter>();
-
         builder.Properties<AuditTrailId>().HaveConversion<AuditTrailIdConverter>();
 
         builder.Properties<CultureInfo>().HaveConversion<CultureInfoConverter>();
@@ -27,7 +25,7 @@ public static class ModelConfigurationBuilderExtensions
 
         builder.Properties<FileResourceId>().HaveConversion<FileResourceIdConverter>();
 
-        builder.Properties<InstrumentId>().HaveConversion<InstrumentIdConverter>();
+        builder.Properties<Symbol>().HaveConversion<SymbolConverter>();
 
         builder.Properties<UnitCode>().HaveConversion<UnitCodeConverter>();
 

@@ -6,9 +6,7 @@ internal class InstrumentRepository(QuoteContext context) : IInstrumentRepositor
 {
     private readonly DbSet<Instrument> _instruments = context.Set<Instrument>();
 
-    public async Task<IReadOnlyDictionary<string, InstrumentId>> GetSymbolMapAsync(
-        ExchangeId exchangeId
-    )
+    public async Task<IReadOnlyDictionary<string, Symbol>> GetSymbolMapAsync(ExchangeId exchangeId)
     {
         return await _instruments
             .Where(x => x.ExchangeId == exchangeId)

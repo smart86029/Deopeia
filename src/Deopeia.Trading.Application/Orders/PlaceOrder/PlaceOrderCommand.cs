@@ -4,7 +4,7 @@ namespace Deopeia.Trading.Application.Orders.PlaceOrder;
 
 public record PlaceOrderCommand(
     OrderSide Side,
-    Guid InstrumentId,
+    string Symbol,
     decimal Volume,
     string CurrencyCode,
     decimal? Price,

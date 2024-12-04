@@ -4,7 +4,7 @@ namespace Deopeia.Trading.Application.Positions.OpenPosition;
 
 public record OpenPositionCommand(
     PositionType Type,
-    Guid InstrumentId,
+    string Symbol,
     decimal Volume,
     string CurrencyCode,
     decimal? Price,

@@ -1,25 +1,17 @@
 using Deopeia.Quote.Application.Candles.ScrapeRealTimeData;
 using Deopeia.Quote.Domain.Candles;
-using Deopeia.Quote.Domain.ContractSpecifications;
 using Deopeia.Quote.Domain.Instruments;
-using Deopeia.Quote.Domain.Instruments.FuturesContracts;
 
 namespace Deopeia.Quote.Application.Candles.MockRealTimeData;
 
 internal class MockRealTimeDataCommandHandler(
     IQuoteUnitOfWork unitOfWork,
-    IContractSpecificationRepository contractSpecificationRepository,
-    IFuturesContractRepository futuresContractRepository,
     IInstrumentRepository instrumentRepository,
     ICandleRepository candleRepository,
     IEventBus eventBus
 ) : IRequestHandler<MockRealTimeDataCommand>
 {
     private readonly IQuoteUnitOfWork _unitOfWork = unitOfWork;
-    private readonly IContractSpecificationRepository _contractSpecificationRepository =
-        contractSpecificationRepository;
-    private readonly IFuturesContractRepository _futuresContractRepository =
-        futuresContractRepository;
     private readonly IInstrumentRepository _instrumentRepository = instrumentRepository;
     private readonly ICandleRepository _candleRepository = candleRepository;
     private readonly IEventBus _eventBus = eventBus;
@@ -30,7 +22,7 @@ internal class MockRealTimeDataCommandHandler(
     {
         var symbol = "GCZ2024";
 
-        await MockPriceAsync(symbol);
+        //await MockPriceAsync(symbol);
         //await MockOrderBookAsync(symbol);
     }
 

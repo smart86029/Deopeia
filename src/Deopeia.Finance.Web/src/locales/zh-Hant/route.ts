@@ -5,26 +5,16 @@ export default {
       create: '新增帳戶',
       edit: '編輯帳戶',
     },
-    asset: {
-      list: '資產列表',
-      create: '新增資產',
-      edit: '編輯資產',
-    },
-    contractSpecification: {
-      list: '契約規格列表',
-      create: '新增契約規格',
-      edit: '編輯契約規格',
+    contract: {
+      list: '合約列表',
+      create: '新增合約',
+      edit: '編輯合約',
     },
     exchange: {
       default: '交易所',
       list: '交易所列表',
       create: '新增交易所',
       edit: '編輯交易所',
-    },
-    futuresContract: {
-      list: '期貨契約列表',
-      create: '新增期貨契約',
-      edit: '編輯期貨契約',
     },
     home: '首頁',
     identity: '身分',

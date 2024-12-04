@@ -31,17 +31,13 @@ const menus = [
   },
   {
     name: 'quote',
-    children: [
-      { name: 'asset.list' },
-      { name: 'exchange.list' },
-      { name: 'contractSpecification.list' },
-      { name: 'futuresContract.list' },
-    ],
+    children: [{ name: 'exchange.list' }],
   },
   {
     name: 'trading',
     children: [
       { name: 'account.list' },
+      { name: 'contract.list' },
       { name: 'strategy.list' },
       { name: 'position.list' },
     ],

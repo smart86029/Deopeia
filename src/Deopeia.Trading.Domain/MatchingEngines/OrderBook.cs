@@ -6,7 +6,7 @@ using Deopeia.Trading.Domain.Orders.MarketOrders;
 
 namespace Deopeia.Trading.Domain.MatchingEngines;
 
-public class OrderBook : AggregateRoot<InstrumentId>
+public class OrderBook : AggregateRoot<Symbol>
 {
     private const int DepthMax = 5;
 
@@ -127,7 +127,7 @@ public class OrderBook : AggregateRoot<InstrumentId>
             .Select(x => new OrderDto
             {
                 Price = x.Key,
-                Size = x.Sum(y => y.Element.Volume).ToInt()
+                Size = x.Sum(y => y.Element.Volume).ToInt(),
             })
             .ToArray();
         var asks = _asks
@@ -137,7 +137,7 @@ public class OrderBook : AggregateRoot<InstrumentId>
             .Select(x => new OrderDto
             {
                 Price = x.Key,
-                Size = x.Sum(y => y.Element.Volume).ToInt()
+                Size = x.Sum(y => y.Element.Volume).ToInt(),
             })
             .ToArray();
 

@@ -53,8 +53,8 @@ instance.interceptors.response.use(
             },
           );
         } else {
-          ElMessage.success({
-            message: response.data.title,
+          ElMessage.error({
+            message: response.data,
           });
         }
         return Promise.reject();

@@ -1,6 +1,6 @@
 namespace Deopeia.Trading.Domain.MatchingEngines;
 
-public interface IOrderBookRepository : IRepository<OrderBook, InstrumentId>
+public interface IOrderBookRepository : IRepository<OrderBook, Symbol>
 {
-    Task<OrderBook> GetOrderBookAsync(InstrumentId instrumentId);
+    Task<OrderBook> GetOrderBookAsync(Symbol symbol);
 }

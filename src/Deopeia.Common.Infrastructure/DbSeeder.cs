@@ -62,9 +62,17 @@ public abstract class DbSeeder
             FromNone(ZHHant, "Name", "名稱"),
             FromError(ZHHant, "AccessDenied", "存取被拒。"),
             FromError(ZHHant, "Number.GreaterThan", "{Property}必須大於 {Comparison}。"),
-            FromError(ZHHant, "Number.GreaterThanOrEqualTo", "{Property}必須大於或等於 {Comparison}。"),
+            FromError(
+                ZHHant,
+                "Number.GreaterThanOrEqualTo",
+                "{Property}必須大於或等於 {Comparison}。"
+            ),
             FromError(ZHHant, "Number.LessThan", "{Property}必須小於 {Comparison}。"),
-            FromError(ZHHant, "Number.LessThanOrEqualTo", "{Property}必須小於或等於 {Comparison}。"),
+            FromError(
+                ZHHant,
+                "Number.LessThanOrEqualTo",
+                "{Property}必須小於或等於 {Comparison}。"
+            ),
             FromError(ZHHant, "String.NotEmpty", "{Property}不可為空。"),
             FromError(ZHHant, "Date.OnOrBefore", "{Property}必須等於或早於{Comparison}。"),
             FromError(ZHHant, "Date.OnOrBeforeNow", "{Property}必須等於或早於現在。"),
@@ -79,6 +87,7 @@ public abstract class DbSeeder
     {
         var results = new Unit[]
         {
+            new("NMB", "Number", null),
             new("GRN", "Grain", "gr"),
             new("DWT", "Pennyweight", "dwt"),
             new("APZ", "Troy ounce", "oz t"),

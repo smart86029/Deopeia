@@ -4,11 +4,9 @@ import i18n from './i18n';
 
 const { t } = i18n.global;
 
-export const success = (action: 'create' | 'edit', back: boolean) => {
+export const success = (action: 'create' | 'edit') => {
   ElMessage.success({
     message: t(`common.message.${action}Success`),
   });
-  if (back) {
-    router.go(-1);
-  }
+  router.go(-1);
 };

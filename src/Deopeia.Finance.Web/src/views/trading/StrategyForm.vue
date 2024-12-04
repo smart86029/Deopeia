@@ -83,8 +83,6 @@
 </template>
 
 <script setup lang="ts">
-import assetApi from '@/api/quote/asset-api';
-import futuresApi from '@/api/quote/futures-contract-api';
 import strategyApi, {
   type Strategy,
   type StrategyLocale,
@@ -127,10 +125,7 @@ const form: Strategy = reactive({
   ],
 });
 
-assetApi.getOptions().then((x) => (assets.value = x.data));
-
 watch(assetId, (assetId) => {
-  futuresApi.getOptions(assetId).then((x) => (futures.value = x.data));
   form.legs.forEach((x) => (x.instrumentId = emptyGuid));
 });
 

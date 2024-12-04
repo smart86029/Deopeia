@@ -1,7 +1,7 @@
 namespace Deopeia.Quote.Domain.Candles;
 
 public class Candle(
-    InstrumentId instrumentId,
+    Symbol instrumentId,
     TimeFrame timeFrame,
     DateTimeOffset timestamp,
     decimal open,
@@ -11,7 +11,7 @@ public class Candle(
     decimal volume
 ) : AggregateRoot<CandleId>(new CandleId(instrumentId, timeFrame, timestamp))
 {
-    public InstrumentId InstrumentId => Id.InstrumentId;
+    public Symbol InstrumentId => Id.InstrumentId;
 
     public TimeFrame TimeFrame => Id.TimeFrame;
 

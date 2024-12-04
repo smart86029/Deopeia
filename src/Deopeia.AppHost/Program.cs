@@ -4,11 +4,7 @@ var minIOEndpoint = builder.AddParameter("MinIOEndpoint");
 var minIOAccessKey = builder.AddParameter("MinIOAccessKey");
 var minIOSecretKey = builder.AddParameter("MinIOSecretKey");
 
-var kafka = builder
-    .AddKafka("kafka")
-    .WithKafkaUI(x => x.WithHostPort(9100))
-    .WithDataVolume()
-    .WithLifetime(ContainerLifetime.Persistent);
+var kafka = builder.AddKafka("kafka").WithDataVolume().WithLifetime(ContainerLifetime.Persistent);
 
 var password = builder.AddParameter("postgresql-password", secret: true);
 var postgres = builder

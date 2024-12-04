@@ -1,3 +1,4 @@
+import type { RouteLocationNormalized } from 'vue-router';
 import { create, edit } from './props';
 
 export default [
@@ -22,6 +23,34 @@ export default [
         name: 'account.edit',
         component: () => import('../views/trading/AccountForm.vue'),
         props: edit,
+      },
+    ],
+  },
+  {
+    path: 'contract',
+    name: 'contract.list',
+    redirect: { name: 'contract.default' },
+    children: [
+      {
+        path: '',
+        name: 'contract.default',
+        component: () => import('../views/trading/ContractList.vue'),
+      },
+      {
+        path: 'create',
+        name: 'contract.create',
+        component: () => import('../views/trading/ContractForm.vue'),
+        props: () => ({ default: true, action: 'create', symbol: '' }),
+      },
+      {
+        path: ':symbol',
+        name: 'contract.edit',
+        component: () => import('../views/trading/ContractForm.vue'),
+        props: (route: RouteLocationNormalized) => ({
+          default: true,
+          action: 'edit',
+          symbol: route.params.symbol,
+        }),
       },
     ],
   },

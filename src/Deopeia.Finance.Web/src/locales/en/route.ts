@@ -5,26 +5,16 @@ export default {
       create: 'Create Account',
       edit: 'Edit Account',
     },
-    asset: {
-      list: 'Assets',
-      create: 'Create Asset',
-      edit: 'Edit Asset',
-    },
-    contractSpecification: {
-      list: 'Contract Specifications',
-      create: 'Create Contract Specification',
-      edit: 'Edit Contract Specification',
+    contract: {
+      list: 'Contracts',
+      create: 'Create Contract',
+      edit: 'Edit Contract',
     },
     exchange: {
       default: 'Exchange',
       list: 'Exchanges',
       create: 'Create Exchange',
       edit: 'Edit Exchange',
-    },
-    futuresContract: {
-      list: 'Futures Contracts',
-      create: 'Create Futures Contract',
-      edit: 'Edit Futures Contract',
     },
     home: 'Home',
     identity: 'Identity',
