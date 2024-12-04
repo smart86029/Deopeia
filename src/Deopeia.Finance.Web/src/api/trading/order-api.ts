@@ -4,7 +4,7 @@ import httpClient from '../http-client';
 
 export interface Order {
   side: OrderSide;
-  instrumentId: Guid;
+  symbol: string;
   volume: number;
   currencyCode: string;
   price?: number;

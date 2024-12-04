@@ -1,8 +1,14 @@
 <template>
   <FundOverview :funds="funds" />
   <div class="quote">
-    <OrderBook class="order-book" :bids="bids" :asks="asks" :price="price" />
-    <TradeForm class="trade-form" />
+    <OrderBook
+      class="order-book"
+      :bids="bids"
+      :asks="asks"
+      :price="price"
+      @update="changePrice"
+    />
+    <TradeForm class="trade-form" :price="selectPrice" />
   </div>
 </template>
 
@@ -17,17 +23,20 @@ const funds = [
 ];
 const { quotes, bids, asks } = storeToRefs(useQuoteStore());
 const price = computed(() => quotes.value.get('GCZ2024').value);
+const selectPrice = ref(undefined as number | undefined);
+
+const changePrice = (price: number) => (selectPrice.value = price);
 </script>
 
 <style scoped lang="scss">
 .quote {
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   gap: 16px;
 }
 
 .order-book {
-  flex: 1;
+  width: 300px;
 }
 
 .trade-form {

@@ -4,13 +4,13 @@
 
     <el-form :model="form" label-position="top" @submit.prevent>
       <el-form-item>
-        <el-radio-group v-model="radio1">
+        <el-radio-group v-model="type">
           <el-radio-button label="Market" value="Market" />
           <el-radio-button label="Limit" value="Limit" />
         </el-radio-group>
       </el-form-item>
       <el-form-item :label="$t('finance.price')">
-        <template v-if="radio1 === 'Market'">
+        <template v-if="type === 'Market'">
           {{ 100 }}
         </template>
         <InputNumber v-else v-model="form.price" />
@@ -63,14 +63,18 @@ import { OrderSide } from '@/models/trading/order-side';
 import { usePreferencesStore } from '@/stores/preferences';
 import { ElMessage } from 'element-plus';
 
+const props = defineProps<{
+  price?: number;
+}>();
+
 const { positive, negative } = storeToRefs(usePreferencesStore());
 
-const radio1 = ref('Market');
+const type = ref('Market');
 const { t } = useI18n();
 const loading = ref(false);
 const form: Order = reactive({
   side: OrderSide.Buy,
-  instrumentId: emptyGuid,
+  symbol: '',
   volume: 0,
   currencyCode: '',
   leverage: 1,
@@ -81,6 +85,15 @@ const form: Order = reactive({
 });
 
 const margin = computed(() => form.volume / form.leverage);
+
+watch(
+  () => props.price,
+  (price) => {
+    if (type.value === 'Limit' && price) {
+      form.price = price;
+    }
+  },
+);
 
 const buy = () => {
   form.side = OrderSide.Buy;

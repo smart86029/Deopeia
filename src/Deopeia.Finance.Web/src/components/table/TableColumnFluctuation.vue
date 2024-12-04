@@ -9,7 +9,7 @@
             row[prop] < (comparisonProp ? row[comparisonProp] : comparison),
         }"
       >
-        {{ row[prop] !== undefined ? $n(row[prop], 'decimal') : '' }}
+        {{ row[prop] !== undefined ? $n(row[prop], 'decimal') : '-' }}
       </span>
     </template>
   </el-table-column>
