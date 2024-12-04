@@ -1,9 +1,5 @@
 <template>
-  <el-table
-    :data="orders"
-    :row-style="depthBackground"
-    @row-click="changePrice"
-  >
+  <el-table :data="orders" :row-style="depth" @row-click="changePrice">
     <el-table-column :label="$t('finance.price')" align="right">
       <template #default="{ row }">
         <el-text v-if="row.price" :type="row.type">
@@ -12,15 +8,7 @@
         <template v-else>-</template>
       </template>
     </el-table-column>
-    <el-table-column
-      :label="$t('finance.size')"
-      class-name="depth"
-      align="right"
-    >
-      <template #default="{ row }">
-        <template v-if="row.size">{{ $n(row.size, 'integer') }}</template>
-      </template>
-    </el-table-column>
+    <TableColumnInteger prop="size" :label="$t('finance.size')" />
   </el-table>
 </template>
 
@@ -72,12 +60,12 @@ const maxSize = computed(
       .shift() || 0,
 );
 
-const depth = (size: number) =>
-  maxSize.value === 0 ? '0' : n(size / maxSize.value, 'percent');
-
-const depthBackground = ({ row }) => {
-  const width = depth(row.size);
-  return `background: linear-gradient(90deg, var(--el-table-tr-bg-color) ${depth(maxSize.value - row.size)}, var(--el-color-${row.type}-light-5) ${width})`;
+const depth = (data: { row: OrderItem }) => {
+  const width =
+    maxSize.value === 0
+      ? '0'
+      : n((maxSize.value - data.row.size) / maxSize.value, 'percent');
+  return `background: linear-gradient(90deg, var(--el-table-tr-bg-color) ${width}, var(--el-color-${data.row.type}-light-5) 100%`;
 };
 
 const changePrice = (row: any) => emits('update', row.price);
@@ -86,15 +74,5 @@ const changePrice = (row: any) => emits('update', row.price);
 <style scoped lang="scss">
 :deep(.el-table__row:hover) {
   cursor: pointer;
-}
-
-.depth {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 50%;
-  background: red;
-  opacity: 0.1;
 }
 </style>
