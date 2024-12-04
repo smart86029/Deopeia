@@ -10,7 +10,7 @@ internal class CandleConfiguration : IEntityTypeConfiguration<Candle>
 
         builder.HasKey(x => new
         {
-            x.InstrumentId,
+            x.Symbol,
             x.TimeFrame,
             x.Timestamp,
         });

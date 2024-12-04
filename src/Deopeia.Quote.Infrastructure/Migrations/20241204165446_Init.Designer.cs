@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deopeia.Quote.Infrastructure.Migrations
 {
     [DbContext(typeof(QuoteContext))]
-    [Migration("20241203082935_Init")]
+    [Migration("20241204165446_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -201,9 +201,9 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             modelBuilder.Entity("Deopeia.Quote.Domain.Candles.Candle", b =>
                 {
-                    b.Property<string>("InstrumentId")
+                    b.Property<string>("Symbol")
                         .HasColumnType("text")
-                        .HasColumnName("instrument_id");
+                        .HasColumnName("symbol");
 
                     b.Property<int>("TimeFrame")
                         .HasColumnType("integer")
@@ -233,7 +233,7 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .HasColumnType("numeric")
                         .HasColumnName("volume");
 
-                    b.HasKey("InstrumentId", "TimeFrame", "Timestamp")
+                    b.HasKey("Symbol", "TimeFrame", "Timestamp")
                         .HasName("pk_candle");
 
                     b.ToTable("candle", (string)null);

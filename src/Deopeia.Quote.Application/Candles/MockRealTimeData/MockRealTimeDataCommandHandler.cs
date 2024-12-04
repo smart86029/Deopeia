@@ -22,7 +22,7 @@ internal class MockRealTimeDataCommandHandler(
     {
         var symbol = "GCZ2024";
 
-        //await MockPriceAsync(symbol);
+        await MockPriceAsync(symbol);
         //await MockOrderBookAsync(symbol);
     }
 
@@ -30,10 +30,8 @@ internal class MockRealTimeDataCommandHandler(
     {
         var random = new Random();
         _lastTradePrice += random.Next(-10, 10);
-        var map = await _instrumentRepository.GetSymbolMapAsync(new ExchangeId("XCEC"));
-        var instrumentId = map[symbol];
         var candle = new Candle(
-            instrumentId,
+            new Symbol(symbol),
             TimeFrame.Intraday,
             DateTimeOffset.UtcNow,
             2500,

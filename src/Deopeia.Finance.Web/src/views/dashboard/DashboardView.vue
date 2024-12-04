@@ -1,6 +1,7 @@
 <template>
   <FundOverview :funds="funds" />
   <div class="quote">
+    <ContractChart class="chart" />
     <OrderBook
       class="order-book"
       :bids="bids"
@@ -33,6 +34,10 @@ const changePrice = (price: number) => (selectPrice.value = price);
   display: flex;
   justify-content: end;
   gap: 16px;
+}
+
+.chart {
+  flex: 1;
 }
 
 .order-book {

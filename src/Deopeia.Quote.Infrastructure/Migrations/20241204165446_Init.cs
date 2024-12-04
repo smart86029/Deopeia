@@ -36,7 +36,7 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 name: "candle",
                 columns: table => new
                 {
-                    instrument_id = table.Column<string>(type: "text", nullable: false),
+                    symbol = table.Column<string>(type: "text", nullable: false),
                     time_frame = table.Column<int>(type: "integer", nullable: false),
                     timestamp = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     open = table.Column<decimal>(type: "numeric", nullable: false),
@@ -47,7 +47,7 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_candle", x => new { x.instrument_id, x.time_frame, x.timestamp });
+                    table.PrimaryKey("pk_candle", x => new { x.symbol, x.time_frame, x.timestamp });
                 });
 
             migrationBuilder.CreateTable(

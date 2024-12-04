@@ -9,7 +9,7 @@ internal class CandleRepository(QuoteContext context) : ICandleRepository
 
     public async Task<bool> ExistsAsync(DateOnly date)
     {
-        return await _candles.AnyAsync(x => x.Timestamp == date.ToDateTimeOffset());
+        return await _candles.AnyAsync(x => x.Id.Timestamp == date.ToDateTimeOffset());
     }
 
     public async Task AddAsync(Candle ohlcv)
