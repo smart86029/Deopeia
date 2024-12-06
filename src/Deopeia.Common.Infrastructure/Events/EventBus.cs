@@ -16,8 +16,6 @@ internal class EventBus(
     IOptions<EventBusSubscription> subscriptionOptions
 ) : IEventBus, IHostedService, IDisposable
 {
-    private const string ExchangeName = "deopeia";
-
     private readonly ILogger<EventBus> _logger = logger;
     private readonly IServiceProvider _serviceProvider = serviceProvider;
     private readonly IProducer<string, byte[]> _producer = producer;
@@ -30,35 +28,34 @@ internal class EventBus(
         var key = @event.GetType().Name;
         var value = @event.ToUtf8Bytes();
 
-        await _producer.ProduceAsync(
-            ExchangeName,
-            new Message<string, byte[]> { Key = key, Value = value }
-        );
+        await _producer.ProduceAsync(key, new Message<string, byte[]> { Key = key, Value = value });
     }
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _ = Task.Factory.StartNew(
-            async () =>
-            {
-                _consumer.Subscribe(ExchangeName);
-                while (!cancellationToken.IsCancellationRequested)
+        var tasks = _subscription.EventTypes.Select(x =>
+            Task.Factory.StartNew(
+                async () =>
                 {
-                    try
+                    _consumer.Subscribe(x.Key);
+                    while (!cancellationToken.IsCancellationRequested)
                     {
-                        var consumeResult = _consumer.Consume(cancellationToken);
-                        var key = consumeResult.Message.Key;
-                        var value = Encoding.UTF8.GetString(consumeResult.Message.Value);
-                        await Handle(key, value);
-                        _consumer.Commit();
+                        try
+                        {
+                            var consumeResult = _consumer.Consume(cancellationToken);
+                            var key = consumeResult.Message.Key;
+                            var value = Encoding.UTF8.GetString(consumeResult.Message.Value);
+                            await Handle(key, value);
+                            _consumer.Commit();
+                        }
+                        catch (Exception exception)
+                        {
+                            _logger.LogError(exception, "Error starting Kafka connection");
+                        }
                     }
-                    catch (Exception exception)
-                    {
-                        _logger.LogError(exception, "Error starting Kafka connection");
-                    }
-                }
-            },
-            TaskCreationOptions.LongRunning
+                },
+                TaskCreationOptions.LongRunning
+            )
         );
 
         return Task.CompletedTask;

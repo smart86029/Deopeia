@@ -22,7 +22,7 @@ SELECT
     volume
 FROM candle
 WHERE symbol = @Symbol
-ORDER BY timestamp
+ORDER BY timestamp DESC
 LIMIT 100
 """;
 

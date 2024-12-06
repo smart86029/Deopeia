@@ -15,6 +15,8 @@ internal class OrderConfiguration : IEntityTypeConfiguration<Order>
             .HasValue<LimitOrder>(OrderType.Limit)
             .HasValue<StopOrder>(OrderType.Stop);
 
+        builder.Ignore(x => x.UnfilledVolume);
+
         builder.ComplexProperty(x => x.Price);
     }
 }

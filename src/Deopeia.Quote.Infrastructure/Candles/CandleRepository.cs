@@ -4,8 +4,12 @@ namespace Deopeia.Quote.Infrastructure.Candles;
 
 internal class CandleRepository(QuoteContext context) : ICandleRepository
 {
-    private readonly QuoteContext _context = context;
     private readonly DbSet<Candle> _candles = context.Set<Candle>();
+
+    public async Task<Candle?> GetCandleAsync(CandleId id)
+    {
+        return await _candles.FirstOrDefaultAsync(x => x.Id == id);
+    }
 
     public async Task<bool> ExistsAsync(DateOnly date)
     {

@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deopeia.Trading.Infrastructure.Migrations
 {
     [DbContext(typeof(TradingContext))]
-    [Migration("20241203094322_Init")]
+    [Migration("20241206084048_Init")]
     partial class Init
     {
         /// <inheritdoc />

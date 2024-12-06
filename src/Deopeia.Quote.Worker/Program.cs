@@ -4,6 +4,8 @@ using Deopeia.Common.Application;
 using Deopeia.Common.Infrastructure;
 using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Common.Worker;
+using Deopeia.Quote.Application.Candles;
+using Deopeia.Quote.Application.Candles.CalculateCandles;
 using Deopeia.Quote.Application.Candles.MockRealTimeData;
 using Deopeia.Quote.Infrastructure;
 using Deopeia.Quote.Worker;
@@ -13,7 +15,8 @@ builder
     .AddServiceDefaults()
     .AddApplication()
     .AddInfrastructure<QuoteContext, QuoteSeeder>()
-    .AddEventBus();
+    .AddEventBus()
+    .AddSubscription<PriceChangedEvent, CalculateCandlesCommandHandler>();
 
 builder.Services.AddScheduler();
 builder.Services.AddScoped<ScrapeJob>();

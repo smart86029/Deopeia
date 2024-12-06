@@ -14,6 +14,17 @@ public static class EventBusBuilderExtensions
         where TEvent : Event
         where TEventHandler : class, IEventHandler<TEvent>
     {
+        return eventBusBuilder.AddSubscription<TEvent, TEventHandler>(1);
+    }
+
+    public static IEventBusBuilder AddSubscription<
+        TEvent,
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
+            TEventHandler
+    >(this IEventBusBuilder eventBusBuilder, int batchSize)
+        where TEvent : Event
+        where TEventHandler : class, IEventHandler<TEvent>
+    {
         eventBusBuilder.Services.AddKeyedTransient<IEventHandler, TEventHandler>(typeof(TEvent));
 
         eventBusBuilder.Services.Configure<EventBusSubscription>(o =>

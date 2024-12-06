@@ -2,24 +2,8 @@ namespace Deopeia.Quote.Domain.Candles;
 
 public class Candle : AggregateRoot<CandleId>
 {
-    public Candle(
-        Symbol symbol,
-        TimeFrame timeFrame,
-        DateTimeOffset timestamp,
-        decimal open,
-        decimal high,
-        decimal low,
-        decimal close,
-        decimal volume
-    )
-        : base(new CandleId(symbol, timeFrame, timestamp))
-    {
-        Open = open;
-        High = high;
-        Low = low;
-        Close = close;
-        Volume = volume;
-    }
+    public Candle(Symbol symbol, TimeFrame timeFrame, DateTimeOffset timestamp)
+        : base(new CandleId(symbol, timeFrame, timestamp)) { }
 
     public Symbol Symbol => Id.Symbol;
 
@@ -27,13 +11,27 @@ public class Candle : AggregateRoot<CandleId>
 
     public DateTimeOffset Timestamp => Id.Timestamp;
 
-    public decimal Open { get; private init; }
+    public decimal Open { get; private set; }
 
-    public decimal High { get; private init; }
+    public decimal High { get; private set; }
 
-    public decimal Low { get; private init; }
+    public decimal Low { get; private set; }
 
-    public decimal Close { get; private init; }
+    public decimal Close { get; private set; }
 
-    public decimal Volume { get; private init; }
+    public decimal Volume { get; private set; }
+
+    public void Calculate(IEnumerable<Tick> ticks)
+    {
+        if (!ticks.Any())
+        {
+            return;
+        }
+
+        Open = Open > 0 ? Open : ticks.First().Price;
+        High = Math.Max(High, ticks.Max(x => x.Price));
+        Low = Math.Min(Low, ticks.Min(x => x.Price));
+        Close = ticks.Last().Price;
+        Volume += ticks.Sum(x => x.Volume);
+    }
 }

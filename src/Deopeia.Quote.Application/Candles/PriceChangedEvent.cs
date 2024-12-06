@@ -1,4 +1,4 @@
-namespace Deopeia.Quote.Application.Candles.ScrapeRealTimeData;
+namespace Deopeia.Quote.Application.Candles;
 
 public record PriceChangedEvent(
     string Symbol,

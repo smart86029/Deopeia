@@ -28,24 +28,24 @@ internal class MockRealTimeDataCommandHandler(
 
     private async Task MockPriceAsync(string symbol)
     {
-        var random = new Random();
-        _lastTradePrice += random.Next(-10, 10);
-        var candle = new Candle(
-            new Symbol(symbol),
-            TimeFrame.Intraday,
-            DateTimeOffset.UtcNow,
-            2500,
-            _lastTradePrice,
-            _lastTradePrice,
-            _lastTradePrice,
-            0
-        );
+        //var random = new Random();
+        //_lastTradePrice += random.Next(-10, 10);
+        //var candle = new Candle(
+        //    new Symbol(symbol),
+        //    TimeFrame.Intraday,
+        //    DateTimeOffset.UtcNow,
+        //    2500,
+        //    _lastTradePrice,
+        //    _lastTradePrice,
+        //    _lastTradePrice,
+        //    0
+        //);
 
-        await _candleRepository.AddAsync(candle);
-        await _unitOfWork.CommitAsync();
+        //await _candleRepository.AddAsync(candle);
+        //await _unitOfWork.CommitAsync();
 
-        var @event = new PriceChangedEvent(symbol, DateTimeOffset.UtcNow, _lastTradePrice, 2500);
-        await _eventBus.PublishAsync(@event);
+        //var @event = new PriceChangedEvent(symbol, DateTimeOffset.UtcNow, _lastTradePrice, 2500);
+        //await _eventBus.PublishAsync(@event);
     }
 
     private async Task MockOrderBookAsync(string symbol)
