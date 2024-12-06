@@ -64,6 +64,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deopeia.Trading.Domain", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deopeia.Trading.Infrastructure", "src\Deopeia.Trading.Infrastructure\Deopeia.Trading.Infrastructure.csproj", "{A6FE650F-E4E1-48CC-9BA7-758A9CFA8010}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deopeia.Trading.Worker", "src\Deopeia.Trading.Worker\Deopeia.Trading.Worker.csproj", "{32E3FF4A-A3DC-4B2D-BEE3-F4AF0241D474}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -158,6 +160,10 @@ Global
 		{A6FE650F-E4E1-48CC-9BA7-758A9CFA8010}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6FE650F-E4E1-48CC-9BA7-758A9CFA8010}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6FE650F-E4E1-48CC-9BA7-758A9CFA8010}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32E3FF4A-A3DC-4B2D-BEE3-F4AF0241D474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32E3FF4A-A3DC-4B2D-BEE3-F4AF0241D474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32E3FF4A-A3DC-4B2D-BEE3-F4AF0241D474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32E3FF4A-A3DC-4B2D-BEE3-F4AF0241D474}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -189,6 +195,7 @@ Global
 		{93BFFF93-4F65-4AFD-BEF1-BED3EAF8A21B} = {717DAF9C-7061-4BA1-957B-399B8A18AAD7}
 		{7CF33056-DA55-455C-B198-A59221E5FA16} = {717DAF9C-7061-4BA1-957B-399B8A18AAD7}
 		{A6FE650F-E4E1-48CC-9BA7-758A9CFA8010} = {717DAF9C-7061-4BA1-957B-399B8A18AAD7}
+		{32E3FF4A-A3DC-4B2D-BEE3-F4AF0241D474} = {717DAF9C-7061-4BA1-957B-399B8A18AAD7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {98693ADF-5AFB-4F82-AD4C-DB69EABE08ED}

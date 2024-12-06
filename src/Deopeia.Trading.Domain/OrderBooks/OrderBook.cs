@@ -4,7 +4,7 @@ using Deopeia.Trading.Domain.Orders;
 using Deopeia.Trading.Domain.Orders.LimitOrders;
 using Deopeia.Trading.Domain.Orders.MarketOrders;
 
-namespace Deopeia.Trading.Domain.MatchingEngines;
+namespace Deopeia.Trading.Domain.OrderBooks;
 
 public class OrderBook : AggregateRoot<Symbol>
 {
@@ -12,6 +12,11 @@ public class OrderBook : AggregateRoot<Symbol>
 
     private readonly PriorityQueue<Order, OrderPriority> _bids = new(new BidComparer());
     private readonly PriorityQueue<Order, OrderPriority> _asks = new(new AskComparer());
+
+    private OrderBook() { }
+
+    public OrderBook(Symbol symbol)
+        : base(symbol) { }
 
     public void AddOrder(
         OrderSide side,
@@ -73,7 +78,6 @@ public class OrderBook : AggregateRoot<Symbol>
         Func<Order, Order, bool> compare
     )
     {
-        var takerUnfilled = taker.Volume;
         while (true)
         {
             if (!makers.TryPeek(out var maker, out var _))
@@ -87,12 +91,13 @@ public class OrderBook : AggregateRoot<Symbol>
             }
 
             var marketPrice = maker.Price;
-            var volume = Math.Min(takerUnfilled, maker.Volume);
+            var volume = Math.Min(taker.UnfilledVolume, maker.Volume);
             AddDomainEvent(
-                new PriceChangedEvent("GCZ2024", DateTimeOffset.Now, marketPrice.Amount, 2500)
+                new PriceChangedEvent(Id.Value, DateTimeOffset.Now, marketPrice.Amount, 100)
             );
 
-            takerUnfilled -= volume;
+            taker.Fill(volume);
+            maker.Fill(volume);
 
             if (maker.Volume - volume == 0)
             {
@@ -104,14 +109,14 @@ public class OrderBook : AggregateRoot<Symbol>
                 // Update maker to partial filled
             }
 
-            if (takerUnfilled == 0)
+            if (taker.UnfilledVolume == 0)
             {
                 // Update taker to filled
                 break;
             }
         }
 
-        if (takerUnfilled > 0)
+        if (taker.UnfilledVolume > 0)
         {
             // Update taker
             takers.Enqueue(taker, new OrderPriority(taker.Price.Amount, taker.CreatedAt));
@@ -123,7 +128,7 @@ public class OrderBook : AggregateRoot<Symbol>
         var bids = _bids
             .UnorderedItems.GroupBy(x => x.Priority.Price)
             .OrderBy(x => x.Key)
-            .Take(DepthMax)
+            .TakeLast(DepthMax)
             .Select(x => new OrderDto
             {
                 Price = x.Key,
@@ -141,6 +146,6 @@ public class OrderBook : AggregateRoot<Symbol>
             })
             .ToArray();
 
-        AddDomainEvent(new OrderBookChangedEvent("GCZ2024", bids, asks));
+        AddDomainEvent(new OrderBookChangedEvent(Id.Value, bids, asks));
     }
 }

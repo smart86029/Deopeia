@@ -31,6 +31,7 @@ export default {
     unrealisedPnL: 'Unrealised P&L',
     openedAt: 'Opened At',
     close: 'Close',
+    leverage: 'Leverage',
     stopLoss: 'Stop Loss',
     takeProfit: 'Take Profit',
   },

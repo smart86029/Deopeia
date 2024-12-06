@@ -1,5 +1,4 @@
 <template>
-  <FundOverview :funds="funds" />
   <div class="quote">
     <ContractChart class="chart" />
     <OrderBook
@@ -22,8 +21,8 @@ const funds = [
   { currencyCode: 'GBP', name: '英鎊', marginUsed: 4000, balance: 6000 },
   { currencyCode: 'JPY', name: '日圓', marginUsed: 1000, balance: 10000 },
 ];
-const { quotes, bids, asks } = storeToRefs(useQuoteStore());
-const price = computed(() => quotes.value.get('GCZ2024').value);
+const { symbol, quotes, bids, asks } = storeToRefs(useQuoteStore());
+const price = computed(() => quotes.value.get(symbol.value).value);
 const selectPrice = ref(undefined as number | undefined);
 
 const changePrice = (price: number) => (selectPrice.value = price);
@@ -41,10 +40,10 @@ const changePrice = (price: number) => (selectPrice.value = price);
 }
 
 .order-book {
-  width: 300px;
+  flex: 0 0 300px;
 }
 
 .trade-form {
-  width: 300px;
+  flex: 0 0 300px;
 }
 </style>

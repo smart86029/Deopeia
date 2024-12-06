@@ -6,6 +6,11 @@ internal class AccountRepository(TradingContext context) : IAccountRepository
 {
     private readonly DbSet<Account> _accounts = context.Set<Account>();
 
+    public async Task<ICollection<Account>> GetAccountsAsync()
+    {
+        return await _accounts.ToListAsync();
+    }
+
     public async Task<Account> GetAccountAsync(AccountId id)
     {
         return await _accounts.SingleAsync(x => x.Id == id);

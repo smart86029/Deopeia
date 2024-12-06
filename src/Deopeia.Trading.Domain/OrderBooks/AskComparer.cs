@@ -1,4 +1,4 @@
-namespace Deopeia.Trading.Domain.MatchingEngines;
+namespace Deopeia.Trading.Domain.OrderBooks;
 
 internal class AskComparer : IComparer<OrderPriority>
 {

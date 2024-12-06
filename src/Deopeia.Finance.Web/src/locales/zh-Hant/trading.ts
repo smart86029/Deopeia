@@ -32,6 +32,7 @@ export default {
     unrealisedPnL: '未實現盈虧',
     openedAt: '開倉時間',
     close: '平倉',
+    leverage: '槓桿',
     stopLoss: '止損',
     takeProfit: '止盈',
   },

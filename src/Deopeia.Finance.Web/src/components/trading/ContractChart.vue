@@ -20,7 +20,7 @@ const toUTCTimestamp = (date: Date) =>
   dayjs(date.toLocaleString()).utc(true).unix() as UTCTimestamp;
 
 onMounted(async () => {
-  const color = useCssVar('--el-bg-color-overlay', ref(null)).value;
+  const color = useCssVar('--el-bg-color-overlay').value;
   const chartOptions = {
     layout: {
       textColor: 'white',
@@ -35,22 +35,20 @@ onMounted(async () => {
   };
   const chart = createChart('canvas', chartOptions);
   const candlestickSeries = chart.addCandlestickSeries({
-    upColor: useCssVar(`--el-color-${positive.value}`, ref(null)).value,
-    downColor: useCssVar(`--el-color-${negative.value}`, ref(null)).value,
+    upColor: useCssVar(`--el-color-${positive.value}`).value,
+    downColor: useCssVar(`--el-color-${negative.value}`).value,
     borderVisible: false,
   });
 
   const history = await candleApi.getHistory(symbol.value);
   const candles = history.data.quotes
-    .map((quote) => {
-      return {
-        time: toUTCTimestamp(quote.date),
-        open: quote.open,
-        high: quote.high,
-        low: quote.low,
-        close: quote.close,
-      };
-    })
+    .map((quote) => ({
+      time: toUTCTimestamp(quote.date),
+      open: quote.open,
+      high: quote.high,
+      low: quote.low,
+      close: quote.close,
+    }))
     .filter(
       (value, index, array) =>
         array.findIndex((x) => x.time === value.time) === index,
@@ -64,12 +62,10 @@ onMounted(async () => {
   watch(realTimeQuotes.value, (quotes) => {
     const data = quotes
       .filter((x) => x.symbol == symbol.value)
-      .map((x) => {
-        return {
-          time: toUTCTimestamp(x.lastTradedAt),
-          value: x.lastTradedPrice,
-        };
-      })
+      .map((x) => ({
+        time: toUTCTimestamp(x.lastTradedAt),
+        value: x.lastTradedPrice,
+      }))
       .filter((x) => x.time > time.value);
 
     data.forEach((x) => candlestickSeries.update(x));

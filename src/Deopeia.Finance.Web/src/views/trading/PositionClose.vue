@@ -59,8 +59,8 @@ const form: Position = reactive({
   price: 0,
   volume: 0,
 });
-const { quotes, bids, asks } = storeToRefs(useQuoteStore());
-const price = computed(() => quotes.value.get('GCZ2024').value);
+const { symbol, quotes, bids, asks } = storeToRefs(useQuoteStore());
+const price = computed(() => quotes.value.get(symbol.value).value);
 
 optionApi.getCurrencies().then((x) => (currencies.value = x.data));
 

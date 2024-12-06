@@ -54,6 +54,16 @@ var tradingApi = builder
     .WaitFor(dbTrading);
 
 builder
+    .AddProject<Projects.Deopeia_Trading_Worker>("deopeia-trading-worker")
+    .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
+    .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
+    .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
+    .WithReference(kafka)
+    .WaitFor(kafka)
+    .WithReference(dbTrading)
+    .WaitFor(dbTrading);
+
+builder
     .AddProject<Projects.Deopeia_Finance_Bff>("deopeia-finance-bff")
     .WithReference(kafka)
     .WaitFor(kafka)

@@ -1,6 +1,9 @@
-namespace Deopeia.Quote.Worker;
+using Coravel.Invocable;
+using MediatR;
 
-internal class Job<TCommand>(ISender sender) : IInvocable
+namespace Deopeia.Common.Worker;
+
+public class Job<TCommand>(ISender sender) : IInvocable
     where TCommand : IRequest, new()
 {
     private readonly ISender _sender = sender;

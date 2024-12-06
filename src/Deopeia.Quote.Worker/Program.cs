@@ -3,6 +3,7 @@ using Deopeia.Common;
 using Deopeia.Common.Application;
 using Deopeia.Common.Infrastructure;
 using Deopeia.Common.Infrastructure.Events;
+using Deopeia.Common.Worker;
 using Deopeia.Quote.Application.Candles.MockRealTimeData;
 using Deopeia.Quote.Infrastructure;
 using Deopeia.Quote.Worker;
