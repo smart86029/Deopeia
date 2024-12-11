@@ -57,6 +57,7 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                     underlying_type = table.Column<int>(type: "integer", nullable: false),
                     currency_code = table.Column<string>(type: "text", nullable: false),
                     tick_size = table.Column<decimal>(type: "numeric", nullable: false),
+                    leverages = table.Column<string>(type: "jsonb", nullable: false),
                     contract_size_quantity = table.Column<decimal>(type: "numeric", nullable: false),
                     contract_size_unit_code = table.Column<string>(type: "text", nullable: false)
                 },

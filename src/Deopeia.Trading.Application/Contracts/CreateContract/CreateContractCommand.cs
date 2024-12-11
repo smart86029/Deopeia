@@ -7,5 +7,6 @@ public record CreateContractCommand(
     decimal ContractSizeQuantity,
     string ContractSizeUnitCode,
     decimal TickSize,
+    ICollection<decimal> Leverages,
     ICollection<ContractLocaleDto> Locales
 ) : IRequest { }

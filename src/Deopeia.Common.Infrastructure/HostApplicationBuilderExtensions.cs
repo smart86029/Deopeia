@@ -55,6 +55,7 @@ public static class HostApplicationBuilderExtensions
         );
 
         DefaultTypeMap.MatchNamesWithUnderscores = true;
+        SqlMapper.AddTypeHandler(new CollectionTypeHandler<decimal>());
         SqlMapper.AddTypeHandler(new CultureInfoTypeHandler());
         SqlMapper.AddTypeHandler(new DateOnlyTypeHandler());
         SqlMapper.AddTypeHandler(new TimeOnlyTypeHandler());

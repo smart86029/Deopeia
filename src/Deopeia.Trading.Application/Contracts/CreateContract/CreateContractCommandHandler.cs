@@ -24,7 +24,8 @@ public class CreateContractCommandHandler(
                 request.ContractSizeQuantity,
                 new Common.Domain.Measurement.UnitCode(request.ContractSizeUnitCode)
             ),
-            request.TickSize
+            request.TickSize,
+            request.Leverages
         );
 
         await _contractRepository.AddAsync(contract);

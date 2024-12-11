@@ -2,6 +2,7 @@ namespace Deopeia.Trading.Domain.Contracts;
 
 public class Contract : AggregateRoot<Symbol>, ILocalizable<ContractLocale, Symbol>
 {
+    private readonly List<decimal> _leverages = [];
     private readonly EntityLocaleCollection<ContractLocale, Symbol> _locales = [];
 
     private Contract() { }
@@ -13,7 +14,8 @@ public class Contract : AggregateRoot<Symbol>, ILocalizable<ContractLocale, Symb
         UnderlyingType underlyingType,
         CurrencyCode currencyCode,
         ContractSize contractSize,
-        decimal tickSize
+        decimal tickSize,
+        IEnumerable<decimal> leverages
     )
         : base(new Symbol(symbol))
     {
@@ -23,6 +25,7 @@ public class Contract : AggregateRoot<Symbol>, ILocalizable<ContractLocale, Symb
         CurrencyCode = currencyCode;
         ContractSize = contractSize;
         TickSize = tickSize;
+        _leverages.AddRange(leverages);
     }
 
     public string Name => _locales[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
@@ -36,6 +39,8 @@ public class Contract : AggregateRoot<Symbol>, ILocalizable<ContractLocale, Symb
     public ContractSize ContractSize { get; private init; }
 
     public decimal TickSize { get; private init; }
+
+    public IReadOnlyCollection<decimal> Leverages => _leverages.AsReadOnly();
 
     public IReadOnlyCollection<ContractLocale> Locales => _locales;
 

@@ -20,7 +20,8 @@ SELECT
     underlying_type,
     tick_size,
     contract_size_quantity,
-    contract_size_unit_code
+    contract_size_unit_code,
+    leverages
 FROM contract
 WHERE symbol = @Symbol;
 

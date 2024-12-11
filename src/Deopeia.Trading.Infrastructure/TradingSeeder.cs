@@ -108,7 +108,8 @@ public class TradingSeeder : DbSeeder
                 UnderlyingType.Stock,
                 currencyCode,
                 new ContractSize(100, new UnitCode("NMB")),
-                1
+                1,
+                [1, 2, 5, 10, 25]
             );
         }
 
@@ -127,7 +128,8 @@ public class TradingSeeder : DbSeeder
                 UnderlyingType.Index,
                 currencyCode,
                 new ContractSize(amount, new UnitCode("NMB")),
-                1
+                1,
+                [1, 2, 5, 10, 25, 50, 100, 200, 500, 1000]
             );
         }
 
@@ -146,7 +148,8 @@ public class TradingSeeder : DbSeeder
                 UnderlyingType.Commodity,
                 currencyCode,
                 contractSize,
-                1
+                1,
+                [1, 2, 5, 10, 25, 50, 100, 200, 500, 1000]
             );
         }
 
@@ -159,7 +162,8 @@ public class TradingSeeder : DbSeeder
                 UnderlyingType.Forex,
                 currencyCode,
                 new ContractSize(100000, new UnitCode("NMB")),
-                1
+                1,
+                [1, 2, 5, 10, 25, 50, 100, 200, 500, 1000]
             );
         }
         Contract Cryptocurrency(
@@ -176,7 +180,8 @@ public class TradingSeeder : DbSeeder
                 UnderlyingType.Cryptocurrency,
                 currencyCode,
                 new ContractSize(100000, new UnitCode("NMB")),
-                1
+                1,
+                [1, 2, 5, 10, 25, 50, 100, 200, 500, 1000]
             );
         }
     }

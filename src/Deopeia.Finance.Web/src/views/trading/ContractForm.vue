@@ -41,7 +41,9 @@
       </el-input>
     </el-form-item>
     <el-form-item :label="$t('trading.leverage')">
-      <el-input-tag v-model="form.leverages" tag-type="primary" />
+      <el-input-tag v-model="form.leverages" tag-type="primary">
+        <template #tag="{ value }">{{ value }}X</template>
+      </el-input-tag>
     </el-form-item>
 
     <el-form-item>

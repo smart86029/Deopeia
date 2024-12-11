@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deopeia.Trading.Infrastructure.Migrations
 {
     [DbContext(typeof(TradingContext))]
-    [Migration("20241206084048_Init")]
+    [Migration("20241211145352_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -255,6 +255,11 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("currency_code");
+
+                    b.Property<string>("Leverages")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("leverages");
 
                     b.Property<decimal>("TickSize")
                         .HasColumnType("numeric")

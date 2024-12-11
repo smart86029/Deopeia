@@ -253,6 +253,11 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("currency_code");
 
+                    b.Property<string>("Leverages")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("leverages");
+
                     b.Property<decimal>("TickSize")
                         .HasColumnType("numeric")
                         .HasColumnName("tick_size");

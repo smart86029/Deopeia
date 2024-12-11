@@ -14,5 +14,7 @@ public class GetContractViewModel
 
     public string ContractSizeUnit { get; set; } = string.Empty;
 
+    public ICollection<decimal> Leverages { get; set; } = [];
+
     public ICollection<ContractLocaleDto> Locales { get; set; } = [];
 }
