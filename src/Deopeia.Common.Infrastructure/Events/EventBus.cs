@@ -12,14 +12,14 @@ internal class EventBus(
     ILogger<EventBus> logger,
     IServiceProvider serviceProvider,
     IProducer<string, byte[]> producer,
-    IConsumer<string, byte[]> consumer,
     IOptions<EventBusSubscription> subscriptionOptions
-) : IEventBus, IHostedService, IDisposable
+) : BackgroundService, IEventBus, IDisposable
 {
+    private const string ExchangeName = "deopeia";
+
     private readonly ILogger<EventBus> _logger = logger;
     private readonly IServiceProvider _serviceProvider = serviceProvider;
     private readonly IProducer<string, byte[]> _producer = producer;
-    private readonly IConsumer<string, byte[]> _consumer = consumer;
 
     private readonly EventBusSubscription _subscription = subscriptionOptions.Value;
 
@@ -31,47 +31,43 @@ internal class EventBus(
         await _producer.ProduceAsync(key, new Message<string, byte[]> { Key = key, Value = value });
     }
 
-    public Task StartAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
+        _logger.BeginScope("! {Name}", _producer.Name);
         var tasks = _subscription.EventTypes.Select(x =>
-            Task.Factory.StartNew(
-                async () =>
-                {
-                    _consumer.Subscribe(x.Key);
-                    while (!cancellationToken.IsCancellationRequested)
+            Task.Run(async () =>
+            {
+                using var consumer = new ConsumerBuilder<string, byte[]>(
+                    new ConsumerConfig
                     {
-                        try
-                        {
-                            var consumeResult = _consumer.Consume(cancellationToken);
-                            var key = consumeResult.Message.Key;
-                            var value = Encoding.UTF8.GetString(consumeResult.Message.Value);
-                            await Handle(key, value);
-                            _consumer.Commit();
-                        }
-                        catch (Exception exception)
-                        {
-                            _logger.LogError(exception, "Error starting Kafka connection");
-                        }
+                        BootstrapServers = _producer.Name,
+                        GroupId = AssemblyUtility.ServiceName,
+                        EnableAutoCommit = false,
                     }
-                },
-                TaskCreationOptions.LongRunning
-            )
+                ).Build();
+
+                consumer.Subscribe(x.Key);
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    try
+                    {
+                        var consumeResult = consumer.Consume(cancellationToken);
+                        var key = consumeResult.Message.Key;
+                        var value = Encoding.UTF8.GetString(consumeResult.Message.Value);
+                        await HandleAsync(key, value);
+                        consumer.Commit();
+                    }
+                    catch (Exception exception)
+                    {
+                        _logger.LogError(exception, "Error starting Kafka connection");
+                    }
+                }
+            })
         );
-
-        return Task.CompletedTask;
+        await Task.WhenAll(tasks);
     }
 
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        return Task.CompletedTask;
-    }
-
-    public void Dispose()
-    {
-        _consumer?.Dispose();
-    }
-
-    private async Task Handle(string eventName, string message)
+    private async Task HandleAsync(string eventName, string message)
     {
         try
         {
