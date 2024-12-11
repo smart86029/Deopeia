@@ -40,6 +40,9 @@
         </template>
       </el-input>
     </el-form-item>
+    <el-form-item :label="$t('trading.leverage')">
+      <el-input-tag v-model="form.leverages" tag-type="primary" />
+    </el-form-item>
 
     <el-form-item>
       <ButtonBack />
@@ -72,6 +75,7 @@ const form: Contract = reactive({
   tickSize: 1,
   contractSizeQuantity: 1,
   contractSizeUnitCode: '',
+  leverages: [],
   locales: [{ culture: 'en', name: '', description: '' }],
 });
 

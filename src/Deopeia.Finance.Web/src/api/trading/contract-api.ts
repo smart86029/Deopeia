@@ -21,6 +21,7 @@ export interface Contract {
   tickSize: number;
   contractSizeQuantity: number;
   contractSizeUnitCode: string;
+  leverages: string[];
   locales: ContractLocale[];
 }
 
