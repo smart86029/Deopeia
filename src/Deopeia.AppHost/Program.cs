@@ -24,8 +24,10 @@ var identityApi = builder
     .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
     .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
     .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
+    .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
     .WithReference(dbIdentity)
     .WaitFor(dbIdentity);
+identityApi.WithEnvironment("Proxy", identityApi.GetEndpoint("https"));
 
 var quoteApi = builder
     .AddProject<Projects.Deopeia_Quote_Api>("deopeia-quote-api")
@@ -36,6 +38,7 @@ var quoteApi = builder
     .WaitFor(kafka)
     .WithReference(dbQuote)
     .WaitFor(dbQuote);
+quoteApi.WithEnvironment("Proxy", quoteApi.GetEndpoint("http"));
 
 builder
     .AddProject<Projects.Deopeia_Quote_Worker>("deopeia-quote-worker")
@@ -56,6 +59,7 @@ var tradingApi = builder
     .WaitFor(kafka)
     .WithReference(dbTrading)
     .WaitFor(dbTrading);
+tradingApi.WithEnvironment("Proxy", tradingApi.GetEndpoint("http"));
 
 builder
     .AddProject<Projects.Deopeia_Trading_Worker>("deopeia-trading-worker")

@@ -3,6 +3,7 @@ using Deopeia.Common.Application;
 using Deopeia.Common.Infrastructure;
 using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Trading.Infrastructure;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder
@@ -27,8 +28,7 @@ app.UseAuthorization();
 if (app.Environment.IsDevelopment())
 {
     app.Migrate<TradingContext>();
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseScalar();
 }
 
 app.MapDefaultEndpoints();

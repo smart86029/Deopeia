@@ -40,8 +40,7 @@ app.UseAuthorization();
 if (app.Environment.IsDevelopment())
 {
     app.Migrate<IdentityContext>();
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseScalar();
 }
 
 app.MapDefaultEndpoints();

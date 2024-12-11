@@ -29,8 +29,7 @@ app.UseAuthorization();
 if (app.Environment.IsDevelopment())
 {
     app.Migrate<QuoteContext>();
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseScalar();
 }
 
 app.MapDefaultEndpoints();
