@@ -1,3 +1,4 @@
+using System.Globalization;
 using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Finance.Bff;
 
@@ -18,10 +19,19 @@ services
     .AddServiceDiscoveryDestinationResolver();
 services
     .AddRefitClient<IQuoteApi>()
-    .ConfigureHttpClient(c => c.BaseAddress = new("http://deopeia-quote-api"));
+    .ConfigureHttpClient(client =>
+    {
+        client.BaseAddress = new("http://deopeia-quote-api");
+        client.DefaultRequestHeaders.Add("Accept-Language", CultureInfo.CurrentCulture.Name);
+    });
+
 services
     .AddRefitClient<ITradingApi>()
-    .ConfigureHttpClient(c => c.BaseAddress = new("http://deopeia-trading-api"));
+    .ConfigureHttpClient(client =>
+    {
+        client.BaseAddress = new("http://deopeia-trading-api");
+        client.DefaultRequestHeaders.Add("Accept-Language", CultureInfo.CurrentCulture.Name);
+    });
 
 var app = builder.Build();
 app.UseRequestLocalization("en", "zh-Hant");
