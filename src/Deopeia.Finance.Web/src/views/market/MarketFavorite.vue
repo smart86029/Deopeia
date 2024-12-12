@@ -1,13 +1,4 @@
 <template>
-  MarketFavorite
-  <TableToolbar>
-    <el-form :model="query" :inline="true">
-      <el-form-item :label="$t('finance.industry')">
-        <SelectOption v-model="query.industry" :options="industries" />
-      </el-form-item>
-    </el-form>
-  </TableToolbar>
-
   <el-table v-loading="loading" :data="result.items" table-layout="auto">
     <el-table-column :label="$t('finance.symbol')">
       <template #default="{ row }">
@@ -21,19 +12,14 @@
     <el-table-column prop="price" :label="$t('finance.price')" />
     <el-table-column prop="priceChange" :label="$t('finance.priceChange')" />
     <el-table-column prop="volume" :label="$t('finance.volume')" />
-    <el-table-column
-      prop="priceToEarningsRatio"
-      :label="$t('finance.priceToEarningsRatio')"
-    />
-    <el-table-column
-      prop="priceBookRatio"
-      :label="$t('finance.priceBookRatio')"
-    />
-    <el-table-column
-      prop="dividendYield"
-      :label="$t('finance.dividendYield')"
-    />
-    <el-table-column prop="industry" :label="$t('finance.industry')" />
+    <el-table-column :label="$t('route.trading')">
+      <template #default="{ row }">
+        <TextLink
+          :to="{ name: 'symbol.view', params: { symbol: row.symbol } }"
+          :text="row.symbol"
+        />
+      </template>
+    </el-table-column>
   </el-table>
 
   <TablePagination

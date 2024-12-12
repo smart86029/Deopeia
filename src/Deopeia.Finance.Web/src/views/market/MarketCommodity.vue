@@ -30,9 +30,11 @@
 </template>
 
 <script setup lang="ts">
-import industryApi from '@/api/industry-api';
-import stockApi, { type GetStocksQuery, type Stock } from '@/api/stock-api';
-import type { OptionResult } from '@/models/option-result';
+import marketApi, {
+  type Commodity,
+  type GetCommodityQuery,
+} from '@/api/market/market-api';
+
 import {
   defaultQuery,
   defaultResult,
@@ -41,21 +43,18 @@ import {
 } from '@/models/page';
 
 const loading = ref(false);
-const industries: Ref<OptionResult<number>[]> = ref([]);
-const query: GetStocksQuery = reactive({
+const query: GetCommodityQuery = reactive({
   ...defaultQuery,
 });
-const result: PageResult<Stock> = reactive(defaultResult());
-
-industryApi.getOptions().then((x) => (industries.value = x.data));
+const result: PageResult<Commodity> = reactive(defaultResult());
 
 watch(
   query,
   (query) => {
     if (!loading.value) {
       loading.value = true;
-      stockApi
-        .getList(query)
+      marketApi
+        .getCommodity(query)
         .then((x) => reassign(query, result, x.data))
         .finally(() => (loading.value = false));
     }

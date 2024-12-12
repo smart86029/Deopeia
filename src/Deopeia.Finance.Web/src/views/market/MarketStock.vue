@@ -1,13 +1,4 @@
 <template>
-  MarketStock
-  <TableToolbar>
-    <el-form :model="query" :inline="true">
-      <el-form-item :label="$t('finance.industry')">
-        <SelectOption v-model="query.industry" :options="industries" />
-      </el-form-item>
-    </el-form>
-  </TableToolbar>
-
   <el-table v-loading="loading" :data="result.items" table-layout="auto">
     <el-table-column :label="$t('finance.symbol')">
       <template #default="{ row }">
@@ -21,19 +12,14 @@
     <el-table-column prop="price" :label="$t('finance.price')" />
     <el-table-column prop="priceChange" :label="$t('finance.priceChange')" />
     <el-table-column prop="volume" :label="$t('finance.volume')" />
-    <el-table-column
-      prop="priceToEarningsRatio"
-      :label="$t('finance.priceToEarningsRatio')"
-    />
-    <el-table-column
-      prop="priceBookRatio"
-      :label="$t('finance.priceBookRatio')"
-    />
-    <el-table-column
-      prop="dividendYield"
-      :label="$t('finance.dividendYield')"
-    />
-    <el-table-column prop="industry" :label="$t('finance.industry')" />
+    <el-table-column :label="$t('route.trading')">
+      <template #default="{ row }">
+        <TextLink
+          :to="{ name: 'symbol.view', params: { symbol: row.symbol } }"
+          :text="row.symbol"
+        />
+      </template>
+    </el-table-column>
   </el-table>
 
   <TablePagination
@@ -44,9 +30,11 @@
 </template>
 
 <script setup lang="ts">
-import industryApi from '@/api/industry-api';
-import stockApi, { type GetStocksQuery, type Stock } from '@/api/stock-api';
-import type { OptionResult } from '@/models/option-result';
+import marketApi, {
+  type GetStockQuery,
+  type Stock,
+} from '@/api/market/market-api';
+
 import {
   defaultQuery,
   defaultResult,
@@ -55,21 +43,18 @@ import {
 } from '@/models/page';
 
 const loading = ref(false);
-const industries: Ref<OptionResult<number>[]> = ref([]);
-const query: GetStocksQuery = reactive({
+const query: GetStockQuery = reactive({
   ...defaultQuery,
 });
 const result: PageResult<Stock> = reactive(defaultResult());
-
-industryApi.getOptions().then((x) => (industries.value = x.data));
 
 watch(
   query,
   (query) => {
     if (!loading.value) {
       loading.value = true;
-      stockApi
-        .getList(query)
+      marketApi
+        .getStock(query)
         .then((x) => reassign(query, result, x.data))
         .finally(() => (loading.value = false));
     }

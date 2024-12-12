@@ -5,8 +5,8 @@ namespace Deopeia.Finance.Bff;
 
 public interface IQuoteApi
 {
-    [Get("/api/Candles/{id}/History")]
-    Task<GetHistoricalDataViewModel> GetCandlesAsync(Guid id);
+    [Get("/api/Candles/{symbol}/History")]
+    Task<GetHistoricalDataViewModel> GetCandlesAsync(string symbol);
 
     [Get("/api/Instruments/{idOrSymbol}")]
     Task<GetInstrumentViewModel> GetInstrumentAsync(string idOrSymbol);
