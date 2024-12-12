@@ -3,8 +3,8 @@ import HomeView from '../views/HomeView.vue';
 import auth from './auth';
 import { setLocale } from './i18n';
 import identity from './identity';
+import market from './market';
 import quote from './quote';
-import screener from './screener';
 import symbol from './symbol';
 import trading from './trading';
 
@@ -25,8 +25,8 @@ const router = createRouter({
         },
         ...auth,
         ...identity,
+        ...market,
         ...quote,
-        ...screener,
         ...symbol,
         ...trading,
       ],

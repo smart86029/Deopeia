@@ -1,4 +1,5 @@
 <template>
+  MarketFavorite
   <TableToolbar>
     <el-form :model="query" :inline="true">
       <el-form-item :label="$t('finance.industry')">

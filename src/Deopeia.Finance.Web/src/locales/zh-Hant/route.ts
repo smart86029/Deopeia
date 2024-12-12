@@ -18,6 +18,14 @@ export default {
     },
     home: '首頁',
     identity: '身分',
+    market: {
+      list: '市場',
+      favorite: '自選',
+      stock: '股票',
+      commodity: '大宗商品',
+      forex: '外匯',
+      cryptocurrency: '加密貨幣',
+    },
     permission: {
       list: '權限列表',
       create: '新增權限',

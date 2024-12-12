@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container v-if="isOperator">
     <el-header>
       <h1>{{ $t('common.title') }}</h1>
       <NavBreadcrumb />
@@ -16,7 +16,7 @@
     <el-container>
       <el-aside width="256px">
         <el-scrollbar view-class="scrollbar-view">
-          <NavAside />
+          <NavOperator />
         </el-scrollbar>
       </el-aside>
       <el-main>
@@ -26,10 +26,31 @@
       </el-main>
     </el-container>
   </el-container>
+  <el-container v-else>
+    <el-header>
+      <h1>{{ $t('common.title') }}</h1>
+      <NavTrader />
+      <FlexDivider />
+      <el-switch
+        v-model="isDark"
+        inline-prompt
+        active-icon="moon"
+        inactive-icon="sunny"
+      />
+      <DropdownLocale />
+      <DropdownRoute />
+    </el-header>
+    <el-main>
+      <el-scrollbar view-class="scrollbar-view">
+        <RouterView />
+      </el-scrollbar>
+    </el-main>
+  </el-container>
 </template>
 
 <script setup lang="ts">
 const isDark = useDark();
+const isOperator = false;
 </script>
 
 <style scoped lang="scss">

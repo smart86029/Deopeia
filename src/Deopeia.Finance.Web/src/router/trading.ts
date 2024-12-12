@@ -3,6 +3,11 @@ import { create, edit } from './props';
 
 export default [
   {
+    path: 'trading',
+    name: 'trading',
+    component: () => import('../views/trading/TradingView.vue'),
+  },
+  {
     path: 'accounts',
     name: 'account.list',
     redirect: { name: 'account.default' },

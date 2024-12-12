@@ -18,6 +18,14 @@ export default {
     },
     home: 'Home',
     identity: 'Identity',
+    market: {
+      list: 'Markets',
+      favorite: 'Favorite',
+      stock: 'Stock',
+      commodity: 'Commodity',
+      forex: 'Forex',
+      cryptocurrency: 'Cryptocurrency',
+    },
     permission: {
       list: 'Permissions',
       create: 'Create Permission',
