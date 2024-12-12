@@ -14,10 +14,20 @@
     <el-table-column prop="volume" :label="$t('finance.volume')" />
     <el-table-column :label="$t('route.trading')">
       <template #default="{ row }">
-        <TextLink
-          :to="{ name: 'symbol.view', params: { symbol: row.symbol } }"
-          :text="row.symbol"
-        />
+        <el-button
+          size="small"
+          :type="positive"
+          @click="$router.push({ name: 'trading' })"
+        >
+          {{ $t(`trading.orderSide.${OrderSide.Buy}`) }}
+        </el-button>
+        <el-button
+          size="small"
+          :type="negative"
+          @click="$router.push({ name: 'trading' })"
+        >
+          {{ $t(`trading.orderSide.${OrderSide.Sell}`) }}
+        </el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -34,13 +44,16 @@ import marketApi, {
   type Forex,
   type GetForexQuery,
 } from '@/api/market/market-api';
-
 import {
   defaultQuery,
   defaultResult,
   reassign,
   type PageResult,
 } from '@/models/page';
+import { OrderSide } from '@/models/trading/order-side';
+import { usePreferencesStore } from '@/stores/preferences';
+
+const { positive, negative } = storeToRefs(usePreferencesStore());
 
 const loading = ref(false);
 const query: GetForexQuery = reactive({
