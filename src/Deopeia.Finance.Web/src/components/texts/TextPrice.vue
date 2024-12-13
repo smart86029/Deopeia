@@ -1,17 +1,17 @@
 <template>
-  <span :class="{ positive: value > 0, negative: value < 0 }"
-    ><template v-if="value > 0">+</template>{{ formatted }}<template v-if="percentage">%</template></span
-  >
+  <span :class="{ positive: value > comparison, negative: value < comparison }">
+    {{ $n(value, percentage ? 'percent' : 'decimal') }}
+  </span>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  value: number;
-  percentage?: boolean;
-}>();
-
-const formatted = computed(() =>
-  props.percentage ? props.value.toFixed(2) : props.value.toString(),
+withDefaults(
+  defineProps<{
+    value: number;
+    comparison?: number;
+    percentage?: boolean;
+  }>(),
+  { comparison: 0 },
 );
 </script>
 

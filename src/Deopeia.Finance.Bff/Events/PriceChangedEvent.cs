@@ -2,7 +2,8 @@ namespace Deopeia.Finance.Bff.Events;
 
 public record PriceChangedEvent(
     string Symbol,
-    DateTimeOffset LastTradedAt,
-    decimal LastTradedPrice,
-    decimal PreviousClose
+    decimal Price,
+    decimal Volume,
+    decimal Bid,
+    decimal Ask
 ) : Event { }

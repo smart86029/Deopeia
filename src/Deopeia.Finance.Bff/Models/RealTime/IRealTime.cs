@@ -1,12 +1,10 @@
 using Deopeia.Finance.Bff.Models.Quotes;
 
-namespace Deopeia.Finance.Bff;
+namespace Deopeia.Finance.Bff.Models.RealTime;
 
 public interface IRealTime
 {
-    Task ChangeSymbol(string symbol);
-
-    Task ReceiveQuote(PriceChangedEvent @event);
+    Task ReceiveTick(string symbol, Tick tick);
 
     Task ReceiveOrderBook(Order[] bids, Order[] asks);
 }

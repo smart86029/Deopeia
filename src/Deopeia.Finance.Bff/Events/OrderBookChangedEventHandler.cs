@@ -1,3 +1,5 @@
+using Deopeia.Finance.Bff.Models.RealTime;
+
 namespace Deopeia.Finance.Bff.Events;
 
 public class OrderBookChangedEventHandler(IHubContext<RealTimeHub, IRealTime> hubContext)

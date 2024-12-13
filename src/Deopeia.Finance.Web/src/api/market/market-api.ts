@@ -14,7 +14,6 @@ export interface GetCryptocurrencyQuery extends PageQuery {}
 interface Contract {
   symbol: string;
   name: string;
-  price: number;
 }
 
 export interface Stock extends Contract {}

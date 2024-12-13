@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using Deopeia.Finance.Bff.Models.Quotes;
 
-namespace Deopeia.Finance.Bff;
+namespace Deopeia.Finance.Bff.Models.RealTime;
 
 public class RealTimeHub : Hub<IRealTime>
 {
@@ -25,15 +25,5 @@ public class RealTimeHub : Hub<IRealTime>
 
         await Groups.AddToGroupAsync(Context.ConnectionId, symbol);
         identity.AddClaim(new Claim(ClaimType, symbol));
-    }
-
-    public async Task SendQuote(PriceChangedEvent @event)
-    {
-        await Clients.All.ReceiveQuote(@event);
-    }
-
-    public async Task SendOrderBook(string symbol, Order[] bids, Order[] asks)
-    {
-        await Clients.Group(symbol).ReceiveOrderBook(bids, asks);
     }
 }

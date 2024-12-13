@@ -2,7 +2,8 @@ namespace Deopeia.Trading.Domain.OrderBooks;
 
 public record PriceChangedEvent(
     string Symbol,
-    DateTimeOffset LastTradedAt,
-    decimal LastTradedPrice,
-    decimal PreviousClose
+    decimal Price,
+    decimal Volume,
+    decimal Bid,
+    decimal Ask
 ) : DomainEvent { }

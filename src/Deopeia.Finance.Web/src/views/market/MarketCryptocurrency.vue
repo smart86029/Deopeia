@@ -1,31 +1,5 @@
 <template>
-  <el-table v-loading="loading" :data="result.items" table-layout="auto">
-    <el-table-column :label="$t('finance.symbol')">
-      <template #default="{ row }">
-        <TextLink
-          :to="{ name: 'symbol.view', params: { symbol: row.symbol } }"
-          :text="row.symbol"
-        />
-      </template>
-    </el-table-column>
-    <el-table-column prop="name" :label="$t('common.name')" />
-    <TableColumnFluctuation
-      prop="price"
-      :label="$t('finance.price')"
-      :comparison="90"
-    />
-    <el-table-column prop="priceChange" :label="$t('finance.priceChange')" />
-    <el-table-column prop="volume" :label="$t('finance.volume')" />
-    <el-table-column :label="$t('route.trading')">
-      <template #default="{ row }">
-        <TextLink
-          :to="{ name: 'symbol.view', params: { symbol: row.symbol } }"
-          :text="row.symbol"
-        />
-      </template>
-    </el-table-column>
-  </el-table>
-
+  <TableContract v-loading="loading" :data="result.items" />
   <TablePagination
     v-model:current-page="query.pageIndex"
     v-model:page-size="query.pageSize"
@@ -44,9 +18,6 @@ import {
   reassign,
   type PageResult,
 } from '@/models/page';
-import { useQuoteStore } from '@/stores/quote';
-
-const { quotes } = storeToRefs(useQuoteStore());
 
 const loading = ref(false);
 const query: GetCryptocurrencyQuery = reactive({
@@ -61,15 +32,7 @@ watch(
       loading.value = true;
       marketApi
         .getCryptocurrency(query)
-        .then((x) => {
-          x.data.items = x.data.items.map((item) => ({
-            ...item,
-            get price() {
-              return quotes.value.get(item.symbol)?.value || 0;
-            },
-          }));
-          reassign(query, result, x.data);
-        })
+        .then((x) => reassign(query, result, x.data))
         .finally(() => (loading.value = false));
     }
   },

@@ -10,8 +10,8 @@ public class OrderBook : AggregateRoot<Symbol>
 {
     private const int DepthMax = 5;
 
-    private readonly PriorityQueue<Order, OrderPriority> _bids = new(new BidComparer());
-    private readonly PriorityQueue<Order, OrderPriority> _asks = new(new AskComparer());
+    private readonly PriorityQueue<Order, OrderPriority> _buyOrders = new(new BidComparer());
+    private readonly PriorityQueue<Order, OrderPriority> _sellOrders = new(new AskComparer());
 
     private OrderBook() { }
 
@@ -62,11 +62,11 @@ public class OrderBook : AggregateRoot<Symbol>
         switch (taker.Side)
         {
             case OrderSide.Buy:
-                Match(taker, _asks, _bids, (taker, maker) => taker.Price < maker.Price);
+                Match(taker, _sellOrders, _buyOrders, (taker, maker) => taker.Price < maker.Price);
                 break;
 
             case OrderSide.Sell:
-                Match(taker, _bids, _asks, (taker, maker) => taker.Price > maker.Price);
+                Match(taker, _buyOrders, _sellOrders, (taker, maker) => taker.Price > maker.Price);
                 break;
         }
     }
@@ -92,9 +92,6 @@ public class OrderBook : AggregateRoot<Symbol>
 
             var marketPrice = maker.Price;
             var volume = Math.Min(taker.UnfilledVolume, maker.Volume);
-            AddDomainEvent(
-                new PriceChangedEvent(Id.Value, DateTimeOffset.Now, marketPrice.Amount, 100)
-            );
 
             taker.Fill(volume);
             maker.Fill(volume);
@@ -108,6 +105,10 @@ public class OrderBook : AggregateRoot<Symbol>
             {
                 // Update maker to partial filled
             }
+
+            var bid = _buyOrders.TryPeek(out var buyOrder, out _) ? buyOrder.Price.Amount : 0;
+            var ask = _sellOrders.TryPeek(out var sellOrder, out _) ? sellOrder.Price.Amount : 0;
+            AddDomainEvent(new PriceChangedEvent(Id.Value, marketPrice.Amount, volume, bid, ask));
 
             if (taker.UnfilledVolume == 0)
             {
@@ -125,7 +126,7 @@ public class OrderBook : AggregateRoot<Symbol>
 
     private void OrderBookChanged()
     {
-        var bids = _bids
+        var buyOrders = _buyOrders
             .UnorderedItems.GroupBy(x => x.Priority.Price)
             .OrderBy(x => x.Key)
             .TakeLast(DepthMax)
@@ -135,7 +136,7 @@ public class OrderBook : AggregateRoot<Symbol>
                 Size = x.Sum(y => y.Element.Volume).ToInt(),
             })
             .ToArray();
-        var asks = _asks
+        var sellOrders = _sellOrders
             .UnorderedItems.GroupBy(x => x.Priority.Price)
             .OrderByDescending(x => x.Key)
             .Take(DepthMax)
@@ -146,6 +147,6 @@ public class OrderBook : AggregateRoot<Symbol>
             })
             .ToArray();
 
-        AddDomainEvent(new OrderBookChangedEvent(Id.Value, bids, asks));
+        AddDomainEvent(new OrderBookChangedEvent(Id.Value, buyOrders, sellOrders));
     }
 }

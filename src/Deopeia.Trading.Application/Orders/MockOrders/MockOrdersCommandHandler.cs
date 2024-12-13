@@ -49,7 +49,7 @@ internal class MockOrdersCommandHandler(
                 await _eventBus.PublishAsync(@event);
                 if (@event is PriceChangedEvent priceChangedEvent)
                 {
-                    price = priceChangedEvent.LastTradedPrice;
+                    price = priceChangedEvent.Price;
                 }
             }
 
