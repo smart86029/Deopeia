@@ -24,7 +24,8 @@ var identityApi = builder
     .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
     .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
     .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
-    .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
+    .WithReference(kafka)
+    .WaitFor(kafka)
     .WithReference(dbIdentity)
     .WaitFor(dbIdentity);
 identityApi.WithEnvironment("Proxy", identityApi.GetEndpoint("https"));

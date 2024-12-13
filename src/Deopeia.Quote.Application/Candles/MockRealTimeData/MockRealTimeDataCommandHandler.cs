@@ -20,7 +20,7 @@ internal class MockRealTimeDataCommandHandler(
 
     public async Task Handle(MockRealTimeDataCommand request, CancellationToken cancellationToken)
     {
-        var symbol = "XAUUSD";
+        var symbol = "XAU";
 
         //await MockPriceAsync(symbol);
         //await MockOrderBookAsync(symbol);

@@ -27,9 +27,9 @@ public static class EventBusBuilderExtensions
     {
         eventBusBuilder.Services.AddKeyedTransient<IEventHandler, TEventHandler>(typeof(TEvent));
 
-        eventBusBuilder.Services.Configure<EventBusSubscription>(o =>
+        eventBusBuilder.Services.Configure<EventBusSubscription>(x =>
         {
-            o.EventTypes[typeof(TEvent).Name] = typeof(TEvent);
+            x.EventTypes[typeof(TEvent).Name] = typeof(TEvent);
         });
 
         return eventBusBuilder;

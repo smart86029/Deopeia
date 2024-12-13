@@ -20,14 +20,14 @@ internal class MockOrdersCommandHandler(
 
     public async Task Handle(MockOrdersCommand request, CancellationToken cancellationToken)
     {
-        var symbol = new Symbol("XAUUSD");
+        var symbol = new Symbol("XAU");
         var currencyCode = new CurrencyCode("USD");
 
         var orderBook = await _orderBookRepository.GetOrderBookAsync(symbol);
         var accounts = await _accountRepository.GetAccountsAsync();
 
         var ramdom = new Random();
-        foreach (var account in accounts)
+        foreach (var account in accounts.Take(4))
         {
             var offset = ramdom.Next(-5, 5);
             var abs = Math.Abs(offset);

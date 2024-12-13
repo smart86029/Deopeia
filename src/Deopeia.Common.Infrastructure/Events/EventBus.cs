@@ -15,8 +15,6 @@ internal class EventBus(
     IOptions<EventBusSubscription> subscriptionOptions
 ) : BackgroundService, IEventBus, IDisposable
 {
-    private const string ExchangeName = "deopeia";
-
     private readonly ILogger<EventBus> _logger = logger;
     private readonly IServiceProvider _serviceProvider = serviceProvider;
     private readonly IProducer<string, byte[]> _producer = producer;
@@ -33,14 +31,13 @@ internal class EventBus(
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        _logger.BeginScope("! {Name}", _producer.Name);
         var tasks = _subscription.EventTypes.Select(x =>
             Task.Run(async () =>
             {
                 using var consumer = new ConsumerBuilder<string, byte[]>(
                     new ConsumerConfig
                     {
-                        BootstrapServers = _producer.Name,
+                        BootstrapServers = _subscription.ConnectionString,
                         GroupId = AssemblyUtility.ServiceName,
                         EnableAutoCommit = false,
                     }

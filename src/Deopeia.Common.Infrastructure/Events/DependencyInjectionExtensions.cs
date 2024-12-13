@@ -1,4 +1,5 @@
 using Deopeia.Common.Events;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -13,6 +14,11 @@ public static class DependencyInjectionExtensions
         var services = builder.Services;
         services.AddSingleton<IEventBus, EventBus>();
         services.AddHostedService(sp => (EventBus)sp.GetRequiredService<IEventBus>());
+
+        services.Configure<EventBusSubscription>(x =>
+        {
+            x.ConnectionString = builder.Configuration.GetConnectionString("kafka")!;
+        });
 
         return new EventBusBuilder(builder.Services);
     }
