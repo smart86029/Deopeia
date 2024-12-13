@@ -16,7 +16,7 @@
 import { useQuoteStore } from '@/stores/quote';
 
 const { symbol, quotes, bids, asks } = storeToRefs(useQuoteStore());
-const price = computed(() => quotes.value.get(symbol.value).value);
+const price = computed(() => quotes.value.get(symbol.value)!.value);
 const selectPrice = ref(undefined as number | undefined);
 
 const changePrice = (price: number) => (selectPrice.value = price);

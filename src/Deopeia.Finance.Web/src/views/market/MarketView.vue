@@ -31,6 +31,7 @@ import { UnderlyingType } from '@/models/underlying-type';
 
 const types: UnderlyingType[] = [
   UnderlyingType.Stock,
+  UnderlyingType.Index,
   UnderlyingType.Commodity,
   UnderlyingType.Forex,
   UnderlyingType.Cryptocurrency,

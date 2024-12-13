@@ -3,14 +3,8 @@ import type { RealTimeQuote } from '@/models/quote/real-time-quote';
 import { HttpTransportType, HubConnectionBuilder } from '@microsoft/signalr';
 
 export const useQuoteStore = defineStore('quote', () => {
-  const symbol = ref('XAUUSD');
+  const symbol = ref('XAU');
   const realTimeQuotes = ref([] as RealTimeQuote[]);
-  realTimeQuotes.value.push({
-    symbol: 'XAUUSD',
-    lastTradedAt: new Date(),
-    lastTradedPrice: 960,
-    previousClose: 100,
-  });
 
   const bids = ref([] as Order[]);
   const asks = ref([] as Order[]);
@@ -30,7 +24,11 @@ export const useQuoteStore = defineStore('quote', () => {
       )
     ) {
       realTimeQuotes.value.push(quote);
-      quotes.get(quote.symbol).value = quote.lastTradedPrice;
+      if (quotes.has(quote.symbol)) {
+        quotes.get(quote.symbol)!.value = quote.lastTradedPrice;
+      } else {
+        quotes.set(quote.symbol, ref(quote.lastTradedPrice));
+      }
     }
   });
 
@@ -43,8 +41,8 @@ export const useQuoteStore = defineStore('quote', () => {
     .start()
     .then(() => hubConnection.invoke('ChangeSymbol', symbol.value));
 
-  const quotes = reactive(new Map());
-  quotes.set('XAUUSD', ref(0));
+  const quotes = reactive(new Map<string, Ref<number>>());
+  quotes.set('XAU', ref(0));
 
   const lastTraded = computed(() =>
     realTimeQuotes.value.findLast((x) => x.symbol == symbol.value),

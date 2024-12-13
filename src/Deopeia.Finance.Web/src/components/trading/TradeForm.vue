@@ -11,7 +11,7 @@
       </el-form-item>
       <el-form-item :label="$t('finance.price')">
         <template v-if="type === 'Market'">
-          {{ 100 }}
+          {{ lastTradedPrice }}
         </template>
         <InputNumber v-else v-model="form.price" />
       </el-form-item>
@@ -61,6 +61,7 @@ import orderApi, { type Order } from '@/api/trading/order-api';
 import { emptyGuid } from '@/models/guid';
 import { OrderSide } from '@/models/trading/order-side';
 import { usePreferencesStore } from '@/stores/preferences';
+import { useQuoteStore } from '@/stores/quote';
 import { ElMessage } from 'element-plus';
 
 const props = defineProps<{
@@ -68,6 +69,7 @@ const props = defineProps<{
 }>();
 
 const { positive, negative } = storeToRefs(usePreferencesStore());
+const { lastTradedPrice } = storeToRefs(useQuoteStore());
 
 const type = ref('Market');
 const { t } = useI18n();

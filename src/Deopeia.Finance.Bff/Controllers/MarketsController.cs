@@ -21,6 +21,19 @@ public class MarketsController(ITradingApi tradingApi) : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("Index")]
+    public async Task<IActionResult> GetIndex([FromQuery] GetContractsQuery query)
+    {
+        var result = await _tradingApi.GetContractsAsync(
+            query with
+            {
+                UnderlyingType = UnderlyingType.Index,
+            }
+        );
+
+        return Ok(result);
+    }
+
     [HttpGet("Commodity")]
     public async Task<IActionResult> GetCommodity([FromQuery] GetContractsQuery query)
     {

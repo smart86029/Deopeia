@@ -16,6 +16,11 @@ export default [
         component: () => import('../views/market/MarketStock.vue'),
       },
       {
+        path: 'index',
+        name: 'market.index',
+        component: () => import('../views/market/MarketIndex.vue'),
+      },
+      {
         path: 'commodity',
         name: 'market.commodity',
         component: () => import('../views/market/MarketCommodity.vue'),

@@ -22,6 +22,7 @@ export default {
       list: '市場',
       favorite: '自選',
       stock: '股票',
+      index: '指數',
       commodity: '大宗商品',
       forex: '外匯',
       cryptocurrency: '加密貨幣',

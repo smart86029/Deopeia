@@ -83,7 +83,7 @@ watch(
   (quotes) => {
     result.items.forEach((x) => {
       const sign = x.type == PositionType.Long ? 1 : -1;
-      const price = quotes.get(symbol.value)?.value;
+      const price = quotes.get(symbol.value)!.value;
       x.price = price;
       x.unrealisedPnL = (price - x.openPrice) * 1000 * sign;
     });

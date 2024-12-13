@@ -22,6 +22,7 @@ export default {
       list: 'Markets',
       favorite: 'Favorite',
       stock: 'Stock',
+      index: 'Index',
       commodity: 'Commodity',
       forex: 'Forex',
       cryptocurrency: 'Cryptocurrency',

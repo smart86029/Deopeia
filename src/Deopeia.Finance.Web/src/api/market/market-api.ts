@@ -3,35 +3,38 @@ import httpClient from '../http-client';
 
 export interface GetStockQuery extends PageQuery {}
 
+export interface GetIndexQuery extends PageQuery {}
+
 export interface GetCommodityQuery extends PageQuery {}
 
 export interface GetForexQuery extends PageQuery {}
 
 export interface GetCryptocurrencyQuery extends PageQuery {}
 
-export interface Stock {
+interface Contract {
   symbol: string;
   name: string;
+  price: number;
 }
 
-export interface Commodity {
-  symbol: string;
-  name: string;
-}
+export interface Stock extends Contract {}
 
-export interface Forex {
-  symbol: string;
-  name: string;
-}
+export interface Index extends Contract {}
 
-export interface Cryptocurrency {
-  symbol: string;
-  name: string;
-}
+export interface Commodity extends Contract {}
+
+export interface Forex extends Contract {}
+
+export interface Cryptocurrency extends Contract {}
 
 export default {
   getStock: (query: GetStockQuery) =>
     httpClient.get<PageResult<Stock>>('/Markets/Stock', {
+      params: query,
+    }),
+
+  getIndex: (query: GetIndexQuery) =>
+    httpClient.get<PageResult<Index>>('/Markets/Index', {
       params: query,
     }),
 

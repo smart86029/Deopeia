@@ -35,8 +35,8 @@
 
 <script setup lang="ts">
 import marketApi, {
-  type Commodity,
-  type GetCommodityQuery,
+  type GetIndexQuery,
+  type Index,
 } from '@/api/market/market-api';
 
 import {
@@ -50,10 +50,10 @@ import { useQuoteStore } from '@/stores/quote';
 const quote = useQuoteStore();
 
 const loading = ref(false);
-const query: GetCommodityQuery = reactive({
+const query: GetIndexQuery = reactive({
   ...defaultQuery,
 });
-const result: PageResult<Commodity> = reactive(defaultResult());
+const result: PageResult<Index> = reactive(defaultResult());
 
 watch(
   query,
@@ -61,7 +61,7 @@ watch(
     if (!loading.value) {
       loading.value = true;
       marketApi
-        .getCommodity(query)
+        .getIndex(query)
         .then((x) => {
           x.data.items = x.data.items.map((item) => ({
             ...item,
