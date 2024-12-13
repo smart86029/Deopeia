@@ -46,7 +46,7 @@ import {
 } from '@/models/page';
 import { useQuoteStore } from '@/stores/quote';
 
-const { quotes } = storeToRefs(useQuoteStore);
+const { quotes } = storeToRefs(useQuoteStore());
 
 const loading = ref(false);
 const query: GetCryptocurrencyQuery = reactive({

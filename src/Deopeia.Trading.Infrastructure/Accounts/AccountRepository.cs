@@ -6,7 +6,7 @@ internal class AccountRepository(TradingContext context) : IAccountRepository
 {
     private readonly DbSet<Account> _accounts = context.Set<Account>();
 
-    public async Task<ICollection<Account>> GetAccountsAsync()
+    public async Task<IReadOnlyList<Account>> GetAccountsAsync()
     {
         return await _accounts.ToListAsync();
     }

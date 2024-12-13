@@ -6,6 +6,11 @@ internal class ContractRepository(TradingContext context) : IContractRepository
 {
     private readonly DbSet<Contract> _contracts = context.Set<Contract>();
 
+    public async Task<ICollection<Contract>> GetContractsAsync()
+    {
+        return await _contracts.Include(x => x.Locales).ToListAsync();
+    }
+
     public async Task<Contract> GetContractAsync(Symbol symbol)
     {
         return await _contracts.Include(x => x.Locales).FirstAsync(x => x.Id == symbol);
