@@ -26,19 +26,13 @@
     </el-table-column>
     <el-table-column :label="$t('route.trading')" align="right">
       <template #default="{ row }">
-        <el-button
-          size="small"
-          :type="positive"
-          @click="$router.push({ name: 'trading' })"
-        >
+        <el-button :type="positive" @click="$router.push({ name: 'trading' })">
           {{ $t(`trading.orderSide.${OrderSide.Buy}`) }}
+          {{ $n(getBid(row.symbol), 'decimal') }}
         </el-button>
-        <el-button
-          size="small"
-          :type="negative"
-          @click="$router.push({ name: 'trading' })"
-        >
+        <el-button :type="negative" @click="$router.push({ name: 'trading' })">
           {{ $t(`trading.orderSide.${OrderSide.Sell}`) }}
+          {{ $n(getAsk(row.symbol), 'decimal') }}
         </el-button>
       </template>
     </el-table-column>
@@ -63,4 +57,8 @@ const getPriceChange = (symbol: string) =>
   previusClose;
 
 const getVolume = (symbol: string) => ticks.value.get(symbol)?.volume || 0;
+
+const getBid = (symbol: string) => ticks.value.get(symbol)?.bid || 0;
+
+const getAsk = (symbol: string) => ticks.value.get(symbol)?.ask || 0;
 </script>

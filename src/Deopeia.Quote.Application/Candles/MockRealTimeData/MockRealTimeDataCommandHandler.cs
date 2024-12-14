@@ -1,4 +1,3 @@
-using Deopeia.Quote.Application.Candles.ScrapeRealTimeData;
 using Deopeia.Quote.Domain.Candles;
 using Deopeia.Quote.Domain.Instruments;
 

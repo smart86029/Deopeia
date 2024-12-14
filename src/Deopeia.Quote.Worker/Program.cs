@@ -16,12 +16,11 @@ builder
     .AddApplication()
     .AddInfrastructure<QuoteContext, QuoteSeeder>()
     .AddEventBus()
-    .AddSubscription<PriceChangedEvent, CalculateCandlesCommandHandler>();
+    .AddSubscription<PriceChangedEvent, CalculateCandlesEventHandler>();
 
 builder.Services.AddScheduler();
 builder.Services.AddScoped<ScrapeJob>();
 builder.Services.AddScoped<InstrumentJob>();
-builder.Services.AddScoped<ScrapeRealTimeQuoteJob>();
 builder.Services.AddScoped<Job<MockRealTimeDataCommand>>();
 builder.Services.AddScoped<CurrentUser>();
 builder.Services.AddScrapers();
@@ -35,10 +34,6 @@ host.Services.UseScheduler(scheduler =>
         .PreventOverlapping(nameof(MockRealTimeDataCommand));
     //scheduler.Schedule<ScrapeJob>().EveryMinute().PreventOverlapping(nameof(ScrapeJob));
     //scheduler.Schedule<InstrumentJob>().EveryMinute().PreventOverlapping(nameof(InstrumentJob));
-    //scheduler
-    //    .Schedule<ScrapeRealTimeQuoteJob>()
-    //    .EveryFiveSeconds()
-    //    .PreventOverlapping(nameof(ScrapeRealTimeQuoteJob));
 });
 
 host.Run();

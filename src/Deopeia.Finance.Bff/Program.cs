@@ -9,6 +9,7 @@ builder.AddServiceDefaults();
 builder
     .AddEventBus()
     .AddSubscription<PriceChangedEvent, PriceChangedEventHandler>()
+    .AddSubscription<CandleChangedEvent, CandleChangedEventHandler>()
     .AddSubscription<OrderBookChangedEvent, OrderBookChangedEventHandler>();
 
 var services = builder.Services;

@@ -1,6 +1,5 @@
 using Deopeia.Common.Utilities;
 using Deopeia.Quote.Application.Candles.ScrapeHistoricalData;
-using Deopeia.Quote.Application.Candles.ScrapeRealTimeData;
 using Deopeia.Quote.Application.Instruments.ScrapeInstruments;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,9 +12,7 @@ public static class ServiceCollectionExtensions
         var types = AssemblyUtility
             .GetTypes()
             .Where(x =>
-                x.IsAssignableTo(typeof(IScraper))
-                || x.IsAssignableTo(typeof(IRealTimeScraper))
-                || x.IsAssignableTo(typeof(IInstrumentsScraper))
+                x.IsAssignableTo(typeof(IScraper)) || x.IsAssignableTo(typeof(IInstrumentsScraper))
             );
         foreach (var type in types)
         {

@@ -8,7 +8,9 @@ internal class CandleRepository(QuoteContext context) : ICandleRepository
 
     public async Task<Candle?> GetCandleAsync(CandleId id)
     {
-        return await _candles.FirstOrDefaultAsync(x => x.Id == id);
+        return await _candles.FirstOrDefaultAsync(x =>
+            x.Symbol == id.Symbol && x.TimeFrame == id.TimeFrame && x.Timestamp == id.Timestamp
+        );
     }
 
     public async Task<bool> ExistsAsync(DateOnly date)

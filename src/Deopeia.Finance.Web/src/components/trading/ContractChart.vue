@@ -10,9 +10,8 @@ import utc from 'dayjs/plugin/utc';
 import { dayjs } from 'element-plus';
 import { ColorType, createChart, type UTCTimestamp } from 'lightweight-charts';
 
-const { locale } = storeToRefs(usePreferencesStore());
-const { symbol, realTimeQuotes } = storeToRefs(useQuoteStore());
-const { positive, negative } = storeToRefs(usePreferencesStore());
+const { symbol, candles } = storeToRefs(useQuoteStore());
+const { locale, positive, negative } = storeToRefs(usePreferencesStore());
 
 dayjs.extend(utc);
 
@@ -41,7 +40,7 @@ onMounted(async () => {
   });
 
   const history = await candleApi.getHistory(symbol.value);
-  const candles = history.data.quotes
+  const data = history.data.quotes
     .map((quote) => ({
       time: toUTCTimestamp(quote.date),
       open: quote.open,
@@ -53,18 +52,22 @@ onMounted(async () => {
       (value, index, array) =>
         array.findIndex((x) => x.time === value.time) === index,
     );
-  candlestickSeries.setData(candles);
+  candlestickSeries.setData(data);
 
   chart.timeScale().fitContent();
   chart.timeScale().scrollToPosition(5, true);
 
   const time = ref(0);
-  watch(realTimeQuotes.value, (quotes) => {
+  const key: [string, number] = [symbol.value, 0];
+  watch(candles.value.get(key)!, (quotes) => {
     const data = quotes
-      .filter((x) => x.symbol == symbol.value)
       .map((x) => ({
-        time: toUTCTimestamp(x.lastTradedAt),
-        value: x.lastTradedPrice,
+        time: x.time,
+        open: x.open,
+        high: x.high,
+        low: x.low,
+        close: x.close,
+        volume: x.volume,
       }))
       .filter((x) => x.time > time.value);
 
@@ -78,6 +81,6 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 #canvas {
-  height: 300px;
+  height: 480px;
 }
 </style>
