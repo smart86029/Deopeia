@@ -2,7 +2,7 @@ namespace Deopeia.Quote.Application.Candles.GetHistoricalData;
 
 public class CandleDto
 {
-    public DateTimeOffset Date { get; set; }
+    public DateTimeOffset Timestamp { get; set; }
 
     public decimal Open { get; set; }
 

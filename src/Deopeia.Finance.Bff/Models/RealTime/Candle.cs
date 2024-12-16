@@ -2,7 +2,7 @@ namespace Deopeia.Finance.Bff.Models.RealTime;
 
 public record Candle(
     int TimeFrame,
-    long Timestamp,
+    DateTimeOffset Timestamp,
     decimal Open,
     decimal High,
     decimal Low,

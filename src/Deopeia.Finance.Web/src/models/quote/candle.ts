@@ -1,5 +1,5 @@
 export interface Candle {
-  time: number;
+  timestamp: Date;
   open: number;
   high: number;
   low: number;

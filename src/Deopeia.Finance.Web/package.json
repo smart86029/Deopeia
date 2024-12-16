@@ -17,7 +17,7 @@
     "@vueuse/core": "^10.11.1",
     "axios": "^1.7.7",
     "element-plus": "^2.9.0",
-    "lightweight-charts": "^4.2.1",
+    "klinecharts": "^10.0.0-alpha1",
     "oidc-client-ts": "^3.1.0",
     "pinia": "^2.2.6",
     "vue": "^3.5.12",

@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using Deopeia.Finance.Bff.Models.Quotes;
 
 namespace Deopeia.Finance.Bff.Models.RealTime;
 

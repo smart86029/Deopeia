@@ -16,7 +16,7 @@ public class CandleChangedEventHandler(IHubContext<RealTimeHub, IRealTime> hubCo
                 [
                     new Candle(
                         @event.TimeFrame,
-                        @event.CreatedAt.Ticks,
+                        @event.CreatedAt,
                         @event.Open,
                         @event.High,
                         @event.Low,

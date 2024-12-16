@@ -1,20 +1,13 @@
+import type { Candle } from '@/models/quote/candle';
+import type { TimeFrame } from '@/models/quote/time-frame';
 import httpClient from '../http-client';
 
-export interface HistoricalData {
-  symbol?: string;
-  quotes: Candle[];
-}
-
-export interface Candle {
-  date: Date;
-  open: number;
-  high: number;
-  low: number;
-  close: number;
-  volume: number;
-}
-
 export default {
-  getHistory: (symbol: string) =>
-    httpClient.get<HistoricalData>(`/Candles/${symbol}/history`),
+  getHistory: (symbol: string, timeFrame: TimeFrame, startedAt?: number) =>
+    httpClient.get<Candle[]>(`/Candles/${symbol}/history`, {
+      params: {
+        timeFrame,
+        startedAt,
+      },
+    }),
 };
