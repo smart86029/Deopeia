@@ -32,7 +32,7 @@ SELECT
     volume
 FROM candle
 /**where**/
-ORDER BY timestamp DESC
+ORDER BY timestamp
 LIMIT 100
 """
         );

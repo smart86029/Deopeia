@@ -25,16 +25,11 @@ onMounted(async () => {
   const history = await candleApi.getHistory(symbol.value, TimeFrame.M1);
   chart?.applyNewData(history.data.map((x) => toKLineData(x)));
 
-  const time = ref(0);
-  const key: [string, number] = [symbol.value, 0];
-  watch(candles.value.get(key)!, (candles) => {
-    const data = candles
-      .map((x) => toKLineData(x))
-      .filter((x) => x.timestamp > time.value);
+  watch(candles.value, (candles) => {
+    const data = candles[symbol.value][TimeFrame.M1].map((x) => toKLineData(x));
+
+    console.log(data);
     data.forEach((x) => chart?.updateData(x));
-    if (data.length > 0) {
-      time.value = data[data.length - 1].timestamp;
-    }
   });
 });
 

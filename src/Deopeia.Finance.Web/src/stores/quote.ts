@@ -1,4 +1,4 @@
-import type { Candle } from '@/models/quote/candle';
+import type { Candle, CandleMap } from '@/models/quote/candle';
 import type { Order } from '@/models/quote/order';
 import type { Tick } from '@/models/quote/tick';
 import { HttpTransportType, HubConnectionBuilder } from '@microsoft/signalr';
@@ -6,7 +6,7 @@ import { HttpTransportType, HubConnectionBuilder } from '@microsoft/signalr';
 export const useQuoteStore = defineStore('quote', () => {
   const symbol = ref('XAU');
   const ticks = ref(new Map<string, Tick>());
-  const candles = ref(new Map<[string, number], Candle[]>());
+  const candles = ref({} as CandleMap);
 
   const bids = ref([] as Order[]);
   const asks = ref([] as Order[]);
@@ -26,11 +26,19 @@ export const useQuoteStore = defineStore('quote', () => {
   hubConnection.on(
     'ReceiveCandle',
     (symbol: string, timeFrame: number, candle: Candle) => {
-      const key: [string, number] = [symbol, timeFrame];
-      if (!candles.value.has(key)) {
-        candles.value.set(key, [candle]);
+      if (!candles.value[symbol]) {
+        candles.value[symbol] = {};
       }
-      candles.value.get(key)?.push(candle);
+      if (!candles.value[symbol][timeFrame]) {
+        candles.value[symbol][timeFrame] = [];
+      }
+      const array = candles.value[symbol][timeFrame];
+      const index = array.findIndex((x) => x.timestamp === candle.timestamp);
+      if (index > -1) {
+        array[index] = candle;
+      } else {
+        array.push(candle);
+      }
     },
   );
 

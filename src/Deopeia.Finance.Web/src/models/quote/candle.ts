@@ -6,3 +6,11 @@ export interface Candle {
   close: number;
   volume: number;
 }
+
+export interface TimeFrameMap {
+  [key: number]: Candle[];
+}
+
+export interface CandleMap {
+  [key: string]: TimeFrameMap;
+}

@@ -13,17 +13,15 @@ public class CandleChangedEventHandler(IHubContext<RealTimeHub, IRealTime> hubCo
             .Clients.Group(@event.Symbol)
             .ReceiveCandle(
                 @event.Symbol,
-                [
-                    new Candle(
-                        @event.TimeFrame,
-                        @event.CreatedAt,
-                        @event.Open,
-                        @event.High,
-                        @event.Low,
-                        @event.Close,
-                        @event.Volume
-                    ),
-                ]
+                @event.TimeFrame,
+                new Candle(
+                    @event.Timestamp,
+                    @event.Open,
+                    @event.High,
+                    @event.Low,
+                    @event.Close,
+                    @event.Volume
+                )
             );
     }
 }

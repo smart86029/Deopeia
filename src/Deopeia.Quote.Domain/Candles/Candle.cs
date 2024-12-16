@@ -30,7 +30,7 @@ public class Candle : AggregateRoot<CandleId>
 
         Open = Open > 0 ? Open : ticks.First().Price;
         High = Math.Max(High, ticks.Max(x => x.Price));
-        Low = Math.Min(Math.Max(0, Low), ticks.Min(x => x.Price));
+        Low = Low == 0 ? ticks.Min(x => x.Price) : Math.Min(Low, ticks.Min(x => x.Price));
         Close = ticks.Last().Price;
         Volume += ticks.Sum(x => x.Volume);
     }

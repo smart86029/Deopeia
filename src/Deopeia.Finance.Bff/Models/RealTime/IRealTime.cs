@@ -6,7 +6,7 @@ public interface IRealTime
 {
     Task ReceiveTick(string symbol, Tick tick);
 
-    Task ReceiveCandle(string symbol, Candle[] candles);
+    Task ReceiveCandle(string symbol, int TimeFrame, Candle candle);
 
     Task ReceiveOrderBook(Order[] bids, Order[] asks);
 }
