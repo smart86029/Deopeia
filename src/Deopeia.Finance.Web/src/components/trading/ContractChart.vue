@@ -11,6 +11,7 @@ import { dayjs } from 'element-plus';
 import { dispose, init, type KLineData } from 'klinecharts';
 
 const { symbol, candles } = storeToRefs(useQuoteStore());
+
 const toKLineData = (candle: Candle): KLineData => ({
   timestamp: +dayjs(candle.timestamp),
   open: candle.open,
@@ -26,10 +27,9 @@ onMounted(async () => {
   chart?.applyNewData(history.data.map((x) => toKLineData(x)));
 
   watch(candles.value, (candles) => {
-    const data = candles[symbol.value][TimeFrame.M1].map((x) => toKLineData(x));
-
-    console.log(data);
-    data.forEach((x) => chart?.updateData(x));
+    candles[symbol.value][TimeFrame.M1]
+      .map((x) => toKLineData(x))
+      .forEach((x) => chart?.updateData(x));
   });
 });
 

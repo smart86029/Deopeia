@@ -25,8 +25,7 @@ public class CalculateCandlesEventHandler(
             await _candleRepository.AddAsync(candle);
         }
 
-        var ticks = new[] { new Tick(@event.CreatedAt, @event.Price, @event.Volume) };
-        candle.Calculate(ticks);
+        candle.Calculate(new Tick(@event.CreatedAt, @event.Price, @event.Volume));
 
         await _unitOfWork.CommitAsync();
 

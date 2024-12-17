@@ -96,14 +96,10 @@ public class OrderBook : AggregateRoot<Symbol>
             taker.Fill(volume);
             maker.Fill(volume);
 
-            if (maker.Volume - volume == 0)
+            if (maker.UnfilledVolume == 0)
             {
                 // Update maker to filled
                 makers.Dequeue();
-            }
-            else
-            {
-                // Update maker to partial filled
             }
 
             var bid = _buyOrders.TryPeek(out var buyOrder, out _) ? buyOrder.Price.Amount : 0;

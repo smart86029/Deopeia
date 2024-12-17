@@ -13,7 +13,7 @@ internal class MockOrdersCommandHandler(
     IEventBus eventBus
 ) : IRequestHandler<MockOrdersCommand>
 {
-    private static decimal price = 100M;
+    private static decimal price = 1000M;
 
     private readonly ITradingUnitOfWork _unitOfWork = unitOfWork;
     private readonly IAccountRepository _accountRepository = accountRepository;
@@ -30,30 +30,62 @@ internal class MockOrdersCommandHandler(
         var ramdom = new Random();
         foreach (var contract in contracts)
         {
-            var orderBook = await _orderBookRepository.GetOrderBookAsync(contract.Id);
-            var offset = ramdom.Next(-5, 5);
-            var abs = Math.Abs(offset);
-            orderBook.AddOrder(
-                (OrderSide)ramdom.Next(0, 2),
-                ramdom.Next(abs * 2, abs * 10),
-                (price + offset).ToMoney(currencyCode),
-                null,
-                null,
-                accounts[ramdom.Next(0, 10)].Id
-            );
-
-            await _unitOfWork.CommitAsync();
-
-            foreach (var @event in orderBook.DomainEvents)
+            for (var i = 0; i < 2; i++)
             {
-                await _eventBus.PublishAsync(@event);
-                if (@event is PriceChangedEvent priceChangedEvent)
-                {
-                    price = priceChangedEvent.Price;
-                }
-            }
+                var orderBook = await _orderBookRepository.GetOrderBookAsync(contract.Id);
+                var side = (OrderSide)i;
+                orderBook.AddOrder(
+                    side,
+                    GetVolume(),
+                    GetPrice(side),
+                    null,
+                    null,
+                    accounts[ramdom.Next(0, 10)].Id
+                );
 
-            orderBook.ClearDomainEvents();
+                await _unitOfWork.CommitAsync();
+
+                foreach (var @event in orderBook.DomainEvents)
+                {
+                    await _eventBus.PublishAsync(@event);
+                    if (@event is PriceChangedEvent priceChangedEvent)
+                    {
+                        if (priceChangedEvent.Bid == 0 || priceChangedEvent.Ask == 0)
+                        {
+                            if (priceChangedEvent.Price > 0)
+                            {
+                                price = priceChangedEvent.Price;
+                            }
+
+                            continue;
+                        }
+
+                        price = (priceChangedEvent.Bid + priceChangedEvent.Ask) / 2;
+                    }
+                }
+
+                orderBook.ClearDomainEvents();
+            }
+        }
+
+        decimal GetVolume()
+        {
+            var volumeMean = 4.0;
+            var volumeStdDev = 1.0;
+            var u1 = 1.0 - ramdom.NextDouble();
+            var u2 = 1.0 - ramdom.NextDouble();
+            var normalRandom = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Cos(2.0 * Math.PI * u2);
+            var volume = Math.Exp(volumeMean + volumeStdDev * normalRandom).ToInt();
+
+            return volume;
+        }
+
+        Money GetPrice(OrderSide side)
+        {
+            var offset = Math.Max(ramdom.NextDouble().ToDecimal(), 0.2M) * price;
+            var amount = side == OrderSide.Buy ? price + offset : price - offset;
+
+            return Math.Round(amount, 2).ToMoney(currencyCode);
         }
     }
 }
