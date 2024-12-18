@@ -3,7 +3,7 @@
     <el-table-column :label="$t('finance.symbol')">
       <template #default="{ row }">
         <TextLink
-          :to="{ name: 'symbol.view', params: { symbol: row.symbol } }"
+          :to="{ name: 'trading.view', params: { symbol: row.symbol } }"
           :text="row.symbol"
         />
       </template>

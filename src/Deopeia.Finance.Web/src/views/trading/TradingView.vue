@@ -1,6 +1,25 @@
 <template>
-  <div class="quote">
-    <ContractChart class="chart" />
+  <div class="trading">
+    <div class="contract">
+      <div class="quote">
+        {{ symbol }}
+        <span class="ltp">{{ $n(lastTradedPrice, 'decimal') }}</span>
+        <span class="currency">{{ instrument.currencyCode }}</span>
+        <TextPrice :value="priceChange" />
+        <TextPrice :value="priceRateOfChange" percentage />
+      </div>
+      <el-menu :default-active="activeIndex" mode="horizontal" router>
+        <el-menu-item
+          v-for="menu of menus"
+          :key="menu"
+          :index="menu"
+          :route="{ name: menu }"
+        >
+          {{ $t(`route.${menu}`) }}
+        </el-menu-item>
+      </el-menu>
+      <RouterView />
+    </div>
     <OrderBook
       class="order-book"
       :bids="bids"
@@ -13,31 +32,70 @@
 </template>
 
 <script setup lang="ts">
+import instrumentApi, { type Instrument } from '@/api/instrument-api';
 import { useQuoteStore } from '@/stores/quote';
+
+const menus = ['trading.chart', 'trading.info'];
+const activeIndex = ref(menus[0] as string | undefined);
+const router = useRouter();
+const instrument = ref({} as Instrument);
+const { lastTradedPrice, priceChange, priceRateOfChange } =
+  storeToRefs(useQuoteStore());
 
 const { symbol, ticks, bids, asks } = storeToRefs(useQuoteStore());
 const price = computed(() => ticks.value.get(symbol.value)?.price || 0);
 const selectPrice = ref(undefined as number | undefined);
 
 const changePrice = (price: number) => (selectPrice.value = price);
+
+instrumentApi.get(symbol.value).then((x) => (instrument.value = x.data));
+
+watch(
+  () => router.currentRoute,
+  (currentRoute) => {
+    activeIndex.value = currentRoute.value.name?.toString();
+  },
+  {
+    immediate: true,
+    deep: true,
+  },
+);
 </script>
 
 <style scoped lang="scss">
-.quote {
+.trading {
   display: flex;
-  justify-content: end;
+  align-items: flex-start;
   gap: 16px;
 }
 
-.chart {
-  flex: 1;
+.contract {
+  flex: 4;
+}
+
+.quote {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
 }
 
 .order-book {
-  flex: 0 0 300px;
+  flex: 1;
 }
 
 .trade-form {
-  flex: 0 0 300px;
+  flex: 1;
+}
+
+.el-menu {
+  margin-bottom: 20px;
+}
+
+.el-menu--horizontal {
+  --el-menu-horizontal-height: 40px;
+
+  &.el-menu {
+    // border-bottom: 0;
+  }
 }
 </style>

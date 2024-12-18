@@ -1,59 +1,55 @@
 <template>
-  <div>
-    <h2>{{ $t('trading.newOrder') }}</h2>
+  <el-form :model="form" label-position="top" @submit.prevent>
+    <el-form-item>
+      <el-radio-group v-model="type">
+        <el-radio-button label="Market" value="Market" />
+        <el-radio-button label="Limit" value="Limit" />
+      </el-radio-group>
+    </el-form-item>
+    <el-form-item :label="$t('finance.price')">
+      <template v-if="type === 'Market'">
+        {{ lastTradedPrice }}
+      </template>
+      <InputNumber v-else v-model="form.price" />
+    </el-form-item>
+    <el-form-item :label="$t('trading.volume')">
+      <InputNumber v-model="form.volume" />
+    </el-form-item>
+    <el-form-item :label="$t('trading.leverage')">
+      <el-radio-group v-model="form.leverage">
+        <el-radio-button label="1x" :value="1" />
+        <el-radio-button label="10x" :value="10" />
+        <el-radio-button label="25x" :value="25" />
+      </el-radio-group>
+    </el-form-item>
 
-    <el-form :model="form" label-position="top" @submit.prevent>
-      <el-form-item>
-        <el-radio-group v-model="type">
-          <el-radio-button label="Market" value="Market" />
-          <el-radio-button label="Limit" value="Limit" />
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item :label="$t('finance.price')">
-        <template v-if="type === 'Market'">
-          {{ lastTradedPrice }}
-        </template>
-        <InputNumber v-else v-model="form.price" />
-      </el-form-item>
-      <el-form-item :label="$t('trading.volume')">
-        <InputNumber v-model="form.volume" />
-      </el-form-item>
-      <el-form-item :label="$t('trading.leverage')">
-        <el-radio-group v-model="form.leverage">
-          <el-radio-button label="1x" :value="1" />
-          <el-radio-button label="10x" :value="10" />
-          <el-radio-button label="25x" :value="25" />
-        </el-radio-group>
-      </el-form-item>
-
-      <div class="details">
-        <div class="detail">
-          <el-text type="info">{{ $t('trading.margin') }}</el-text>
-          {{ margin }}
-        </div>
-        <div class="detail">
-          <el-text type="info">{{ $t('trading.margin') }}</el-text>
-          {{ margin }}
-        </div>
+    <div class="details">
+      <div class="detail">
+        <el-text type="info">{{ $t('trading.margin') }}</el-text>
+        {{ margin }}
       </div>
+      <div class="detail">
+        <el-text type="info">{{ $t('trading.margin') }}</el-text>
+        {{ margin }}
+      </div>
+    </div>
 
-      <el-form-item :label="$t('trading.stopLoss')">
-        <InputNumber v-model="form.stopLossPrice" />
-      </el-form-item>
-      <el-form-item :label="$t('trading.takeProfit')">
-        <InputNumber v-model="form.takeProfitPrice" />
-      </el-form-item>
+    <el-form-item :label="$t('trading.stopLoss')">
+      <InputNumber v-model="form.stopLossPrice" />
+    </el-form-item>
+    <el-form-item :label="$t('trading.takeProfit')">
+      <InputNumber v-model="form.takeProfitPrice" />
+    </el-form-item>
 
-      <el-form-item>
-        <el-button :type="positive" class="button-trade" @click="buy">
-          {{ $t(`trading.orderSide.${OrderSide.Buy}`) }}
-        </el-button>
-        <el-button :type="negative" class="button-trade" @click="sell">
-          {{ $t(`trading.orderSide.${OrderSide.Sell}`) }}
-        </el-button>
-      </el-form-item>
-    </el-form>
-  </div>
+    <el-form-item>
+      <el-button :type="positive" class="button-trade" @click="buy">
+        {{ $t(`trading.orderSide.${OrderSide.Buy}`) }}
+      </el-button>
+      <el-button :type="negative" class="button-trade" @click="sell">
+        {{ $t(`trading.orderSide.${OrderSide.Sell}`) }}
+      </el-button>
+    </el-form-item>
+  </el-form>
 </template>
 
 <script setup lang="ts">

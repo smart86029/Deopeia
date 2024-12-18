@@ -52,13 +52,11 @@ export default {
       create: 'Create Strategy',
       edit: 'Edit Strategy',
     },
-    symbol: {
-      view: 'Symbol {symbol}',
-      default: 'Overview',
-      financials: 'Financials',
-      news: 'News',
+    trading: {
+      view: 'Trading',
+      chart: 'Chart',
+      info: 'Info',
     },
-    trading: 'Trading',
     user: {
       list: 'Users',
       create: 'Create User',

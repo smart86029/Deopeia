@@ -30,7 +30,7 @@
 import type { Menu } from '@/models/menu';
 
 const route = useRoute();
-const menus: Menu[] = [{ name: 'market.list' }, { name: 'trading' }];
+const menus: Menu[] = [{ name: 'market.list' }, { name: 'trading.view' }];
 
 const defaultActive = computed(() => {
   if (route.name && route.name.toString().split('.')[0] === 'market') {

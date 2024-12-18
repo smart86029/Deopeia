@@ -58,7 +58,11 @@ export default {
       financials: '財務',
       news: '新聞',
     },
-    trading: '交易',
+    trading: {
+      view: '交易',
+      chart: '圖表',
+      info: '資訊',
+    },
     user: {
       list: '使用者列表',
       create: '新增使用者',
