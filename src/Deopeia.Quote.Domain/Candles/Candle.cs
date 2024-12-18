@@ -45,7 +45,7 @@ public class Candle : AggregateRoot<CandleId>
         Open = Open != 0 && tick.Timestamp >= Timestamp ? Open : tick.Price;
         High = Math.Max(High, tick.Price);
         Low = Low == 0 ? tick.Price : Math.Min(Low, tick.Price);
-        Close = tick.Timestamp >= tick.Timestamp ? Close : tick.Price;
+        Close = Close != 0 && Timestamp >= tick.Timestamp ? Close : tick.Price;
         Volume += tick.Volume;
     }
 
