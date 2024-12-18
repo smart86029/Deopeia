@@ -46,6 +46,7 @@ export default {
       default: 'Screener',
       stock: 'Stock Screener',
     },
+    setting: 'Setting',
     strategy: {
       list: 'Strategies',
       create: 'Create Strategy',

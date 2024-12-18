@@ -34,7 +34,7 @@ const menus = [
     children: [{ name: 'exchange.list' }],
   },
   {
-    name: 'trading',
+    name: 'setting',
     children: [
       { name: 'account.list' },
       { name: 'contract.list' },

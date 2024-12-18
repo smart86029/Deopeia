@@ -46,6 +46,7 @@ export default {
       default: '篩選器',
       stock: '股票篩選器',
     },
+    setting: '設定',
     strategy: {
       list: '策略列表',
       create: '新增策略',

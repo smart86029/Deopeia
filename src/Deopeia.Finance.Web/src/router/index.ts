@@ -5,6 +5,7 @@ import { setLocale } from './i18n';
 import identity from './identity';
 import market from './market';
 import quote from './quote';
+import setting from './setting';
 import symbol from './symbol';
 import trading from './trading';
 
@@ -27,6 +28,7 @@ const router = createRouter({
         ...identity,
         ...market,
         ...quote,
+        ...setting,
         ...symbol,
         ...trading,
       ],
