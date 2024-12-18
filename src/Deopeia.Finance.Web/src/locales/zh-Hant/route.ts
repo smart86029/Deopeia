@@ -52,12 +52,6 @@ export default {
       create: '新增策略',
       edit: '編輯策略',
     },
-    symbol: {
-      view: '代號 {symbol}',
-      default: '總覽',
-      financials: '財務',
-      news: '新聞',
-    },
     trading: {
       view: '交易',
       chart: '圖表',
