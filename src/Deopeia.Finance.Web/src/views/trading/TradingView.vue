@@ -33,25 +33,21 @@
 </template>
 
 <script setup lang="ts">
-import type { Instrument } from '@/models/trading/instrument';
 import { useQuoteStore } from '@/stores/quote';
 import { useTradingStore } from '@/stores/trading';
 
 const menus = ['trading.chart', 'trading.info'];
 const activeIndex = ref(menus[0] as string | undefined);
 const router = useRouter();
-const instrument = ref({} as Instrument);
 const { lastTradedPrice, priceChange, priceRateOfChange } =
   storeToRefs(useQuoteStore());
-const { getInstrument } = useTradingStore();
+const { instrument } = storeToRefs(useTradingStore());
 
 const { symbol, ticks, bids, asks } = storeToRefs(useQuoteStore());
 const price = computed(() => ticks.value.get(symbol.value)?.price || 0);
 const selectPrice = ref(undefined as number | undefined);
 
 const changePrice = (price: number) => (selectPrice.value = price);
-
-getInstrument(symbol.value).then((x) => (instrument.value = x));
 
 watch(
   () => router.currentRoute,

@@ -1,5 +1,6 @@
 import { emptyGuid, type Guid, parseGuid } from '@/models/guid';
 import { useQuoteStore } from '@/stores/quote';
+import { useTradingStore } from '@/stores/trading';
 import type { RouteLocationNormalized } from 'vue-router';
 
 export const create = (): {
@@ -36,6 +37,8 @@ export const symbol = (
     ? route.params.symbol[0]
     : route.params.symbol;
   const { symbol } = storeToRefs(useQuoteStore());
+  useTradingStore().getInstrument(symbol.value);
+
   symbol.value = routeSymbol;
   return {
     default: true,

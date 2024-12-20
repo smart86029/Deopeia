@@ -12,13 +12,11 @@ export default [
         path: '',
         name: 'trading.chart',
         component: () => import('../views/trading/TradingChart.vue'),
-        props: symbol,
       },
       {
         path: 'info',
         name: 'trading.info',
         component: () => import('../views/trading/TradingInfo.vue'),
-        props: symbol,
       },
     ],
   },
