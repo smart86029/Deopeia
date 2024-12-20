@@ -1,14 +1,7 @@
 <template>
   <div class="trading">
     <div class="contract">
-      <div class="quote">
-        {{ symbol }}
-        {{ instrument.name }}
-        <span class="ltp">{{ $n(lastTradedPrice, 'decimal') }}</span>
-        <span class="currency">{{ instrument.currencyCode }}</span>
-        <TextPrice :value="priceChange" />
-        <TextPrice :value="priceRateOfChange" percentage />
-      </div>
+      <SymbolQuote />
       <el-menu :default-active="activeIndex" mode="horizontal" router>
         <el-menu-item
           v-for="menu of menus"
@@ -34,16 +27,12 @@
 
 <script setup lang="ts">
 import { useQuoteStore } from '@/stores/quote';
-import { useTradingStore } from '@/stores/trading';
+
+const router = useRouter();
+const { symbol, ticks, bids, asks } = storeToRefs(useQuoteStore());
 
 const menus = ['trading.chart', 'trading.info'];
 const activeIndex = ref(menus[0] as string | undefined);
-const router = useRouter();
-const { lastTradedPrice, priceChange, priceRateOfChange } =
-  storeToRefs(useQuoteStore());
-const { instrument } = storeToRefs(useTradingStore());
-
-const { symbol, ticks, bids, asks } = storeToRefs(useQuoteStore());
 const price = computed(() => ticks.value.get(symbol.value)?.price || 0);
 const selectPrice = ref(undefined as number | undefined);
 
@@ -70,12 +59,6 @@ watch(
 
 .contract {
   flex: 4;
-}
-
-.quote {
-  display: flex;
-  gap: 10px;
-  align-items: baseline;
 }
 
 .order-book {

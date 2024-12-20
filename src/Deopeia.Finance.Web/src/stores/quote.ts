@@ -1,6 +1,7 @@
 import type { Candle, CandleMap } from '@/models/quote/candle';
 import type { Order } from '@/models/quote/order';
 import type { Tick } from '@/models/quote/tick';
+import { TimeFrame } from '@/models/quote/time-frame';
 import { HttpTransportType, HubConnectionBuilder } from '@microsoft/signalr';
 
 export const useQuoteStore = defineStore('quote', () => {
@@ -55,7 +56,13 @@ export const useQuoteStore = defineStore('quote', () => {
 
   const lastTradedPrice = computed(() => lastTraded.value?.price || 0);
 
-  const previousClose = computed(() => lastTraded.value?.price || 0);
+  const previousClose = computed(() => {
+    if (!candles.value[symbol.value]) {
+      return 0;
+    }
+    const array = candles.value[symbol.value][TimeFrame.M1];
+    return array.length === 0 ? 0 : array.slice(-1)[0].close;
+  });
 
   const priceChange = computed(
     () => lastTradedPrice.value - previousClose.value,
