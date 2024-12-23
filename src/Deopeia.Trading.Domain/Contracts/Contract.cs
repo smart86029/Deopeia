@@ -18,7 +18,8 @@ public class Contract : AggregateRoot<Symbol>, ILocalizable<ContractLocale, Symb
         decimal tickSize,
         ContractSize contractSize,
         VolumeRestriction volumeRestriction,
-        IEnumerable<decimal> leverages
+        IEnumerable<decimal> leverages,
+        IEnumerable<(DayOfWeek DayOfWeek, TimeOnly OpenTime, TimeOnly CloseTime)> sessions
     )
         : base(new Symbol(symbol))
     {
@@ -34,6 +35,9 @@ public class Contract : AggregateRoot<Symbol>, ILocalizable<ContractLocale, Symb
         ContractSize = contractSize;
         VolumeRestriction = volumeRestriction;
         _leverages.AddRange(leverages);
+        _sessions.AddRange(
+            sessions.Select(x => new Session(Id, x.DayOfWeek, x.OpenTime, x.CloseTime))
+        );
     }
 
     public string Name => _locales[CultureInfo.CurrentCulture]?.Name ?? string.Empty;

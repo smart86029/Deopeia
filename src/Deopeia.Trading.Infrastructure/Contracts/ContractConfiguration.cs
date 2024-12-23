@@ -12,6 +12,8 @@ internal class ContractConfiguration : IEntityTypeConfiguration<Contract>
 
         builder.ComplexProperty(x => x.ContractSize);
 
+        builder.ComplexProperty(x => x.VolumeRestriction);
+
         builder
             .Property(x => x.Leverages)
             .HasConversion<JsonConverter<IReadOnlyCollection<decimal>>>(

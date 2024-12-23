@@ -16,8 +16,9 @@ internal class GetContractQueryHandler(NpgsqlConnection connection)
         var sql = """
 SELECT
     symbol,
-    currency_code,
     underlying_type,
+    currency_code,
+    price_precision
     tick_size,
     contract_size_quantity,
     contract_size_unit_code,

@@ -4,15 +4,17 @@ public class GetContractViewModel
 {
     public string Symbol { get; set; } = string.Empty;
 
-    public string UnderlyingAsset { get; set; } = string.Empty;
+    public UnderlyingType UnderlyingType { get; set; }
 
-    public string Currency { get; set; } = string.Empty;
+    public string CurrencyCode { get; set; } = string.Empty;
+
+    public decimal PricePrecision { get; set; }
 
     public decimal TickSize { get; set; }
 
     public decimal ContractSizeQuantity { get; set; }
 
-    public string ContractSizeUnit { get; set; } = string.Empty;
+    public string ContractSizeUnitCode { get; set; } = string.Empty;
 
     public ICollection<decimal> Leverages { get; set; } = [];
 

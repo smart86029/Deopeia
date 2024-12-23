@@ -1,20 +1,47 @@
 <template>
   <div class="trading-info">
-    <div class="rule">
-      Trading Rules
-
-      <div>Quote Currency</div>
-      <div>Price Precision</div>
-      <div>{{ $t('finance.minimumPriceFluctuation') }}</div>
-      <div>{{ $t('finance.contractSize') }}</div>
-      <div>Minimum Volume</div>
-      <div>Maximum Volume</div>
-      <div>Volume Step</div>
-      <div>{{ $t('trading.leverage') }}</div>
-    </div>
-    <div class="sessions">
-      Trading Sessions
-
+    <el-card>
+      <template #header>Trading Rules</template>
+      <el-config-provider size="large">
+        <div class="rules">
+          <div class="rule">
+            <el-text type="info">Quote Currency</el-text>
+            <el-text>{{ instrument.currencyCode }}</el-text>
+          </div>
+          <div class="rule">
+            <el-text type="info">Price Precision</el-text>
+            <el-text>{{ instrument.pricePrecision }}</el-text>
+          </div>
+          <div class="rule">
+            <el-text type="info">
+              {{ $t('finance.minimumPriceFluctuation') }}
+            </el-text>
+            <el-text>{{ instrument.tickSize }}</el-text>
+          </div>
+          <div class="rule">
+            <el-text type="info">{{ $t('finance.contractSize') }}</el-text>
+            <el-text>
+              {{ instrument.contractSizeQuantity }}
+              {{ instrument.contractSizeUnitCode }}
+            </el-text>
+          </div>
+          <div class="rule">
+            <el-text type="info">Minimum Volume</el-text>
+          </div>
+          <div class="rule">
+            <el-text type="info">Maximum Volume</el-text>
+          </div>
+          <div class="rule">
+            <el-text type="info">Volume Step</el-text>
+          </div>
+          <div class="rule">
+            <el-text type="info">{{ $t('trading.leverage') }}</el-text>
+          </div>
+        </div>
+      </el-config-provider>
+    </el-card>
+    <el-card>
+      <template #header> Trading Sessions</template>
       <div v-for="item in 7" :key="item">
         week{{ item }}
         <el-slider
@@ -25,13 +52,15 @@
           :format-tooltip="time"
         />
       </div>
-    </div>
+    </el-card>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useTradingStore } from '@/stores/trading';
 import { dayjs } from 'element-plus';
 
+const { instrument } = storeToRefs(useTradingStore());
 const value = ref([4 * 60, 8 * 60]);
 
 const time = (minutes: number) => dayjs(minutes * 60 * 1000).format('HH:mm:ss');
@@ -40,14 +69,22 @@ const time = (minutes: number) => dayjs(minutes * 60 * 1000).format('HH:mm:ss');
 <style lang="scss" scoped>
 .trading-info {
   display: flex;
+  gap: 16px;
+}
+
+.el-card {
+  flex: 1;
+}
+
+.rules {
+  display: flex;
+  flex-direction: column;
 }
 
 .rule {
-  flex: 1;
-}
-
-.sessions {
-  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  line-height: 1.5lh;
 }
 
 :deep(.el-slider__runway.is-disabled) {

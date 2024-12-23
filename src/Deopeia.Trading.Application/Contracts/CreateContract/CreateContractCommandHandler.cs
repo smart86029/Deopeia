@@ -27,7 +27,8 @@ public class CreateContractCommandHandler(
                 new Common.Domain.Measurement.UnitCode(request.ContractSizeUnitCode)
             ),
             new VolumeRestriction(request.VolumeMin, request.VolumeMax, request.VolumeStep),
-            request.Leverages
+            request.Leverages,
+            [(DayOfWeek.Monday, new TimeOnly(8, 0, 0), new TimeOnly(16, 0, 0))]
         );
 
         await _contractRepository.AddAsync(contract);

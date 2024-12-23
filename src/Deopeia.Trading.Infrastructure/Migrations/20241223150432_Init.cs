@@ -56,10 +56,14 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                     symbol = table.Column<string>(type: "text", nullable: false),
                     underlying_type = table.Column<int>(type: "integer", nullable: false),
                     currency_code = table.Column<string>(type: "text", nullable: false),
+                    price_precision = table.Column<decimal>(type: "numeric", nullable: false),
                     tick_size = table.Column<decimal>(type: "numeric", nullable: false),
                     leverages = table.Column<string>(type: "jsonb", nullable: false),
                     contract_size_quantity = table.Column<decimal>(type: "numeric", nullable: false),
-                    contract_size_unit_code = table.Column<string>(type: "text", nullable: false)
+                    contract_size_unit_code = table.Column<string>(type: "text", nullable: false),
+                    volume_restriction_max = table.Column<decimal>(type: "numeric", nullable: false),
+                    volume_restriction_min = table.Column<decimal>(type: "numeric", nullable: false),
+                    volume_restriction_step = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -174,6 +178,26 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         principalTable: "contract",
                         principalColumn: "symbol",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "session",
+                columns: table => new
+                {
+                    symbol = table.Column<string>(type: "text", nullable: false),
+                    day_of_week = table.Column<int>(type: "integer", nullable: false),
+                    open_time = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    close_time = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    contract_id = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_session", x => new { x.symbol, x.day_of_week });
+                    table.ForeignKey(
+                        name: "fk_session_contract_contract_id",
+                        column: x => x.contract_id,
+                        principalTable: "contract",
+                        principalColumn: "symbol");
                 });
 
             migrationBuilder.CreateTable(
@@ -303,6 +327,11 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 column: "triggeredby");
 
             migrationBuilder.CreateIndex(
+                name: "ix_session_contract_id",
+                table: "session",
+                column: "contract_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_strategy_leg_order_id",
                 table: "strategy_leg",
                 column: "order_id",
@@ -334,6 +363,9 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 name: "order");
 
             migrationBuilder.DropTable(
+                name: "session");
+
+            migrationBuilder.DropTable(
                 name: "strategy_leg");
 
             migrationBuilder.DropTable(
@@ -343,13 +375,13 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 name: "unit_locale");
 
             migrationBuilder.DropTable(
-                name: "contract");
-
-            migrationBuilder.DropTable(
                 name: "currency");
 
             migrationBuilder.DropTable(
                 name: "position");
+
+            migrationBuilder.DropTable(
+                name: "contract");
 
             migrationBuilder.DropTable(
                 name: "strategy");

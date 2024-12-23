@@ -18,6 +18,7 @@ export interface Contract {
   symbol: string;
   underlyingType: number;
   currencyCode: string;
+  pricePrecision: number;
   tickSize: number;
   contractSizeQuantity: number;
   contractSizeUnitCode: string;

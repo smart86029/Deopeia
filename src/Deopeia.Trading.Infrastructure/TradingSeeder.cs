@@ -107,9 +107,12 @@ public class TradingSeeder : DbSeeder
                 description,
                 UnderlyingType.Stock,
                 currencyCode,
-                new ContractSize(100, new UnitCode("NMB")),
+                0.01M,
                 1,
-                [1, 2, 5, 10, 25]
+                new ContractSize(100, new UnitCode("NMB")),
+                new VolumeRestriction(0.01M, 100, 0.01M),
+                [1, 2, 5, 10, 25],
+                [(DayOfWeek.Monday, new TimeOnly(8, 0, 0), new TimeOnly(16, 0, 0))]
             );
         }
 
@@ -127,9 +130,12 @@ public class TradingSeeder : DbSeeder
                 description,
                 UnderlyingType.Index,
                 currencyCode,
-                new ContractSize(amount, new UnitCode("NMB")),
+                0.01M,
                 1,
-                [1, 2, 5, 10, 25, 50, 100, 200, 500, 1000]
+                new ContractSize(amount, new UnitCode("NMB")),
+                new VolumeRestriction(0.01M, 100, 0.01M),
+                [1, 2, 5, 10, 25, 50, 100, 200, 500, 1000],
+                [(DayOfWeek.Monday, new TimeOnly(8, 0, 0), new TimeOnly(16, 0, 0))]
             );
         }
 
@@ -147,9 +153,12 @@ public class TradingSeeder : DbSeeder
                 description,
                 UnderlyingType.Commodity,
                 currencyCode,
-                contractSize,
+                0.01M,
                 1,
-                [1, 2, 5, 10, 25, 50, 100, 200, 500, 1000]
+                contractSize,
+                new VolumeRestriction(0.01M, 100, 0.01M),
+                [1, 2, 5, 10, 25, 50, 100, 200, 500, 1000],
+                [(DayOfWeek.Monday, new TimeOnly(8, 0, 0), new TimeOnly(16, 0, 0))]
             );
         }
 
@@ -161,9 +170,12 @@ public class TradingSeeder : DbSeeder
                 description,
                 UnderlyingType.Forex,
                 currencyCode,
-                new ContractSize(100000, new UnitCode("NMB")),
+                0.01M,
                 1,
-                [1, 2, 5, 10, 25, 50, 100, 200, 500, 1000]
+                new ContractSize(100000, new UnitCode("NMB")),
+                new VolumeRestriction(0.01M, 100, 0.01M),
+                [1, 2, 5, 10, 25, 50, 100, 200, 500, 1000],
+                [(DayOfWeek.Monday, new TimeOnly(8, 0, 0), new TimeOnly(16, 0, 0))]
             );
         }
         Contract Cryptocurrency(
@@ -179,9 +191,12 @@ public class TradingSeeder : DbSeeder
                 description,
                 UnderlyingType.Cryptocurrency,
                 currencyCode,
-                new ContractSize(100000, new UnitCode("NMB")),
+                0.01M,
                 1,
-                [1, 2, 5, 10, 25, 50, 100, 200, 500, 1000]
+                new ContractSize(100000, new UnitCode("NMB")),
+                new VolumeRestriction(0.01M, 100, 0.01M),
+                [1, 2, 5, 10, 25, 50, 100, 200, 500, 1000],
+                [(DayOfWeek.Monday, new TimeOnly(8, 0, 0), new TimeOnly(16, 0, 0))]
             );
         }
     }

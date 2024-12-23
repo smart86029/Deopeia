@@ -10,6 +10,10 @@ export const useTradingStore = defineStore('trading', () => {
     symbol: '',
     name: '',
     currencyCode: '',
+    pricePrecision: 0.01,
+    tickSize: 0.01,
+    contractSizeQuantity: 1,
+    contractSizeUnitCode: '',
   });
 
   const getInstrument = (symbol: string) => {
@@ -22,6 +26,10 @@ export const useTradingStore = defineStore('trading', () => {
               .name;
           },
           currencyCode: x.data.currencyCode,
+          pricePrecision: x.data.pricePrecision,
+          tickSize: x.data.tickSize,
+          contractSizeQuantity: x.data.contractSizeQuantity,
+          contractSizeUnitCode: x.data.contractSizeUnitCode,
         };
         instrument.value = instruments.value[symbol];
       });

@@ -258,6 +258,10 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasColumnType("jsonb")
                         .HasColumnName("leverages");
 
+                    b.Property<decimal>("PricePrecision")
+                        .HasColumnType("numeric")
+                        .HasColumnName("price_precision");
+
                     b.Property<decimal>("TickSize")
                         .HasColumnType("numeric")
                         .HasColumnName("tick_size");
@@ -276,6 +280,21 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                                 .IsRequired()
                                 .HasColumnType("text")
                                 .HasColumnName("contract_size_unit_code");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("VolumeRestriction", "Deopeia.Trading.Domain.Contracts.Contract.VolumeRestriction#VolumeRestriction", b1 =>
+                        {
+                            b1.Property<decimal>("Max")
+                                .HasColumnType("numeric")
+                                .HasColumnName("volume_restriction_max");
+
+                            b1.Property<decimal>("Min")
+                                .HasColumnType("numeric")
+                                .HasColumnName("volume_restriction_min");
+
+                            b1.Property<decimal>("Step")
+                                .HasColumnType("numeric")
+                                .HasColumnName("volume_restriction_step");
                         });
 
                     b.HasKey("Id")
@@ -307,6 +326,37 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasName("pk_contract_locale");
 
                     b.ToTable("contract_locale", (string)null);
+                });
+
+            modelBuilder.Entity("Deopeia.Trading.Domain.Contracts.Session", b =>
+                {
+                    b.Property<string>("Symbol")
+                        .HasColumnType("text")
+                        .HasColumnName("symbol");
+
+                    b.Property<int>("DayOfWeek")
+                        .HasColumnType("integer")
+                        .HasColumnName("day_of_week");
+
+                    b.Property<TimeOnly>("CloseTime")
+                        .HasColumnType("time without time zone")
+                        .HasColumnName("close_time");
+
+                    b.Property<string>("ContractId")
+                        .HasColumnType("text")
+                        .HasColumnName("contract_id");
+
+                    b.Property<TimeOnly>("OpenTime")
+                        .HasColumnType("time without time zone")
+                        .HasColumnName("open_time");
+
+                    b.HasKey("Symbol", "DayOfWeek")
+                        .HasName("pk_session");
+
+                    b.HasIndex("ContractId")
+                        .HasDatabaseName("ix_session_contract_id");
+
+                    b.ToTable("session", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Trading.Domain.Orders.Order", b =>
@@ -651,6 +701,14 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasConstraintName("fk_contract_locale_contract_contract_id");
                 });
 
+            modelBuilder.Entity("Deopeia.Trading.Domain.Contracts.Session", b =>
+                {
+                    b.HasOne("Deopeia.Trading.Domain.Contracts.Contract", null)
+                        .WithMany("Sessions")
+                        .HasForeignKey("ContractId")
+                        .HasConstraintName("fk_session_contract_contract_id");
+                });
+
             modelBuilder.Entity("Deopeia.Trading.Domain.Orders.Order", b =>
                 {
                     b.HasOne("Deopeia.Trading.Domain.Positions.Position", null)
@@ -694,6 +752,8 @@ namespace Deopeia.Trading.Infrastructure.Migrations
             modelBuilder.Entity("Deopeia.Trading.Domain.Contracts.Contract", b =>
                 {
                     b.Navigation("Locales");
+
+                    b.Navigation("Sessions");
                 });
 
             modelBuilder.Entity("Deopeia.Trading.Domain.Positions.Position", b =>
