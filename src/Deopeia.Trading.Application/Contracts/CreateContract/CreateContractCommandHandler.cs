@@ -20,11 +20,13 @@ public class CreateContractCommandHandler(
             en.Description,
             request.UnderlyingType,
             new CurrencyCode(request.CurrencyCode),
+            request.PricePrecision,
+            request.TickSize,
             new ContractSize(
                 request.ContractSizeQuantity,
                 new Common.Domain.Measurement.UnitCode(request.ContractSizeUnitCode)
             ),
-            request.TickSize,
+            new VolumeRestriction(request.VolumeMin, request.VolumeMax, request.VolumeStep),
             request.Leverages
         );
 
