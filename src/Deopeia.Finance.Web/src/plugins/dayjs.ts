@@ -1,19 +1,18 @@
 import { usePreferencesStore } from '@/stores/preferences';
-import en from 'dayjs/locale/en';
-import zhTW from 'dayjs/locale/zh-tw';
+import 'dayjs/locale/en';
+import 'dayjs/locale/zh-tw';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import duration from 'dayjs/plugin/duration';
+import localeData from 'dayjs/plugin/localeData';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import utc from 'dayjs/plugin/utc';
 import { dayjs } from 'element-plus';
 
-dayjs.locale(zhTW);
-dayjs.locale(en);
-
 dayjs.extend(customParseFormat);
 dayjs.extend(duration);
+dayjs.extend(localeData);
 dayjs.extend(localizedFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
@@ -27,6 +26,11 @@ dayjs.updateLocale('en', {
 });
 
 const { locale } = storeToRefs(usePreferencesStore());
+dayjs.locale(locale.value.dayjsCode);
+
+export const weekday = (dayOfWeek: number): string => {
+  return dayjs.weekdays()[dayOfWeek];
+};
 
 export const rangeDay = (): Date[] => {
   const now = dayjs();
@@ -61,7 +65,7 @@ export const humanizeDuration = (
     | 'months'
     | 'years',
 ): string => {
-  return dayjs.duration(amount, unit).locale(locale.value.dayjsCode).humanize();
+  return dayjs.duration(amount, unit).humanize();
 };
 
 export const formatDuration = (
@@ -69,5 +73,5 @@ export const formatDuration = (
   endedAt: dayjs.Dayjs | string | Date,
 ): string => {
   const diff = dayjs(endedAt).diff(dayjs(startedAt));
-  return dayjs.duration(diff).locale(locale.value.dayjsCode).humanize();
+  return dayjs.duration(diff).humanize();
 };

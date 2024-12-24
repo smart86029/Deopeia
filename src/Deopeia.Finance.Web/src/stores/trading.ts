@@ -21,6 +21,7 @@ export const useTradingStore = defineStore('trading', () => {
       max: 0,
       step: 0,
     },
+    sessions: [],
     leverages: [],
   });
 

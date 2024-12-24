@@ -1,5 +1,6 @@
 import type { AppLocale } from '@/models/app-locale';
 import i18n from '@/plugins/i18n';
+import { dayjs } from 'element-plus';
 import { defineStore } from 'pinia';
 
 export const usePreferencesStore = defineStore('preferences', () => {
@@ -13,7 +14,7 @@ export const usePreferencesStore = defineStore('preferences', () => {
     {
       name: '繁體中文',
       key: 'zh-Hant',
-      dayjsCode: 'zh-TW',
+      dayjsCode: 'zh-tw',
     },
   ]);
 
@@ -30,6 +31,7 @@ export const usePreferencesStore = defineStore('preferences', () => {
     (appLocale) => {
       localStorage.setItem(localeKey, appLocale.key);
       i18n.global.locale.value = appLocale.key;
+      dayjs.locale(appLocale.dayjsCode);
 
       document.querySelector('html')!.setAttribute('lang', appLocale.key);
     },

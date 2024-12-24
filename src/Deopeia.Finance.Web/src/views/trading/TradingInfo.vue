@@ -53,7 +53,7 @@
       <template #header>Trading Sessions</template>
       <div v-for="session in sessions" :key="session.dayOfWeek">
         <div class="session-text">
-          <el-text type="info">{{ DayOfWeek[session.dayOfWeek] }}</el-text>
+          <el-text type="info">{{ weekday(session.dayOfWeek) }}</el-text>
           <el-text v-if="session.hasValue">
             {{ session.openTime }} - {{ session.closeTime }}
           </el-text>
@@ -67,6 +67,7 @@
 
 <script setup lang="ts">
 import { DayOfWeek } from '@/models/day-of-week';
+import { weekday } from '@/plugins/dayjs';
 import { useOptionStore } from '@/stores/option';
 import { useTradingStore } from '@/stores/trading';
 import utc from 'dayjs/plugin/utc';
