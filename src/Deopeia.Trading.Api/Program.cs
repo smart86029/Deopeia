@@ -3,7 +3,6 @@ using Deopeia.Common.Application;
 using Deopeia.Common.Infrastructure;
 using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Trading.Infrastructure;
-using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder

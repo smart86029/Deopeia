@@ -428,11 +428,6 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("closed_at");
 
-                    b.Property<string>("InstrumentId")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("instrument_id");
-
                     b.Property<DateTimeOffset>("OpenedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("opened_at");
@@ -444,6 +439,11 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("status");
+
+                    b.Property<string>("Symbol")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("symbol");
 
                     b.Property<int>("Type")
                         .HasColumnType("integer")

@@ -4,12 +4,8 @@
       <h1>{{ $t('common.title') }}</h1>
       <NavBreadcrumb />
       <FlexDivider />
-      <el-switch
-        v-model="isDark"
-        inline-prompt
-        active-icon="moon"
-        inactive-icon="sunny"
-      />
+      <el-switch v-model="isOperator" inline-prompt />
+      <el-switch v-model="isDark" inline-prompt />
       <DropdownLocale />
       <DropdownRoute />
     </el-header>
@@ -31,12 +27,8 @@
       <h1>{{ $t('common.title') }}</h1>
       <NavTrader />
       <FlexDivider />
-      <el-switch
-        v-model="isDark"
-        inline-prompt
-        active-icon="moon"
-        inactive-icon="sunny"
-      />
+      <el-switch v-model="isOperator" inline-prompt />
+      <el-switch v-model="isDark" inline-prompt />
       <DropdownLocale />
       <DropdownRoute />
     </el-header>
@@ -50,7 +42,7 @@
 
 <script setup lang="ts">
 const isDark = useDark();
-const isOperator = false;
+const isOperator = ref(false);
 </script>
 
 <style scoped lang="scss">

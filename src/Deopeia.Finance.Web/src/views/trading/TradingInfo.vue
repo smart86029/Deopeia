@@ -6,7 +6,9 @@
         <div class="rules">
           <div class="rule">
             <el-text type="info">Quote Currency</el-text>
-            <el-text>{{ instrument.currencyCode }}</el-text>
+            <el-text>{{
+              currencies.find((x) => x.value === instrument.currencyCode)?.name
+            }}</el-text>
           </div>
           <div class="rule">
             <el-text type="info">Price Precision</el-text>
@@ -68,7 +70,7 @@ import { useOptionStore } from '@/stores/option';
 import { useTradingStore } from '@/stores/trading';
 import { dayjs } from 'element-plus';
 
-const { units } = storeToRefs(useOptionStore());
+const { currencies, units } = storeToRefs(useOptionStore());
 const { instrument } = storeToRefs(useTradingStore());
 const value = ref([4 * 60, 8 * 60]);
 

@@ -15,11 +15,13 @@ public class PositionsController(IQuoteApi quoteApi, ITradingApi tradingApi) : C
         var result = await _tradingApi.GetPositionsAsync(query);
         foreach (var position in result.Items)
         {
-            var candles = await _quoteApi.GetCandlesAsync(position.InstrumentId);
-            var instrument = await _quoteApi.GetInstrumentAsync(position.InstrumentId.ToString());
-            position.Name = instrument.Name;
+            var candles = await _quoteApi.GetCandlesAsync(position.Symbol);
+            var contract = await _tradingApi.GetContractAsync(position.Symbol);
+            position.Name = contract
+                .Locales.Single(x => x.Culture == CultureInfo.CurrentCulture.Name)
+                .Name;
 
-            var last = candles.Quotes.LastOrDefault();
+            var last = candles.LastOrDefault();
             if (last is not null)
             {
                 position.Price = last.Open;

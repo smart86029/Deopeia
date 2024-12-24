@@ -14,7 +14,7 @@ public class Position : AggregateRoot<PositionId>
 
     public Position(
         PositionType type,
-        Symbol instrumentId,
+        Symbol symbol,
         decimal volume,
         Money? openPrice,
         Money? stopLimitPrice,
@@ -26,7 +26,7 @@ public class Position : AggregateRoot<PositionId>
         volume.MustGreaterThan(0);
 
         Type = type;
-        InstrumentId = instrumentId;
+        Symbol = symbol;
         Volume = volume;
         OpenPrice = openPrice ?? new Money();
         OpenedBy = openedBy;
@@ -56,7 +56,7 @@ public class Position : AggregateRoot<PositionId>
 
     public PositionType Type { get; private init; }
 
-    public Symbol InstrumentId { get; init; }
+    public Symbol Symbol { get; init; }
 
     public OrderStatus Status { get; private set; }
 

@@ -1,4 +1,4 @@
-namespace Deopeia.Finance.Bff.Models.Positions;
+namespace Deopeia.Finance.Bff.Models.Candles;
 
 public class CandleDto
 {

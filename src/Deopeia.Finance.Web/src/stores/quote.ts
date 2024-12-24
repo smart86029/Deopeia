@@ -2,7 +2,11 @@ import type { Candle, CandleMap } from '@/models/quote/candle';
 import type { Order } from '@/models/quote/order';
 import type { Tick } from '@/models/quote/tick';
 import { TimeFrame } from '@/models/quote/time-frame';
-import { HttpTransportType, HubConnectionBuilder } from '@microsoft/signalr';
+import {
+  HttpTransportType,
+  HubConnectionBuilder,
+  HubConnectionState,
+} from '@microsoft/signalr';
 
 export const useQuoteStore = defineStore('quote', () => {
   const symbol = ref('XAU');
@@ -75,7 +79,9 @@ export const useQuoteStore = defineStore('quote', () => {
   );
 
   watch(symbol, (symbol) => {
-    hubConnection.invoke('ChangeSymbol', symbol);
+    if (hubConnection.state === HubConnectionState.Connected) {
+      hubConnection.invoke('ChangeSymbol', symbol);
+    }
   });
 
   return {

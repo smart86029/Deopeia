@@ -54,35 +54,31 @@
 </template>
 
 <script setup lang="ts">
-import optionApi from '@/api/option-api';
 import contractApi, {
   type Contract,
   type ContractLocale,
 } from '@/api/trading/contract-api';
-import type { OptionResult } from '@/models/option-result';
 import { UnderlyingType } from '@/models/underlying-type';
 import { success } from '@/plugins/element';
+import { useOptionStore } from '@/stores/option';
 
 const props = defineProps<{
   action: 'create' | 'edit';
   symbol: string;
 }>();
 const loading = ref(false);
-const currencies: Ref<OptionResult<string>[]> = ref([]);
-const units: Ref<OptionResult<string>[]> = ref([]);
+const { currencies, units } = storeToRefs(useOptionStore());
 const form: Contract = reactive({
   symbol: '',
   underlyingType: 0,
   currencyCode: '',
+  pricePrecision: 0,
   tickSize: 1,
   contractSizeQuantity: 1,
   contractSizeUnitCode: '',
   leverages: [],
   locales: [{ culture: 'en', name: '', description: '' }],
 });
-
-optionApi.getCurrencies().then((x) => (currencies.value = x.data));
-optionApi.getUnits().then((x) => (units.value = x.data));
 
 if (props.action === 'edit') {
   contractApi

@@ -10,9 +10,9 @@
 
 <script setup lang="ts">
 import type { Locale } from '@/models/localization';
-import { usePreferencesStore } from '@/stores/preferences';
+import { useOptionStore } from '@/stores/option';
 
 defineProps<{ locale: Locale }>();
 
-const { cultures } = storeToRefs(usePreferencesStore());
+const { cultures } = storeToRefs(useOptionStore());
 </script>

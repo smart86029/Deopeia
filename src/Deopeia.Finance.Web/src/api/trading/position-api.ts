@@ -11,6 +11,7 @@ export interface PositionRow {
   id: Guid;
   type: PositionType;
   name: string;
+  symbol: string;
   openPrice: number;
   price: number;
   unrealisedPnL: number;

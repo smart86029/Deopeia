@@ -64,7 +64,7 @@ const query: GetPositionsQuery = reactive({
   ...defaultQuery,
 });
 const result: PageResult<PositionRow> = reactive(defaultResult());
-const { symbol, quotes } = storeToRefs(useQuoteStore());
+const { ticks } = storeToRefs(useQuoteStore());
 
 watch(
   query,
@@ -79,11 +79,11 @@ watch(
 );
 
 watch(
-  quotes,
-  (quotes) => {
+  ticks,
+  (ticks) => {
     result.items.forEach((x) => {
       const sign = x.type == PositionType.Long ? 1 : -1;
-      const price = quotes.get(symbol.value)!.value;
+      const price = ticks.get(x.symbol)!.price;
       x.price = price;
       x.unrealisedPnL = (price - x.openPrice) * 1000 * sign;
     });

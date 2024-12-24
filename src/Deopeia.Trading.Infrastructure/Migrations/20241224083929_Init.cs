@@ -118,7 +118,7 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     type = table.Column<int>(type: "integer", nullable: false),
-                    instrument_id = table.Column<string>(type: "text", nullable: false),
+                    symbol = table.Column<string>(type: "text", nullable: false),
                     status = table.Column<int>(type: "integer", nullable: false),
                     volume = table.Column<decimal>(type: "numeric", nullable: false),
                     opened_by = table.Column<Guid>(type: "uuid", nullable: false),

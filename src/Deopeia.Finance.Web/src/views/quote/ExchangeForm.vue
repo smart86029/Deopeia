@@ -35,14 +35,14 @@ import exchangeApi, {
   type ExchangeLocale,
 } from '@/api/quote/exchange-api';
 import { success } from '@/plugins/element';
-import { usePreferencesStore } from '@/stores/preferences';
+import { useOptionStore } from '@/stores/option';
 
 const props = defineProps<{
   action: 'create' | 'edit';
   mic: string;
 }>();
 const loading = ref(false);
-const { timeZones } = storeToRefs(usePreferencesStore());
+const { timeZones } = storeToRefs(useOptionStore());
 const form: Exchange = reactive({
   mic: '',
   timeZone: '',

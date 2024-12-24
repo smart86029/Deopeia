@@ -1,4 +1,3 @@
-using System.Globalization;
 using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Finance.Bff;
 using Deopeia.Finance.Bff.Models.RealTime;
