@@ -33,6 +33,7 @@ public class InstrumentsController(ITradingApi tradingApi) : ControllerBase
                 Max = contract.VolumeRestrictionMax,
                 Step = contract.VolumeRestrictionStep,
             },
+            Sessions = contract.Sessions,
             Leverages = contract.Leverages,
         };
 

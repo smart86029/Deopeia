@@ -1,3 +1,5 @@
+using Deopeia.Finance.Bff.Models.Contracts;
+
 namespace Deopeia.Finance.Bff.Models.Instruments;
 
 public class Instrument
@@ -17,6 +19,8 @@ public class Instrument
     public ContractSize ContractSize { get; set; } = new();
 
     public VolumeRestriction VolumeRestriction { get; set; } = new();
+
+    public ICollection<Session> Sessions { get; set; } = [];
 
     public ICollection<decimal> Leverages { get; set; } = [];
 }

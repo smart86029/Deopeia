@@ -1,3 +1,5 @@
+import type { Session } from './session';
+
 export interface Instrument {
   symbol: string;
   name: string;
@@ -6,6 +8,7 @@ export interface Instrument {
   tickSize: number;
   contractSize: ContractSize;
   volumeRestriction: VolumeRestriction;
+  sessions: Session[];
   leverages: number[];
 }
 

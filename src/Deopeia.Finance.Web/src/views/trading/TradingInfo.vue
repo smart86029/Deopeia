@@ -51,30 +51,56 @@
     </el-card>
     <el-card>
       <template #header>Trading Sessions</template>
-      <div v-for="item in 7" :key="item">
-        week{{ item }}
-        <el-slider
-          v-model="value"
-          range
-          disabled
-          :max="1440"
-          :format-tooltip="time"
-        />
+      <div v-for="session in sessions" :key="session.dayOfWeek">
+        <div class="session-text">
+          <el-text type="info">{{ DayOfWeek[session.dayOfWeek] }}</el-text>
+          <el-text v-if="session.hasValue">
+            {{ session.openTime }} - {{ session.closeTime }}
+          </el-text>
+          <el-text v-else>No Trading</el-text>
+        </div>
+        <el-slider v-model="session.values" range disabled :max="1440" />
       </div>
     </el-card>
   </div>
 </template>
 
 <script setup lang="ts">
+import { DayOfWeek } from '@/models/day-of-week';
 import { useOptionStore } from '@/stores/option';
 import { useTradingStore } from '@/stores/trading';
+import utc from 'dayjs/plugin/utc';
 import { dayjs } from 'element-plus';
 
 const { currencies, units } = storeToRefs(useOptionStore());
 const { instrument } = storeToRefs(useTradingStore());
-const value = ref([4 * 60, 8 * 60]);
 
-const time = (minutes: number) => dayjs(minutes * 60 * 1000).format('HH:mm:ss');
+dayjs.extend(utc);
+
+const sessions = computed(() =>
+  Object.keys(DayOfWeek)
+    .slice(0, 7)
+    .map((x) => {
+      const session = instrument.value.sessions?.find(
+        (y) => y.dayOfWeek === +x,
+      );
+      if (session === undefined) {
+        return { dayOfWeek: +x, values: [0, 0] };
+      }
+
+      const openTime = dayjs(session.openTime, 'HH:mm:ss').utc(true);
+      const openMinutes = openTime.hour() * 60 + openTime.minute();
+      const closeTime = dayjs(session.closeTime, 'HH:mm:ss').utc(true);
+      const closeMinutes = closeTime.hour() * 60 + closeTime.minute();
+      return {
+        dayOfWeek: +x,
+        values: [openMinutes, closeMinutes],
+        openTime: session.openTime,
+        closeTime: session.closeTime,
+        hasValue: true,
+      };
+    }),
+);
 </script>
 
 <style lang="scss" scoped>
@@ -98,18 +124,19 @@ const time = (minutes: number) => dayjs(minutes * 60 * 1000).format('HH:mm:ss');
   line-height: 1.5lh;
 }
 
+.session-text {
+  display: flex;
+  justify-content: space-between;
+}
+
 :deep(.el-slider__runway.is-disabled) {
   .el-slider__bar {
     background-color: var(--el-slider-main-bg-color);
   }
 
-  .el-slider__button {
-    border-color: var(--el-slider-main-bg-color);
-  }
-
-  .el-slider__button:hover,
-  .el-slider__button-wrapper:hover {
-    cursor: default;
+  .el-slider__button,
+  .el-slider__button-wrapper {
+    display: none;
   }
 }
 </style>

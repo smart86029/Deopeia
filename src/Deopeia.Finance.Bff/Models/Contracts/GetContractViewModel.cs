@@ -24,5 +24,7 @@ public class GetContractViewModel
 
     public ICollection<decimal> Leverages { get; set; } = [];
 
+    public ICollection<Session> Sessions { get; set; } = [];
+
     public ICollection<ContractLocaleDto> Locales { get; set; } = [];
 }

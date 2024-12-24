@@ -1,5 +1,6 @@
 import type { OptionResult } from '@/models/option-result';
 import type { PageQuery, PageResult } from '@/models/page';
+import type { Session } from '@/models/trading/session';
 import type { UnderlyingType } from '@/models/underlying-type';
 import httpClient from '../http-client';
 
@@ -23,6 +24,7 @@ export interface Contract {
   contractSizeQuantity: number;
   contractSizeUnitCode: string;
   leverages: string[];
+  sessions: Session[];
   locales: ContractLocale[];
 }
 

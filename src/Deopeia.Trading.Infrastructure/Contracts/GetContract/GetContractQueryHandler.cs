@@ -30,6 +30,14 @@ FROM contract
 WHERE symbol = @Symbol;
 
 SELECT
+    day_of_week,
+    open_time,
+    close_time
+FROM session
+WHERE symbol = @Symbol
+ORDER BY day_of_week, open_time;
+
+SELECT
     culture,
     name,
     description
@@ -38,6 +46,7 @@ WHERE symbol = @Symbol;
 """;
         using var multiple = await _connection.QueryMultipleAsync(sql, new { request.Symbol });
         var result = multiple.ReadFirst<GetContractViewModel>();
+        result.Sessions = multiple.Read<SessionDto>().ToList();
         result.Locales = multiple.Read<ContractLocaleDto>().ToList();
 
         return result;
