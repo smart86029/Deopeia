@@ -125,7 +125,7 @@ const form: Strategy = reactive({
   ],
 });
 
-watch(assetId, (assetId) => {
+watch(assetId, () => {
   form.legs.forEach((x) => (x.instrumentId = emptyGuid));
 });
 

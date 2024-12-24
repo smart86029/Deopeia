@@ -10,6 +10,7 @@ export default {
       create: 'Create Contract',
       edit: 'Edit Contract',
     },
+    dashboard: { default: 'Dashboard' },
     exchange: {
       default: 'Exchange',
       list: 'Exchanges',

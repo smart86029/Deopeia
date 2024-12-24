@@ -10,6 +10,7 @@ export default {
       create: '新增合約',
       edit: '編輯合約',
     },
+    dashboard: { default: '儀表板' },
     exchange: {
       default: '交易所',
       list: '交易所列表',

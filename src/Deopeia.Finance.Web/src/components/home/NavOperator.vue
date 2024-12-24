@@ -26,8 +26,7 @@ import type { Menu } from '@/models/menu';
 
 const menus = [
   {
-    name: 'screener.default',
-    children: [{ name: 'screener.stock' }],
+    name: 'dashboard.default',
   },
   {
     name: 'quote',
