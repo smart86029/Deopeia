@@ -23,7 +23,7 @@ host.Services.UseScheduler(scheduler =>
 {
     scheduler
         .Schedule<Job<MockOrdersCommand>>()
-        .EveryFiveSeconds()
+        .EveryMinute()
         .PreventOverlapping(nameof(MockOrdersCommand));
 });
 

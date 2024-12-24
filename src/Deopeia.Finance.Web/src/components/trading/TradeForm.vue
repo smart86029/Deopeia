@@ -17,9 +17,12 @@
     </el-form-item>
     <el-form-item :label="$t('trading.leverage')">
       <el-radio-group v-model="form.leverage">
-        <el-radio-button label="1x" :value="1" />
-        <el-radio-button label="10x" :value="10" />
-        <el-radio-button label="25x" :value="25" />
+        <el-radio-button
+          v-for="leverage in instrument.leverages"
+          :key="leverage"
+          :label="`${leverage}x`"
+          :value="leverage"
+        />
       </el-radio-group>
     </el-form-item>
 
@@ -58,6 +61,7 @@ import { emptyGuid } from '@/models/guid';
 import { OrderSide } from '@/models/trading/order-side';
 import { usePreferencesStore } from '@/stores/preferences';
 import { useQuoteStore } from '@/stores/quote';
+import { useTradingStore } from '@/stores/trading';
 import { ElMessage } from 'element-plus';
 
 const props = defineProps<{
@@ -66,6 +70,7 @@ const props = defineProps<{
 
 const { positive, negative } = storeToRefs(usePreferencesStore());
 const { lastTradedPrice } = storeToRefs(useQuoteStore());
+const { instrument } = storeToRefs(useTradingStore());
 
 const type = ref('Market');
 const { t } = useI18n();

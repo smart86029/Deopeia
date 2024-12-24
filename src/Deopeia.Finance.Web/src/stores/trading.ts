@@ -1,4 +1,4 @@
-import contractApi from '@/api/trading/contract-api';
+import instrumentApi from '@/api/trading/instrument-api';
 import type { Instrument, InstrumentMap } from '@/models/trading/instrument';
 import { usePreferencesStore } from './preferences';
 
@@ -12,29 +12,32 @@ export const useTradingStore = defineStore('trading', () => {
     currencyCode: '',
     pricePrecision: 0.01,
     tickSize: 0.01,
-    contractSizeQuantity: 1,
-    contractSizeUnitCode: '',
+    contractSize: {
+      quantity: 1,
+      unitCode: '',
+    },
+    volumeRestriction: {
+      min: 0,
+      max: 0,
+      step: 0,
+    },
+    leverages: [],
   });
 
   const getInstrument = (symbol: string) => {
     if (!instruments.value[symbol]) {
-      contractApi.get(symbol).then((x) => {
-        instruments.value[symbol] = {
-          symbol: x.data.symbol,
-          get name() {
-            return x.data.locales.find((y) => y.culture === locale.value.key)!
-              .name;
-          },
-          currencyCode: x.data.currencyCode,
-          pricePrecision: x.data.pricePrecision,
-          tickSize: x.data.tickSize,
-          contractSizeQuantity: x.data.contractSizeQuantity,
-          contractSizeUnitCode: x.data.contractSizeUnitCode,
-        };
+      instrumentApi.get(symbol).then((x) => {
+        instruments.value[symbol] = x.data;
         instrument.value = instruments.value[symbol];
       });
+    } else {
+      instrument.value = instruments.value[symbol];
     }
   };
+
+  watch(locale, () => {
+    instruments.value = {};
+  });
 
   return { instruments, instrument, getInstrument };
 });

@@ -4,8 +4,20 @@ export interface Instrument {
   currencyCode: string;
   pricePrecision: number;
   tickSize: number;
-  contractSizeQuantity: number;
-  contractSizeUnitCode: string;
+  contractSize: ContractSize;
+  volumeRestriction: VolumeRestriction;
+  leverages: number[];
+}
+
+export interface ContractSize {
+  quantity: number;
+  unitCode: string;
+}
+
+export interface VolumeRestriction {
+  min: number;
+  max: number;
+  step: number;
 }
 
 export interface InstrumentMap {

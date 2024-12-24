@@ -87,7 +87,6 @@ public abstract class DbSeeder
     {
         var results = new Unit[]
         {
-            new("NMB", "Number", null),
             new("GRN", "Grain", "gr"),
             new("DWT", "Pennyweight", "dwt"),
             new("APZ", "Troy ounce", "oz t"),
@@ -95,6 +94,8 @@ public abstract class DbSeeder
             new("MGM", "Milligram", "mg"),
             new("GRM", "Gram", "g"),
             new("KGM", "Kilogram", "kg"),
+            new("Shares", "Shares", null),
+            new("Points", "Points", null),
         };
 
         results[0].UpdateName("格令", ZHHant);
@@ -104,6 +105,8 @@ public abstract class DbSeeder
         results[4].UpdateName("毫克", ZHHant);
         results[5].UpdateName("公克", ZHHant);
         results[6].UpdateName("公斤", ZHHant);
+        results[7].UpdateName("股", ZHHant);
+        results[8].UpdateName("點", ZHHant);
 
         return results;
     }

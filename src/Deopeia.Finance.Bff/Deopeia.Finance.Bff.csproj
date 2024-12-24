@@ -16,8 +16,4 @@
     <ProjectReference Include="..\Deopeia.ServiceDefaults\Deopeia.ServiceDefaults.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Contracts\" />
-  </ItemGroup>
-
 </Project>

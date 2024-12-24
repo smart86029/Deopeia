@@ -35,7 +35,7 @@ const { instrument } = storeToRefs(useTradingStore());
 
   :first-child {
     align-items: unset;
-    width: 30%;
+    flex-basis: auto;
   }
 }
 
@@ -43,7 +43,7 @@ const { instrument } = storeToRefs(useTradingStore());
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 20%;
+  flex-basis: 100px;
 }
 
 .name {

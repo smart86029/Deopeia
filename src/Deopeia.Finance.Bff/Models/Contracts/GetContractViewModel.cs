@@ -1,4 +1,4 @@
-namespace Deopeia.Trading.Application.Contracts.GetContract;
+namespace Deopeia.Finance.Bff.Models.Contracts;
 
 public class GetContractViewModel
 {

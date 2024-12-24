@@ -25,6 +25,9 @@ const i18n = createI18n({
         style: 'decimal',
         maximumFractionDigits: 0,
       },
+      number: {
+        style: 'decimal',
+      },
       percent: {
         style: 'percent',
       },
@@ -38,6 +41,9 @@ const i18n = createI18n({
       integer: {
         style: 'decimal',
         maximumFractionDigits: 0,
+      },
+      number: {
+        style: 'decimal',
       },
       percent: {
         style: 'percent',
