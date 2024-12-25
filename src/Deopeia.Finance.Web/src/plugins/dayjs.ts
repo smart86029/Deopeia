@@ -2,6 +2,7 @@ import { usePreferencesStore } from '@/stores/preferences';
 import 'dayjs/locale/en';
 import 'dayjs/locale/zh-tw';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import dayOfYear from 'dayjs/plugin/dayOfYear';
 import duration from 'dayjs/plugin/duration';
 import localeData from 'dayjs/plugin/localeData';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
@@ -11,6 +12,7 @@ import utc from 'dayjs/plugin/utc';
 import { dayjs } from 'element-plus';
 
 dayjs.extend(customParseFormat);
+dayjs.extend(dayOfYear);
 dayjs.extend(duration);
 dayjs.extend(localeData);
 dayjs.extend(localizedFormat);

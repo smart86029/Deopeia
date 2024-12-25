@@ -229,6 +229,7 @@ public class TradingSeeder : DbSeeder
                 ]
             );
         }
+
         Contract Cryptocurrency(
             string symbol,
             string name,
@@ -247,41 +248,22 @@ public class TradingSeeder : DbSeeder
                 new ContractSize(100000, new UnitCode("NMB")),
                 new VolumeRestriction(0.01M, 100, 0.01M),
                 [1, 2, 5, 10, 25, 50, 100, 200, 500, 1000],
-                Everyday(new TimeOnly(0, 0, 0), new TimeOnly(23, 59, 59))
+                Everyday()
             );
         }
 
-        (
-            DayOfWeek OpenDay,
-            TimeOnly OpenTime,
-            DayOfWeek CloseDay,
-            TimeOnly CloseTime
-        )[] WorkingDays(TimeOnly openTime, TimeOnly closeTime)
+        (DayOfWeek OpenDay, TimeOnly OpenTime, DayOfWeek CloseDay, TimeOnly CloseTime)[] Everyday()
         {
+            var time = new TimeOnly(0, 0, 0);
             return
             [
-                (DayOfWeek.Monday, openTime, DayOfWeek.Monday, closeTime),
-                (DayOfWeek.Tuesday, openTime, DayOfWeek.Tuesday, closeTime),
-                (DayOfWeek.Wednesday, openTime, DayOfWeek.Wednesday, closeTime),
-                (DayOfWeek.Thursday, openTime, DayOfWeek.Thursday, closeTime),
-                (DayOfWeek.Friday, openTime, DayOfWeek.Friday, closeTime),
-            ];
-        }
-
-        (DayOfWeek OpenDay, TimeOnly OpenTime, DayOfWeek CloseDay, TimeOnly CloseTime)[] Everyday(
-            TimeOnly openTime,
-            TimeOnly closeTime
-        )
-        {
-            return
-            [
-                (DayOfWeek.Sunday, openTime, DayOfWeek.Sunday, closeTime),
-                (DayOfWeek.Monday, openTime, DayOfWeek.Monday, closeTime),
-                (DayOfWeek.Tuesday, openTime, DayOfWeek.Tuesday, closeTime),
-                (DayOfWeek.Wednesday, openTime, DayOfWeek.Wednesday, closeTime),
-                (DayOfWeek.Thursday, openTime, DayOfWeek.Thursday, closeTime),
-                (DayOfWeek.Friday, openTime, DayOfWeek.Friday, closeTime),
-                (DayOfWeek.Saturday, openTime, DayOfWeek.Saturday, closeTime),
+                (DayOfWeek.Sunday, time, DayOfWeek.Monday, time),
+                (DayOfWeek.Monday, time, DayOfWeek.Tuesday, time),
+                (DayOfWeek.Tuesday, time, DayOfWeek.Wednesday, time),
+                (DayOfWeek.Wednesday, time, DayOfWeek.Thursday, time),
+                (DayOfWeek.Thursday, time, DayOfWeek.Friday, time),
+                (DayOfWeek.Friday, time, DayOfWeek.Saturday, time),
+                (DayOfWeek.Saturday, time, DayOfWeek.Sunday, time),
             ];
         }
     }
