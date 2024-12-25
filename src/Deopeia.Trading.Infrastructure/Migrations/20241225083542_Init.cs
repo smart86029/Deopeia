@@ -185,19 +185,20 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 columns: table => new
                 {
                     symbol = table.Column<string>(type: "text", nullable: false),
-                    day_of_week = table.Column<int>(type: "integer", nullable: false),
+                    open_day = table.Column<int>(type: "integer", nullable: false),
                     open_time = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
-                    close_time = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
-                    contract_id = table.Column<string>(type: "text", nullable: true)
+                    close_day = table.Column<int>(type: "integer", nullable: false),
+                    close_time = table.Column<TimeOnly>(type: "time without time zone", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_session", x => new { x.symbol, x.day_of_week });
+                    table.PrimaryKey("pk_session", x => new { x.symbol, x.open_day, x.open_time });
                     table.ForeignKey(
-                        name: "fk_session_contract_contract_id",
-                        column: x => x.contract_id,
+                        name: "fk_session_contract_symbol",
+                        column: x => x.symbol,
                         principalTable: "contract",
-                        principalColumn: "symbol");
+                        principalColumn: "symbol",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -325,11 +326,6 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 name: "ix_order_triggeredby",
                 table: "order",
                 column: "triggeredby");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_session_contract_id",
-                table: "session",
-                column: "contract_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_strategy_leg_order_id",

@@ -82,17 +82,26 @@ const sessions = computed(() =>
   Object.keys(DayOfWeek)
     .slice(0, 7)
     .map((x) => {
-      const session = instrument.value.sessions?.find(
-        (y) => y.dayOfWeek === +x,
-      );
+      const session = instrument.value.sessions?.find((y) => y.openDay === +x);
       if (session === undefined) {
         return { dayOfWeek: +x, values: [0, 0] };
       }
 
       const openTime = dayjs(session.openTime, 'HH:mm:ss').utc(true);
       const openMinutes = openTime.hour() * 60 + openTime.minute();
-      const closeTime = dayjs(session.closeTime, 'HH:mm:ss').utc(true);
-      const closeMinutes = closeTime.hour() * 60 + closeTime.minute();
+
+      let closeTime = dayjs(session.closeTime, 'HH:mm:ss').utc(true);
+      let closeMinutes = closeTime.hour() * 60 + closeTime.minute();
+      if (
+        session.openDay < session.closeDay ||
+        (session.openDay === DayOfWeek.Sunday &&
+          session.closeDay === DayOfWeek.Monday)
+      ) {
+        closeTime = dayjs('24:00:00', 'HH:mm:ss').utc(true);
+        closeMinutes = 24 * 60;
+      }
+
+      console.log(openMinutes, closeMinutes);
       return {
         dayOfWeek: +x,
         values: [openMinutes, closeMinutes],

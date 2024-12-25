@@ -30,12 +30,13 @@ FROM contract
 WHERE symbol = @Symbol;
 
 SELECT
-    day_of_week,
+    open_day,
     open_time,
+    close_day,
     close_time
 FROM session
 WHERE symbol = @Symbol
-ORDER BY day_of_week, open_time;
+ORDER BY open_day, open_time;
 
 SELECT
     culture,

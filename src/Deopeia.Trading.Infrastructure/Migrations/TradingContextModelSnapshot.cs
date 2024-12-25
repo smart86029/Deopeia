@@ -334,27 +334,24 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("symbol");
 
-                    b.Property<int>("DayOfWeek")
+                    b.Property<int>("OpenDay")
                         .HasColumnType("integer")
-                        .HasColumnName("day_of_week");
-
-                    b.Property<TimeOnly>("CloseTime")
-                        .HasColumnType("time without time zone")
-                        .HasColumnName("close_time");
-
-                    b.Property<string>("ContractId")
-                        .HasColumnType("text")
-                        .HasColumnName("contract_id");
+                        .HasColumnName("open_day");
 
                     b.Property<TimeOnly>("OpenTime")
                         .HasColumnType("time without time zone")
                         .HasColumnName("open_time");
 
-                    b.HasKey("Symbol", "DayOfWeek")
-                        .HasName("pk_session");
+                    b.Property<int>("CloseDay")
+                        .HasColumnType("integer")
+                        .HasColumnName("close_day");
 
-                    b.HasIndex("ContractId")
-                        .HasDatabaseName("ix_session_contract_id");
+                    b.Property<TimeOnly>("CloseTime")
+                        .HasColumnType("time without time zone")
+                        .HasColumnName("close_time");
+
+                    b.HasKey("Symbol", "OpenDay", "OpenTime")
+                        .HasName("pk_session");
 
                     b.ToTable("session", (string)null);
                 });
@@ -705,8 +702,10 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 {
                     b.HasOne("Deopeia.Trading.Domain.Contracts.Contract", null)
                         .WithMany("Sessions")
-                        .HasForeignKey("ContractId")
-                        .HasConstraintName("fk_session_contract_contract_id");
+                        .HasForeignKey("Symbol")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_session_contract_symbol");
                 });
 
             modelBuilder.Entity("Deopeia.Trading.Domain.Orders.Order", b =>

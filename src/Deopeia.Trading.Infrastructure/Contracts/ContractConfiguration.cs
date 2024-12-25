@@ -20,5 +20,7 @@ internal class ContractConfiguration : IEntityTypeConfiguration<Contract>
                 new EnumerableComparer<decimal>()
             )
             .HasColumnType("jsonb");
+
+        builder.HasMany(x => x.Sessions).WithOne().HasForeignKey(x => x.Symbol);
     }
 }

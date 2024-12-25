@@ -13,16 +13,17 @@ public class TradingSeeder : DbSeeder
     private static readonly CultureInfo ZHHant = CultureInfo.GetCultureInfo("zh-Hant");
     private static readonly CurrencyCode Usd = new("USD");
     private static readonly (
-        DayOfWeek DayOfWeek,
+        DayOfWeek OpenDay,
         TimeOnly OpenTime,
+        DayOfWeek CloseDay,
         TimeOnly TimeOnly
     )[] AmericaSessions =
     [
-        (DayOfWeek.Monday, new TimeOnly(9, 30, 0), new TimeOnly(16, 0, 0)),
-        (DayOfWeek.Tuesday, new TimeOnly(9, 30, 0), new TimeOnly(16, 0, 0)),
-        (DayOfWeek.Wednesday, new TimeOnly(9, 30, 0), new TimeOnly(16, 0, 0)),
-        (DayOfWeek.Thursday, new TimeOnly(9, 30, 0), new TimeOnly(16, 0, 0)),
-        (DayOfWeek.Friday, new TimeOnly(9, 30, 0), new TimeOnly(16, 0, 0)),
+        (DayOfWeek.Monday, new TimeOnly(9, 30, 0), DayOfWeek.Monday, new TimeOnly(16, 0, 0)),
+        (DayOfWeek.Tuesday, new TimeOnly(9, 30, 0), DayOfWeek.Tuesday, new TimeOnly(16, 0, 0)),
+        (DayOfWeek.Wednesday, new TimeOnly(9, 30, 0), DayOfWeek.Wednesday, new TimeOnly(16, 0, 0)),
+        (DayOfWeek.Thursday, new TimeOnly(9, 30, 0), DayOfWeek.Thursday, new TimeOnly(16, 0, 0)),
+        (DayOfWeek.Friday, new TimeOnly(9, 30, 0), DayOfWeek.Friday, new TimeOnly(16, 0, 0)),
     ];
 
     public override void Seed(DbContext context)
@@ -170,7 +171,38 @@ public class TradingSeeder : DbSeeder
                 contractSize,
                 new VolumeRestriction(0.01M, 100, 0.01M),
                 [1, 2, 5, 10, 25, 50, 100, 200, 500, 1000],
-                WorkingDays(new TimeOnly(0, 0, 0), new TimeOnly(23, 59, 59))
+                [
+                    (
+                        DayOfWeek.Sunday,
+                        new TimeOnly(17, 0, 0),
+                        DayOfWeek.Monday,
+                        new TimeOnly(16, 0, 0)
+                    ),
+                    (
+                        DayOfWeek.Monday,
+                        new TimeOnly(17, 0, 0),
+                        DayOfWeek.Tuesday,
+                        new TimeOnly(16, 0, 0)
+                    ),
+                    (
+                        DayOfWeek.Tuesday,
+                        new TimeOnly(17, 0, 0),
+                        DayOfWeek.Wednesday,
+                        new TimeOnly(16, 0, 0)
+                    ),
+                    (
+                        DayOfWeek.Wednesday,
+                        new TimeOnly(17, 0, 0),
+                        DayOfWeek.Thursday,
+                        new TimeOnly(16, 0, 0)
+                    ),
+                    (
+                        DayOfWeek.Thursday,
+                        new TimeOnly(17, 0, 0),
+                        DayOfWeek.Friday,
+                        new TimeOnly(16, 0, 0)
+                    ),
+                ]
             );
         }
 
@@ -187,7 +219,14 @@ public class TradingSeeder : DbSeeder
                 new ContractSize(100000, new UnitCode("NMB")),
                 new VolumeRestriction(0.01M, 100, 0.01M),
                 [1, 2, 5, 10, 25, 50, 100, 200, 500, 1000],
-                [(DayOfWeek.Monday, new TimeOnly(8, 0, 0), new TimeOnly(16, 0, 0))]
+                [
+                    (
+                        DayOfWeek.Monday,
+                        new TimeOnly(8, 0, 0),
+                        DayOfWeek.Monday,
+                        new TimeOnly(16, 0, 0)
+                    ),
+                ]
             );
         }
         Contract Cryptocurrency(
@@ -212,35 +251,37 @@ public class TradingSeeder : DbSeeder
             );
         }
 
-        (DayOfWeek DayOfWeek, TimeOnly OpenTime, TimeOnly TimeOnly)[] WorkingDays(
-            TimeOnly openTime,
-            TimeOnly closeTime
-        )
+        (
+            DayOfWeek OpenDay,
+            TimeOnly OpenTime,
+            DayOfWeek CloseDay,
+            TimeOnly CloseTime
+        )[] WorkingDays(TimeOnly openTime, TimeOnly closeTime)
         {
             return
             [
-                (DayOfWeek.Monday, openTime, closeTime),
-                (DayOfWeek.Tuesday, openTime, closeTime),
-                (DayOfWeek.Wednesday, openTime, closeTime),
-                (DayOfWeek.Thursday, openTime, closeTime),
-                (DayOfWeek.Friday, openTime, closeTime),
+                (DayOfWeek.Monday, openTime, DayOfWeek.Monday, closeTime),
+                (DayOfWeek.Tuesday, openTime, DayOfWeek.Tuesday, closeTime),
+                (DayOfWeek.Wednesday, openTime, DayOfWeek.Wednesday, closeTime),
+                (DayOfWeek.Thursday, openTime, DayOfWeek.Thursday, closeTime),
+                (DayOfWeek.Friday, openTime, DayOfWeek.Friday, closeTime),
             ];
         }
 
-        (DayOfWeek DayOfWeek, TimeOnly OpenTime, TimeOnly TimeOnly)[] Everyday(
+        (DayOfWeek OpenDay, TimeOnly OpenTime, DayOfWeek CloseDay, TimeOnly CloseTime)[] Everyday(
             TimeOnly openTime,
             TimeOnly closeTime
         )
         {
             return
             [
-                (DayOfWeek.Sunday, openTime, closeTime),
-                (DayOfWeek.Monday, openTime, closeTime),
-                (DayOfWeek.Tuesday, openTime, closeTime),
-                (DayOfWeek.Wednesday, openTime, closeTime),
-                (DayOfWeek.Thursday, openTime, closeTime),
-                (DayOfWeek.Friday, openTime, closeTime),
-                (DayOfWeek.Saturday, openTime, closeTime),
+                (DayOfWeek.Sunday, openTime, DayOfWeek.Sunday, closeTime),
+                (DayOfWeek.Monday, openTime, DayOfWeek.Monday, closeTime),
+                (DayOfWeek.Tuesday, openTime, DayOfWeek.Tuesday, closeTime),
+                (DayOfWeek.Wednesday, openTime, DayOfWeek.Wednesday, closeTime),
+                (DayOfWeek.Thursday, openTime, DayOfWeek.Thursday, closeTime),
+                (DayOfWeek.Friday, openTime, DayOfWeek.Friday, closeTime),
+                (DayOfWeek.Saturday, openTime, DayOfWeek.Saturday, closeTime),
             ];
         }
     }

@@ -19,7 +19,12 @@ public class Contract : AggregateRoot<Symbol>, ILocalizable<ContractLocale, Symb
         ContractSize contractSize,
         VolumeRestriction volumeRestriction,
         IEnumerable<decimal> leverages,
-        IEnumerable<(DayOfWeek DayOfWeek, TimeOnly OpenTime, TimeOnly CloseTime)> sessions
+        IEnumerable<(
+            DayOfWeek OpenDay,
+            TimeOnly OpenTime,
+            DayOfWeek CloseDay,
+            TimeOnly CloseTime
+        )> sessions
     )
         : base(new Symbol(symbol))
     {
@@ -36,7 +41,7 @@ public class Contract : AggregateRoot<Symbol>, ILocalizable<ContractLocale, Symb
         VolumeRestriction = volumeRestriction;
         _leverages.AddRange(leverages);
         _sessions.AddRange(
-            sessions.Select(x => new Session(Id, x.DayOfWeek, x.OpenTime, x.CloseTime))
+            sessions.Select(x => new Session(Id, x.OpenDay, x.OpenTime, x.CloseDay, x.CloseTime))
         );
     }
 
@@ -74,7 +79,7 @@ public class Contract : AggregateRoot<Symbol>, ILocalizable<ContractLocale, Symb
 
     public void AddSession(DayOfWeek dayOfWeek)
     {
-        if (_sessions.Any(x => x.DayOfWeek == dayOfWeek)) { }
+        if (_sessions.Any(x => x.OpenDay == dayOfWeek)) { }
     }
 
     public void RemoveLocales(IEnumerable<ContractLocale> locales)

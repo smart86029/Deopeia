@@ -1,4 +1,9 @@
 namespace Deopeia.Trading.Domain.Contracts;
 
-public record Session(Symbol Symbol, DayOfWeek DayOfWeek, TimeOnly OpenTime, TimeOnly CloseTime)
-    : ValueObject { }
+public record Session(
+    Symbol Symbol,
+    DayOfWeek OpenDay,
+    TimeOnly OpenTime,
+    DayOfWeek CloseDay,
+    TimeOnly CloseTime
+) : ValueObject { }

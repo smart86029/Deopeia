@@ -28,7 +28,7 @@ public class CreateContractCommandHandler(
             ),
             new VolumeRestriction(request.VolumeMin, request.VolumeMax, request.VolumeStep),
             request.Leverages,
-            [(DayOfWeek.Monday, new TimeOnly(8, 0, 0), new TimeOnly(16, 0, 0))]
+            request.Sessions.Select(x => (x.OpenDay, x.OpenTime, x.CloseDay, x.CloseTime))
         );
 
         await _contractRepository.AddAsync(contract);

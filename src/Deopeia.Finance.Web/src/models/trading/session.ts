@@ -1,7 +1,8 @@
 import type { DayOfWeek } from '../day-of-week';
 
 export interface Session {
-  dayOfWeek: DayOfWeek;
+  openDay: DayOfWeek;
   openTime: string;
+  closeDay: DayOfWeek;
   closeTime: string;
 }
