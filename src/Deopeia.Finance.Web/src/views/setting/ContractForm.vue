@@ -36,7 +36,11 @@
     <el-form-item :label="$t('finance.contractSize')">
       <el-input v-model="form.contractSizeQuantity">
         <template #append>
-          <SelectOption v-model="form.contractSizeUnitCode" :options="units" />
+          <SelectOption
+            v-model="form.contractSizeUnitCode"
+            :options="units"
+            :clearable="false"
+          />
         </template>
       </el-input>
     </el-form-item>
@@ -44,6 +48,23 @@
       <el-input-tag v-model="form.leverages" tag-type="primary">
         <template #tag="{ value }">{{ value }}X</template>
       </el-input-tag>
+    </el-form-item>
+
+    <el-form-item :label="$t('trading.session')">
+      <div class="new-session">
+        <SelectDayOfWeek class="day-of-week" />
+        <TimeRangePicker v-model="times" class="time-range-picker" />
+        <el-button type="primary" plain @click="addSession">
+          {{ $t('operation.add') }}
+        </el-button>
+      </div>
+      <div class="sessions">
+        <el-text v-for="session in form.sessions" :key="session.openDay">
+          {{ weekday(session.openDay) }} {{ session.openTime }}-{{
+            session.closeTime
+          }}
+        </el-text>
+      </div>
     </el-form-item>
 
     <el-form-item>
@@ -58,9 +79,12 @@ import contractApi, {
   type Contract,
   type ContractLocale,
 } from '@/api/trading/contract-api';
+import { DayOfWeek } from '@/models/day-of-week';
 import { UnderlyingType } from '@/models/underlying-type';
+import { weekday } from '@/plugins/dayjs';
 import { success } from '@/plugins/element';
 import { useOptionStore } from '@/stores/option';
+import { dayjs } from 'element-plus';
 
 const props = defineProps<{
   action: 'create' | 'edit';
@@ -77,8 +101,14 @@ const form: Contract = reactive({
   contractSizeQuantity: 1,
   contractSizeUnitCode: '',
   leverages: [],
+  sessions: [],
   locales: [{ culture: 'en', name: '', description: '' }],
 });
+const dayOfWeek = ref(DayOfWeek.Sunday);
+const times: [Date, Date] = reactive([
+  dayjs('00:00:00', 'HH:mm:ss').toDate(),
+  dayjs('01:00:00', 'HH:mm:ss').toDate(),
+]);
 
 if (props.action === 'edit') {
   contractApi
@@ -101,10 +131,50 @@ const save = () => {
     .then(() => success(props.action))
     .finally(() => (loading.value = false));
 };
+
+const addSession = () => {
+  form.sessions.push({
+    openDay: dayOfWeek.value,
+    openTime: dayjs(times[0]).format('HH:mm:ss'),
+    closeDay: dayOfWeek.value,
+    closeTime: dayjs(times[1]).format('HH:mm:ss'),
+  });
+};
+
+watch(form, (form) => {
+  if (form.underlyingType === UnderlyingType.Stock) {
+    form.contractSizeUnitCode = 'Shares';
+  } else if (form.underlyingType === UnderlyingType.Index) {
+    form.contractSizeUnitCode = 'Points';
+  }
+});
 </script>
 
 <style scoped lang="scss">
 .el-form {
   max-width: 1000px;
+}
+
+.sessions {
+  display: flex;
+  flex-direction: column;
+
+  .el-text {
+    align-self: flex-start;
+  }
+}
+
+.new-session {
+  display: flex;
+  width: 100%;
+  gap: 16px;
+}
+
+.day-of-week {
+  flex: 1;
+}
+
+.time-range-picker {
+  flex: 1;
 }
 </style>
