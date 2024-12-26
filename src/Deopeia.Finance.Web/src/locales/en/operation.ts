@@ -5,6 +5,7 @@ export default {
     add: 'Add',
     create: 'Create',
     edit: 'Edit',
+    remove: 'Remove',
     delete: 'Delete',
     import: 'Import',
     export: 'Export',

@@ -5,6 +5,7 @@ export default {
     add: '加入',
     create: '建立',
     edit: '編輯',
+    remove: '移除',
     delete: '刪除',
     import: '匯入',
     export: '匯出',

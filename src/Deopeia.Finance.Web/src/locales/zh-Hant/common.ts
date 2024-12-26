@@ -11,6 +11,7 @@ export default {
     locale: '地區設定',
     date: '日期',
     time: '時間',
+    dayOfTheWeek: '星期',
     duration: '期間',
     startDate: '開始日期',
     endDate: '結束日期',

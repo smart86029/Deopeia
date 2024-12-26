@@ -8,7 +8,7 @@ export default {
     contract: {
       list: 'Contracts',
       create: 'Create Contract',
-      edit: 'Edit Contract',
+      edit: 'Edit Contract {symbol}',
     },
     dashboard: { default: 'Dashboard' },
     exchange: {

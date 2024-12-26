@@ -8,7 +8,7 @@ export default {
     contract: {
       list: '合約列表',
       create: '新增合約',
-      edit: '編輯合約',
+      edit: '編輯合約 {symbol}',
     },
     dashboard: { default: '儀表板' },
     exchange: {

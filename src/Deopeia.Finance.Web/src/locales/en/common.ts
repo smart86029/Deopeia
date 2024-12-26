@@ -11,6 +11,7 @@ export default {
     locale: 'Locale',
     date: 'Date',
     time: 'Time',
+    dayOfTheWeek: 'Day Of The Week',
     duration: 'Duration',
     startDate: 'Start Date',
     endDate: 'End Date',
