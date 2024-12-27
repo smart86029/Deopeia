@@ -1,17 +1,17 @@
 <template>
   <el-table :data="model">
-    <el-table-column :label="$t('common.dayOfTheWeek')">
+    <el-table-column :label="$t('common.startTime')">
       <template #default="{ row }">
         {{ weekday(row.openDay) }}
       </template>
     </el-table-column>
-    <el-table-column prop="openTime" :label="$t('common.time')" />
-    <el-table-column :label="$t('common.dayOfTheWeek')">
+    <el-table-column prop="openTime" />
+    <el-table-column :label="$t('common.endTime')">
       <template #default="{ row }">
         {{ row.openDay === row.closeDay ? '' : weekday(row.closeDay) }}
       </template>
     </el-table-column>
-    <el-table-column prop="closeTime" :label="$t('common.time')" />
+    <el-table-column prop="closeTime" />
     <el-table-column width="auto" align="right">
       <template #default="{ $index }">
         <el-button type="danger" plain @click="removeSession($index)">
@@ -21,25 +21,21 @@
     </el-table-column>
 
     <template #append>
-      <tr class="new-session">
-        <td class="el-table__cell">
-          <div class="cell">
-            <SelectDayOfWeek v-model="openDay" />
-          </div>
-        </td>
-        <td class="el-table__cell">
-          <div class="cell">
-            <TimePicker v-model="openTime" />
-          </div>
-        </td>
-        <td class="el-table__cell new-session-add">
-          <div class="cell">
-            <el-button type="primary" plain @click="addSession">
-              {{ $t('operation.add') }}
-            </el-button>
-          </div>
-        </td>
-      </tr>
+      <div class="new-session">
+        <SelectDayOfWeek v-model="openDay" class="day" />
+        <div class="cell">
+          <TimePicker v-model="openTime" />
+        </div>
+        <SelectDayOfWeek v-model="closeDay" class="day" disabled />
+        <div class="cell">
+          <TimePicker v-model="closeTime" />
+        </div>
+        <div class="cell add">
+          <el-button type="primary" plain @click="addSession">
+            {{ $t('operation.add') }}
+          </el-button>
+        </div>
+      </div>
     </template>
   </el-table>
 </template>
@@ -53,22 +49,36 @@ import { dayjs } from 'element-plus';
 const model = defineModel<Session[]>({ required: true });
 
 const openDay: Ref<DayOfWeek | undefined> = ref(undefined);
-const times: [Date, Date] = reactive([
-  dayjs('00:00:00', 'HH:mm:ss').toDate(),
-  dayjs('01:00:00', 'HH:mm:ss').toDate(),
-]);
 const openTime = ref('00:00:00');
 const closeTime = ref('00:00:00');
+
+const closeDay = computed(() => {
+  if (openDay.value === undefined) {
+    return undefined;
+  }
+  if (openTime.value < closeTime.value) {
+    return openDay.value;
+  }
+  return (openDay.value + 1) % 7;
+});
 
 const addSession = () => {
   if (openDay.value === undefined) {
     return;
   }
-  model.value.push({
+  const index = model.value.findIndex(
+    (x) =>
+      x.openDay > openDay.value! ||
+      (x.openDay === openDay.value &&
+        dayjs(x.openTime, 'HH:mm:ss').isAfter(
+          dayjs(openTime.value, 'HH:mm:ss'),
+        )),
+  );
+  model.value.splice(index, 0, {
     openDay: openDay.value,
-    openTime: dayjs(times[0]).format('HH:mm:ss'),
-    closeDay: openDay.value,
-    closeTime: dayjs(times[1]).format('HH:mm:ss'),
+    openTime: openTime.value,
+    closeDay: closeDay.value!,
+    closeTime: closeTime.value,
   });
 };
 
@@ -89,8 +99,26 @@ const removeSession = (index: number) => model.value.splice(index, 1);
   display: flex;
   width: 100%;
 
+  .day {
+    flex: 0 1 20%;
+    padding: 8px 0;
+    min-width: 0;
+  }
+
+  .cell {
+    flex: 0 1 20%;
+    padding: 8px 12px;
+
+    :deep(.el-date-editor.el-input) {
+      width: unset;
+    }
+
+    &.add {
+      text-align: right;
+    }
+  }
+
   .new-session-add {
-    flex: 1;
     text-align: right;
   }
 }
