@@ -40,7 +40,7 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 #chart {
-  height: 480px;
+  height: 100%;
   width: 100%;
 }
 </style>

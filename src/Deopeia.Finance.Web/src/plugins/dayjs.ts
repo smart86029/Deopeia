@@ -26,6 +26,12 @@ dayjs.updateLocale('en', {
     LLLL: 'YYYY-MM-DD HH:mm:ss',
   },
 });
+dayjs.updateLocale('zh-tw', {
+  formats: {
+    L: 'YYYY-MM-DD',
+    LLLL: 'YYYY-MM-DD HH:mm:ss',
+  },
+});
 
 const { locale } = storeToRefs(usePreferencesStore());
 dayjs.locale(locale.value.dayjsCode);

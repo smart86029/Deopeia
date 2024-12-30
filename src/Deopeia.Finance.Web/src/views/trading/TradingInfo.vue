@@ -14,7 +14,7 @@
 <style lang="scss" scoped>
 .trading-info {
   display: flex;
-  gap: 16px;
+  gap: 10px;
 }
 
 .el-card {

@@ -46,6 +46,8 @@ const isOperator = ref(false);
 </script>
 
 <style scoped lang="scss">
+$el-header-height: 60px;
+
 h1 {
   width: 240px;
 }
@@ -58,11 +60,11 @@ h1 {
 }
 
 .el-aside {
-  height: calc(100vh - 60px);
+  height: calc(100vh - $el-header-height);
 }
 
 .el-main {
-  height: calc(100vh - 60px);
+  height: calc(100vh - $el-header-height);
   padding: 0;
 
   > .el-scrollbar {
