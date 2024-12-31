@@ -18,6 +18,11 @@ public class OrderBook : AggregateRoot<Symbol>
     public OrderBook(Symbol symbol)
         : base(symbol) { }
 
+    public decimal Bid => _buyOrders.TryPeek(out var buyOrder, out _) ? buyOrder.Price.Amount : 100;
+
+    public decimal Ask =>
+        _sellOrders.TryPeek(out var sellOrder, out _) ? sellOrder.Price.Amount : 100;
+
     public void AddOrder(
         OrderSide side,
         decimal volume,

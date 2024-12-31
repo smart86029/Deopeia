@@ -8,5 +8,5 @@ public interface IRealTime
 
     Task ReceiveCandle(string symbol, int TimeFrame, Candle candle);
 
-    Task ReceiveOrderBook(Order[] bids, Order[] asks);
+    Task ReceiveOrderBook(string symbol, Order[] bids, Order[] asks);
 }

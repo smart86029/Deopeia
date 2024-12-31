@@ -9,6 +9,8 @@ public class OrderBookChangedEventHandler(IHubContext<RealTimeHub, IRealTime> hu
 
     public async Task Handle(OrderBookChangedEvent @event)
     {
-        await _hubContext.Clients.Group(@event.Symbol).ReceiveOrderBook(@event.Bids, @event.Asks);
+        await _hubContext
+            .Clients.Group(@event.Symbol)
+            .ReceiveOrderBook(@event.Symbol, @event.Bids, @event.Asks);
     }
 }

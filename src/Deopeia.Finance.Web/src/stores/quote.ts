@@ -47,10 +47,16 @@ export const useQuoteStore = defineStore('quote', () => {
     },
   );
 
-  hubConnection.on('ReceiveOrderBook', (newBids: Order[], newAsks: Order[]) => {
-    bids.value = newBids;
-    asks.value = newAsks;
-  });
+  hubConnection.on(
+    'ReceiveOrderBook',
+    (orderBookSymbol: string, newBids: Order[], newAsks: Order[]) => {
+      if (orderBookSymbol !== symbol.value) {
+        return;
+      }
+      bids.value = newBids;
+      asks.value = newAsks;
+    },
+  );
 
   hubConnection
     .start()

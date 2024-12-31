@@ -15,8 +15,8 @@ public class RealTimeHub : Hub<IRealTime>
             Context.User.AddIdentity(identity);
         }
 
-        var claim = identity.Claims.FirstOrDefault(x => x.Type == ClaimType);
-        if (claim is not null)
+        var claims = identity.Claims.Where(x => x.Type == ClaimType);
+        foreach (var claim in claims)
         {
             identity.RemoveClaim(claim);
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, claim.Value);

@@ -274,15 +274,20 @@ public class TradingSeeder : DbSeeder
     )
     {
         return new Faker<Position>()
-            .CustomInstantiator(x => new Position(
-                x.PickRandom<PositionType>(),
-                x.PickRandom(contracts).Id,
-                x.Finance.Amount(1, 10, 0) * 1000,
-                new Money(Usd, x.Finance.Amount()),
-                null,
-                null,
-                x.PickRandom(accounts).Id
-            ))
+            .CustomInstantiator(x =>
+            {
+                var contract = x.PickRandom(contracts);
+
+                return new Position(
+                    x.PickRandom<PositionType>(),
+                    contract.Id,
+                    x.Finance.Amount(1, 10, 0) * contract.ContractSize.Quantity,
+                    new Money(Usd, x.Finance.Amount()),
+                    null,
+                    null,
+                    x.PickRandom(accounts).Id
+                );
+            })
             .Generate(5);
     }
 }

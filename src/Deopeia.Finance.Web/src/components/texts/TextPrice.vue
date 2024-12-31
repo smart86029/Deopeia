@@ -17,10 +17,10 @@ withDefaults(
 
 <style scoped lang="scss">
 .positive {
-  color: #f23645;
+  color: var(--el-color-positive);
 }
 
 .negative {
-  color: #089981;
+  color: var(--el-color-negative);
 }
 </style>

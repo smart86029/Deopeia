@@ -14,7 +14,6 @@
 
 <script setup lang="ts">
 import { type Order } from '@/models/quote/order';
-import { usePreferencesStore } from '@/stores/preferences';
 
 interface OrderItem extends Order {
   type?: string;
@@ -30,7 +29,6 @@ const emits = defineEmits<{
 }>();
 
 const { n } = useI18n();
-const { positive, negative } = storeToRefs(usePreferencesStore());
 
 const orders = computed(() => {
   const results: OrderItem[] = new Array(11);
@@ -41,13 +39,13 @@ const orders = computed(() => {
   [...props.asks]
     .sort((a, b) => a.price - b.price)
     .forEach(
-      (ask, index) => (results[4 - index] = { ...ask, type: negative.value }),
+      (ask, index) => (results[4 - index] = { ...ask, type: 'negative' }),
     );
   results[5] = { price: props.price, size: 0 };
   [...props.bids]
     .sort((a, b) => b.price - a.price)
     .forEach(
-      (bid, index) => (results[6 + index] = { ...bid, type: positive.value }),
+      (bid, index) => (results[6 + index] = { ...bid, type: 'positive' }),
     );
   return results;
 });
@@ -65,7 +63,7 @@ const depth = (data: { row: OrderItem }) => {
     maxSize.value === 0
       ? '0'
       : n((maxSize.value - data.row.size) / maxSize.value, 'percent');
-  return `background: linear-gradient(90deg, var(--el-table-tr-bg-color) ${width}, var(--el-color-${data.row.type}-light-5) 100%`;
+  return `background: linear-gradient(90deg, var(--el-table-tr-bg-color) ${width}, var(--el-color-${data.row.type}) 100%`;
 };
 
 const changePrice = (row: any) => emits('update', row.price);

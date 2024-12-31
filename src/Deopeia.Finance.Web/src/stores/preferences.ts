@@ -42,14 +42,8 @@ export const usePreferencesStore = defineStore('preferences', () => {
     locale,
     () => {
       const style = document.documentElement.style;
-      style.setProperty(
-        '--el-color-positive',
-        useCssVar('--el-color-danger-light-5', ref(null)).value,
-      );
-      style.setProperty(
-        '--el-color-negative',
-        useCssVar('--el-color-success-light-5', ref(null)).value,
-      );
+      style.setProperty('--el-color-positive', '#2DC08E');
+      style.setProperty('--el-color-negative', '#F92855');
     },
     { immediate: true },
   );
