@@ -45,10 +45,10 @@
     </el-form-item>
 
     <el-form-item>
-      <el-button :type="positive" class="button-trade" @click="buy">
+      <el-button :color="positive" class="button-trade" @click="buy">
         {{ $t(`trading.orderSide.${OrderSide.Buy}`) }}
       </el-button>
-      <el-button :type="negative" class="button-trade" @click="sell">
+      <el-button :color="negative" class="button-trade" @click="sell">
         {{ $t(`trading.orderSide.${OrderSide.Sell}`) }}
       </el-button>
     </el-form-item>
@@ -59,7 +59,6 @@
 import orderApi, { type Order } from '@/api/trading/order-api';
 import { emptyGuid } from '@/models/guid';
 import { OrderSide } from '@/models/trading/order-side';
-import { usePreferencesStore } from '@/stores/preferences';
 import { useQuoteStore } from '@/stores/quote';
 import { useTradingStore } from '@/stores/trading';
 import { ElMessage } from 'element-plus';
@@ -68,10 +67,11 @@ const props = defineProps<{
   price?: number;
 }>();
 
-const { positive, negative } = storeToRefs(usePreferencesStore());
 const { lastTradedPrice } = storeToRefs(useQuoteStore());
 const { instrument } = storeToRefs(useTradingStore());
 
+const positive = useCssVar('--el-color-positive').value;
+const negative = useCssVar('--el-color-negative').value;
 const type = ref('Market');
 const { t } = useI18n();
 const loading = ref(false);
@@ -148,5 +148,6 @@ const save = () => {
 
 .button-trade {
   flex: 1;
+  color: #fff;
 }
 </style>

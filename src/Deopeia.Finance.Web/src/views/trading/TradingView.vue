@@ -22,7 +22,7 @@
       @update="changePrice"
     />
     <TradeForm class="trade-form" :price="selectPrice" />
-    <PositionList class="position-list" />
+    <TablePosition class="position" />
   </div>
 </template>
 
@@ -78,7 +78,7 @@ $gap: 10px;
   grid-column: 3/4;
 }
 
-.position-list {
+.position {
   grid-row: 2/3;
   grid-column: 1/3;
 }

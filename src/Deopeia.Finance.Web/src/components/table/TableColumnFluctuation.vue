@@ -28,7 +28,7 @@ withDefaults(
 );
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .positive {
   color: var(--el-color-positive);
 }
