@@ -3,14 +3,13 @@ using MediatR;
 
 namespace Deopeia.Common.Worker;
 
-public class Job<TCommand>(ISender sender) : IInvocable
-    where TCommand : IRequest, new()
+public class Job(ISender sender, IRequest command) : IInvocable
 {
     private readonly ISender _sender = sender;
+    private readonly IRequest _command = command;
 
     public async Task Invoke()
     {
-        var command = new TCommand();
-        await _sender.Send(command);
+        await _sender.Send(_command);
     }
 }

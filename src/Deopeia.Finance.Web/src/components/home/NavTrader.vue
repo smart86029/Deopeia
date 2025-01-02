@@ -35,8 +35,8 @@ const menus: Menu[] = [{ name: 'market.list' }, { name: 'trading.view' }];
 const defaultActive = computed(() => {
   if (route.name && route.name.toString().split('.')[0] === 'market') {
     return 'market.list';
-  } else {
-    return route.name;
+  } else if (route.name && route.name.toString().split('.')[0] === 'trading') {
+    return 'trading.view';
   }
 });
 </script>

@@ -61,7 +61,7 @@ internal class MockOrdersCommandHandler(
                 foreach (var @event in orderBook.DomainEvents)
                 {
                     await _eventBus.PublishAsync(@event);
-                    if (@event is PriceChangedEvent priceChangedEvent)
+                    if (@event is DealCreatedEvent priceChangedEvent)
                     {
                         price = priceChangedEvent.Price;
                     }

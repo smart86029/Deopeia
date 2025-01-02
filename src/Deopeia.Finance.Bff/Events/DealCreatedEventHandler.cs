@@ -2,12 +2,12 @@ using Deopeia.Finance.Bff.Models.RealTime;
 
 namespace Deopeia.Finance.Bff.Events;
 
-public class PriceChangedEventHandler(IHubContext<RealTimeHub, IRealTime> hubContext)
-    : IEventHandler<PriceChangedEvent>
+public class DealCreatedEventHandler(IHubContext<RealTimeHub, IRealTime> hubContext)
+    : IEventHandler<DealCreatedEvent>
 {
     private readonly IHubContext<RealTimeHub, IRealTime> _hubContext = hubContext;
 
-    public async Task Handle(PriceChangedEvent @event)
+    public async Task Handle(DealCreatedEvent @event)
     {
         var tick = new Tick(
             @event.CreatedAt.UtcTicks,

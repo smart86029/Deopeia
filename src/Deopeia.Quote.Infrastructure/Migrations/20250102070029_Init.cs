@@ -134,6 +134,20 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tick",
+                columns: table => new
+                {
+                    symbol = table.Column<string>(type: "text", nullable: false),
+                    timestamp = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    price = table.Column<decimal>(type: "numeric", nullable: false),
+                    volume = table.Column<decimal>(type: "numeric", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_tick", x => new { x.symbol, x.timestamp });
+                });
+
+            migrationBuilder.CreateTable(
                 name: "unit",
                 columns: table => new
                 {
@@ -279,6 +293,9 @@ namespace Deopeia.Quote.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "locale_resource");
+
+            migrationBuilder.DropTable(
+                name: "tick");
 
             migrationBuilder.DropTable(
                 name: "unit_locale");

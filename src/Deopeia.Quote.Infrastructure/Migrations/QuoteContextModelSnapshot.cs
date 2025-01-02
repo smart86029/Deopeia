@@ -236,6 +236,30 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                     b.ToTable("candle", (string)null);
                 });
 
+            modelBuilder.Entity("Deopeia.Quote.Domain.Candles.Tick", b =>
+                {
+                    b.Property<string>("Symbol")
+                        .HasColumnType("text")
+                        .HasColumnName("symbol");
+
+                    b.Property<DateTimeOffset>("Timestamp")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("timestamp");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric")
+                        .HasColumnName("price");
+
+                    b.Property<decimal>("Volume")
+                        .HasColumnType("numeric")
+                        .HasColumnName("volume");
+
+                    b.HasKey("Symbol", "Timestamp")
+                        .HasName("pk_tick");
+
+                    b.ToTable("tick", (string)null);
+                });
+
             modelBuilder.Entity("Deopeia.Quote.Domain.Companies.Company", b =>
                 {
                     b.Property<Guid>("Id")

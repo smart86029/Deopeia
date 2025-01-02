@@ -63,7 +63,7 @@ const depth = (data: { row: OrderItem }) => {
     maxSize.value === 0
       ? '0'
       : n((maxSize.value - data.row.size) / maxSize.value, 'percent');
-  return `background: linear-gradient(90deg, var(--el-table-tr-bg-color) ${width}, var(--el-color-${data.row.type}) 100%`;
+  return `background: linear-gradient(90deg, var(--el-table-tr-bg-color) ${width}, var(--el-color-${data.row.type}) 150%`;
 };
 
 const changePrice = (row: any) => emits('update', row.price);

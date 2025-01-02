@@ -1,6 +1,6 @@
 namespace Deopeia.Finance.Bff.Events;
 
-public record PriceChangedEvent(
+public record DealCreatedEvent(
     string Symbol,
     decimal Price,
     decimal Volume,

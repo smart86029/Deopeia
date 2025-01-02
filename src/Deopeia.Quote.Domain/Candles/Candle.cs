@@ -2,7 +2,7 @@ namespace Deopeia.Quote.Domain.Candles;
 
 public class Candle : AggregateRoot<CandleId>
 {
-    private static readonly Dictionary<TimeFrame, TimeSpan> Intervals = new()
+    public static readonly Dictionary<TimeFrame, TimeSpan> Intervals = new()
     {
         [TimeFrame.M1] = TimeSpan.FromMinutes(1),
         [TimeFrame.M5] = TimeSpan.FromMinutes(5),
@@ -16,7 +16,10 @@ public class Candle : AggregateRoot<CandleId>
     };
 
     public Candle(Symbol symbol, TimeFrame timeFrame, DateTimeOffset timestamp)
-        : base(new CandleId(symbol, timeFrame, timestamp)) { }
+        : this(new CandleId(symbol, timeFrame, timestamp)) { }
+
+    public Candle(CandleId id)
+        : base(id) { }
 
     public Symbol Symbol => Id.Symbol;
 
@@ -34,32 +37,28 @@ public class Candle : AggregateRoot<CandleId>
 
     public decimal Volume { get; private set; }
 
-    public void Calculate(Tick tick)
-    {
-        var max = Timestamp.Add(Intervals[TimeFrame]);
-        if (!tick.Timestamp.IsBetween(Timestamp, max))
-        {
-            return;
-        }
-
-        Open = Open != 0 && tick.Timestamp >= Timestamp ? Open : tick.Price;
-        High = Math.Max(High, tick.Price);
-        Low = Low == 0 ? tick.Price : Math.Min(Low, tick.Price);
-        Close = Close != 0 && Timestamp >= tick.Timestamp ? Close : tick.Price;
-        Volume += tick.Volume;
-    }
-
     public void Calculate(IEnumerable<Tick> ticks)
     {
-        if (!ticks.Any())
+        var sorted = ticks.Where(x => x.Symbol == Symbol && IsInRange(x)).OrderBy(x => x.Timestamp);
+        if (!sorted.Any())
         {
             return;
         }
 
-        Open = Open > 0 ? Open : ticks.First().Price;
-        High = Math.Max(High, ticks.Max(x => x.Price));
-        Low = Low == 0 ? ticks.Min(x => x.Price) : Math.Min(Low, ticks.Min(x => x.Price));
-        Close = ticks.Last().Price;
-        Volume += ticks.Sum(x => x.Volume);
+        Open = Open > 0 ? Open : sorted.First().Price;
+        High = Math.Max(High, sorted.Max(x => x.Price));
+        Low = Low == 0 ? sorted.Min(x => x.Price) : Math.Min(Low, sorted.Min(x => x.Price));
+        Close = sorted.Last().Price;
+        Volume += sorted.Sum(x => x.Volume);
+    }
+
+    private bool IsInRange(Tick tick)
+    {
+        var max =
+            TimeFrame == TimeFrame.MN
+                ? Timestamp.AddMonths(1)
+                : Timestamp.Add(Intervals[TimeFrame]);
+
+        return tick.Timestamp >= Timestamp && tick.Timestamp < max;
     }
 }

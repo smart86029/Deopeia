@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 builder
     .AddEventBus()
-    .AddSubscription<PriceChangedEvent, PriceChangedEventHandler>()
+    .AddSubscription<DealCreatedEvent, DealCreatedEventHandler>()
     .AddSubscription<CandleChangedEvent, CandleChangedEventHandler>()
     .AddSubscription<OrderBookChangedEvent, OrderBookChangedEventHandler>();
 

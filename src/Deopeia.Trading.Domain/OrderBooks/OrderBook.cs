@@ -109,7 +109,7 @@ public class OrderBook : AggregateRoot<Symbol>
 
             var bid = _buyOrders.TryPeek(out var buyOrder, out _) ? buyOrder.Price.Amount : 0;
             var ask = _sellOrders.TryPeek(out var sellOrder, out _) ? sellOrder.Price.Amount : 0;
-            AddDomainEvent(new PriceChangedEvent(Id.Value, marketPrice.Amount, volume, bid, ask));
+            AddDomainEvent(new DealCreatedEvent(Id.Value, marketPrice.Amount, volume, bid, ask));
 
             if (taker.UnfilledVolume == 0)
             {

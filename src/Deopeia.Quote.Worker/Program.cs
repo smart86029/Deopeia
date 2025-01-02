@@ -4,9 +4,9 @@ using Deopeia.Common.Application;
 using Deopeia.Common.Infrastructure;
 using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Common.Worker;
-using Deopeia.Quote.Application.Candles;
 using Deopeia.Quote.Application.Candles.CalculateCandles;
-using Deopeia.Quote.Application.Candles.MockRealTimeData;
+using Deopeia.Quote.Application.Candles.DealCreated;
+using Deopeia.Quote.Domain.Candles;
 using Deopeia.Quote.Infrastructure;
 using Deopeia.Quote.Worker;
 
@@ -16,12 +16,11 @@ builder
     .AddApplication()
     .AddInfrastructure<QuoteContext, QuoteSeeder>()
     .AddEventBus()
-    .AddSubscription<PriceChangedEvent, CalculateCandlesEventHandler>();
+    .AddSubscription<DealCreatedEvent, DealCreatedEventHandler>();
 
 builder.Services.AddScheduler();
 builder.Services.AddScoped<ScrapeJob>();
 builder.Services.AddScoped<InstrumentJob>();
-builder.Services.AddScoped<Job<MockRealTimeDataCommand>>();
 builder.Services.AddScoped<CurrentUser>();
 builder.Services.AddScrapers();
 
@@ -29,9 +28,10 @@ var host = builder.Build();
 host.Services.UseScheduler(scheduler =>
 {
     scheduler
-        .Schedule<Job<MockRealTimeDataCommand>>()
-        .EveryFiveSeconds()
-        .PreventOverlapping(nameof(MockRealTimeDataCommand));
+        .ScheduleWithParams<Job>(new CalculateCandlesCommand(TimeFrame.M1))
+        .EveryThirtySeconds()
+        .PreventOverlapping($"{nameof(CalculateCandlesCommand)}-{TimeFrame.M1}");
+
     //scheduler.Schedule<ScrapeJob>().EveryMinute().PreventOverlapping(nameof(ScrapeJob));
     //scheduler.Schedule<InstrumentJob>().EveryMinute().PreventOverlapping(nameof(InstrumentJob));
 });

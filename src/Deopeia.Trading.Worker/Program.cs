@@ -15,14 +15,13 @@ builder
     .AddEventBus();
 
 builder.Services.AddScheduler();
-builder.Services.AddScoped<Job<MockOrdersCommand>>();
 builder.Services.AddScoped<CurrentUser>();
 
 var host = builder.Build();
 host.Services.UseScheduler(scheduler =>
 {
     scheduler
-        .Schedule<Job<MockOrdersCommand>>()
+        .ScheduleWithParams<Job>(new MockOrdersCommand())
         .EverySecond()
         .PreventOverlapping(nameof(MockOrdersCommand));
 });
