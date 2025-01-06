@@ -1,5 +1,3 @@
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 using Deopeia.Trading.Domain.Accounts;
 using Deopeia.Trading.Domain.Contracts;
 using Deopeia.Trading.Domain.OrderBooks;
@@ -15,6 +13,23 @@ internal class MockOrdersCommandHandler(
     IEventBus eventBus
 ) : IRequestHandler<MockOrdersCommand>
 {
+    private static readonly CurrencyCode Usd = new("USD");
+    private static readonly Dictionary<Symbol, decimal> Prices = new()
+    {
+        [new Symbol("AAPL")] = 243,
+        [new Symbol("DJI")] = 42732,
+        [new Symbol("NDX")] = 21326,
+        [new Symbol("SPX")] = 5942,
+        [new Symbol("XAU")] = 2640,
+        [new Symbol("XAG")] = 141,
+        [new Symbol("EURUSD")] = 1.0336M,
+        [new Symbol("USDJPY")] = 157.75M,
+        [new Symbol("GBPUSD")] = 1.24M,
+        [new Symbol("AUDUSD")] = 0.624M,
+        [new Symbol("BTC")] = 43.60M,
+        [new Symbol("ETH")] = 33.97M,
+    };
+
     private readonly ITradingUnitOfWork _unitOfWork = unitOfWork;
     private readonly IAccountRepository _accountRepository = accountRepository;
     private readonly IContractRepository _contractRepository = contractRepository;
@@ -23,29 +38,31 @@ internal class MockOrdersCommandHandler(
 
     public async Task Handle(MockOrdersCommand request, CancellationToken cancellationToken)
     {
-        var currencyCode = new CurrencyCode("USD");
         var accounts = await _accountRepository.GetAccountsAsync();
         var contracts = await _contractRepository.GetContractsAsync();
 
         var ramdom = new Random();
         foreach (var contract in contracts)
         {
-            var price = 0M;
             var orderBook = await _orderBookRepository.GetOrderBookAsync(contract.Id);
             foreach (var side in Enum.GetValues<OrderSide>())
             {
                 var takerPrice = side == OrderSide.Buy ? orderBook.Bid : orderBook.Ask;
-                if (takerPrice == price)
+                if (takerPrice == 0)
                 {
-                    continue;
+                    takerPrice = Prices[contract.Id];
                 }
 
                 var makerPrice = side == OrderSide.Buy ? orderBook.Ask : orderBook.Bid;
+                if (makerPrice == 0)
+                {
+                    makerPrice = Prices[contract.Id];
+                }
+
                 var (openPrice, volume) = GetRandomPriceAndVolume(
                     side,
-                    contract.TickSize,
-                    price,
-                    makerPrice
+                    contract,
+                    (takerPrice + makerPrice) / 2
                 );
                 orderBook.AddOrder(
                     side,
@@ -61,10 +78,6 @@ internal class MockOrdersCommandHandler(
                 foreach (var @event in orderBook.DomainEvents)
                 {
                     await _eventBus.PublishAsync(@event);
-                    if (@event is DealCreatedEvent priceChangedEvent)
-                    {
-                        price = priceChangedEvent.Price;
-                    }
                 }
 
                 orderBook.ClearDomainEvents();
@@ -73,15 +86,14 @@ internal class MockOrdersCommandHandler(
 
         (Money Price, decimal Volume) GetRandomPriceAndVolume(
             OrderSide side,
-            decimal tickSize,
-            decimal price,
-            decimal makerPrice
+            Contract contract,
+            decimal price
         )
         {
-            var next = side == OrderSide.Buy ? ramdom.Next(0, 11) : ramdom.Next(-10, 1);
-            var offset = makerPrice == price ? 0 : next * tickSize;
-            var amount = makerPrice + offset;
-            var money = Math.Round(amount, 2).ToMoney(currencyCode);
+            var next = side == OrderSide.Buy ? ramdom.Next(1, 11) : ramdom.Next(-10, 0);
+            var offset = next * contract.TickSize;
+            var amount = price + offset;
+            var money = Math.Round(amount, 2).ToMoney(Usd);
 
             var volumeMean = 4.0;
             var volumeStdDev = 1.0;
