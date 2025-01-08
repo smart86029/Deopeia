@@ -65,7 +65,7 @@ public class IdentitySeeder : DbSeeder
         var results = new Client[]
         {
             new(
-                "Enterprise",
+                "Finance",
                 null,
                 GrantTypes.AuthorizationCode | GrantTypes.RefreshToken,
                 new[] { "openid", "profile", "email", "api" },
@@ -96,7 +96,7 @@ public class IdentitySeeder : DbSeeder
         var result = new Role[]
         {
             new("Administrator", "The highest level of access within the system.", true),
-            new("Human Resources", null, true)
+            new("Human Resources", null, true),
         };
 
         return result;

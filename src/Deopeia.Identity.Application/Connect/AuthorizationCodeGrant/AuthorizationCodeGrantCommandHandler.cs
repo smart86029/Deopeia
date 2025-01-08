@@ -31,7 +31,7 @@ internal class AuthorizationCodeGrantCommandHandler(
     )
     {
         var client = await _clientRepository.GetClientAsync(request.ClientId);
-        if (!client.GrantTypes.HasFlag(GrantTypes.AuthorizationCode))
+        if (client is null || !client.GrantTypes.HasFlag(GrantTypes.AuthorizationCode))
         {
             return new AuthorizationCodeGrantResult(GrantError.UnauthorizedClient);
         }
@@ -109,18 +109,20 @@ internal class AuthorizationCodeGrantCommandHandler(
     private async Task ConsumeAsync(AuthorizationCode authorizationCode)
     {
         authorizationCode.Consume();
-        _authorizationCodeRepository.Update(authorizationCode);
         await _unitOfWork.CommitAsync();
     }
 
-    private bool IsFromClient(string codeVerifier, string codeChallenge, string codeChallengeMethod)
+    private static bool IsFromClient(
+        string codeVerifier,
+        string codeChallenge,
+        string codeChallengeMethod
+    )
     {
         var result = codeChallengeMethod switch
         {
             ChallengeMethods.Plain => codeChallenge == codeVerifier,
-            ChallengeMethods.Sha256
-                => codeChallenge
-                    == Base64UrlEncoder.Encode(Encoding.ASCII.GetBytes(codeVerifier).Sha256()),
+            ChallengeMethods.Sha256 => codeChallenge
+                == Base64UrlEncoder.Encode(Encoding.ASCII.GetBytes(codeVerifier).Sha256()),
             _ => false,
         };
 

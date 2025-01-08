@@ -8,9 +8,6 @@ public abstract class Grant : AggregateRoot<GrantId>
 
     protected Grant() { }
 
-    protected Grant(GrantTypes type, Client client, IEnumerable<string> scopes, TimeSpan expiresIn)
-        : this(type, null, client, scopes, expiresIn) { }
-
     protected Grant(
         GrantTypes type,
         Guid? subjectId,

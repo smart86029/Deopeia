@@ -13,15 +13,11 @@ internal class ClientRepository(IdentityContext context) : IClientRepository
 
     public async Task<Client> GetClientAsync(ClientId clientId)
     {
-        var result = await _clients.FirstAsync(x => x.Id == clientId);
-
-        return result;
+        return await _clients.FirstAsync(x => x.Id == clientId);
     }
 
-    public async Task<Client> GetClientAsync(string name)
+    public async Task<Client?> GetClientAsync(string name)
     {
-        var result = await _clients.FirstAsync(x => x.Name == name);
-
-        return result;
+        return await _clients.FirstOrDefaultAsync(x => x.Name == name);
     }
 }

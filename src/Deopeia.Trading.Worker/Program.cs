@@ -20,10 +20,10 @@ builder.Services.AddScoped<CurrentUser>();
 var host = builder.Build();
 host.Services.UseScheduler(scheduler =>
 {
-    scheduler
-        .ScheduleWithParams<Job>(new MockOrdersCommand())
-        .EverySecond()
-        .PreventOverlapping(nameof(MockOrdersCommand));
+    //scheduler
+    //    .ScheduleWithParams<Job>(new MockOrdersCommand())
+    //    .EverySecond()
+    //    .PreventOverlapping(nameof(MockOrdersCommand));
 });
 
 host.Run();

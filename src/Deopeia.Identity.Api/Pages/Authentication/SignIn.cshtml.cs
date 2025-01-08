@@ -3,7 +3,6 @@ using System.Security.Claims;
 using Deopeia.Identity.Application.Authentication.SignIn;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Deopeia.Identity.Api.Pages.Authentication;
 
@@ -48,7 +47,7 @@ public class SignInModel(ISender sender) : PageModel
             return Page();
         }
 
-        var claims = new Claim[] { new(ClaimTypes.NameIdentifier, signInResult.SubjectId), };
+        var claims = new Claim[] { new(ClaimTypes.NameIdentifier, signInResult.SubjectId) };
         var identity = new ClaimsIdentity(
             claims,
             CookieAuthenticationDefaults.AuthenticationScheme

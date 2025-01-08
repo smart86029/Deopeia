@@ -26,10 +26,11 @@ public class AuthorizeRequest
     public ICollection<string> Scopes =>
         Scope.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? [];
 
-    public AuthorizeCommand ToCommand()
+    public AuthorizeCommand ToCommand(Guid? subjectId)
     {
         var result = new AuthorizeCommand(
             ResponseType,
+            subjectId,
             ClientId,
             RedirectUri,
             Scopes,

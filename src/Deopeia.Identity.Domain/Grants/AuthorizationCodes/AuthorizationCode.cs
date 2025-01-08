@@ -7,6 +7,7 @@ public class AuthorizationCode : Grant
     private AuthorizationCode() { }
 
     public AuthorizationCode(
+        Guid? subjectId,
         Client client,
         IEnumerable<string> scopes,
         Uri redirectUri,
@@ -14,7 +15,7 @@ public class AuthorizationCode : Grant
         string codeChallenge,
         string codeChallengeMethod
     )
-        : base(GrantTypes.AuthorizationCode, client, scopes, TimeSpan.FromMinutes(1))
+        : base(GrantTypes.AuthorizationCode, subjectId, client, scopes, TimeSpan.FromMinutes(1))
     {
         RedirectUri = redirectUri;
         Nonce = nonce;
@@ -22,7 +23,7 @@ public class AuthorizationCode : Grant
         CodeChallengeMethod = codeChallengeMethod;
     }
 
-    public Uri RedirectUri { get; private init; }
+    public Uri RedirectUri { get; private init; } = new Uri("http://localhost");
 
     public string Nonce { get; private init; } = string.Empty;
 

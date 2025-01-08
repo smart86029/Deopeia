@@ -1,5 +1,4 @@
 using System.IdentityModel.Tokens.Jwt;
-using Deopeia.Identity.Application.Connect;
 using Deopeia.Identity.Domain.Clients;
 using Deopeia.Identity.Domain.Grants;
 using Deopeia.Identity.Domain.Grants.AuthorizationCodes;
@@ -31,7 +30,7 @@ internal abstract class GrantCommandHandler<TCommand>(
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, grant.SubjectId.ToString()!, ClaimValueTypes.String),
-            new(JwtRegisteredClaimNames.Aud, "https://localhost:7002"),
+            new(JwtRegisteredClaimNames.Aud, "https://localhost:7099"),
             new(JwtRegisteredClaimNames.Iat, issuedAt.ToString(), ClaimValueTypes.Integer),
             new("scope", string.Join(' ', grant.Scopes)),
         };

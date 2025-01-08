@@ -2,9 +2,7 @@ using Deopeia.Finance.Bff.Models.Contracts;
 
 namespace Deopeia.Finance.Bff.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class MarketsController(ITradingApi tradingApi) : ControllerBase
+public class MarketsController(ITradingApi tradingApi) : ApiController
 {
     private readonly ITradingApi _tradingApi = tradingApi;
 

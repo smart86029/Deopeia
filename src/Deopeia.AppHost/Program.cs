@@ -1,5 +1,7 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
+var jwtKey = builder.AddParameter("JwtKey");
+var jwtIssuer = builder.AddParameter("JwtIssuer");
 var minIOEndpoint = builder.AddParameter("MinIOEndpoint");
 var minIOAccessKey = builder.AddParameter("MinIOAccessKey");
 var minIOSecretKey = builder.AddParameter("MinIOSecretKey");
@@ -14,6 +16,8 @@ var dbTrading = postgres.AddDatabase("trading");
 
 var identityApi = builder
     .AddProject<Projects.Deopeia_Identity_Api>("deopeia-identity-api")
+    .WithEnvironment("Jwt__Key", jwtKey)
+    .WithEnvironment("Jwt__Issuer", jwtIssuer)
     .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
     .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
     .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
@@ -67,6 +71,8 @@ builder
 
 builder
     .AddProject<Projects.Deopeia_Finance_Bff>("deopeia-finance-bff")
+    .WithEnvironment("Jwt__Key", jwtKey)
+    .WithEnvironment("Jwt__Issuer", jwtIssuer)
     .WithReference(kafka)
     .WaitFor(kafka)
     .WithReference(identityApi)

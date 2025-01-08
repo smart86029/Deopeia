@@ -13,7 +13,7 @@ public class ConnectController : ApiController<ConnectController>
     {
         try
         {
-            var command = request.ToCommand();
+            var command = request.ToCommand(User.GetUserId());
             var authorizeResult = await Sender.Send(command);
 
             if (User.Identity?.IsAuthenticated ?? false)

@@ -6,7 +6,5 @@ public interface IAuthorizationCodeRepository : IRepository<AuthorizationCode, G
 
     void Add(AuthorizationCode authorizationCode);
 
-    void Update(AuthorizationCode authorizationCode);
-
     void Remove(AuthorizationCode authorizationCode);
 }

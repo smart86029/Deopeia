@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import auth from './auth';
-import { setLocale } from './i18n';
+import { guard } from './guard';
 import identity from './identity';
 import market from './market';
 import quote from './quote';
@@ -14,7 +14,7 @@ const router = createRouter({
     {
       path: '/:locale?',
       name: 'home',
-      beforeEnter: setLocale,
+      beforeEnter: guard,
       component: HomeView,
       redirect: { name: 'dashboard.default' },
       children: [
@@ -23,7 +23,6 @@ const router = createRouter({
           name: 'dashboard.default',
           component: () => import('../views/dashboard/DashboardView.vue'),
         },
-        ...auth,
         ...identity,
         ...market,
         ...quote,
@@ -31,6 +30,7 @@ const router = createRouter({
         ...trading,
       ],
     },
+    ...auth,
   ],
 });
 

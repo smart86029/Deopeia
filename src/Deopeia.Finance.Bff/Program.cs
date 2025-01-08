@@ -1,6 +1,10 @@
+using System.Text;
+using Deopeia.Common;
 using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Finance.Bff;
 using Deopeia.Finance.Bff.Models.RealTime;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,10 +18,37 @@ builder
 var services = builder.Services;
 services.AddControllers();
 services.AddSignalR();
+
+var jwtOptions = new JwtOptions();
+builder.Configuration.Bind("Jwt", jwtOptions);
+services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "https://localhost:7099/";
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidIssuer = jwtOptions.Issuer,
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Key)),
+        };
+
+        var handler = new HttpClientHandler
+        {
+            ClientCertificateOptions = ClientCertificateOption.Manual,
+            ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
+            SslProtocols = System.Security.Authentication.SslProtocols.Tls12,
+        };
+        options.Backchannel = new HttpClient(handler);
+    });
+
 services
     .AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
     .AddServiceDiscoveryDestinationResolver();
+
 services
     .AddRefitClient<IQuoteApi>()
     .ConfigureHttpClient(client =>
@@ -37,6 +68,8 @@ services
 var app = builder.Build();
 app.UseRequestLocalization("en", "zh-Hant");
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapDefaultEndpoints();
 app.MapControllers();

@@ -1,6 +1,6 @@
 export default [
   {
-    path: 'auth',
+    path: '/auth',
     children: [
       {
         path: 'sign-in-callback',

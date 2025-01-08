@@ -6,5 +6,5 @@ public interface IClientRepository : IRepository<Client, ClientId>
 
     public Task<Client> GetClientAsync(ClientId clientId);
 
-    public Task<Client> GetClientAsync(string name);
+    public Task<Client?> GetClientAsync(string name);
 }

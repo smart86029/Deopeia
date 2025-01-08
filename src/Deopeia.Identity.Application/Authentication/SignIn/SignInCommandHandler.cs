@@ -25,12 +25,11 @@ internal class SignInCommandHandler(
             if (authorizationCode is not null)
             {
                 authorizationCode.UpdateSubjectId(user.Id.Guid);
-                _authorizationCodeRepository.Update(authorizationCode);
                 await _unitOfWork.CommitAsync();
             }
         }
 
-        var result = new AuthToken { SubjectId = user?.Id.ToString() ?? string.Empty, };
+        var result = new AuthToken { SubjectId = user?.Id.Guid.ToString() ?? string.Empty };
 
         return result;
     }

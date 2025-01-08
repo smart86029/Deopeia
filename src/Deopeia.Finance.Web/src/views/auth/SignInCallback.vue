@@ -9,6 +9,7 @@ const route = useRoute();
 const router = useRouter();
 
 const error = route.params.error;
+console.log(route.params);
 if (error) {
   console.log(error);
   ElMessageBox.close();
@@ -22,7 +23,7 @@ if (error) {
   });
   authStore.signInCallback().finally(() => {
     loading.close();
-    router.replace('/');
+    router.go(-1);
   });
 }
 </script>

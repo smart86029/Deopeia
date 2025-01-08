@@ -2,9 +2,7 @@ using Deopeia.Finance.Bff.Models.Positions;
 
 namespace Deopeia.Finance.Bff.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class PositionsController(IQuoteApi quoteApi, ITradingApi tradingApi) : ControllerBase
+public class PositionsController(IQuoteApi quoteApi, ITradingApi tradingApi) : ApiController
 {
     private readonly IQuoteApi _quoteApi = quoteApi;
     private readonly ITradingApi _tradingApi = tradingApi;

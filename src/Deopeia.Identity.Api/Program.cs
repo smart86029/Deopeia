@@ -1,3 +1,4 @@
+using Deopeia.Common;
 using Deopeia.Common.Api;
 using Deopeia.Common.Application;
 using Deopeia.Common.Infrastructure;
@@ -13,6 +14,7 @@ builder
 
 var configuration = builder.Configuration;
 var services = builder.Services;
+services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
 services.AddRazorPages();
 services.AddControllers();
 services.AddAuthentication().AddCookie();

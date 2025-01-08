@@ -25,7 +25,7 @@ internal class AuthorizeCommandHandler(
         }
 
         var client = await _clientRepository.GetClientAsync(request.ClientId);
-        if (!client.IsEnabled)
+        if (client is null || !client.IsEnabled)
         {
             throw new Exception("UnAuthoriazedClient");
         }
@@ -47,6 +47,7 @@ internal class AuthorizeCommandHandler(
         }
 
         var authorizationCode = new AuthorizationCode(
+            request.SubjectId,
             client,
             clientScopes,
             request.RedirectUri!,

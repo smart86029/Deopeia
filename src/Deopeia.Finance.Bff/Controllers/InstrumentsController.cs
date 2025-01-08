@@ -3,9 +3,7 @@ using ContractSize = Deopeia.Finance.Bff.Models.Instruments.ContractSize;
 
 namespace Deopeia.Finance.Bff.Controllers;
 
-[ApiController]
-[Route("api/[controller]")]
-public class InstrumentsController(ITradingApi tradingApi) : ControllerBase
+public class InstrumentsController(ITradingApi tradingApi) : ApiController
 {
     private readonly ITradingApi _tradingApi = tradingApi;
 

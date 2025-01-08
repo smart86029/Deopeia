@@ -1,5 +1,3 @@
-using Deopeia.Identity.Application.Connect;
-
 namespace Deopeia.Identity.Application.Connect.RefreshTokenGrant;
 
 public class RefreshTokenGrantResult : GrantResult
