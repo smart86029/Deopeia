@@ -10,7 +10,7 @@ public abstract class DbSeeder
 
     public abstract void Seed(DbContext context);
 
-    protected IEnumerable<Currency> GetCurrencies()
+    protected static IEnumerable<Currency> GetCurrencies()
     {
         var results = new Currency[]
         {
@@ -32,7 +32,7 @@ public abstract class DbSeeder
         return results;
     }
 
-    protected IEnumerable<LocaleResource> GetCommonLocaleResources()
+    protected static IEnumerable<LocaleResource> GetCommonLocaleResources()
     {
         var resourcesEN = new LocaleResource[]
         {
@@ -50,6 +50,7 @@ public abstract class DbSeeder
                 "Number.LessThanOrEqualTo",
                 "{Property} must be less than or equal to {Comparison}."
             ),
+            FromError(EN, "String.EqualTo", "{Property} must bet equal to {Comparison}."),
             FromError(EN, "String.NotEmpty", "{Property} must not be empty."),
             FromError(EN, "Date.OnOrBefore", "{Property} must be on or before {Comparison}."),
             FromError(EN, "Date.OnOrBeforeNow", "{Property} must be on or before now."),
@@ -73,6 +74,7 @@ public abstract class DbSeeder
                 "Number.LessThanOrEqualTo",
                 "{Property}必須小於或等於 {Comparison}。"
             ),
+            FromError(ZHHant, "String.EqualTo", "{Property}必須等於{Comparison}。"),
             FromError(ZHHant, "String.NotEmpty", "{Property}不可為空。"),
             FromError(ZHHant, "Date.OnOrBefore", "{Property}必須等於或早於{Comparison}。"),
             FromError(ZHHant, "Date.OnOrBeforeNow", "{Property}必須等於或早於現在。"),
@@ -83,7 +85,7 @@ public abstract class DbSeeder
         return resourcesEN.Concat(resourcesZHHant);
     }
 
-    protected IEnumerable<Unit> GetUnits()
+    protected static IEnumerable<Unit> GetUnits()
     {
         var results = new Unit[]
         {
@@ -111,7 +113,7 @@ public abstract class DbSeeder
         return results;
     }
 
-    protected LocaleResource FromNone(CultureInfo culture, string code, string content)
+    protected static LocaleResource FromNone(CultureInfo culture, string code, string content)
     {
         return new LocaleResource(culture, LocaleResourceType.None, code, content);
     }
@@ -126,12 +128,12 @@ public abstract class DbSeeder
         );
     }
 
-    protected LocaleResource FromModel(CultureInfo culture, string code, string content)
+    protected static LocaleResource FromModel(CultureInfo culture, string code, string content)
     {
         return new LocaleResource(culture, LocaleResourceType.Model, code, content);
     }
 
-    protected LocaleResource FromError(CultureInfo culture, string code, string content)
+    protected static LocaleResource FromError(CultureInfo culture, string code, string content)
     {
         return new LocaleResource(culture, LocaleResourceType.Error, code, content);
     }

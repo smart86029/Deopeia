@@ -35,7 +35,7 @@ const menus = [
   {
     name: 'setting',
     children: [
-      { name: 'account.list' },
+      { name: 'trader.list' },
       { name: 'contract.list' },
       { name: 'strategy.list' },
       { name: 'position.list' },

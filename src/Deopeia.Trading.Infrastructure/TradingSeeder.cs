@@ -1,7 +1,7 @@
 using Bogus;
-using Deopeia.Trading.Domain.Accounts;
 using Deopeia.Trading.Domain.Contracts;
 using Deopeia.Trading.Domain.Positions;
+using Deopeia.Trading.Domain.Traders;
 using Currency = Deopeia.Common.Domain.Finance.Currency;
 using Unit = Deopeia.Common.Domain.Measurement.Unit;
 
@@ -34,20 +34,20 @@ public class TradingSeeder : DbSeeder
         }
 
         var currencies = GetCurrencies();
-        var accounts = GetAccounts(currencies).ToList();
         var contracts = GetContracts().ToList();
+        var traders = GetTraders().ToList();
 
         context.Set<Currency>().AddRange(currencies);
         context.Set<LocaleResource>().AddRange(GetLocaleResources());
         context.Set<Unit>().AddRange(GetUnits());
-        context.Set<Account>().AddRange(accounts);
+        context.Set<Trader>().AddRange(traders);
         context.Set<Contract>().AddRange(contracts);
-        context.Set<Position>().AddRange(GetPositions(accounts, contracts));
+        context.Set<Position>().AddRange(GetPositions(contracts, traders));
 
         context.SaveChanges();
     }
 
-    private IEnumerable<LocaleResource> GetLocaleResources()
+    private static List<LocaleResource> GetLocaleResources()
     {
         var resourcesEN = new LocaleResource[]
         {
@@ -63,25 +63,17 @@ public class TradingSeeder : DbSeeder
             FromError(ZHHant, "Strategy.Expression", "{Property}不合法。"),
         };
 
-        var results = GetCommonLocaleResources().Concat(resourcesEN).Concat(resourcesZHHant);
+        var results = GetCommonLocaleResources()
+            .Concat(resourcesEN)
+            .Concat(resourcesZHHant)
+            .ToList();
 
         return results;
     }
 
-    private IEnumerable<Account> GetAccounts(IEnumerable<Currency> currencies)
+    private static List<Contract> GetContracts()
     {
-        return new Faker<Account>()
-            .CustomInstantiator(x => new Account(
-                x.Finance.Account(),
-                true,
-                x.PickRandom(currencies).Id
-            ))
-            .Generate(10);
-    }
-
-    private IEnumerable<Contract> GetContracts()
-    {
-        var results = new Contract[]
+        var results = new List<Contract>
         {
             Stock("AAPL", "Apple Inc", null, Usd),
             Index("DJI", "Dow Jones Industrial Average Index", null, Usd, 20),
@@ -268,9 +260,9 @@ public class TradingSeeder : DbSeeder
         }
     }
 
-    private IEnumerable<Position> GetPositions(
-        IEnumerable<Account> accounts,
-        IEnumerable<Contract> contracts
+    private static List<Position> GetPositions(
+        IEnumerable<Contract> contracts,
+        IEnumerable<Trader> traders
     )
     {
         return new Faker<Position>()
@@ -285,9 +277,16 @@ public class TradingSeeder : DbSeeder
                     new Money(Usd, x.Finance.Amount()),
                     null,
                     null,
-                    x.PickRandom(accounts).Id
+                    x.PickRandom(traders).Id
                 );
             })
             .Generate(5);
+    }
+
+    private static List<Trader> GetTraders()
+    {
+        return new Faker<Trader>()
+            .CustomInstantiator(x => new Trader(x.Name.FullName(), true))
+            .Generate(10);
     }
 }

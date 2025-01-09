@@ -3,25 +3,25 @@ import { create, edit } from './props';
 
 export default [
   {
-    path: 'accounts',
-    name: 'account.list',
-    redirect: { name: 'account.default' },
+    path: 'traders',
+    name: 'trader.list',
+    redirect: { name: 'trader.default' },
     children: [
       {
         path: '',
-        name: 'account.default',
-        component: () => import('../views/setting/AccountList.vue'),
+        name: 'trader.default',
+        component: () => import('../views/setting/TraderList.vue'),
       },
       {
         path: 'create',
-        name: 'account.create',
-        component: () => import('../views/setting/AccountForm.vue'),
+        name: 'trader.create',
+        component: () => import('../views/setting/TraderForm.vue'),
         props: create,
       },
       {
         path: ':id',
-        name: 'account.edit',
-        component: () => import('../views/setting/AccountForm.vue'),
+        name: 'trader.edit',
+        component: () => import('../views/setting/TraderForm.vue'),
         props: edit,
       },
     ],

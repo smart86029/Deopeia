@@ -1,15 +1,15 @@
-using Deopeia.Trading.Domain.Accounts;
 using Deopeia.Trading.Domain.Contracts;
 using Deopeia.Trading.Domain.OrderBooks;
 using Deopeia.Trading.Domain.Orders;
+using Deopeia.Trading.Domain.Traders;
 
 namespace Deopeia.Trading.Application.Orders.MockOrders;
 
 internal class MockOrdersCommandHandler(
     ITradingUnitOfWork unitOfWork,
-    IAccountRepository accountRepository,
     IContractRepository contractRepository,
     IOrderBookRepository orderBookRepository,
+    ITraderRepository traderRepository,
     IEventBus eventBus
 ) : IRequestHandler<MockOrdersCommand>
 {
@@ -31,15 +31,16 @@ internal class MockOrdersCommandHandler(
     };
 
     private readonly ITradingUnitOfWork _unitOfWork = unitOfWork;
-    private readonly IAccountRepository _accountRepository = accountRepository;
+
     private readonly IContractRepository _contractRepository = contractRepository;
     private readonly IOrderBookRepository _orderBookRepository = orderBookRepository;
+    private readonly ITraderRepository _traderRepository = traderRepository;
     private readonly IEventBus _eventBus = eventBus;
 
     public async Task Handle(MockOrdersCommand request, CancellationToken cancellationToken)
     {
-        var accounts = await _accountRepository.GetAccountsAsync();
         var contracts = await _contractRepository.GetContractsAsync();
+        var traders = await _traderRepository.GetTradersAsync();
 
         var ramdom = new Random();
         foreach (var contract in contracts)
@@ -70,7 +71,7 @@ internal class MockOrdersCommandHandler(
                     openPrice,
                     null,
                     null,
-                    accounts[ramdom.Next(0, 10)].Id
+                    traders[ramdom.Next(0, 10)].Id
                 );
 
                 await _unitOfWork.CommitAsync();

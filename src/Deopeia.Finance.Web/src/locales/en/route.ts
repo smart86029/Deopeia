@@ -1,10 +1,5 @@
 export default {
   route: {
-    account: {
-      list: 'Accounts',
-      create: 'Create Account',
-      edit: 'Edit Account',
-    },
     contract: {
       list: 'Contracts',
       create: 'Create Contract',
@@ -52,6 +47,11 @@ export default {
       list: 'Strategies',
       create: 'Create Strategy',
       edit: 'Edit Strategy',
+    },
+    trader: {
+      list: 'Traders',
+      create: 'Create Trader',
+      edit: 'Edit Trader',
     },
     trading: {
       view: 'Trading',

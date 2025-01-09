@@ -1,5 +1,4 @@
 using Deopeia.Trading.Domain.Contracts;
-using Microsoft.EntityFrameworkCore;
 
 namespace Deopeia.Trading.Infrastructure.Contracts;
 

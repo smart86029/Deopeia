@@ -1,5 +1,5 @@
-using Deopeia.Trading.Domain.Accounts;
 using Deopeia.Trading.Domain.OrderBooks;
+using Deopeia.Trading.Domain.Traders;
 
 namespace Deopeia.Trading.Application.Orders.PlaceOrder;
 
@@ -18,7 +18,7 @@ internal class PlaceOrderCommandHandler(
         var symbol = new Symbol(request.Symbol);
         var orderBook = await _orderBookRepository.GetOrderBookAsync(symbol);
 
-        var openedBy = new AccountId(request.AccountId);
+        var openedBy = new TraderId(request.AccountId);
         var currencyCode = new CurrencyCode(request.CurrencyCode);
         orderBook.AddOrder(
             request.Side,

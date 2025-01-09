@@ -1,11 +1,11 @@
-using Deopeia.Trading.Domain.Accounts;
 using Deopeia.Trading.Domain.Orders;
 using Deopeia.Trading.Domain.Positions;
 using Deopeia.Trading.Domain.Strategies;
-using Deopeia.Trading.Infrastructure.Accounts;
+using Deopeia.Trading.Domain.Traders;
 using Deopeia.Trading.Infrastructure.Orders;
 using Deopeia.Trading.Infrastructure.Positions;
 using Deopeia.Trading.Infrastructure.Strategies;
+using Deopeia.Trading.Infrastructure.Traders;
 
 namespace Deopeia.Trading.Infrastructure;
 
@@ -15,13 +15,13 @@ public class TradingContext(DbContextOptions<TradingContext> options) : DbContex
     {
         configurationBuilder.ApplyConventions();
 
-        configurationBuilder.Properties<AccountId>().HaveConversion<AccountIdConverter>();
-
         configurationBuilder.Properties<OrderId>().HaveConversion<OrderIdConverter>();
 
         configurationBuilder.Properties<PositionId>().HaveConversion<PositionIdConverter>();
 
         configurationBuilder.Properties<StrategyId>().HaveConversion<StrategyIdConverter>();
+
+        configurationBuilder.Properties<TraderId>().HaveConversion<TraderIdConverter>();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

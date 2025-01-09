@@ -1,5 +1,5 @@
-using Deopeia.Trading.Domain.Accounts;
 using Deopeia.Trading.Domain.Positions;
+using Deopeia.Trading.Domain.Traders;
 
 namespace Deopeia.Trading.Domain.Orders;
 
@@ -7,13 +7,7 @@ public abstract class Order : AggregateRoot<OrderId>
 {
     protected Order() { }
 
-    protected Order(
-        OrderType type,
-        OrderSide side,
-        decimal volume,
-        Money price,
-        AccountId createdBy
-    )
+    protected Order(OrderType type, OrderSide side, decimal volume, Money price, TraderId createdBy)
     {
         Type = type;
         Side = side;
@@ -35,7 +29,7 @@ public abstract class Order : AggregateRoot<OrderId>
 
     public Money Price { get; private set; }
 
-    public AccountId CreatedBy { get; private init; }
+    public TraderId CreatedBy { get; private init; }
 
     public DateTimeOffset CreatedAt { get; private init; } = DateTimeOffset.UtcNow;
 

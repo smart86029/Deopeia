@@ -1,8 +1,8 @@
-using Deopeia.Trading.Domain.Accounts;
 using Deopeia.Trading.Domain.Orders;
 using Deopeia.Trading.Domain.Orders.LimitOrders;
 using Deopeia.Trading.Domain.Orders.MarketOrders;
 using Deopeia.Trading.Domain.Orders.StopOrders;
+using Deopeia.Trading.Domain.Traders;
 
 namespace Deopeia.Trading.Domain.Positions;
 
@@ -19,7 +19,7 @@ public class Position : AggregateRoot<PositionId>
         Money? openPrice,
         Money? stopLimitPrice,
         Money? takeProfitPrice,
-        AccountId openedBy
+        TraderId openedBy
     )
     {
         type.MustBeDefined();
@@ -66,7 +66,7 @@ public class Position : AggregateRoot<PositionId>
 
     public Money Margin { get; private set; } = new();
 
-    public AccountId OpenedBy { get; private init; }
+    public TraderId OpenedBy { get; private init; }
 
     public DateTimeOffset OpenedAt { get; private init; } = DateTimeOffset.UtcNow;
 

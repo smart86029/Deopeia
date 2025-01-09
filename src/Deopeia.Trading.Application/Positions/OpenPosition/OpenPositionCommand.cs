@@ -10,5 +10,5 @@ public record OpenPositionCommand(
     decimal? Price,
     decimal? StopLossPrice,
     decimal? TakeProfitPrice,
-    Guid AccountId
+    Guid TraderId
 ) : IRequest { }

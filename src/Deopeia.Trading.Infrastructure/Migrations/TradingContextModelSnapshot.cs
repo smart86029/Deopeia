@@ -197,51 +197,6 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                     b.ToTable("locale_resource", (string)null);
                 });
 
-            modelBuilder.Entity("Deopeia.Trading.Domain.Accounts.Account", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("AccountNumber")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("account_number");
-
-                    b.Property<bool>("IsEnabled")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_enabled");
-
-                    b.ComplexProperty<Dictionary<string, object>>("Balance", "Deopeia.Trading.Domain.Accounts.Account.Balance#Money", b1 =>
-                        {
-                            b1.Property<decimal>("Amount")
-                                .HasColumnType("numeric")
-                                .HasColumnName("balance_amount");
-
-                            b1.Property<string>("CurrencyCode")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("balance_currency_code");
-                        });
-
-                    b.ComplexProperty<Dictionary<string, object>>("Margin", "Deopeia.Trading.Domain.Accounts.Account.Margin#Money", b1 =>
-                        {
-                            b1.Property<decimal>("Amount")
-                                .HasColumnType("numeric")
-                                .HasColumnName("margin_amount");
-
-                            b1.Property<string>("CurrencyCode")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("margin_currency_code");
-                        });
-
-                    b.HasKey("Id")
-                        .HasName("pk_account");
-
-                    b.ToTable("account", (string)null);
-                });
-
             modelBuilder.Entity("Deopeia.Trading.Domain.Contracts.Contract", b =>
                 {
                     b.Property<string>("Id")
@@ -567,6 +522,70 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                     b.ToTable("strategy_locale", (string)null);
                 });
 
+            modelBuilder.Entity("Deopeia.Trading.Domain.Traders.Account", b =>
+                {
+                    b.Property<Guid>("TraderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("trader_id");
+
+                    b.Property<string>("CurrencyCode")
+                        .HasColumnType("text")
+                        .HasColumnName("currency_code");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_enabled");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Balance", "Deopeia.Trading.Domain.Traders.Account.Balance#Money", b1 =>
+                        {
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric")
+                                .HasColumnName("balance");
+                        });
+
+                    b.HasKey("TraderId", "CurrencyCode")
+                        .HasName("pk_account");
+
+                    b.ToTable("account", (string)null);
+                });
+
+            modelBuilder.Entity("Deopeia.Trading.Domain.Traders.Trader", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_enabled");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id")
+                        .HasName("pk_trader");
+
+                    b.ToTable("trader", (string)null);
+                });
+
+            modelBuilder.Entity("Deopeia.Trading.Domain.Traders.TraderSymbol", b =>
+                {
+                    b.Property<Guid>("TraderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("trader_id");
+
+                    b.Property<string>("Symbol")
+                        .HasColumnType("text")
+                        .HasColumnName("symbol");
+
+                    b.HasKey("TraderId", "Symbol")
+                        .HasName("pk_trader_symbol");
+
+                    b.ToTable("trader_symbol", (string)null);
+                });
+
             modelBuilder.Entity("Deopeia.Common.Domain.Auditing.DataAccessAuditTrail", b =>
                 {
                     b.HasBaseType("Deopeia.Common.Domain.Auditing.AuditTrail");
@@ -738,6 +757,16 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasConstraintName("fk_strategy_locale_strategy_strategy_id");
                 });
 
+            modelBuilder.Entity("Deopeia.Trading.Domain.Traders.TraderSymbol", b =>
+                {
+                    b.HasOne("Deopeia.Trading.Domain.Traders.Trader", null)
+                        .WithMany("TraderSymbols")
+                        .HasForeignKey("TraderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_trader_symbol_trader_trader_id");
+                });
+
             modelBuilder.Entity("Deopeia.Common.Domain.Finance.Currency", b =>
                 {
                     b.Navigation("Locales");
@@ -765,6 +794,11 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                     b.Navigation("Legs");
 
                     b.Navigation("Locales");
+                });
+
+            modelBuilder.Entity("Deopeia.Trading.Domain.Traders.Trader", b =>
+                {
+                    b.Navigation("TraderSymbols");
                 });
 #pragma warning restore 612, 618
         }

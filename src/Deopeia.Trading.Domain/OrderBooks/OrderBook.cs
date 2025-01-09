@@ -1,8 +1,7 @@
-using Deopeia.Common.Extensions;
-using Deopeia.Trading.Domain.Accounts;
 using Deopeia.Trading.Domain.Orders;
 using Deopeia.Trading.Domain.Orders.LimitOrders;
 using Deopeia.Trading.Domain.Orders.MarketOrders;
+using Deopeia.Trading.Domain.Traders;
 
 namespace Deopeia.Trading.Domain.OrderBooks;
 
@@ -29,7 +28,7 @@ public class OrderBook : AggregateRoot<Symbol>
         Money? openPrice,
         Money? stopLimitPrice,
         Money? takeProfitPrice,
-        AccountId openedBy
+        TraderId openedBy
     )
     {
         side.MustBeDefined();

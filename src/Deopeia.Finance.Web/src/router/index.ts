@@ -31,6 +31,7 @@ const router = createRouter({
       ],
     },
     ...auth,
+    { path: '/:pathMatch(.*)*', name: '404', redirect: { name: 'home' } },
   ],
 });
 

@@ -1,10 +1,5 @@
 export default {
   route: {
-    account: {
-      list: '帳戶列表',
-      create: '新增帳戶',
-      edit: '編輯帳戶',
-    },
     contract: {
       list: '合約列表',
       create: '新增合約',
@@ -52,6 +47,11 @@ export default {
       list: '策略列表',
       create: '新增策略',
       edit: '編輯策略',
+    },
+    trader: {
+      list: '交易者列表',
+      create: '新增交易者',
+      edit: '編輯交易者',
     },
     trading: {
       view: '交易',

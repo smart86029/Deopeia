@@ -1,6 +1,8 @@
+using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using Deopeia.Common.Domain.Finance;
 
 namespace Deopeia.Common.Domain;
 
@@ -78,10 +80,7 @@ public static partial class ValidationExtensions
     {
         if (value.IsNullOrWhiteSpace())
         {
-            throw new DomainException(
-                "String.NotEmpty",
-                new { Property = GetProperty(filePath, valueName) }
-            );
+            throw NewDomainException("String.NotEmpty", filePath, valueName);
         }
     }
 
@@ -95,14 +94,7 @@ public static partial class ValidationExtensions
     {
         if (value > comparison)
         {
-            throw new DomainException(
-                "Date.OnOrBefore",
-                new
-                {
-                    Property = GetProperty(filePath, valueName),
-                    Comparison = GetProperty(filePath, comparisonName),
-                }
-            );
+            throw NewDomainException("Date.OnOrBefore", filePath, valueName, comparisonName);
         }
     }
 
@@ -114,10 +106,7 @@ public static partial class ValidationExtensions
     {
         if (value > DateOnly.FromDateTime(DateTime.UtcNow))
         {
-            throw new DomainException(
-                "Date.OnOrBeforeNow",
-                new { Property = GetProperty(filePath, valueName) }
-            );
+            throw NewDomainException("Date.OnOrBeforeNow", filePath, valueName);
         }
     }
 
@@ -129,10 +118,21 @@ public static partial class ValidationExtensions
     {
         if (!value.IsAfterNow())
         {
-            throw new DomainException(
-                "Date.AfterNow",
-                new { Property = GetProperty(filePath, valueName) }
-            );
+            throw NewDomainException("Date.AfterNow", filePath, valueName);
+        }
+    }
+
+    public static void MustEqualTo(
+        this CurrencyCode value,
+        CurrencyCode comparison,
+        [CallerFilePath] string filePath = "",
+        [CallerArgumentExpression(nameof(value))] string? valueName = null,
+        [CallerArgumentExpression(nameof(comparison))] string? comparisonName = null
+    )
+    {
+        if (value != comparison)
+        {
+            throw NewDomainException("String.EqualTo", filePath, valueName, comparisonName);
         }
     }
 
@@ -144,10 +144,7 @@ public static partial class ValidationExtensions
     {
         if (value == Guid.Empty)
         {
-            throw new DomainException(
-                "String.NotEmpty",
-                new { Property = GetProperty(filePath, valueName) }
-            );
+            throw NewDomainException("String.NotEmpty", filePath, valueName);
         }
     }
 
@@ -165,22 +162,42 @@ public static partial class ValidationExtensions
                 .Aggregate((e1, e2) => e1 | e2);
             if ((all & value) != value)
             {
-                throw new DomainException(
-                    "Enum.Defined",
-                    new { Property = GetProperty(filePath, valueName) }
-                );
+                throw NewDomainException("Enum.Defined", filePath, valueName);
             }
         }
         else
         {
             if (!value.IsDefined())
             {
-                throw new DomainException(
-                    "Enum.Defined",
-                    new { Property = GetProperty(filePath, valueName) }
-                );
+                throw NewDomainException("Enum.Defined", filePath, valueName);
             }
         }
+    }
+
+    private static DomainException NewDomainException(
+        string code,
+        string filePath,
+        string? valueName
+    )
+    {
+        return new DomainException(code, new { Property = GetProperty(filePath, valueName) });
+    }
+
+    private static DomainException NewDomainException(
+        string code,
+        string filePath,
+        string? valueName,
+        string? comparisonName
+    )
+    {
+        return new DomainException(
+            code,
+            new
+            {
+                Property = GetProperty(filePath, valueName),
+                Comparison = GetProperty(filePath, comparisonName),
+            }
+        );
     }
 
     private static LocalizableProperty GetProperty(string filePath, string? valueName)

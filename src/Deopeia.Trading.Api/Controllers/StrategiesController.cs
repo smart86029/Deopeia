@@ -1,4 +1,3 @@
-using Deopeia.Trading.Application.Accounts.UpdateAccount;
 using Deopeia.Trading.Application.Strategies.CreateStrategy;
 using Deopeia.Trading.Application.Strategies.GetStrategies;
 using Deopeia.Trading.Application.Strategies.GetStrategy;

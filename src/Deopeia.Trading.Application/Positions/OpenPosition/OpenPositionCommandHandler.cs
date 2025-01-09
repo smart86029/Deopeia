@@ -1,5 +1,5 @@
-using Deopeia.Trading.Domain.Accounts;
 using Deopeia.Trading.Domain.Positions;
+using Deopeia.Trading.Domain.Traders;
 
 namespace Deopeia.Trading.Application.Positions.OpenPosition;
 
@@ -14,7 +14,7 @@ internal class OpenPositionCommandHandler(
     public async Task Handle(OpenPositionCommand request, CancellationToken cancellationToken)
     {
         var instrumentId = new Symbol(request.Symbol);
-        var openedBy = new AccountId(request.AccountId);
+        var openedBy = new TraderId(request.TraderId);
         var currencyCode = new CurrencyCode(request.CurrencyCode);
         var position = new Position(
             request.Type,
