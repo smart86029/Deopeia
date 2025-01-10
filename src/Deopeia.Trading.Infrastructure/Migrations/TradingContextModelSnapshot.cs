@@ -104,6 +104,10 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("decimals");
 
+                    b.Property<decimal>("ExchangeRate")
+                        .HasColumnType("numeric")
+                        .HasColumnName("exchange_rate");
+
                     b.Property<string>("Symbol")
                         .HasColumnType("text")
                         .HasColumnName("symbol");
@@ -757,6 +761,16 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasConstraintName("fk_strategy_locale_strategy_strategy_id");
                 });
 
+            modelBuilder.Entity("Deopeia.Trading.Domain.Traders.Account", b =>
+                {
+                    b.HasOne("Deopeia.Trading.Domain.Traders.Trader", null)
+                        .WithMany("Accounts")
+                        .HasForeignKey("TraderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_account_trader_trader_id");
+                });
+
             modelBuilder.Entity("Deopeia.Trading.Domain.Traders.TraderSymbol", b =>
                 {
                     b.HasOne("Deopeia.Trading.Domain.Traders.Trader", null)
@@ -798,6 +812,8 @@ namespace Deopeia.Trading.Infrastructure.Migrations
 
             modelBuilder.Entity("Deopeia.Trading.Domain.Traders.Trader", b =>
                 {
+                    b.Navigation("Accounts");
+
                     b.Navigation("TraderSymbols");
                 });
 #pragma warning restore 612, 618

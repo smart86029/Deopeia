@@ -25,14 +25,22 @@ public class GetTradersQueryHandler(NpgsqlConnection connection)
         var sql = builder.AddTemplate(
             """
 SELECT
-    id,
-    name,
-    is_enabled
-FROM trader
-/**where**/
-ORDER BY id
-LIMIT @Limit
-OFFSET @Offset
+    a.*,
+    SUM(b.balance * c.exchange_rate) AS balance
+FROM (
+    SELECT
+        id,
+        name,
+        is_enabled
+    FROM trader
+    /**where**/
+    ORDER BY id
+    LIMIT @Limit
+    OFFSET @Offset
+) AS a
+INNER JOIN account AS b ON a.id = b.trader_id
+INNER JOIN currency AS c ON b.currency_code = c.code
+GROUP BY a.id, a.name, a.is_enabled
 """,
             new
             {

@@ -6,12 +6,13 @@ public class Currency : AggregateRoot<CurrencyCode>, ILocalizable<CurrencyLocale
 
     private Currency() { }
 
-    public Currency(string code, string name, string? symbol, int decimals)
+    public Currency(string code, string name, string? symbol, int decimals, decimal exchangeRate)
         : base(new CurrencyCode(code))
     {
         _locales.Default.UpdateName(name);
         Symbol = symbol;
         Decimals = decimals;
+        ExchangeRate = exchangeRate;
     }
 
     public string Name => _locales[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
@@ -19,6 +20,8 @@ public class Currency : AggregateRoot<CurrencyCode>, ILocalizable<CurrencyLocale
     public string? Symbol { get; private init; }
 
     public int Decimals { get; private init; }
+
+    public decimal ExchangeRate { get; private set; }
 
     public IReadOnlyCollection<CurrencyLocale> Locales => _locales;
 

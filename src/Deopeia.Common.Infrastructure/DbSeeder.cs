@@ -14,12 +14,12 @@ public abstract class DbSeeder
     {
         var results = new Currency[]
         {
-            new("CNY", "Renminbi", "¥", 2),
-            new("EUR", "Euro", "€", 2),
-            new("GBP", "Sterling", "£", 2),
-            new("JPY", "Japanese yen", "¥", 0),
-            new("TWD", "New Taiwan dollar", "$", 2),
-            new("USD", "United States dollar", "$", 2),
+            new("CNY", "Renminbi", "¥", 2, 7.33101841M),
+            new("EUR", "Euro", "€", 2, 0.97060529M),
+            new("GBP", "Sterling", "£", 2, 0.812612M),
+            new("JPY", "Japanese yen", "¥", 0, 158.14941578M),
+            new("TWD", "New Taiwan dollar", "$", 2, 32.91910032M),
+            new("USD", "United States dollar", "$", 2, 1),
         };
 
         results[0].UpdateName("人民幣", ZHHant);
@@ -118,7 +118,11 @@ public abstract class DbSeeder
         return new LocaleResource(culture, LocaleResourceType.None, code, content);
     }
 
-    protected LocaleResource FromEnum<TEnum>(CultureInfo culture, TEnum @enum, string content)
+    protected static LocaleResource FromEnum<TEnum>(
+        CultureInfo culture,
+        TEnum @enum,
+        string content
+    )
     {
         return new LocaleResource(
             culture,

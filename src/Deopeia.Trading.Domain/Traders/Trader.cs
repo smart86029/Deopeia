@@ -20,6 +20,8 @@ public class Trader : AggregateRoot<TraderId>
 
     public bool IsEnabled { get; private set; }
 
+    public IReadOnlyCollection<Account> Accounts => _accounts.AsReadOnly();
+
     public IReadOnlyCollection<TraderSymbol> TraderSymbols => _traderSymbols.AsReadOnly();
 
     public void UpdateName(string name)

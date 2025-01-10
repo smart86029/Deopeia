@@ -69,7 +69,8 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                 {
                     code = table.Column<string>(type: "text", nullable: false),
                     symbol = table.Column<string>(type: "text", nullable: true),
-                    decimals = table.Column<int>(type: "integer", nullable: false)
+                    decimals = table.Column<int>(type: "integer", nullable: false),
+                    exchange_rate = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {

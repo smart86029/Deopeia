@@ -17,11 +17,6 @@
       :label="$t('common.status')"
       localeKey="status.isEnabled"
     />
-    <el-table-column prop="currency" :label="$t('common.currency')">
-      <template #default="{ row }">
-        {{ currencies.find((x) => x.value === row.currencyCode)?.name }}
-      </template>
-    </el-table-column>
     <TableColumnDecimal prop="balance" :label="$t('trading.balance')" />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
@@ -53,27 +48,21 @@
 </template>
 
 <script setup lang="ts">
-import optionApi from '@/api/option-api';
 import {
   traderApi,
   type GetTradersQuery,
   type TraderRow,
 } from '@/api/setting/trader-api';
-
-import type { OptionResult } from '@/models/option-result';
 import { defaultQuery, defaultResult, type PageResult } from '@/models/page';
 
 const loading = ref(false);
 const depositVisible = ref(false);
 const withdrawVisible = ref(false);
 const trader = ref({} as TraderRow);
-const currencies: Ref<OptionResult<string>[]> = ref([]);
 const query: GetTradersQuery = reactive({
   ...defaultQuery,
 });
 const result: PageResult<TraderRow> = reactive(defaultResult());
-
-optionApi.getCurrencies().then((x) => (currencies.value = x.data));
 
 const deposit = (row: TraderRow) => {
   trader.value = row;

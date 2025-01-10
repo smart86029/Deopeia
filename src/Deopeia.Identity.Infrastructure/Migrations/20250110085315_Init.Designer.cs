@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deopeia.Identity.Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20241120072920_Init")]
+    [Migration("20250110085315_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -105,6 +105,10 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     b.Property<int>("Decimals")
                         .HasColumnType("integer")
                         .HasColumnName("decimals");
+
+                    b.Property<decimal>("ExchangeRate")
+                        .HasColumnType("numeric")
+                        .HasColumnName("exchange_rate");
 
                     b.Property<string>("Symbol")
                         .HasColumnType("text")

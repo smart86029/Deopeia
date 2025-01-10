@@ -103,6 +103,10 @@ namespace Deopeia.Quote.Infrastructure.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("decimals");
 
+                    b.Property<decimal>("ExchangeRate")
+                        .HasColumnType("numeric")
+                        .HasColumnName("exchange_rate");
+
                     b.Property<string>("Symbol")
                         .HasColumnType("text")
                         .HasColumnName("symbol");

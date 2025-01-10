@@ -13,20 +13,6 @@ namespace Deopeia.Trading.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "account",
-                columns: table => new
-                {
-                    trader_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    currency_code = table.Column<string>(type: "text", nullable: false),
-                    is_enabled = table.Column<bool>(type: "boolean", nullable: false),
-                    balance = table.Column<decimal>(type: "numeric", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_account", x => new { x.trader_id, x.currency_code });
-                });
-
-            migrationBuilder.CreateTable(
                 name: "audit_trail",
                 columns: table => new
                 {
@@ -73,7 +59,8 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 {
                     code = table.Column<string>(type: "text", nullable: false),
                     symbol = table.Column<string>(type: "text", nullable: true),
-                    decimals = table.Column<int>(type: "integer", nullable: false)
+                    decimals = table.Column<int>(type: "integer", nullable: false),
+                    exchange_rate = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -299,6 +286,26 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         name: "fk_strategy_locale_strategy_strategy_id",
                         column: x => x.strategy_id,
                         principalTable: "strategy",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "account",
+                columns: table => new
+                {
+                    trader_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    currency_code = table.Column<string>(type: "text", nullable: false),
+                    is_enabled = table.Column<bool>(type: "boolean", nullable: false),
+                    balance = table.Column<decimal>(type: "numeric", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_account", x => new { x.trader_id, x.currency_code });
+                    table.ForeignKey(
+                        name: "fk_account_trader_trader_id",
+                        column: x => x.trader_id,
+                        principalTable: "trader",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });

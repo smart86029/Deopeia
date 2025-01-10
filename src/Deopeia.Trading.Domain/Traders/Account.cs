@@ -6,6 +6,7 @@ public class Account : Entity<AccountId>
         : base(new AccountId(traderId, currencyCode))
     {
         IsEnabled = isEnabled;
+        Balance = new Money(currencyCode, 0);
     }
 
     public TraderId TraderId => Id.TraderId;
