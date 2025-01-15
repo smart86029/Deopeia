@@ -1,4 +1,5 @@
 using Deopeia.Finance.Bff.Models.Instruments;
+using Deopeia.Finance.Bff.Models.Trading;
 using ContractSize = Deopeia.Finance.Bff.Models.Instruments.ContractSize;
 
 namespace Deopeia.Finance.Bff.Controllers;

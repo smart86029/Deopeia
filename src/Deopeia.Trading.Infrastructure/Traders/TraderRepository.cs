@@ -8,14 +8,17 @@ internal class TraderRepository(TradingContext context) : ITraderRepository
 
     public async Task<IReadOnlyList<Trader>> GetTradersAsync()
     {
-        return await _traders.Include(x => x.Accounts).Include(x => x.TraderSymbols).ToListAsync();
+        return await _traders
+            .Include(x => x.Accounts)
+            .Include(x => x.TraderFavorites)
+            .ToListAsync();
     }
 
     public async Task<Trader> GetTraderAsync(TraderId id)
     {
         return await _traders
             .Include(x => x.Accounts)
-            .Include(x => x.TraderSymbols)
+            .Include(x => x.TraderFavorites)
             .SingleAsync(x => x.Id == id);
     }
 

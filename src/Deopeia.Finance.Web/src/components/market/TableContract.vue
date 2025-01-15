@@ -1,5 +1,11 @@
 <template>
   <el-table table-layout="auto">
+    <el-table-column class-name="favorite" width="30">
+      <template #default="{ row }">
+        <IconFavoriteFill v-if="row.isFavorite" @click="dislike(row.symbol)" />
+        <IconFavorite v-else @click="like(row)" />
+      </template>
+    </el-table-column>
     <el-table-column :label="$t('finance.symbol')">
       <template #default="{ row }">
         <TextLink
@@ -40,6 +46,7 @@
 </template>
 
 <script setup lang="ts">
+import { favoriteApi } from '@/api/market/favorite-api';
 import { OrderSide } from '@/models/trading/order-side';
 import { usePreferencesStore } from '@/stores/preferences';
 import { useQuoteStore } from '@/stores/quote';
@@ -61,4 +68,21 @@ const getVolume = (symbol: string) => ticks.value.get(symbol)?.volume || 0;
 const getBid = (symbol: string) => ticks.value.get(symbol)?.bid || 0;
 
 const getAsk = (symbol: string) => ticks.value.get(symbol)?.ask || 0;
+
+const like = (contract: any) => {
+  favoriteApi.like(contract.symbol).then(() => (contract.isFavorite = true));
+};
+
+const dislike = (contract: any) => {
+  favoriteApi
+    .dislike(contract.symbol)
+    .then(() => (contract.isFavorite = false));
+};
 </script>
+
+<style lang="scss" scoped>
+:deep(.favorite) .cell {
+  height: 24px;
+  cursor: pointer;
+}
+</style>

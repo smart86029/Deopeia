@@ -6,5 +6,7 @@ public interface IContractRepository : IRepository<Contract, Symbol>
 
     Task<Contract> GetContractAsync(Symbol symbol);
 
+    Task<bool> ExistsAsync(Symbol symbol);
+
     Task AddAsync(Contract contract);
 }

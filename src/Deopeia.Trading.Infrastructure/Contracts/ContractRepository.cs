@@ -19,6 +19,11 @@ internal class ContractRepository(TradingContext context) : IContractRepository
             .FirstAsync(x => x.Id == symbol);
     }
 
+    public async Task<bool> ExistsAsync(Symbol symbol)
+    {
+        return await _contracts.AnyAsync(x => x.Id == symbol);
+    }
+
     public async Task AddAsync(Contract contract)
     {
         await _contracts.AddAsync(contract);

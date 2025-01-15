@@ -3,6 +3,7 @@ using Deopeia.Common;
 using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Finance.Bff;
 using Deopeia.Finance.Bff.Models.RealTime;
+using Deopeia.Finance.Bff.Models.Trading;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 

@@ -3,7 +3,7 @@ namespace Deopeia.Trading.Domain.Traders;
 public class Trader : AggregateRoot<TraderId>
 {
     private readonly List<Account> _accounts = [];
-    private readonly List<TraderSymbol> _traderSymbols = [];
+    private readonly List<TraderFavorite> _traderFavorites = [];
 
     private Trader() { }
 
@@ -22,7 +22,7 @@ public class Trader : AggregateRoot<TraderId>
 
     public IReadOnlyCollection<Account> Accounts => _accounts.AsReadOnly();
 
-    public IReadOnlyCollection<TraderSymbol> TraderSymbols => _traderSymbols.AsReadOnly();
+    public IReadOnlyCollection<TraderFavorite> TraderFavorites => _traderFavorites.AsReadOnly();
 
     public void UpdateName(string name)
     {
@@ -58,24 +58,24 @@ public class Trader : AggregateRoot<TraderId>
         account?.Withdraw(money);
     }
 
-    public void AddSymbol(Symbol symbol)
+    public void Like(Symbol symbol)
     {
-        if (_traderSymbols.Any(x => x.Symbol == symbol))
+        if (_traderFavorites.Any(x => x.Symbol == symbol))
         {
             return;
         }
 
-        _traderSymbols.Add(new TraderSymbol(Id, symbol));
+        _traderFavorites.Add(new TraderFavorite(Id, symbol, _traderFavorites.Count));
     }
 
-    public void RemoveSymbol(Symbol symbol)
+    public void Dislike(Symbol symbol)
     {
-        var traderSymbol = _traderSymbols.FirstOrDefault(x => x.Symbol == symbol);
+        var traderSymbol = _traderFavorites.FirstOrDefault(x => x.Symbol == symbol);
         if (traderSymbol is null)
         {
             return;
         }
 
-        _traderSymbols.Remove(traderSymbol);
+        _traderFavorites.Remove(traderSymbol);
     }
 }

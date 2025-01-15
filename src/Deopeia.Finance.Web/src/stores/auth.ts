@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('auth', () => {
     return await userManager.getUser();
   };
 
-  const signIn = () => userManager.signinRedirect();
+  const signIn = () => userManager.signinRedirect({ redirectTarget: 'self' });
 
   const signInCallback = () => userManager.signinCallback();
 

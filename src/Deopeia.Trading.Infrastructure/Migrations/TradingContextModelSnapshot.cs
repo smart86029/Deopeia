@@ -574,7 +574,7 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                     b.ToTable("trader", (string)null);
                 });
 
-            modelBuilder.Entity("Deopeia.Trading.Domain.Traders.TraderSymbol", b =>
+            modelBuilder.Entity("Deopeia.Trading.Domain.Traders.TraderFavorite", b =>
                 {
                     b.Property<Guid>("TraderId")
                         .HasColumnType("uuid")
@@ -584,10 +584,14 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("symbol");
 
-                    b.HasKey("TraderId", "Symbol")
-                        .HasName("pk_trader_symbol");
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("integer")
+                        .HasColumnName("sort_order");
 
-                    b.ToTable("trader_symbol", (string)null);
+                    b.HasKey("TraderId", "Symbol")
+                        .HasName("pk_trader_favorite");
+
+                    b.ToTable("trader_favorite", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Common.Domain.Auditing.DataAccessAuditTrail", b =>
@@ -771,14 +775,14 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasConstraintName("fk_account_trader_trader_id");
                 });
 
-            modelBuilder.Entity("Deopeia.Trading.Domain.Traders.TraderSymbol", b =>
+            modelBuilder.Entity("Deopeia.Trading.Domain.Traders.TraderFavorite", b =>
                 {
                     b.HasOne("Deopeia.Trading.Domain.Traders.Trader", null)
-                        .WithMany("TraderSymbols")
+                        .WithMany("TraderFavorites")
                         .HasForeignKey("TraderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_trader_symbol_trader_trader_id");
+                        .HasConstraintName("fk_trader_favorite_trader_trader_id");
                 });
 
             modelBuilder.Entity("Deopeia.Common.Domain.Finance.Currency", b =>
@@ -814,7 +818,7 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 {
                     b.Navigation("Accounts");
 
-                    b.Navigation("TraderSymbols");
+                    b.Navigation("TraderFavorites");
                 });
 #pragma warning restore 612, 618
         }

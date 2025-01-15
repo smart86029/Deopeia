@@ -28,7 +28,7 @@ const memberRoute = (command: string) => {
       break;
 
     case 'signOut':
-      authStore.signIn();
+      authStore.signOut();
       break;
   }
 };

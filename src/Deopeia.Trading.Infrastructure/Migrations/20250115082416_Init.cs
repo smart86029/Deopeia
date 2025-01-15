@@ -311,17 +311,18 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "trader_symbol",
+                name: "trader_favorite",
                 columns: table => new
                 {
                     trader_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    symbol = table.Column<string>(type: "text", nullable: false)
+                    symbol = table.Column<string>(type: "text", nullable: false),
+                    sort_order = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_trader_symbol", x => new { x.trader_id, x.symbol });
+                    table.PrimaryKey("pk_trader_favorite", x => new { x.trader_id, x.symbol });
                     table.ForeignKey(
-                        name: "fk_trader_symbol_trader_trader_id",
+                        name: "fk_trader_favorite_trader_trader_id",
                         column: x => x.trader_id,
                         principalTable: "trader",
                         principalColumn: "id",
@@ -403,7 +404,7 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 name: "strategy_locale");
 
             migrationBuilder.DropTable(
-                name: "trader_symbol");
+                name: "trader_favorite");
 
             migrationBuilder.DropTable(
                 name: "unit_locale");

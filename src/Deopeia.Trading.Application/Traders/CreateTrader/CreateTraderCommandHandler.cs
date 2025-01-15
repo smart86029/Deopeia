@@ -1,7 +1,6 @@
-using Deopeia.Trading.Application.Traders.CreateTrader;
 using Deopeia.Trading.Domain.Traders;
 
-namespace Deopeia.Trading.Application.Accounts.CreateAccount;
+namespace Deopeia.Trading.Application.Traders.CreateTrader;
 
 public class CreateTraderCommandHandler(
     ITradingUnitOfWork unitOfWork,

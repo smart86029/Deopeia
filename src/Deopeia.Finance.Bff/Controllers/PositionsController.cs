@@ -1,4 +1,5 @@
 using Deopeia.Finance.Bff.Models.Positions;
+using Deopeia.Finance.Bff.Models.Trading;
 
 namespace Deopeia.Finance.Bff.Controllers;
 

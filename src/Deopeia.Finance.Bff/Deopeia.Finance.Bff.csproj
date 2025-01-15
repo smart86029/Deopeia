@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Deopeia.ServiceDefaults\Deopeia.ServiceDefaults.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Trading\Traders\" />
+  </ItemGroup>
+
 </Project>
