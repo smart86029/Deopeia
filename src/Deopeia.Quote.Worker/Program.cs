@@ -15,8 +15,7 @@ builder
     .AddServiceDefaults()
     .AddApplication()
     .AddInfrastructure<QuoteContext, QuoteSeeder>()
-    .AddEventBus()
-    .AddSubscription<DealCreatedEvent, DealCreatedEventHandler>();
+    .AddEventConsumer<DealCreatedEvent, DealCreatedEventHandler>();
 
 builder.Services.AddScheduler();
 builder.Services.AddScoped<ScrapeJob>();

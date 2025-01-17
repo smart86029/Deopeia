@@ -5,6 +5,7 @@ using Deopeia.Common.Infrastructure;
 using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Common.Worker;
 using Deopeia.Trading.Application.Orders.MockOrders;
+using Deopeia.Trading.Application.Traders.TraderCreated;
 using Deopeia.Trading.Infrastructure;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -12,7 +13,7 @@ builder
     .AddServiceDefaults()
     .AddApplication()
     .AddInfrastructure<TradingContext, TradingSeeder>()
-    .AddEventBus();
+    .AddEventConsumer<TraderCreatedEvent, TraderCreatedEventHandler>();
 
 builder.Services.AddScheduler();
 builder.Services.AddScoped<CurrentUser>();

@@ -5,29 +5,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Polly;
 
 namespace Deopeia.Common.Infrastructure.Events;
 
-internal class EventBus(
-    ILogger<EventBus> logger,
+internal class EventSubscribeWorker(
+    ILogger<EventSubscribeWorker> logger,
     IServiceProvider serviceProvider,
-    IProducer<string, byte[]> producer,
     IOptions<EventBusSubscription> subscriptionOptions
-) : BackgroundService, IEventBus, IDisposable
+) : BackgroundService
 {
-    private readonly ILogger<EventBus> _logger = logger;
+    private readonly ILogger<EventSubscribeWorker> _logger = logger;
     private readonly IServiceProvider _serviceProvider = serviceProvider;
-    private readonly IProducer<string, byte[]> _producer = producer;
-
     private readonly EventBusSubscription _subscription = subscriptionOptions.Value;
-
-    public async Task PublishAsync(Event @event)
-    {
-        var key = @event.GetType().Name;
-        var value = @event.ToUtf8Bytes();
-
-        await _producer.ProduceAsync(key, new Message<string, byte[]> { Key = key, Value = value });
-    }
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
@@ -42,8 +32,8 @@ internal class EventBus(
                         EnableAutoCommit = false,
                     }
                 ).Build();
+                Subscribe(consumer, x.Key);
 
-                consumer.Subscribe(x.Key);
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     try
@@ -62,6 +52,28 @@ internal class EventBus(
             })
         );
         await Task.WhenAll(tasks);
+    }
+
+    private void Subscribe(IConsumer<string, byte[]> consumer, string topic)
+    {
+        var retryPolicy = Policy
+            .Handle<KafkaException>(x => x.Error.Code == ErrorCode.UnknownTopicOrPart)
+            .WaitAndRetryForever(
+                retryNumber => TimeSpan.FromSeconds(5),
+                (exception, timeSpan) =>
+                {
+                    logger.LogWarning(
+                        "Topic {topic} 尚未建立，將在 {TotalSeconds} 秒後重試...",
+                        topic,
+                        timeSpan.TotalSeconds
+                    );
+                }
+            );
+        retryPolicy.Execute(() =>
+        {
+            consumer.Subscribe(topic);
+            logger.LogInformation("成功訂閱 Topic: {topic}", topic);
+        });
     }
 
     private async Task HandleAsync(string eventName, string message)

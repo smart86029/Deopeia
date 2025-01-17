@@ -1,4 +1,5 @@
 using Deopeia.Common.Infrastructure.Auditing;
+using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Common.Infrastructure.Files;
 using Deopeia.Common.Infrastructure.Finance;
 using Deopeia.Common.Infrastructure.Localization;
@@ -15,6 +16,7 @@ public static class ModelBuilderExtensions
             .ApplyConfiguration(new CurrencyConfiguration())
             .ApplyConfiguration(new CurrencyLocaleConfiguration())
             .ApplyConfiguration(new DataAccessAuditTrailConfiguration())
+            .ApplyConfiguration(new EventLogConfiguration())
             .ApplyConfiguration(new FileResourceConfiguration())
             .ApplyConfiguration(new ImageConfiguration())
             .ApplyConfiguration(new LocaleResourceConfiguration())

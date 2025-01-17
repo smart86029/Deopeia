@@ -1,3 +1,4 @@
+using Deopeia.Common.Events;
 using Deopeia.Trading.Domain.Contracts;
 using Deopeia.Trading.Domain.OrderBooks;
 using Deopeia.Trading.Domain.Orders;
@@ -10,7 +11,7 @@ internal class MockOrdersCommandHandler(
     IContractRepository contractRepository,
     IOrderBookRepository orderBookRepository,
     ITraderRepository traderRepository,
-    IEventBus eventBus
+    IEventProducer eventProducer
 ) : IRequestHandler<MockOrdersCommand>
 {
     private static readonly CurrencyCode Usd = new("USD");
@@ -35,7 +36,7 @@ internal class MockOrdersCommandHandler(
     private readonly IContractRepository _contractRepository = contractRepository;
     private readonly IOrderBookRepository _orderBookRepository = orderBookRepository;
     private readonly ITraderRepository _traderRepository = traderRepository;
-    private readonly IEventBus _eventBus = eventBus;
+    private readonly IEventProducer _eventProducer = eventProducer;
 
     public async Task Handle(MockOrdersCommand request, CancellationToken cancellationToken)
     {
@@ -78,7 +79,7 @@ internal class MockOrdersCommandHandler(
 
                 foreach (var @event in orderBook.DomainEvents)
                 {
-                    await _eventBus.PublishAsync(@event);
+                    await _eventProducer.ProduceAsync(@event);
                 }
 
                 orderBook.ClearDomainEvents();

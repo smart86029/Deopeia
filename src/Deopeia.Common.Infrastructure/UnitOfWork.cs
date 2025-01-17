@@ -1,19 +1,27 @@
 using System.Collections;
 using Deopeia.Common.Domain.Auditing;
+using Deopeia.Common.Events;
 
 namespace Deopeia.Common.Infrastructure;
 
-public abstract class UnitOfWork<TContext>(TContext context, CurrentUser currentUser)
+public abstract class UnitOfWork<TContext>(
+    TContext context,
+    IEventProducer eventProducer,
+    CurrentUser currentUser
+)
     where TContext : DbContext
 {
     private readonly TContext _context = context;
     private readonly DbSet<AuditTrail> _auditTrails = context.Set<AuditTrail>();
+    private readonly IEventProducer _eventProducer = eventProducer;
     private readonly CurrentUser _currentUser = currentUser;
 
     public async Task<bool> CommitAsync()
     {
         Audit();
+        var eventLogs = LogEvents();
         await _context.SaveChangesAsync();
+        await PublishEventsAsync(eventLogs);
 
         return true;
     }
@@ -59,7 +67,10 @@ public abstract class UnitOfWork<TContext>(TContext context, CurrentUser current
                         break;
 
                     case EntityState.Modified:
-                        if (!property.IsModified || AreEqual(oldValue, newValue))
+                        if (
+                            !property.IsModified
+                            || UnitOfWork<TContext>.AreEqual(oldValue, newValue)
+                        )
                         {
                             break;
                         }
@@ -87,7 +98,7 @@ public abstract class UnitOfWork<TContext>(TContext context, CurrentUser current
         _auditTrails.AddRange(auditTrails);
     }
 
-    private bool AreEqual(object? oldValue, object? newValue)
+    private static bool AreEqual(object? oldValue, object? newValue)
     {
         if (oldValue is null && newValue is null)
         {
@@ -110,7 +121,7 @@ public abstract class UnitOfWork<TContext>(TContext context, CurrentUser current
                     return false;
                 }
 
-                if (!AreEqual(oldEnumerator.Current, newEnumerator.Current))
+                if (!UnitOfWork<TContext>.AreEqual(oldEnumerator.Current, newEnumerator.Current))
                 {
                     return false;
                 }
@@ -120,5 +131,36 @@ public abstract class UnitOfWork<TContext>(TContext context, CurrentUser current
         }
 
         return oldValue.Equals(newValue);
+    }
+
+    private List<EventLog> LogEvents()
+    {
+        var entities = _context
+            .ChangeTracker.Entries()
+            .Where(x => x is IHasEvents)
+            .Select(x => (IHasEvents)x.Entity)
+            .Where(x => x.DomainEvents.Count > 0)
+            .ToList();
+        var eventLogs = entities
+            .SelectMany(x => x.DomainEvents)
+            .Select(x => new EventLog(x))
+            .ToList();
+
+        _context.Set<EventLog>().AddRange(eventLogs);
+        foreach (var entity in entities)
+        {
+            entity.ClearDomainEvents();
+        }
+
+        return eventLogs;
+    }
+
+    private async Task PublishEventsAsync(IEnumerable<EventLog> eventLogs)
+    {
+        var tasks = eventLogs.Select(async eventLog =>
+        {
+            await _eventProducer.ProduceAsync(eventLog);
+        });
+        await Task.WhenAll(tasks);
     }
 }

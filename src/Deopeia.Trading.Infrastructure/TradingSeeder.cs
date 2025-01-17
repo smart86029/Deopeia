@@ -1,7 +1,4 @@
-using Bogus;
 using Deopeia.Trading.Domain.Contracts;
-using Deopeia.Trading.Domain.Positions;
-using Deopeia.Trading.Domain.Traders;
 using Currency = Deopeia.Common.Domain.Finance.Currency;
 using Unit = Deopeia.Common.Domain.Measurement.Unit;
 
@@ -35,14 +32,11 @@ public class TradingSeeder : DbSeeder
 
         var currencies = GetCurrencies();
         var contracts = GetContracts().ToList();
-        var traders = GetTraders().ToList();
 
         context.Set<Currency>().AddRange(currencies);
         context.Set<LocaleResource>().AddRange(GetLocaleResources());
         context.Set<Unit>().AddRange(GetUnits());
-        context.Set<Trader>().AddRange(traders);
         context.Set<Contract>().AddRange(contracts);
-        context.Set<Position>().AddRange(GetPositions(contracts, traders));
 
         context.SaveChanges();
     }
@@ -258,35 +252,5 @@ public class TradingSeeder : DbSeeder
                 (DayOfWeek.Saturday, time, DayOfWeek.Sunday, time),
             ];
         }
-    }
-
-    private static List<Position> GetPositions(
-        IEnumerable<Contract> contracts,
-        IEnumerable<Trader> traders
-    )
-    {
-        return new Faker<Position>()
-            .CustomInstantiator(x =>
-            {
-                var contract = x.PickRandom(contracts);
-
-                return new Position(
-                    x.PickRandom<PositionType>(),
-                    contract.Id,
-                    x.Finance.Amount(1, 10, 0) * contract.ContractSize.Quantity,
-                    new Money(Usd, x.Finance.Amount()),
-                    null,
-                    null,
-                    x.PickRandom(traders).Id
-                );
-            })
-            .Generate(5);
-    }
-
-    private static List<Trader> GetTraders()
-    {
-        return new Faker<Trader>()
-            .CustomInstantiator(x => new Trader(x.Name.FullName(), true))
-            .Generate(10);
     }
 }

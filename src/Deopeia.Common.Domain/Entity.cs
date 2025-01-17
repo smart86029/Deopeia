@@ -1,6 +1,6 @@
 namespace Deopeia.Common.Domain;
 
-public abstract class Entity<TEntityId>(TEntityId id)
+public abstract class Entity<TEntityId>(TEntityId id) : IHasEvents
     where TEntityId : struct, IEntityId
 {
     private readonly List<DomainEvent> _domainEvents = [];

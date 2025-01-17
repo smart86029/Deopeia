@@ -6,12 +6,12 @@ namespace Deopeia.Trading.Application.Orders.PlaceOrder;
 internal class PlaceOrderCommandHandler(
     ITradingUnitOfWork unitOfWork,
     IOrderBookRepository orderBookRepository,
-    IEventBus eventBus
+    IEventProducer eventProducer
 ) : IRequestHandler<PlaceOrderCommand>
 {
     private readonly ITradingUnitOfWork _unitOfWork = unitOfWork;
     private readonly IOrderBookRepository _orderBookRepository = orderBookRepository;
-    private readonly IEventBus _eventBus = eventBus;
+    private readonly IEventProducer _eventProducer = eventProducer;
 
     public async Task Handle(PlaceOrderCommand request, CancellationToken cancellationToken)
     {
@@ -33,7 +33,7 @@ internal class PlaceOrderCommandHandler(
 
         foreach (var @event in orderBook.DomainEvents)
         {
-            await _eventBus.PublishAsync(@event);
+            await _eventProducer.ProduceAsync(@event);
         }
 
         orderBook.ClearDomainEvents();

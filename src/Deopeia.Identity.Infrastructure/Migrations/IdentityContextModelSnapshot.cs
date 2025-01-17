@@ -175,6 +175,46 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     b.ToTable("unit_locale", (string)null);
                 });
 
+            modelBuilder.Entity("Deopeia.Common.Events.EventLog", b =>
+                {
+                    b.Property<Guid>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("event_id");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("EventContent")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("event_content");
+
+                    b.Property<string>("EventTypeName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("event_type_name");
+
+                    b.Property<string>("EventTypeNamespace")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("event_type_namespace");
+
+                    b.Property<int>("PublishCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("publish_count");
+
+                    b.Property<int>("PublishState")
+                        .HasColumnType("integer")
+                        .HasColumnName("publish_state");
+
+                    b.HasKey("EventId")
+                        .HasName("pk_event_log");
+
+                    b.ToTable("event_log", (string)null);
+                });
+
             modelBuilder.Entity("Deopeia.Common.Localization.LocaleResource", b =>
                 {
                     b.Property<string>("Culture")

@@ -7,13 +7,13 @@ internal class MockRealTimeDataCommandHandler(
     IQuoteUnitOfWork unitOfWork,
     IInstrumentRepository instrumentRepository,
     ICandleRepository candleRepository,
-    IEventBus eventBus
+    IEventProducer eventProducer
 ) : IRequestHandler<MockRealTimeDataCommand>
 {
     private readonly IQuoteUnitOfWork _unitOfWork = unitOfWork;
     private readonly IInstrumentRepository _instrumentRepository = instrumentRepository;
     private readonly ICandleRepository _candleRepository = candleRepository;
-    private readonly IEventBus _eventBus = eventBus;
+    private readonly IEventProducer _eventProducer = eventProducer;
 
     private decimal _lastTradePrice = 2500;
 
@@ -44,7 +44,7 @@ internal class MockRealTimeDataCommandHandler(
         //await _unitOfWork.CommitAsync();
 
         //var @event = new PriceChangedEvent(symbol, DateTimeOffset.UtcNow, _lastTradePrice, 2500);
-        //await _eventBus.PublishAsync(@event);
+        //await _eventProducer.PublishAsync(@event);
     }
 
     private async Task MockOrderBookAsync(string symbol)
@@ -72,6 +72,6 @@ internal class MockRealTimeDataCommandHandler(
             asks[i] = new OrderDto { Price = askPrice, Size = askSize };
         }
 
-        await _eventBus.PublishAsync(new OrderBookChangedEvent(symbol, bids, asks));
+        await _eventProducer.ProduceAsync(new OrderBookChangedEvent(symbol, bids, asks));
     }
 }

@@ -1,19 +1,18 @@
 using Deopeia.Trading.Domain.Traders;
 
-namespace Deopeia.Trading.Application.Traders.CreateTrader;
+namespace Deopeia.Trading.Application.Traders.TraderCreated;
 
-public class CreateTraderCommandHandler(
+public class TraderCreatedEventHandler(
     ITradingUnitOfWork unitOfWork,
     ITraderRepository traderRepository
-) : IRequestHandler<CreateTraderCommand>
+) : IEventHandler<TraderCreatedEvent>
 {
     private readonly ITradingUnitOfWork _unitOfWork = unitOfWork;
     private readonly ITraderRepository _traderRepository = traderRepository;
 
-    public async Task Handle(CreateTraderCommand request, CancellationToken cancellationToken)
+    public async Task Handle(TraderCreatedEvent @event)
     {
-        var trader = new Trader(request.Name, request.IsEnabled);
-
+        var trader = new Trader(@event.Id, @event.UserName);
         await _traderRepository.AddAsync(trader);
         await _unitOfWork.CommitAsync();
     }

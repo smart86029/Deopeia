@@ -1,4 +1,6 @@
 using Deopeia.Common.Domain.Files;
+using Deopeia.Common.Events;
+using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Common.Infrastructure.Files;
 using Deopeia.Common.Infrastructure.Localization;
 using Deopeia.Common.Infrastructure.TypeHandlers;
@@ -36,6 +38,7 @@ public static class HostApplicationBuilderExtensions
                     );
             }
         );
+        builder.AddEventProducer<TContext>();
 
         var services = builder.Services;
         var connectionString = builder.Configuration.GetConnectionString(database);

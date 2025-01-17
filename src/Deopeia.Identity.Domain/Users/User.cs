@@ -1,3 +1,4 @@
+using System.Data;
 using System.Security.Cryptography;
 using Deopeia.Identity.Domain.Roles;
 
@@ -79,6 +80,11 @@ public class User : AggregateRoot<UserId>
         }
 
         _userRoles.Remove(userRole);
+    }
+
+    public void MarkAsTrader()
+    {
+        AddDomainEvent(new TraderCreated(Id, UserName));
     }
 
     public bool IsValidRefreshToken(string refreshToken)

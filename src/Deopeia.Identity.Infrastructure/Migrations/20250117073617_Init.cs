@@ -64,6 +64,23 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "event_log",
+                columns: table => new
+                {
+                    event_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    event_type_namespace = table.Column<string>(type: "text", nullable: false),
+                    event_type_name = table.Column<string>(type: "text", nullable: false),
+                    event_content = table.Column<string>(type: "text", nullable: false),
+                    publish_state = table.Column<int>(type: "integer", nullable: false),
+                    publish_count = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_event_log", x => x.event_id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "file_resource",
                 columns: table => new
                 {
@@ -377,6 +394,9 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "currency_locale");
+
+            migrationBuilder.DropTable(
+                name: "event_log");
 
             migrationBuilder.DropTable(
                 name: "file_resource");

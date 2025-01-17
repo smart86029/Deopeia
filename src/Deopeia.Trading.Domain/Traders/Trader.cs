@@ -7,18 +7,18 @@ public class Trader : AggregateRoot<TraderId>
 
     private Trader() { }
 
-    public Trader(string name, bool isEnabled)
+    public Trader(Guid id, string name)
+        : base(new TraderId(id))
     {
         name.MustNotBeNullOrWhiteSpace();
 
         Name = name.Trim();
-        IsEnabled = isEnabled;
         _accounts.Add(new Account(Id, CurrencyCode.Default, true));
     }
 
     public string Name { get; private set; } = string.Empty;
 
-    public bool IsEnabled { get; private set; }
+    public bool IsEnabled { get; private set; } = true;
 
     public IReadOnlyCollection<Account> Accounts => _accounts.AsReadOnly();
 

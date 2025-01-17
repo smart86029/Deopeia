@@ -1,5 +1,3 @@
-using Deopeia.Identity.Application.Connect;
-
 namespace Deopeia.Identity.Application.Connect;
 
 public abstract class GrantResult
@@ -8,7 +6,7 @@ public abstract class GrantResult
 
     internal GrantResult(GrantError error)
     {
-        Error = new ErrorResult { Error = error.ToString().ToSnakeCaseLower(), };
+        Error = new ErrorResult { Error = error.ToString().ToSnakeCaseLower() };
     }
 
     [JsonIgnore]

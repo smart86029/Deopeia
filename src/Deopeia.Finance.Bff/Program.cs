@@ -11,10 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 builder
-    .AddEventBus()
-    .AddSubscription<DealCreatedEvent, DealCreatedEventHandler>()
-    .AddSubscription<CandleChangedEvent, CandleChangedEventHandler>()
-    .AddSubscription<OrderBookChangedEvent, OrderBookChangedEventHandler>();
+    .AddEventConsumer<DealCreatedEvent, DealCreatedEventHandler>()
+    .AddEventConsumer<CandleChangedEvent, CandleChangedEventHandler>()
+    .AddEventConsumer<OrderBookChangedEvent, OrderBookChangedEventHandler>();
 
 var services = builder.Services;
 services.AddControllers();

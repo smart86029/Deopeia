@@ -1,7 +1,6 @@
 using Deopeia.Common.Api;
 using Deopeia.Common.Application;
 using Deopeia.Common.Infrastructure;
-using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Quote.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,8 +8,7 @@ builder
     .AddServiceDefaults()
     .AddApi()
     .AddApplication()
-    .AddInfrastructure<QuoteContext, QuoteSeeder>()
-    .AddEventBus();
+    .AddInfrastructure<QuoteContext, QuoteSeeder>();
 
 var configuration = builder.Configuration;
 var services = builder.Services;

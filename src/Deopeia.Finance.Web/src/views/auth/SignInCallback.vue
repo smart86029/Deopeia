@@ -9,9 +9,7 @@ const route = useRoute();
 const router = useRouter();
 
 const error = route.params.error;
-console.log(route.params);
 if (error) {
-  console.log(error);
   ElMessageBox.close();
   ElMessageBox.alert(error.toString());
   router.replace('/');

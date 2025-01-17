@@ -5,12 +5,12 @@ namespace Deopeia.Quote.Application.Candles.CalculateCandles;
 public class CalculateCandlesCommandHandler(
     IQuoteUnitOfWork unitOfWork,
     ICandleRepository candleRepository,
-    IEventBus eventBus
+    IEventProducer eventProducer
 ) : IRequestHandler<CalculateCandlesCommand>
 {
     private readonly IQuoteUnitOfWork _unitOfWork = unitOfWork;
     private readonly ICandleRepository _candleRepository = candleRepository;
-    private readonly IEventBus _eventBus = eventBus;
+    private readonly IEventProducer _eventProducer = eventProducer;
 
     public async Task Handle(CalculateCandlesCommand request, CancellationToken cancellationToken)
     {
@@ -31,7 +31,7 @@ public class CalculateCandlesCommandHandler(
                 }
                 candle.Calculate(ticks);
                 await _unitOfWork.CommitAsync();
-                await _eventBus.PublishAsync(
+                await _eventProducer.ProduceAsync(
                     new CandleChangedEvent(
                         symbol.Value,
                         (int)timeFrame,
@@ -90,7 +90,6 @@ public class CalculateCandlesCommandHandler(
                 return (from, from.Add(interval));
 
             case TimeFrame.D1:
-                var days = interval.TotalDays;
                 temp = timestamp.AddDays(-1);
                 from = new DateTimeOffset(temp.Year, temp.Month, temp.Day, 0, 0, 0, temp.Offset);
                 return (from, from.Add(interval));

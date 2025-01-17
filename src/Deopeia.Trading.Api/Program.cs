@@ -1,7 +1,6 @@
 using Deopeia.Common.Api;
 using Deopeia.Common.Application;
 using Deopeia.Common.Infrastructure;
-using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Trading.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,8 +8,7 @@ builder
     .AddServiceDefaults()
     .AddApi()
     .AddApplication()
-    .AddInfrastructure<TradingContext, TradingSeeder>()
-    .AddEventBus();
+    .AddInfrastructure<TradingContext, TradingSeeder>();
 
 var configuration = builder.Configuration;
 var services = builder.Services;

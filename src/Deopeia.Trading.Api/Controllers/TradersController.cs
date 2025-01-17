@@ -1,4 +1,3 @@
-using Deopeia.Trading.Application.Traders.CreateTrader;
 using Deopeia.Trading.Application.Traders.Deposit;
 using Deopeia.Trading.Application.Traders.Dislike;
 using Deopeia.Trading.Application.Traders.GetFavorites;
@@ -28,14 +27,6 @@ public class TradersController : ApiController<TradersController>
         var result = await Sender.Send(query);
 
         return Ok(result);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateTraderCommand command)
-    {
-        await Sender.Send(command);
-
-        return Created();
     }
 
     [HttpPut("{id}")]
