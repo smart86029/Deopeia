@@ -84,7 +84,7 @@ public class User : AggregateRoot<UserId>
 
     public void MarkAsTrader()
     {
-        AddDomainEvent(new TraderCreated(Id, UserName));
+        AddDomainEvent(new TraderCreated(Id.Guid, UserName));
     }
 
     public bool IsValidRefreshToken(string refreshToken)

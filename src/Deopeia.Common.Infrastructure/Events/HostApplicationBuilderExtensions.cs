@@ -7,6 +7,8 @@ namespace Deopeia.Common.Infrastructure.Events;
 
 public static class HostApplicationBuilderExtensions
 {
+    private const string EventSuffix = "Event";
+
     private static bool _isSubscribeWorkerAdded = false;
 
     internal static IHostApplicationBuilder AddEventProducer<TContext>(
@@ -41,7 +43,12 @@ public static class HostApplicationBuilderExtensions
         services.AddKeyedTransient<IEventHandler, TEventHandler>(typeof(TEvent));
         services.Configure<EventBusSubscription>(x =>
         {
-            x.EventTypes[typeof(TEvent).Name] = typeof(TEvent);
+            var name = typeof(TEvent).Name;
+            if (name.EndsWith(EventSuffix))
+            {
+                name = name[..^EventSuffix.Length];
+            }
+            x.EventTypes[name] = typeof(TEvent);
         });
 
         return builder;

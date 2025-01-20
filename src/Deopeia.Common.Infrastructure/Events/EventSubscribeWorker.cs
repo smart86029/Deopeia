@@ -21,44 +21,43 @@ internal class EventSubscribeWorker(
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        var tasks = _subscription.EventTypes.Select(x =>
-            Task.Run(async () =>
-            {
-                using var consumer = new ConsumerBuilder<string, byte[]>(
-                    new ConsumerConfig
-                    {
-                        BootstrapServers = _subscription.ConnectionString,
-                        GroupId = AssemblyUtility.ServiceName,
-                        EnableAutoCommit = false,
-                    }
-                ).Build();
-                Subscribe(consumer, x.Key);
-
-                while (!cancellationToken.IsCancellationRequested)
+        var tasks = _subscription.EventTypes.Select(async x =>
+        {
+            using var consumer = new ConsumerBuilder<string, byte[]>(
+                new ConsumerConfig
                 {
-                    try
-                    {
-                        var consumeResult = consumer.Consume(cancellationToken);
-                        var key = consumeResult.Message.Key;
-                        var value = Encoding.UTF8.GetString(consumeResult.Message.Value);
-                        await HandleAsync(key, value);
-                        consumer.Commit();
-                    }
-                    catch (Exception exception)
-                    {
-                        _logger.LogError(exception, "Error starting Kafka connection");
-                    }
+                    BootstrapServers = _subscription.ConnectionString,
+                    GroupId = AssemblyUtility.ServiceName,
+                    EnableAutoCommit = false,
                 }
-            })
-        );
+            ).Build();
+            await SubscribeAsync(consumer, x.Key);
+
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                try
+                {
+                    var consumeResult = consumer.Consume(cancellationToken);
+                    var key = consumeResult.Message.Key;
+                    var value = Encoding.UTF8.GetString(consumeResult.Message.Value);
+                    await HandleAsync(key, value);
+                    consumer.Commit();
+                }
+                catch (Exception exception)
+                {
+                    _logger.LogError(exception, "Error starting Kafka connection");
+                }
+            }
+        });
+
         await Task.WhenAll(tasks);
     }
 
-    private void Subscribe(IConsumer<string, byte[]> consumer, string topic)
+    private async Task SubscribeAsync(IConsumer<string, byte[]> consumer, string topic)
     {
         var retryPolicy = Policy
             .Handle<KafkaException>(x => x.Error.Code == ErrorCode.UnknownTopicOrPart)
-            .WaitAndRetryForever(
+            .WaitAndRetryForeverAsync(
                 retryNumber => TimeSpan.FromSeconds(5),
                 (exception, timeSpan) =>
                 {
@@ -69,8 +68,9 @@ internal class EventSubscribeWorker(
                     );
                 }
             );
-        retryPolicy.Execute(() =>
+        await retryPolicy.ExecuteAsync(async () =>
         {
+            await Task.CompletedTask;
             consumer.Subscribe(topic);
             _logger.LogInformation("Topic {topic} successfully subscribed.", topic);
         });
@@ -80,8 +80,6 @@ internal class EventSubscribeWorker(
     {
         try
         {
-            await using var scope = _serviceProvider.CreateAsyncScope();
-
             if (!_subscription.EventTypes.TryGetValue(eventName, out var eventType))
             {
                 _logger.LogWarning(
@@ -96,6 +94,7 @@ internal class EventSubscribeWorker(
                 return;
             }
 
+            await using var scope = _serviceProvider.CreateAsyncScope();
             var handlers = scope.ServiceProvider.GetKeyedServices<IEventHandler>(eventType);
             foreach (var handler in handlers)
             {

@@ -34,7 +34,6 @@ internal class EventRetryWorker<TContext>(
                 {
                     await _eventProducer.ProduceAsync(eventLog);
                 });
-
                 await Task.WhenAll(tasks);
             }
             catch (Exception exception)
