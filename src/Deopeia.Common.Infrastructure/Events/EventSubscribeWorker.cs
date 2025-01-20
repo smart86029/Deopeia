@@ -62,8 +62,8 @@ internal class EventSubscribeWorker(
                 retryNumber => TimeSpan.FromSeconds(5),
                 (exception, timeSpan) =>
                 {
-                    logger.LogWarning(
-                        "Topic {topic} 尚未建立，將在 {TotalSeconds} 秒後重試...",
+                    _logger.LogWarning(
+                        "Topic {topic} has not been created yet. Will retry in {TotalSeconds} seconds.",
                         topic,
                         timeSpan.TotalSeconds
                     );
@@ -72,7 +72,7 @@ internal class EventSubscribeWorker(
         retryPolicy.Execute(() =>
         {
             consumer.Subscribe(topic);
-            logger.LogInformation("成功訂閱 Topic: {topic}", topic);
+            _logger.LogInformation("Topic {topic} successfully subscribed.", topic);
         });
     }
 
