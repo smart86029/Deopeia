@@ -12,7 +12,7 @@ public class TraderCreatedEventHandler(
 
     public async Task Handle(TraderCreatedEvent @event)
     {
-        var trader = new Trader(@event.Id, @event.UserName);
+        var trader = new Trader(@event.UserId, @event.UserName);
         await _traderRepository.AddAsync(trader);
         await _unitOfWork.CommitAsync();
     }
