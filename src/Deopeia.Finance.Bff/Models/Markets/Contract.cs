@@ -6,5 +6,5 @@ public class Contract
 
     public string Name { get; set; } = string.Empty;
 
-    public bool IsFavourite { get; set; }
+    public bool IsFavorite { get; set; }
 }

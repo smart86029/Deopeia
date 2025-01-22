@@ -29,7 +29,7 @@ public class MarketsController(ITradingApi tradingApi) : ApiController
                 {
                     Symbol = x.Symbol,
                     Name = x.Name,
-                    IsFavourite = symbols.Contains(x.Symbol),
+                    IsFavorite = symbols.Contains(x.Symbol),
                 })
                 .ToList(),
         };

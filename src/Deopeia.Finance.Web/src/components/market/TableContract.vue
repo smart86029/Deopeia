@@ -2,7 +2,7 @@
   <el-table table-layout="auto">
     <el-table-column class-name="favorite" width="30">
       <template #default="{ row }">
-        <IconFavoriteFill v-if="row.isFavorite" @click="dislike(row.symbol)" />
+        <IconFavoriteFill v-if="row.isFavorite" @click="dislike(row)" />
         <IconFavorite v-else @click="like(row)" />
       </template>
     </el-table-column>
