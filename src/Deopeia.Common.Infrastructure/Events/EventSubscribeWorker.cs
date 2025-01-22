@@ -12,26 +12,22 @@ namespace Deopeia.Common.Infrastructure.Events;
 internal class EventSubscribeWorker(
     ILogger<EventSubscribeWorker> logger,
     IServiceProvider serviceProvider,
-    IOptions<EventBusSubscription> subscriptionOptions
+    IOptions<EventSubscriptions> subscriptionOptions
 ) : BackgroundService
 {
     private readonly ILogger<EventSubscribeWorker> _logger = logger;
     private readonly IServiceProvider _serviceProvider = serviceProvider;
-    private readonly EventBusSubscription _subscription = subscriptionOptions.Value;
+    private readonly EventSubscriptions _subscriptions = subscriptionOptions.Value;
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        var tasks = _subscription.EventTypes.Select(async x =>
+        var tasks = _subscriptions.Select(async x =>
         {
-            using var consumer = new ConsumerBuilder<string, byte[]>(
-                new ConsumerConfig
-                {
-                    BootstrapServers = _subscription.ConnectionString,
-                    GroupId = AssemblyUtility.ServiceName,
-                    EnableAutoCommit = false,
-                }
-            ).Build();
-            await SubscribeAsync(consumer, x.Key);
+            var topic = x.Key;
+            var consumer = _serviceProvider.GetRequiredKeyedService<IConsumer<string, byte[]>>(
+                topic
+            );
+            await SubscribeAsync(consumer, topic);
 
             while (!cancellationToken.IsCancellationRequested)
             {
@@ -45,11 +41,14 @@ internal class EventSubscribeWorker(
                 }
                 catch (Exception exception)
                 {
-                    _logger.LogError(exception, "Error starting Kafka connection");
+                    _logger.LogError(exception, "Error consuming topic {Topic}", topic);
+                }
+                finally
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
                 }
             }
         });
-
         await Task.WhenAll(tasks);
     }
 
@@ -80,7 +79,7 @@ internal class EventSubscribeWorker(
     {
         try
         {
-            if (!_subscription.EventTypes.TryGetValue(eventName, out var eventType))
+            if (!_subscriptions.TryGetValue(eventName, out var eventType))
             {
                 _logger.LogWarning(
                     "Unable to resolve event type for event name {EventName}",
@@ -103,7 +102,7 @@ internal class EventSubscribeWorker(
         }
         catch (Exception exception)
         {
-            _logger.LogWarning(exception, "Error Processing message \"{Message}\"", message);
+            _logger.LogWarning(exception, "Error processing message \"{Message}\"", message);
         }
     }
 }

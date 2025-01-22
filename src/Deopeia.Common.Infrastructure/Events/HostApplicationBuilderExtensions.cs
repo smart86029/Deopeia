@@ -1,3 +1,4 @@
+using Confluent.Kafka;
 using Deopeia.Common.Events;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,14 +10,11 @@ public static class HostApplicationBuilderExtensions
 {
     private const string EventSuffix = "Event";
 
-    private static bool _isSubscribeWorkerAdded = false;
-
     internal static IHostApplicationBuilder AddEventProducer<TContext>(
         this IHostApplicationBuilder builder
     )
         where TContext : DbContext
     {
-        builder.ConfigureKafka();
         builder.AddKafkaProducer<string, byte[]>("kafka");
 
         var services = builder.Services;
@@ -32,33 +30,30 @@ public static class HostApplicationBuilderExtensions
         where TEvent : Event
         where TEventHandler : class, IEventHandler<TEvent>
     {
-        if (!_isSubscribeWorkerAdded)
+        var name = typeof(TEvent).Name;
+        if (name.EndsWith(EventSuffix))
         {
-            builder.ConfigureKafka();
-            builder.Services.AddHostedService<EventSubscribeWorker>();
-            _isSubscribeWorkerAdded = true;
+            name = name[..^EventSuffix.Length];
         }
 
-        var services = builder.Services;
-        services.AddKeyedTransient<IEventHandler, TEventHandler>(typeof(TEvent));
-        services.Configure<EventBusSubscription>(x =>
-        {
-            var name = typeof(TEvent).Name;
-            if (name.EndsWith(EventSuffix))
+        builder.AddKeyedKafkaConsumer<string, byte[]>(
+            name,
+            settings =>
             {
-                name = name[..^EventSuffix.Length];
+                settings.ConnectionString = builder.Configuration.GetConnectionString("kafka")!;
+                settings.Config.GroupId = AssemblyUtility.ServiceName;
+                settings.Config.EnableAutoCommit = false;
+                settings.Config.AutoOffsetReset = AutoOffsetReset.Earliest;
+                settings.Config.AllowAutoCreateTopics = true;
             }
-            x.EventTypes[name] = typeof(TEvent);
-        });
+        );
 
-        return builder;
-    }
-
-    private static IHostApplicationBuilder ConfigureKafka(this IHostApplicationBuilder builder)
-    {
-        builder.Services.Configure<EventBusSubscription>(x =>
+        var services = builder.Services;
+        services.AddHostedService<EventSubscribeWorker>();
+        services.AddKeyedTransient<IEventHandler, TEventHandler>(typeof(TEvent));
+        services.Configure<EventSubscriptions>(x =>
         {
-            x.ConnectionString = builder.Configuration.GetConnectionString("kafka")!;
+            x[name] = typeof(TEvent);
         });
 
         return builder;

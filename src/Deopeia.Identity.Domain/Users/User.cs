@@ -1,4 +1,3 @@
-using System.Data;
 using System.Security.Cryptography;
 using Deopeia.Identity.Domain.Roles;
 
@@ -20,7 +19,6 @@ public class User : AggregateRoot<UserId>
         UpdateSalt();
         PasswordHash = Hash(password);
         IsEnabled = isEnabled;
-        AddDomainEvent(new UserCreated(Id, UserName));
     }
 
     public string UserName { get; private init; } = string.Empty;
