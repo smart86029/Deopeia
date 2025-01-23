@@ -19,11 +19,11 @@ export const useAuthStore = defineStore('auth', () => {
     if (user === null) {
       await signIn();
       user = await userManager.getUser();
-      console.log(user?.id_token);
-      // isOperator.value = user?.id_token.roles.includes('Trader') ?? false;
-      // if(user !== null){
-      //    user.id_token.
-      // }
+    }
+
+    if (user) {
+      const payload = JSON.parse(atob(user?.access_token.split('.')[1]));
+      isOperator.value = !payload.permissions.split(',').includes('Trader');
     }
 
     return user;
@@ -40,6 +40,7 @@ export const useAuthStore = defineStore('auth', () => {
   const refresh = () => userManager.signinSilent();
 
   return {
+    isOperator,
     getUser,
     signIn,
     signInCallback,

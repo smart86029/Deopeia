@@ -35,6 +35,7 @@ internal class PermissionRepository(IdentityContext context) : IPermissionReposi
                 y => y.RoleCode,
                 (x, y) => y.PermissionCode
             )
+            .Distinct()
             .ToListAsync();
     }
 

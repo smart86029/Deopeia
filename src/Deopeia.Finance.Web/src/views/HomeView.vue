@@ -27,7 +27,6 @@
       <h1>{{ $t('common.title') }}</h1>
       <NavTrader />
       <FlexDivider />
-      <el-switch v-model="isOperator" inline-prompt />
       <el-switch v-model="isDark" inline-prompt />
       <DropdownLocale />
       <DropdownRoute />
@@ -41,8 +40,10 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '@/stores/auth';
+
 const isDark = useDark();
-const isOperator = ref(false);
+const { isOperator } = storeToRefs(useAuthStore());
 </script>
 
 <style scoped lang="scss">
