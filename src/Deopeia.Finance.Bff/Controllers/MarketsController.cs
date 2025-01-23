@@ -8,6 +8,25 @@ public class MarketsController(ITradingApi tradingApi) : ApiController
 {
     private readonly ITradingApi _tradingApi = tradingApi;
 
+    [HttpGet("Favorite")]
+    public async Task<IActionResult> GetFavorite([FromQuery] GetContractsQuery query)
+    {
+        var contracts = await _tradingApi.GetContractsAsync(
+            query with
+            {
+                TraderId = User.GetUserId(),
+            }
+        );
+        var result = contracts.MapItem(x => new Contract
+        {
+            Symbol = x.Symbol,
+            Name = x.Name,
+            IsFavorite = true,
+        });
+
+        return Ok(result);
+    }
+
     [HttpGet("Stock")]
     public async Task<IActionResult> GetStock([FromQuery] GetContractsQuery query)
     {
@@ -18,21 +37,12 @@ public class MarketsController(ITradingApi tradingApi) : ApiController
                 UnderlyingType = UnderlyingType.Stock,
             }
         );
-        var result = new PageResult<Contract>
+        var result = contracts.MapItem(x => new Contract
         {
-            PageIndex = contracts.PageIndex,
-            PageCount = contracts.PageCount,
-            PageSize = contracts.PageSize,
-            ItemCount = contracts.ItemCount,
-            Items = contracts
-                .Items.Select(x => new Contract
-                {
-                    Symbol = x.Symbol,
-                    Name = x.Name,
-                    IsFavorite = symbols.Contains(x.Symbol),
-                })
-                .ToList(),
-        };
+            Symbol = x.Symbol,
+            Name = x.Name,
+            IsFavorite = symbols.Contains(x.Symbol),
+        });
 
         return Ok(result);
     }

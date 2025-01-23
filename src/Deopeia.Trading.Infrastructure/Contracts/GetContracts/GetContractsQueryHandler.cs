@@ -15,10 +15,23 @@ internal class GetContractsQueryHandler(NpgsqlConnection connection)
         var builder = new SqlBuilder();
         if (request.UnderlyingType.HasValue)
         {
-            builder.Where("underlying_type = @UnderlyingType", new { request.UnderlyingType });
+            builder.Where("a.underlying_type = @UnderlyingType", new { request.UnderlyingType });
         }
 
-        var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM contract /**where**/");
+        if (request.TraderId.HasValue)
+        {
+            builder.InnerJoin(
+                "trader_favorite AS b ON b.trader_id = @TraderId AND a.symbol = b.symbol",
+                new { request.TraderId }
+            );
+            builder.OrderBy("b.sort_order");
+        }
+
+        builder.OrderBy("a.symbol");
+
+        var sqlCount = builder.AddTemplate(
+            "SELECT COUNT(*) FROM contract AS a /**innerjoin**/ /**where**/"
+        );
         var count = await _connection.ExecuteScalarAsync<int>(sqlCount.RawSql, sqlCount.Parameters);
         var result = new PageResult<ContractDto>(request, count);
 
@@ -30,12 +43,13 @@ SELECT
     COALESCE(h.name, i.name) AS currency
 FROM (
     SELECT
-        symbol,
-        currency_code,
-        underlying_type
-    FROM contract
+        a.symbol,
+        a.currency_code,
+        a.underlying_type
+    FROM contract AS a
+    /**innerjoin**/
     /**where**/
-    ORDER BY symbol
+    /**orderby**/
     LIMIT @Limit
     OFFSET @Offset
 ) AS a

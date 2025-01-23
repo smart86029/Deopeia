@@ -8,7 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import marketApi, {
+import {
+  marketApi,
   type Cryptocurrency,
   type GetCryptocurrencyQuery,
 } from '@/api/market/market-api';

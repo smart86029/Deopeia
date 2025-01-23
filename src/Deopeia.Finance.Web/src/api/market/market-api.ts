@@ -17,6 +17,8 @@ interface Contract {
   isFavorite: boolean;
 }
 
+export interface Favorite extends Contract {}
+
 export interface Stock extends Contract {}
 
 export interface Index extends Contract {}
@@ -27,7 +29,12 @@ export interface Forex extends Contract {}
 
 export interface Cryptocurrency extends Contract {}
 
-export default {
+export const marketApi = {
+  getFavorite: (query: PageQuery) =>
+    httpClient.get<PageResult<Favorite>>('/Markets/Favorite', {
+      params: query,
+    }),
+
   getStock: (query: GetStockQuery) =>
     httpClient.get<PageResult<Stock>>('/Markets/Stock', {
       params: query,
