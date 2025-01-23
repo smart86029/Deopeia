@@ -5,14 +5,14 @@ import httpClient from '../http-client';
 export interface GetUsersQuery extends PageQuery {
   userName?: string;
   isEnabled?: boolean;
-  roleId?: Guid;
+  roleCode?: string;
 }
 
 export interface UserRow {
   id: Guid;
   userName: string;
   isEnabled: boolean;
-  roleIds: Guid[];
+  roleCodes: string[];
 }
 
 export interface User {
@@ -20,10 +20,10 @@ export interface User {
   userName: string;
   password?: string;
   isEnabled: boolean;
-  roleIds: Guid[];
+  roleCodes: string[];
 }
 
-export default {
+export const userApi = {
   getList: (query: GetUsersQuery) =>
     httpClient.get<PageResult<UserRow>>(`/Users`, { params: query }),
   get: (id: Guid) => httpClient.get<User>(`/Users/${id}`),

@@ -20,13 +20,13 @@ SELECT
 FROM "user"
 WHERE id = @Id;
 
-SELECT role_id
+SELECT role_code
 FROM user_role
 WHERE user_id = @Id;
 """;
         using var multiple = await _connection.QueryMultipleAsync(sql, request);
         var result = multiple.ReadFirst<GetUserViewModel>();
-        result.RoleIds = multiple.Read<Guid>().ToList();
+        result.RoleCodes = multiple.Read<string>().ToList();
 
         return result;
     }

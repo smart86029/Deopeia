@@ -13,7 +13,7 @@ public class CreateRoleCommandHandler(
     public async Task Handle(CreateRoleCommand request, CancellationToken cancellationToken)
     {
         var en = request.Locales.First(x => x.Culture == "en");
-        var role = new Role(en.Name, en.Description, request.IsEnabled);
+        var role = new Role(request.Code, en.Name, en.Description, request.IsEnabled);
         foreach (var locale in request.Locales)
         {
             var culture = CultureInfo.GetCultureInfo(locale.Culture);

@@ -6,6 +6,6 @@ internal class PermissionConfiguration : IEntityTypeConfiguration<Permission>
 {
     public void Configure(EntityTypeBuilder<Permission> builder)
     {
-        builder.HasIndex(x => x.Code).IsUnique();
+        builder.Property(x => x.Id).HasColumnName("code");
     }
 }

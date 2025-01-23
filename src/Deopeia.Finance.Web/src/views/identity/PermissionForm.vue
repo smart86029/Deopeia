@@ -1,5 +1,10 @@
 <template>
   <el-form :model="form" label-width="200" @submit.prevent="save">
+    <el-form-item :label="$t('common.code')">
+      <el-input v-if="action === 'create'" v-model="form.code" />
+      <template v-else>{{ form.code }}</template>
+    </el-form-item>
+
     <LocaleTabs v-model:locales="form.locales" :add="add">
       <LocaleTabPane
         v-for="locale in form.locales"
@@ -31,17 +36,15 @@ import type {
   Permission,
   PermissionLocale,
 } from '@/api/identity/permission-api';
-import permissionApi from '@/api/identity/permission-api';
-import { emptyGuid, type Guid } from '@/models/guid';
+import { permissionApi } from '@/api/identity/permission-api';
 import { success } from '@/plugins/element';
 
 const props = defineProps<{
   action: 'create' | 'edit';
-  id: Guid;
+  code: string;
 }>();
 const loading = ref(false);
 const form: Permission = reactive({
-  id: emptyGuid,
   code: '',
   isEnabled: true,
   locales: [{ culture: 'en', name: '' }],
@@ -49,7 +52,7 @@ const form: Permission = reactive({
 
 if (props.action === 'edit') {
   permissionApi
-    .get(props.id)
+    .get(props.code)
     .then((x) => Object.assign(form, x.data))
     .finally(() => (loading.value = false));
 }

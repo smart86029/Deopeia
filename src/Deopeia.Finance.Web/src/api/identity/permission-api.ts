@@ -9,7 +9,6 @@ export interface GetPermissionsQuery extends PageQuery {
 }
 
 export interface PermissionRow {
-  id: Guid;
   code: string;
   name: string;
   description?: string;
@@ -17,7 +16,6 @@ export interface PermissionRow {
 }
 
 export interface Permission {
-  id: Guid;
   code: string;
   isEnabled: boolean;
   locales: PermissionLocale[];
@@ -29,16 +27,16 @@ export interface PermissionLocale {
   description?: string;
 }
 
-export default {
+export const permissionApi = {
   getOptions: () =>
     httpClient.get<OptionResult<Guid>[]>('/Permissions/Options'),
   getList: (query: GetPermissionsQuery) =>
     httpClient.get<PageResult<PermissionRow>>(`/Permissions`, {
       params: query,
     }),
-  get: (id: Guid) => httpClient.get<Permission>(`/Permissions/${id}`),
+  get: (code: string) => httpClient.get<Permission>(`/Permissions/${code}`),
   create: (permission: Permission) =>
     httpClient.post('/Permissions', permission),
   update: (permission: Permission) =>
-    httpClient.put(`/Permissions/${permission.id}`, permission),
+    httpClient.put(`/Permissions/${permission.code}`, permission),
 };

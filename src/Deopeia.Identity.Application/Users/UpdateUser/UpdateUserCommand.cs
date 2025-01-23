@@ -5,5 +5,5 @@ public record UpdateUserCommand(
     string UserName,
     string? Password,
     bool IsEnabled,
-    ICollection<Guid> RoleIds
+    ICollection<string> RoleCodes
 ) : IRequest { }

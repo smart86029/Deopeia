@@ -2,7 +2,7 @@ namespace Deopeia.Identity.Application.Permissions.GetPermission;
 
 public class GetPermissionViewModel
 {
-    public Guid Id { get; set; }
+    public string Code { get; set; } = string.Empty;
 
     public bool IsEnabled { get; set; }
 

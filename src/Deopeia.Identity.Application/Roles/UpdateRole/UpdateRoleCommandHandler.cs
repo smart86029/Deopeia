@@ -12,7 +12,7 @@ public class UpdateRoleCommandHandler(
 
     public async Task Handle(UpdateRoleCommand request, CancellationToken cancellationToken)
     {
-        var role = await _roleRepository.GetRoleAsync(new RoleId(request.Id));
+        var role = await _roleRepository.GetRoleAsync(new RoleCode(request.Code));
         if (request.IsEnabled)
         {
             role.Enable();

@@ -25,13 +25,13 @@ public class GetRolesQueryHandler(NpgsqlConnection connection)
         var sql = builder.AddTemplate(
             """
 SELECT
-    a.id,
+    a.code,
     COALESCE(b.name, c.name) AS name,
     COALESCE(b.description, c.description) AS description,
     a.is_enabled
 FROM role AS a
-LEFT JOIN role_locale AS b ON a.id = b.role_id AND b.culture = @CurrentCulture
-INNER JOIN role_locale AS c ON a.id = c.role_id AND c.culture = @DefaultThreadCurrentCulture
+LEFT JOIN role_locale AS b ON a.code = b.role_code AND b.culture = @CurrentCulture
+INNER JOIN role_locale AS c ON a.code = c.role_code AND c.culture = @DefaultThreadCurrentCulture
 /**where**/
 LIMIT @Limit
 OFFSET @Offset

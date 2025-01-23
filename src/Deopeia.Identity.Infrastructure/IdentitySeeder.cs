@@ -26,7 +26,6 @@ public class IdentitySeeder : DbSeeder
 
         foreach (var user in users)
         {
-            user.MarkAsTrader();
             foreach (var role in roles)
             {
                 user.AssignRole(role);
@@ -91,6 +90,11 @@ public class IdentitySeeder : DbSeeder
         var results = new Faker<User>()
             .CustomInstantiator(x => new User(x.Internet.UserName(), password, true))
             .GenerateBetween(10, 50);
+        foreach (var user in results)
+        {
+            user.MarkAsTrader();
+        }
+
         results.Add(new User("admin", password, true));
 
         return results;
@@ -100,8 +104,13 @@ public class IdentitySeeder : DbSeeder
     {
         var result = new List<Role>
         {
-            new("Administrator", "The highest level of access within the system.", true),
-            new("Trader", "An entity who buys and sells financial instruments.", true),
+            new(
+                "Administrator",
+                "Administrator",
+                "The highest level of access within the system.",
+                true
+            ),
+            new("Trader", "Trader", "An entity who buys and sells financial instruments.", true),
         };
 
         return result;
@@ -117,7 +126,7 @@ public class IdentitySeeder : DbSeeder
                 "Allowing the user to enter the system but not necessarily granting any further permissions.",
                 true
             ),
-            new("Trade", "Allowing the user to buy and sell financial instruments.", null, true),
+            new("Trade", "Trade", "Allowing the user to buy and sell financial instruments.", true),
         };
 
         var zhHant = CultureInfo.GetCultureInfo("zh-Hant");

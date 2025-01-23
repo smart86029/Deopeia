@@ -6,6 +6,8 @@ internal class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
     public void Configure(EntityTypeBuilder<Role> builder)
     {
+        builder.Property(x => x.Id).HasColumnName("code");
+
         builder
             .Metadata.FindNavigation(nameof(Role.UserRoles))!
             .SetPropertyAccessMode(PropertyAccessMode.Field);

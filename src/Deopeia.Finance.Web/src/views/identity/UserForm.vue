@@ -10,7 +10,7 @@
       <el-switch v-model="form.isEnabled" />
     </el-form-item>
     <el-form-item :label="$t('identity.role')">
-      <el-checkbox-group v-model="form.roleIds">
+      <el-checkbox-group v-model="form.roleCodes">
         <el-checkbox
           v-for="role in roles"
           :key="role.value"
@@ -28,8 +28,8 @@
 </template>
 
 <script setup lang="ts">
-import roleApi from '@/api/identity/role-api';
-import userApi, { type User } from '@/api/identity/user-api';
+import { roleApi } from '@/api/identity/role-api';
+import { userApi, type User } from '@/api/identity/user-api';
 import { emptyGuid, type Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import { success } from '@/plugins/element';
@@ -39,13 +39,13 @@ const props = defineProps<{
   id: Guid;
 }>();
 const loading = ref(false);
-const roles: Ref<OptionResult<Guid>[]> = ref([]);
+const roles: Ref<OptionResult<string>[]> = ref([]);
 const form: User = reactive({
   id: emptyGuid,
   userName: '',
   password: '',
   isEnabled: true,
-  roleIds: [],
+  roleCodes: [],
 });
 
 roleApi.getOptions().then((x) => (roles.value = x.data));

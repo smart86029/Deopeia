@@ -15,26 +15,26 @@ public class GetRoleQueryHandler(NpgsqlConnection connection)
     {
         var sql = """
 SELECT
-    id,
+    code,
     is_enabled
 FROM role
-WHERE id = @Id;
+WHERE code = @Code;
 
 SELECT
     culture,
     name,
     description
 FROM role_locale
-WHERE role_id = @Id;
+WHERE role_code = @Code;
 
-SELECT permission_id
+SELECT permission_code
 FROM role_permission
-WHERE role_id = @Id;
+WHERE role_code = @Code;
 """;
         using var multiple = await _connection.QueryMultipleAsync(sql, request);
         var result = multiple.ReadFirst<GetRoleViewModel>();
         result.Locales = multiple.Read<RoleLocaleDto>().ToList();
-        result.PermissionIds = multiple.Read<Guid>().ToList();
+        result.PermissionCodes = multiple.Read<string>().ToList();
 
         return result;
     }

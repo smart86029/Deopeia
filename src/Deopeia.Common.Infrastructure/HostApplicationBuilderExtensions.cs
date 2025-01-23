@@ -1,5 +1,4 @@
 using Deopeia.Common.Domain.Files;
-using Deopeia.Common.Events;
 using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Common.Infrastructure.Files;
 using Deopeia.Common.Infrastructure.Localization;

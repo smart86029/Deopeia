@@ -1,5 +1,10 @@
 <template>
   <el-form :model="form" label-width="200" @submit.prevent="save">
+    <el-form-item :label="$t('common.code')">
+      <el-input v-if="action === 'create'" v-model="form.code" />
+      <template v-else>{{ form.code }}</template>
+    </el-form-item>
+
     <LocaleTabs v-model:locales="form.locales" :add="add">
       <LocaleTabPane
         v-for="locale in form.locales"
@@ -19,7 +24,7 @@
       <el-switch v-model="form.isEnabled" />
     </el-form-item>
     <el-form-item :label="$t('identity.permission')">
-      <el-checkbox-group v-model="form.permissionIds">
+      <el-checkbox-group v-model="form.permissionCodes">
         <el-checkbox
           v-for="role in roles"
           :key="role.value"
@@ -38,30 +43,30 @@
 </template>
 
 <script setup lang="ts">
-import permissionApi from '@/api/identity/permission-api';
-import roleApi, { type Role, type RoleLocale } from '@/api/identity/role-api';
-import { emptyGuid, type Guid } from '@/models/guid';
+import { permissionApi } from '@/api/identity/permission-api';
+import { roleApi, type Role, type RoleLocale } from '@/api/identity/role-api';
+import { type Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import { success } from '@/plugins/element';
 
 const props = defineProps<{
   action: 'create' | 'edit';
-  id: Guid;
+  code: string;
 }>();
 const loading = ref(false);
 const roles: Ref<OptionResult<Guid>[]> = ref([]);
 const form: Role = reactive({
-  id: emptyGuid,
+  code: '',
   isEnabled: true,
   locales: [{ culture: 'en', name: '' }],
-  permissionIds: [],
+  permissionCodes: [],
 });
 
 permissionApi.getOptions().then((x) => (roles.value = x.data));
 
 if (props.action === 'edit') {
   roleApi
-    .get(props.id)
+    .get(props.code)
     .then((x) => Object.assign(form, x.data))
     .finally(() => (loading.value = false));
 }

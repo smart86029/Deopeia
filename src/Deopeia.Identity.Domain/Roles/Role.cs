@@ -3,15 +3,16 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Domain.Roles;
 
-public class Role : AggregateRoot<RoleId>, ILocalizable<RoleLocale, RoleId>
+public class Role : AggregateRoot<RoleCode>, ILocalizable<RoleLocale, RoleCode>
 {
-    private readonly EntityLocaleCollection<RoleLocale, RoleId> _locales = [];
+    private readonly EntityLocaleCollection<RoleLocale, RoleCode> _locales = [];
     private readonly List<UserRole> _userRoles = [];
     private readonly List<RolePermission> _rolePermissions = [];
 
     private Role() { }
 
-    public Role(string name, string? description, bool isEnabled)
+    public Role(string code, string name, string? description, bool isEnabled)
+        : base(new RoleCode(code))
     {
         _locales.Default.UpdateName(name);
         _locales.Default.UpdateDescription(description);
@@ -57,7 +58,7 @@ public class Role : AggregateRoot<RoleId>, ILocalizable<RoleLocale, RoleId>
 
     public void AssignPermission(Permission permission)
     {
-        if (_rolePermissions.Any(x => x.PermissionId == permission.Id))
+        if (_rolePermissions.Any(x => x.PermissionCode == permission.Id))
         {
             return;
         }
@@ -67,7 +68,9 @@ public class Role : AggregateRoot<RoleId>, ILocalizable<RoleLocale, RoleId>
 
     public void UnassignPermission(Permission permission)
     {
-        var rolePermission = _rolePermissions.FirstOrDefault(x => x.PermissionId == permission.Id);
+        var rolePermission = _rolePermissions.FirstOrDefault(x =>
+            x.PermissionCode == permission.Id
+        );
         if (rolePermission is null)
         {
             return;

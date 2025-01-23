@@ -1,3 +1,3 @@
 namespace Deopeia.Identity.Application.Roles.GetRole;
 
-public record GetRoleQuery(Guid Id) : IRequest<GetRoleViewModel> { }
+public record GetRoleQuery(string Code) : IRequest<GetRoleViewModel> { }

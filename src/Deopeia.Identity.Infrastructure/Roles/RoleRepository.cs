@@ -8,36 +8,30 @@ internal class RoleRepository(IdentityContext context) : IRoleRepository
 
     public async Task<ICollection<Role>> GetRolesAsync()
     {
-        var results = await _roles
+        return await _roles
             .Include(x => x.Locales)
             .Include(x => x.UserRoles)
             .Include(x => x.RolePermissions)
             .ToListAsync();
-
-        return results;
     }
 
-    public async Task<ICollection<Role>> GetRolesAsync(IEnumerable<RoleId> roleIds)
+    public async Task<ICollection<Role>> GetRolesAsync(IEnumerable<RoleCode> roleCodes)
     {
-        var results = await _roles
+        return await _roles
             .Include(x => x.Locales)
             .Include(x => x.UserRoles)
             .Include(x => x.RolePermissions)
-            .Where(x => roleIds.Contains(x.Id))
+            .Where(x => roleCodes.Contains(x.Id))
             .ToListAsync();
-
-        return results;
     }
 
-    public async Task<Role> GetRoleAsync(RoleId roleId)
+    public async Task<Role> GetRoleAsync(RoleCode roleCode)
     {
-        var result = await _roles
+        return await _roles
             .Include(x => x.Locales)
             .Include(x => x.UserRoles)
             .Include(x => x.RolePermissions)
-            .SingleAsync(x => x.Id == roleId);
-
-        return result;
+            .SingleAsync(x => x.Id == roleCode);
     }
 
     public void Add(Role role)

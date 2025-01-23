@@ -26,11 +26,11 @@ public class GetUsersQueryHandler(NpgsqlConnection connection)
             builder.Where("is_enabled = @IsEnabled", new { request.IsEnabled });
         }
 
-        if (request.RoleId.HasValue)
+        if (!request.RoleCode.IsNullOrWhiteSpace())
         {
             builder.Where(
-                "id = ANY(SELECT user_id AS id FROM user_role WHERE role_id = @RoleId)",
-                new { request.RoleId }
+                "id = ANY(SELECT user_id AS id FROM user_role WHERE role_code = @RoleCode)",
+                new { request.RoleCode }
             );
         }
 
@@ -50,26 +50,26 @@ GROUP BY id
 LIMIT @Limit
 OFFSET @Offset
 """,
-            new { result.Limit, result.Offset, }
+            new { result.Limit, result.Offset }
         );
         var users = await _connection.QueryAsync<UserDto>(sql.RawSql, sql.Parameters);
 
         var sqlRole = """
 SELECT
     user_id,
-    role_id
+    role_code
 FROM user_role
 WHERE user_id = ANY(@UserIds)
 """;
 
-        var userRoles = await _connection.QueryAsync<(Guid UserId, Guid RoleId)>(
+        var userRoles = await _connection.QueryAsync<(Guid UserId, string RoleCode)>(
             sqlRole,
             new { UserIds = users.Select(x => x.Id).ToList() }
         );
-        var lookup = userRoles.ToLookup(x => x.UserId, x => x.RoleId);
+        var lookup = userRoles.ToLookup(x => x.UserId, x => x.RoleCode);
         foreach (var user in users)
         {
-            user.RoleIds = lookup[user.Id].ToList();
+            user.RoleCodes = lookup[user.Id].ToList();
         }
 
         result.Items = users.ToList();

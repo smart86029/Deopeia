@@ -15,18 +15,17 @@ public class GetPermissionQueryHandler(NpgsqlConnection connection)
     {
         var sql = """
 SELECT
-    id,
     code,
     is_enabled
 FROM permission
-WHERE id = @Id;
+WHERE code = @Code;
 
 SELECT
     culture,
     name,
     description
 FROM permission_locale
-WHERE permission_id = @Id;
+WHERE permission_code = @Code;
 """;
         using var multiple = await _connection.QueryMultipleAsync(sql, request);
         var result = multiple.ReadFirst<GetPermissionViewModel>();

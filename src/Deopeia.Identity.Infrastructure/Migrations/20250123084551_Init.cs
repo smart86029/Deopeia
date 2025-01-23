@@ -136,25 +136,24 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 name: "permission",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
                     code = table.Column<string>(type: "text", nullable: false),
                     is_enabled = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_permission", x => x.id);
+                    table.PrimaryKey("pk_permission", x => x.code);
                 });
 
             migrationBuilder.CreateTable(
                 name: "role",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    code = table.Column<string>(type: "text", nullable: false),
                     is_enabled = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_role", x => x.id);
+                    table.PrimaryKey("pk_role", x => x.code);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,19 +207,19 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 name: "permission_locale",
                 columns: table => new
                 {
-                    permission_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    permission_code = table.Column<string>(type: "text", nullable: false),
                     culture = table.Column<string>(type: "text", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
                     description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_permission_locale", x => new { x.permission_id, x.culture });
+                    table.PrimaryKey("pk_permission_locale", x => new { x.permission_code, x.culture });
                     table.ForeignKey(
                         name: "fk_permission_locale_permission_permission_id",
-                        column: x => x.permission_id,
+                        column: x => x.permission_code,
                         principalTable: "permission",
-                        principalColumn: "id",
+                        principalColumn: "code",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -228,19 +227,19 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 name: "role_locale",
                 columns: table => new
                 {
-                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    role_code = table.Column<string>(type: "text", nullable: false),
                     culture = table.Column<string>(type: "text", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
                     description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_role_locale", x => new { x.role_id, x.culture });
+                    table.PrimaryKey("pk_role_locale", x => new { x.role_code, x.culture });
                     table.ForeignKey(
                         name: "fk_role_locale_role_role_id",
-                        column: x => x.role_id,
+                        column: x => x.role_code,
                         principalTable: "role",
-                        principalColumn: "id",
+                        principalColumn: "code",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -248,24 +247,24 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 name: "role_permission",
                 columns: table => new
                 {
-                    role_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    permission_id = table.Column<Guid>(type: "uuid", nullable: false)
+                    role_code = table.Column<string>(type: "text", nullable: false),
+                    permission_code = table.Column<string>(type: "text", nullable: false),
+                    permission_id = table.Column<string>(type: "text", nullable: true),
+                    role_id = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_role_permission", x => new { x.role_id, x.permission_id });
+                    table.PrimaryKey("pk_role_permission", x => new { x.role_code, x.permission_code });
                     table.ForeignKey(
                         name: "fk_role_permission_permission_permission_id",
                         column: x => x.permission_id,
                         principalTable: "permission",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "code");
                     table.ForeignKey(
                         name: "fk_role_permission_role_role_id",
                         column: x => x.role_id,
                         principalTable: "role",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "code");
                 });
 
             migrationBuilder.CreateTable(
@@ -314,17 +313,17 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 columns: table => new
                 {
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    role_id = table.Column<Guid>(type: "uuid", nullable: false)
+                    role_code = table.Column<string>(type: "text", nullable: false),
+                    role_id = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_user_role", x => new { x.user_id, x.role_id });
+                    table.PrimaryKey("pk_user_role", x => new { x.user_id, x.role_code });
                     table.ForeignKey(
                         name: "fk_user_role_role_role_id",
                         column: x => x.role_id,
                         principalTable: "role",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "code");
                     table.ForeignKey(
                         name: "fk_user_role_user_user_id",
                         column: x => x.user_id,
@@ -350,15 +349,14 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_permission_code",
-                table: "permission",
-                column: "code",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "ix_role_permission_permission_id",
                 table: "role_permission",
                 column: "permission_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_role_permission_role_id",
+                table: "role_permission",
+                column: "role_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_user_user_name",

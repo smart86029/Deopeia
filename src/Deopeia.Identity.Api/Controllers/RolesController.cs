@@ -26,10 +26,10 @@ public class RolesController : ApiController<RolesController>
         return Ok(results);
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<GetRoleViewModel>> Get([FromRoute] Guid id)
+    [HttpGet("{code}")]
+    public async Task<ActionResult<GetRoleViewModel>> Get([FromRoute] string code)
     {
-        var query = new GetRoleQuery(id);
+        var query = new GetRoleQuery(code);
         var result = await Sender.Send(query);
 
         return Ok(result);
@@ -43,13 +43,13 @@ public class RolesController : ApiController<RolesController>
         return Created();
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{code}")]
     public async Task<IActionResult> Update(
-        [FromRoute] Guid id,
+        [FromRoute] string code,
         [FromBody] UpdateRoleCommand command
     )
     {
-        command = command with { Id = id };
+        command = command with { Code = code };
         await Sender.Send(command);
 
         return NoContent();

@@ -1,4 +1,4 @@
 namespace Deopeia.Identity.Application.Roles.UpdateRole;
 
-public record UpdateRoleCommand(Guid Id, bool IsEnabled, ICollection<RoleLocaleDto> Locales)
+public record UpdateRoleCommand(string Code, bool IsEnabled, ICollection<RoleLocaleDto> Locales)
     : IRequest { }

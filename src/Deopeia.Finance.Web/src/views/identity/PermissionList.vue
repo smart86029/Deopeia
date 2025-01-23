@@ -17,7 +17,7 @@
     </template>
   </TableToolbar>
 
-  <el-table v-loading="loading" :data="result.items" s>
+  <el-table v-loading="loading" :data="result.items">
     <el-table-column prop="code" :label="$t('identity.code')" />
     <el-table-column prop="name" :label="$t('common.name')" />
     <el-table-column prop="description" :label="$t('common.description')">
@@ -32,7 +32,9 @@
     />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
-        <TextLink :to="{ name: 'permission.edit', params: { id: row.id } }" />
+        <TextLink
+          :to="{ name: 'permission.edit', params: { code: row.code } }"
+        />
       </template>
     </el-table-column>
   </el-table>
@@ -45,7 +47,8 @@
 </template>
 
 <script setup lang="ts">
-import permissionApi, {
+import {
+  permissionApi,
   type GetPermissionsQuery,
   type PermissionRow,
 } from '@/api/identity/permission-api';

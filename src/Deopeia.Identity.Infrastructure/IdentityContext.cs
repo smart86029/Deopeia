@@ -19,8 +19,8 @@ public class IdentityContext(DbContextOptions<IdentityContext> options) : DbCont
 
         configurationBuilder.Properties<ClientId>().HaveConversion<ClientIdConverter>();
         configurationBuilder.Properties<GrantId>().HaveConversion<GrantIdConverter>();
-        configurationBuilder.Properties<PermissionId>().HaveConversion<PermissionIdConverter>();
-        configurationBuilder.Properties<RoleId>().HaveConversion<RoleIdConverter>();
+        configurationBuilder.Properties<PermissionCode>().HaveConversion<PermissionCodeConverter>();
+        configurationBuilder.Properties<RoleCode>().HaveConversion<RoleCodeConverter>();
         configurationBuilder.Properties<UserId>().HaveConversion<UserIdConverter>();
         configurationBuilder
             .Properties<UserRefreshTokenId>()

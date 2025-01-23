@@ -8,5 +8,5 @@ public class GetUserViewModel
 
     public bool IsEnabled { get; set; }
 
-    public ICollection<Guid> RoleIds { get; set; } = [];
+    public ICollection<string> RoleCodes { get; set; } = [];
 }

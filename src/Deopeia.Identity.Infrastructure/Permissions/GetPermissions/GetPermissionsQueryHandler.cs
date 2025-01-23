@@ -30,14 +30,13 @@ public class GetPermissionsQueryHandler(NpgsqlConnection connection)
         var sql = builder.AddTemplate(
             """
 SELECT
-    a.id,
     a.code,
     COALESCE(b.name, c.name) AS name,
     COALESCE(b.description, c.description) AS description,
     a.is_enabled
 FROM permission AS a
-LEFT JOIN permission_locale AS b ON a.id = b.permission_id AND b.culture = @CurrentCulture
-INNER JOIN permission_locale AS c ON a.id = c.permission_id AND c.culture = @DefaultThreadCurrentCulture
+LEFT JOIN permission_locale AS b ON a.code = b.permission_code AND b.culture = @CurrentCulture
+INNER JOIN permission_locale AS c ON a.code = c.permission_code AND c.culture = @DefaultThreadCurrentCulture
 /**where**/
 LIMIT @Limit
 OFFSET @Offset

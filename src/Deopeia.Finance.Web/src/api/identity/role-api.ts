@@ -1,4 +1,3 @@
-import type { Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import type { PageQuery, PageResult } from '@/models/page';
 import httpClient from '../http-client';
@@ -8,17 +7,17 @@ export interface GetRolesQuery extends PageQuery {
 }
 
 export interface RoleRow {
-  id: Guid;
+  code: string;
   name: string;
   description?: string;
   isEnabled: boolean;
 }
 
 export interface Role {
-  id: Guid;
+  code: string;
   isEnabled: boolean;
   locales: RoleLocale[];
-  permissionIds: Guid[];
+  permissionCodes: string[];
 }
 
 export interface RoleLocale {
@@ -27,11 +26,11 @@ export interface RoleLocale {
   description?: string;
 }
 
-export default {
-  getOptions: () => httpClient.get<OptionResult<Guid>[]>('/Roles/Options'),
+export const roleApi = {
+  getOptions: () => httpClient.get<OptionResult<string>[]>('/Roles/Options'),
   getList: (query: GetRolesQuery) =>
     httpClient.get<PageResult<RoleRow>>(`/Roles`, { params: query }),
-  get: (id: Guid) => httpClient.get<Role>(`/Roles/${id}`),
+  get: (code: string) => httpClient.get<Role>(`/Roles/${code}`),
   create: (role: Role) => httpClient.post('/Roles', role),
-  update: (role: Role) => httpClient.put(`/Roles/${role.id}`, role),
+  update: (role: Role) => httpClient.put(`/Roles/${role.code}`, role),
 };

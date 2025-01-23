@@ -3,8 +3,6 @@ using Deopeia.Identity.Application.Permissions.GetPermission;
 using Deopeia.Identity.Application.Permissions.GetPermissionOptions;
 using Deopeia.Identity.Application.Permissions.GetPermissions;
 using Deopeia.Identity.Application.Permissions.UpdatePermission;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Deopeia.Identity.Api.Controllers;
 
@@ -28,10 +26,10 @@ public class PermissionsController : ApiController<PermissionsController>
         return Ok(results);
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<GetPermissionViewModel>> Get([FromRoute] Guid id)
+    [HttpGet("{code}")]
+    public async Task<ActionResult<GetPermissionViewModel>> Get([FromRoute] string code)
     {
-        var query = new GetPermissionQuery(id);
+        var query = new GetPermissionQuery(code);
         var result = await Sender.Send(query);
 
         return Ok(result);
@@ -45,13 +43,13 @@ public class PermissionsController : ApiController<PermissionsController>
         return Created();
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{code}")]
     public async Task<IActionResult> Update(
-        [FromRoute] Guid id,
+        [FromRoute] string code,
         [FromBody] UpdatePermissionCommand command
     )
     {
-        command = command with { Id = id };
+        command = command with { Code = code };
         await Sender.Send(command);
 
         return NoContent();

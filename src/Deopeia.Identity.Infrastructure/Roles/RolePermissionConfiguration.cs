@@ -6,6 +6,6 @@ internal class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermis
 {
     public void Configure(EntityTypeBuilder<RolePermission> builder)
     {
-        builder.HasKey(x => new { x.RoleId, x.PermissionId });
+        builder.HasKey(x => new { x.RoleCode, x.PermissionCode });
     }
 }

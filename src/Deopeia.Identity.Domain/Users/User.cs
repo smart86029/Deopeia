@@ -61,7 +61,7 @@ public class User : AggregateRoot<UserId>
 
     public void AssignRole(Role role)
     {
-        if (_userRoles.Any(x => x.RoleId == role.Id))
+        if (_userRoles.Any(x => x.RoleCode == role.Id))
         {
             return;
         }
@@ -69,9 +69,9 @@ public class User : AggregateRoot<UserId>
         _userRoles.Add(new UserRole(Id, role.Id));
     }
 
-    public void UnassignRole(RoleId roleId)
+    public void UnassignRole(RoleCode roleCode)
     {
-        var userRole = _userRoles.FirstOrDefault(x => x.RoleId == roleId);
+        var userRole = _userRoles.FirstOrDefault(x => x.RoleCode == roleCode);
         if (userRole is null)
         {
             return;

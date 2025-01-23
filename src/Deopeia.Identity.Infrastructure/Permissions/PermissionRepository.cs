@@ -1,37 +1,46 @@
 using Deopeia.Identity.Domain.Permissions;
+using Deopeia.Identity.Domain.Roles;
+using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Infrastructure.Permissions;
 
 internal class PermissionRepository(IdentityContext context) : IPermissionRepository
 {
+    private readonly IdentityContext _context = context;
     private readonly DbSet<Permission> _permissions = context.Set<Permission>();
 
     public async Task<ICollection<Permission>> GetPermissionsAsync()
     {
-        var results = await _permissions.Include(x => x.Locales).ToListAsync();
-
-        return results;
+        return await _permissions.Include(x => x.Locales).ToListAsync();
     }
 
     public async Task<ICollection<Permission>> GetPermissionsAsync(
-        IEnumerable<PermissionId> permissionIds
+        IEnumerable<PermissionCode> permissionCodes
     )
     {
-        var results = await _permissions
+        return await _permissions
             .Include(x => x.Locales)
-            .Where(x => permissionIds.Contains(x.Id))
+            .Where(x => permissionCodes.Contains(x.Id))
             .ToListAsync();
-
-        return results;
     }
 
-    public async Task<Permission> GetPermissionAsync(PermissionId permissionId)
+    public async Task<ICollection<PermissionCode>> GetPermissionCodesAsync(UserId userId)
     {
-        var result = await _permissions
-            .Include(x => x.Locales)
-            .SingleAsync(x => x.Id == permissionId);
+        return await _context
+            .Set<UserRole>()
+            .Where(x => x.UserId == userId)
+            .Join(
+                _context.Set<RolePermission>(),
+                x => x.RoleCode,
+                y => y.RoleCode,
+                (x, y) => y.PermissionCode
+            )
+            .ToListAsync();
+    }
 
-        return result;
+    public async Task<Permission> GetPermissionAsync(PermissionCode permissionCode)
+    {
+        return await _permissions.Include(x => x.Locales).SingleAsync(x => x.Id == permissionCode);
     }
 
     public void Add(Permission permission)

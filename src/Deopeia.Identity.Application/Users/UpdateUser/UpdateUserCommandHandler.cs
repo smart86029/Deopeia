@@ -30,19 +30,19 @@ public class UpdateUserCommandHandler(
             user.Disable();
         }
 
-        var roleIds = user.UserRoles.Select(x => x.RoleId).ToList();
-        var commandRoleIds = request.RoleIds.Select(x => new RoleId(x)).ToList();
-        var roleIdsToAssign = commandRoleIds.Except(roleIds);
-        var rolesToAssign = await _roleRepository.GetRolesAsync(roleIdsToAssign);
+        var roleCodes = user.UserRoles.Select(x => x.RoleCode).ToList();
+        var commandRoleCodes = request.RoleCodes.Select(x => new RoleCode(x)).ToList();
+        var roleCodesToAssign = commandRoleCodes.Except(roleCodes);
+        var rolesToAssign = await _roleRepository.GetRolesAsync(roleCodesToAssign);
         foreach (var role in rolesToAssign)
         {
             user.AssignRole(role);
         }
 
-        var roleIdsToUnassign = roleIds.Except(commandRoleIds);
-        foreach (var roleId in roleIdsToUnassign)
+        var roleCodesToUnassign = roleCodes.Except(commandRoleCodes);
+        foreach (var roleCode in roleCodesToUnassign)
         {
-            user.UnassignRole(roleId);
+            user.UnassignRole(roleCode);
         }
 
         await _unitOfWork.CommitAsync();

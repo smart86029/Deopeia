@@ -339,12 +339,7 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Permissions.Permission", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
+                    b.Property<string>("Id")
                         .HasColumnType("text")
                         .HasColumnName("code");
 
@@ -355,18 +350,14 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_permission");
 
-                    b.HasIndex("Code")
-                        .IsUnique()
-                        .HasDatabaseName("ix_permission_code");
-
                     b.ToTable("permission", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Permissions.PermissionLocale", b =>
                 {
-                    b.Property<Guid>("EntityId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("permission_id");
+                    b.Property<string>("EntityId")
+                        .HasColumnType("text")
+                        .HasColumnName("permission_code");
 
                     b.Property<string>("Culture")
                         .HasColumnType("text")
@@ -389,9 +380,9 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Roles.Role", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
+                    b.Property<string>("Id")
+                        .HasColumnType("text")
+                        .HasColumnName("code");
 
                     b.Property<bool>("IsEnabled")
                         .HasColumnType("boolean")
@@ -405,9 +396,9 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Roles.RoleLocale", b =>
                 {
-                    b.Property<Guid>("EntityId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("role_id");
+                    b.Property<string>("EntityId")
+                        .HasColumnType("text")
+                        .HasColumnName("role_code");
 
                     b.Property<string>("Culture")
                         .HasColumnType("text")
@@ -430,19 +421,30 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Roles.RolePermission", b =>
                 {
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("role_id");
+                    b.Property<string>("RoleCode")
+                        .HasColumnType("text")
+                        .HasColumnName("role_code");
 
-                    b.Property<Guid>("PermissionId")
-                        .HasColumnType("uuid")
+                    b.Property<string>("PermissionCode")
+                        .HasColumnType("text")
+                        .HasColumnName("permission_code");
+
+                    b.Property<string>("PermissionId")
+                        .HasColumnType("text")
                         .HasColumnName("permission_id");
 
-                    b.HasKey("RoleId", "PermissionId")
+                    b.Property<string>("RoleId")
+                        .HasColumnType("text")
+                        .HasColumnName("role_id");
+
+                    b.HasKey("RoleCode", "PermissionCode")
                         .HasName("pk_role_permission");
 
                     b.HasIndex("PermissionId")
                         .HasDatabaseName("ix_role_permission_permission_id");
+
+                    b.HasIndex("RoleId")
+                        .HasDatabaseName("ix_role_permission_role_id");
 
                     b.ToTable("role_permission", (string)null);
                 });
@@ -532,11 +534,15 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uuid")
+                    b.Property<string>("RoleCode")
+                        .HasColumnType("text")
+                        .HasColumnName("role_code");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("text")
                         .HasColumnName("role_id");
 
-                    b.HasKey("UserId", "RoleId")
+                    b.HasKey("UserId", "RoleCode")
                         .HasName("pk_user_role");
 
                     b.HasIndex("RoleId")
@@ -671,15 +677,11 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     b.HasOne("Deopeia.Identity.Domain.Permissions.Permission", null)
                         .WithMany("RolePermissions")
                         .HasForeignKey("PermissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("fk_role_permission_permission_permission_id");
 
                     b.HasOne("Deopeia.Identity.Domain.Roles.Role", null)
                         .WithMany("RolePermissions")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("fk_role_permission_role_role_id");
                 });
 
@@ -698,8 +700,6 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     b.HasOne("Deopeia.Identity.Domain.Roles.Role", null)
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("fk_user_role_role_role_id");
 
                     b.HasOne("Deopeia.Identity.Domain.Users.User", null)

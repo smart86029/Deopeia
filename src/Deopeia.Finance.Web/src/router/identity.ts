@@ -1,4 +1,4 @@
-import { create, edit } from './props';
+import { createCode, createId, editCode, editId } from './props';
 
 export default [
   {
@@ -15,13 +15,13 @@ export default [
         path: 'create',
         name: 'user.create',
         component: () => import('../views/identity/UserForm.vue'),
-        props: create,
+        props: createId,
       },
       {
         path: ':id',
         name: 'user.edit',
         component: () => import('../views/identity/UserForm.vue'),
-        props: edit,
+        props: editId,
       },
     ],
   },
@@ -39,13 +39,13 @@ export default [
         path: 'create',
         name: 'role.create',
         component: () => import('../views/identity/RoleForm.vue'),
-        props: create,
+        props: createCode,
       },
       {
-        path: ':id',
+        path: ':code',
         name: 'role.edit',
         component: () => import('../views/identity/RoleForm.vue'),
-        props: edit,
+        props: editCode,
       },
     ],
   },
@@ -63,13 +63,13 @@ export default [
         path: 'create',
         name: 'permission.create',
         component: () => import('../views/identity/PermissionForm.vue'),
-        props: create,
+        props: createCode,
       },
       {
-        path: ':id',
+        path: ':code',
         name: 'permission.edit',
         component: () => import('../views/identity/PermissionForm.vue'),
-        props: edit,
+        props: editCode,
       },
     ],
   },

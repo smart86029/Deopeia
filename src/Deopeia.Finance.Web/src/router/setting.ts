@@ -1,5 +1,5 @@
 import type { RouteLocationNormalized } from 'vue-router';
-import { create, edit } from './props';
+import { createId, editId } from './props';
 
 export default [
   {
@@ -16,13 +16,13 @@ export default [
         path: 'create',
         name: 'trader.create',
         component: () => import('../views/setting/TraderForm.vue'),
-        props: create,
+        props: createId,
       },
       {
         path: ':id',
         name: 'trader.edit',
         component: () => import('../views/setting/TraderForm.vue'),
-        props: edit,
+        props: editId,
       },
     ],
   },
@@ -68,13 +68,13 @@ export default [
         path: 'create',
         name: 'strategy.create',
         component: () => import('../views/setting/StrategyForm.vue'),
-        props: create,
+        props: createId,
       },
       {
         path: ':id',
         name: 'strategy.edit',
         component: () => import('../views/setting/StrategyForm.vue'),
-        props: edit,
+        props: editId,
       },
     ],
   },
@@ -92,7 +92,7 @@ export default [
         path: ':id/close',
         name: 'position.close',
         component: () => import('../views/setting/PositionClose.vue'),
-        props: edit,
+        props: editId,
       },
     ],
   },

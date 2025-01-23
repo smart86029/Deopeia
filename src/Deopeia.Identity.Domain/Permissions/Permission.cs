@@ -2,24 +2,22 @@ using Deopeia.Identity.Domain.Roles;
 
 namespace Deopeia.Identity.Domain.Permissions;
 
-public class Permission : AggregateRoot<PermissionId>, ILocalizable<PermissionLocale, PermissionId>
+public class Permission
+    : AggregateRoot<PermissionCode>,
+        ILocalizable<PermissionLocale, PermissionCode>
 {
-    private readonly EntityLocaleCollection<PermissionLocale, PermissionId> _locales = [];
+    private readonly EntityLocaleCollection<PermissionLocale, PermissionCode> _locales = [];
     private readonly List<RolePermission> _rolePermissions = [];
 
     private Permission() { }
 
     public Permission(string code, string name, string? description, bool isEnabled)
+        : base(new PermissionCode(code))
     {
-        code.MustNotBeNullOrWhiteSpace();
-
-        Code = code.Trim();
         _locales.Default.UpdateName(name);
         _locales.Default.UpdateDescription(description);
         IsEnabled = isEnabled;
     }
-
-    public string Code { get; private set; } = string.Empty;
 
     public string Name => _locales[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
 
@@ -30,12 +28,6 @@ public class Permission : AggregateRoot<PermissionId>, ILocalizable<PermissionLo
     public IReadOnlyCollection<PermissionLocale> Locales => _locales;
 
     public IReadOnlyCollection<RolePermission> RolePermissions => _rolePermissions;
-
-    public void UpdateCode(string code)
-    {
-        code.MustNotBeNullOrWhiteSpace();
-        Code = code.Trim();
-    }
 
     public void UpdateName(string name, CultureInfo culture)
     {

@@ -1,6 +1,6 @@
 namespace Deopeia.Identity.Domain.Roles;
 
-public class RoleLocale : EntityLocale<RoleId>
+public class RoleLocale : EntityLocale<RoleCode>
 {
     public string Name { get; private set; } = string.Empty;
 

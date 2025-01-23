@@ -12,12 +12,21 @@ export const useAuthStore = defineStore('auth', () => {
     post_logout_redirect_uri: uri,
   });
 
+  const isOperator = ref(false);
+
   const getUser = async () => {
-    const user = await userManager.getUser();
+    let user = await userManager.getUser();
     if (user === null) {
       await signIn();
+      user = await userManager.getUser();
+      console.log(user?.id_token);
+      // isOperator.value = user?.id_token.roles.includes('Trader') ?? false;
+      // if(user !== null){
+      //    user.id_token.
+      // }
     }
-    return await userManager.getUser();
+
+    return user;
   };
 
   const signIn = () => {

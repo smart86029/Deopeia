@@ -11,7 +11,7 @@
         />
       </el-form-item>
       <el-form-item :label="$t('identity.role')">
-        <SelectOption v-model="query.roleId" :options="roles" />
+        <SelectOption v-model="query.roleCode" :options="roles" />
       </el-form-item>
     </el-form>
 
@@ -27,9 +27,9 @@
       :label="$t('common.status')"
       localeKey="status.isEnabled"
     />
-    <el-table-column prop="roleIds" :label="$t('identity.role')">
+    <el-table-column :label="$t('identity.role')">
       <template #default="{ row }">
-        <TagList v-model="row.roleIds" :options="roles" />
+        <TagList v-model="row.roleCodes" :options="roles" />
       </template>
     </el-table-column>
     <el-table-column :label="$t('common.operations')">
@@ -47,12 +47,12 @@
 </template>
 
 <script setup lang="ts">
-import roleApi from '@/api/identity/role-api';
-import userApi, {
+import { roleApi } from '@/api/identity/role-api';
+import {
+  userApi,
   type GetUsersQuery,
   type UserRow,
 } from '@/api/identity/user-api';
-import type { Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import {
   defaultQuery,
@@ -62,7 +62,7 @@ import {
 } from '@/models/page';
 
 const loading = ref(false);
-const roles: Ref<OptionResult<Guid>[]> = ref([]);
+const roles: Ref<OptionResult<string>[]> = ref([]);
 const query: GetUsersQuery = reactive({
   ...defaultQuery,
 });

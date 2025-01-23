@@ -1,7 +1,7 @@
-using Deopeia.Identity.Application.Connect;
 using Deopeia.Identity.Domain.Clients;
 using Deopeia.Identity.Domain.Grants;
 using Deopeia.Identity.Domain.Grants.RefreshTokens;
+using Deopeia.Identity.Domain.Permissions;
 
 namespace Deopeia.Identity.Application.Connect.RefreshTokenGrant;
 
@@ -9,8 +9,15 @@ internal class RefreshTokenGrantCommandHandler(
     IOptions<JwtOptions> jwtOptions,
     IIdentityUnitOfWork unitOfWork,
     IClientRepository clientRepository,
+    IPermissionRepository permissionRepository,
     IRefreshTokenRepository refreshTokenRepository
-) : GrantCommandHandler<RefreshTokenGrantCommand>(jwtOptions, unitOfWork, refreshTokenRepository)
+)
+    : GrantCommandHandler<RefreshTokenGrantCommand>(
+        jwtOptions,
+        unitOfWork,
+        permissionRepository,
+        refreshTokenRepository
+    )
 {
     private readonly TimeSpan _lifetime = TimeSpan.FromMinutes(5);
     private readonly IIdentityUnitOfWork _identityUnitOfWork = unitOfWork;
@@ -23,7 +30,11 @@ internal class RefreshTokenGrantCommandHandler(
     )
     {
         var client = await _clientRepository.GetClientAsync(request.ClientId);
-        if (!client.GrantTypes.HasFlag(GrantTypes.RefreshToken))
+        if (
+            client is null
+            || !client.IsEnabled
+            || !client.GrantTypes.HasFlag(GrantTypes.RefreshToken)
+        )
         {
             return new RefreshTokenGrantResult(GrantError.UnauthorizedClient);
         }
@@ -56,7 +67,7 @@ internal class RefreshTokenGrantCommandHandler(
 
         await ConsumeAsync(refreshToken);
 
-        var accessToken = GenerateAccessToken(refreshToken);
+        var accessToken = await GenerateAccessTokenAsync(refreshToken);
         var newRefreshToken = await GenerateRefreshTokenAsync(client, refreshToken);
         var result = new RefreshTokenGrantResult
         {

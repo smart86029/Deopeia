@@ -2,6 +2,7 @@ using Deopeia.Identity.Domain.Clients;
 using Deopeia.Identity.Domain.Grants;
 using Deopeia.Identity.Domain.Grants.AuthorizationCodes;
 using Deopeia.Identity.Domain.Grants.RefreshTokens;
+using Deopeia.Identity.Domain.Permissions;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Deopeia.Identity.Application.Connect.AuthorizationCodeGrant;
@@ -11,11 +12,13 @@ internal class AuthorizationCodeGrantCommandHandler(
     IIdentityUnitOfWork unitOfWork,
     IClientRepository clientRepository,
     IAuthorizationCodeRepository authorizationCodeRepository,
+    IPermissionRepository permissionRepository,
     IRefreshTokenRepository refreshTokenRepository
 )
     : GrantCommandHandler<AuthorizationCodeGrantCommand>(
         jwtOptions,
         unitOfWork,
+        permissionRepository,
         refreshTokenRepository
     )
 {
@@ -92,7 +95,7 @@ internal class AuthorizationCodeGrantCommandHandler(
             return new AuthorizationCodeGrantResult(GrantError.InvalidGrant);
         }
 
-        var accessToken = GenerateAccessToken(authorizationCode);
+        var accessToken = await GenerateAccessTokenAsync(authorizationCode);
         var refreshToken = await GenerateRefreshTokenAsync(client, authorizationCode);
         var idToken = GenerateIdToken(authorizationCode);
         var result = new AuthorizationCodeGrantResult

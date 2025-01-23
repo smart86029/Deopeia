@@ -13,10 +13,8 @@ public class UpdatePermissionCommandHandler(
     public async Task Handle(UpdatePermissionCommand request, CancellationToken cancellationToken)
     {
         var permission = await _permissionRepository.GetPermissionAsync(
-            new PermissionId(request.Id)
+            new PermissionCode(request.Code)
         );
-
-        permission.UpdateCode(request.Code);
 
         if (request.IsEnabled)
         {
