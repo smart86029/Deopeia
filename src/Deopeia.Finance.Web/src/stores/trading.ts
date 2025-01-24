@@ -1,4 +1,4 @@
-import instrumentApi from '@/api/trading/instrument-api';
+import { instrumentApi } from '@/api/trading/instrument-api';
 import type { Instrument, InstrumentMap } from '@/models/trading/instrument';
 import { usePreferencesStore } from './preferences';
 

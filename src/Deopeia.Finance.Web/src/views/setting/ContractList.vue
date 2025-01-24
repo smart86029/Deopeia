@@ -40,7 +40,8 @@
 </template>
 
 <script setup lang="ts">
-import contractApi, {
+import {
+  contractApi,
   type ContractRow,
   type GetContractsQuery,
 } from '@/api/trading/contract-api';

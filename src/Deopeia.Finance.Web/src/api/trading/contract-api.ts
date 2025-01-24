@@ -34,7 +34,7 @@ export interface ContractLocale {
   description?: string;
 }
 
-export default {
+export const contractApi = {
   getOptions: (underlyingType: UnderlyingType) =>
     httpClient.get<OptionResult<string>[]>('/Contracts/Options', {
       params: { underlyingType },

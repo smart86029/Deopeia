@@ -38,10 +38,8 @@
 </template>
 
 <script setup lang="ts">
-import optionApi from '@/api/option-api';
-import positionApi, { type Position } from '@/api/trading/position-api';
+import { positionApi, type Position } from '@/api/trading/position-api';
 import { emptyGuid, type Guid } from '@/models/guid';
-import type { OptionResult } from '@/models/option-result';
 import { OrderType } from '@/models/trading/order-type';
 import { useQuoteStore } from '@/stores/quote';
 
@@ -49,7 +47,6 @@ const props = defineProps<{
   id: Guid;
 }>();
 const loading = ref(false);
-const currencies: Ref<OptionResult<string>[]> = ref([]);
 const form: Position = reactive({
   id: emptyGuid,
   accountNumber: '',
@@ -59,10 +56,8 @@ const form: Position = reactive({
   price: 0,
   volume: 0,
 });
-const { symbol, quotes, bids, asks } = storeToRefs(useQuoteStore());
-const price = computed(() => quotes.value.get(symbol.value).value);
-
-optionApi.getCurrencies().then((x) => (currencies.value = x.data));
+const { symbol, ticks, bids, asks } = storeToRefs(useQuoteStore());
+const price = computed(() => ticks.value.get(symbol.value)!.price);
 
 positionApi
   .get(props.id)

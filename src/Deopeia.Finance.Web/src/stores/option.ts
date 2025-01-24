@@ -1,4 +1,4 @@
-import optionApi from '@/api/option-api';
+import { optionApi } from '@/api/option-api';
 import type { OptionResult } from '@/models/option-result';
 import { defineStore } from 'pinia';
 import { usePreferencesStore } from './preferences';

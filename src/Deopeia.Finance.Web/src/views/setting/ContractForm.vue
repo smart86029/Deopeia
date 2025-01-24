@@ -68,7 +68,8 @@
 </template>
 
 <script setup lang="ts">
-import contractApi, {
+import {
+  contractApi,
   type Contract,
   type ContractLocale,
 } from '@/api/trading/contract-api';

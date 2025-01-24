@@ -1,7 +1,7 @@
 import type { OptionResult } from '@/models/option-result';
 import httpClient from './http-client';
 
-export default {
+export const optionApi = {
   getCultures: () =>
     httpClient.get<OptionResult<string>[]>('/Options/Cultures'),
   getCurrencies: () =>

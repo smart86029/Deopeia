@@ -27,7 +27,7 @@ export interface Position {
   volume: number;
 }
 
-export default {
+export const positionApi = {
   getList: (query: GetPositionsQuery) =>
     httpClient.get<PageResult<PositionRow>>('/Positions', { params: query }),
   get: (id: Guid) => httpClient.get<Position>(`/Positions/${id}`),

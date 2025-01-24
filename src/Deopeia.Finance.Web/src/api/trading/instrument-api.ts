@@ -1,6 +1,6 @@
 import type { Instrument } from '@/models/trading/instrument';
 import httpClient from '../http-client';
 
-export default {
+export const instrumentApi = {
   get: (symbol: string) => httpClient.get<Instrument>(`/Instruments/${symbol}`),
 };
