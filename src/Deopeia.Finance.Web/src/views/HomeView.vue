@@ -4,7 +4,6 @@
       <h1>{{ $t('common.title') }}</h1>
       <NavBreadcrumb />
       <FlexDivider />
-      <el-switch v-model="isOperator" inline-prompt />
       <el-switch v-model="isDark" inline-prompt />
       <DropdownLocale />
       <DropdownRoute />

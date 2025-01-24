@@ -58,4 +58,6 @@ public class ConfigurationDto
     public IList<string> UiLocalesSupported { get; set; } = [];
 
     public string IntrospectionEndpoint { get; set; } = string.Empty;
+
+    public string RevocationEndpoint { get; set; } = string.Empty;
 }
