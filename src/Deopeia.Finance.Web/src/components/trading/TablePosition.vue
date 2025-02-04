@@ -37,7 +37,8 @@
 </template>
 
 <script setup lang="ts">
-import positionApi, {
+import {
+  positionApi,
   type GetPositionsQuery,
   type PositionRow,
 } from '@/api/trading/position-api';
