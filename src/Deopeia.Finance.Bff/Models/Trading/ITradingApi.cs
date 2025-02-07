@@ -14,6 +14,9 @@ public interface ITradingApi
     [Get("/api/Positions")]
     Task<PageResult<PositionDto>> GetPositionsAsync(GetPositionsQuery query);
 
+    [Get("/api/Traders/{traderId}/Accounts")]
+    Task<Account[]> GetAccountsAsync(Guid traderId);
+
     [Get("/api/Traders/{traderId}/Favorites")]
     Task<string[]> GetFavoritesAsync(Guid traderId);
 

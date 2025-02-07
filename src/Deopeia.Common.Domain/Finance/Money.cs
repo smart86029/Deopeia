@@ -5,6 +5,16 @@ public readonly record struct Money(CurrencyCode CurrencyCode, decimal Amount)
     public Money()
         : this(CurrencyCode.Default, 0) { }
 
+    public static Money operator +(Money money)
+    {
+        return money;
+    }
+
+    public static Money operator -(Money money)
+    {
+        return new Money(money.CurrencyCode, -money.Amount);
+    }
+
     public static Money operator +(Money augend, Money addend)
     {
         if (augend.CurrencyCode != addend.CurrencyCode)

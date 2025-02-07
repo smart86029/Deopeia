@@ -2,6 +2,8 @@ namespace Deopeia.Trading.Domain.Traders;
 
 public class Account : Entity<AccountId>
 {
+    private readonly List<Transaction> _transactions = [];
+
     internal Account(TraderId traderId, CurrencyCode currencyCode, bool isEnabled)
         : base(new AccountId(traderId, currencyCode))
     {
@@ -16,6 +18,8 @@ public class Account : Entity<AccountId>
     public bool IsEnabled { get; private set; }
 
     public Money Balance { get; private set; }
+
+    public IReadOnlyCollection<Transaction> Transactions => _transactions.AsReadOnly();
 
     public void Enable()
     {
@@ -32,6 +36,7 @@ public class Account : Entity<AccountId>
         money.CurrencyCode.MustEqualTo(CurrencyCode);
         money.Amount.MustGreaterThanOrEqualTo(0);
         Balance += money;
+        _transactions.Add(new Transaction(Id, TransactionType.Deposit, money));
     }
 
     public void Withdraw(Money money)
@@ -40,5 +45,6 @@ public class Account : Entity<AccountId>
         money.Amount.MustGreaterThanOrEqualTo(0);
         money.Amount.MustLessThanOrEqualTo(Balance.Amount);
         Balance -= money;
+        _transactions.Add(new Transaction(Id, TransactionType.Withdrawal, -money));
     }
 }

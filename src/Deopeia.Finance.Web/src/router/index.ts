@@ -1,12 +1,30 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { usePreferencesStore } from '@/stores/preferences';
+import {
+  createRouter,
+  createWebHistory,
+  type RouteLocationNormalized,
+} from 'vue-router';
 import HomeView from '../views/HomeView.vue';
+import asset from './asset';
 import auth from './auth';
-import { guard } from './guard';
 import identity from './identity';
 import market from './market';
 import quote from './quote';
 import setting from './setting';
 import trading from './trading';
+
+const guard = async (to: RouteLocationNormalized) => {
+  const { locale, locales } = storeToRefs(usePreferencesStore());
+  const newLocale = locales.value.find(
+    (x) => x.key === (to.params.locale as string),
+  );
+  if (newLocale) {
+    locale.value = newLocale;
+    return;
+  }
+
+  return { ...to, params: { ...to.params, locale: locale.value.key } };
+};
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +41,7 @@ const router = createRouter({
           name: 'dashboard.default',
           component: () => import('../views/dashboard/DashboardView.vue'),
         },
+        ...asset,
         ...identity,
         ...market,
         ...quote,

@@ -26,6 +26,7 @@ export default {
       '0': '長倉',
       '1': '短倉',
     },
+    positionValue: '倉位價值',
     openPrice: '開倉價格',
     margin: '保證金',
     pnl: '損益',

@@ -22,6 +22,8 @@ public class TradingContext(DbContextOptions<TradingContext> options) : DbContex
         configurationBuilder.Properties<StrategyId>().HaveConversion<StrategyIdConverter>();
 
         configurationBuilder.Properties<TraderId>().HaveConversion<TraderIdConverter>();
+
+        configurationBuilder.Properties<TransactionId>().HaveConversion<TransactionIdConverter>();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

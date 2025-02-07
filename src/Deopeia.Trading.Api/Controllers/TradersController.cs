@@ -1,5 +1,6 @@
 using Deopeia.Trading.Application.Traders.Deposit;
 using Deopeia.Trading.Application.Traders.Dislike;
+using Deopeia.Trading.Application.Traders.GetAccounts;
 using Deopeia.Trading.Application.Traders.GetFavorites;
 using Deopeia.Trading.Application.Traders.GetTrader;
 using Deopeia.Trading.Application.Traders.GetTraders;
@@ -39,6 +40,15 @@ public class TradersController : ApiController<TradersController>
         await Sender.Send(command);
 
         return NoContent();
+    }
+
+    [HttpGet("{id}/Accounts")]
+    public async Task<IActionResult> GetAccounts([FromRoute] Guid id)
+    {
+        var query = new GetAccountsQuery(id);
+        var results = await Sender.Send(query);
+
+        return Ok(results);
     }
 
     [HttpPost("{id}/Deposit")]

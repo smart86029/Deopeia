@@ -19,7 +19,7 @@ namespace Deopeia.Trading.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -634,6 +634,45 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                     b.ToTable("trader_favorite", (string)null);
                 });
 
+            modelBuilder.Entity("Deopeia.Trading.Domain.Traders.Transaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("CurrencyCode")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("currency_code");
+
+                    b.Property<Guid>("TraderId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("trader_id");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Money", "Deopeia.Trading.Domain.Traders.Transaction.Money#Money", b1 =>
+                        {
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("numeric")
+                                .HasColumnName("amount");
+                        });
+
+                    b.HasKey("Id")
+                        .HasName("pk_transaction");
+
+                    b.HasIndex("TraderId", "CurrencyCode")
+                        .HasDatabaseName("ix_transaction_trader_id_currency_code");
+
+                    b.ToTable("transaction", (string)null);
+                });
+
             modelBuilder.Entity("Deopeia.Common.Domain.Auditing.DataAccessAuditTrail", b =>
                 {
                     b.HasBaseType("Deopeia.Common.Domain.Auditing.AuditTrail");
@@ -825,6 +864,16 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         .HasConstraintName("fk_trader_favorite_trader_trader_id");
                 });
 
+            modelBuilder.Entity("Deopeia.Trading.Domain.Traders.Transaction", b =>
+                {
+                    b.HasOne("Deopeia.Trading.Domain.Traders.Account", null)
+                        .WithMany("Transactions")
+                        .HasForeignKey("TraderId", "CurrencyCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_transaction_account_trader_id_currency_code");
+                });
+
             modelBuilder.Entity("Deopeia.Common.Domain.Finance.Currency", b =>
                 {
                     b.Navigation("Locales");
@@ -852,6 +901,11 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                     b.Navigation("Legs");
 
                     b.Navigation("Locales");
+                });
+
+            modelBuilder.Entity("Deopeia.Trading.Domain.Traders.Account", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("Deopeia.Trading.Domain.Traders.Trader", b =>

@@ -26,6 +26,7 @@ export default {
       '0': 'Long',
       '1': 'Short',
     },
+    positionValue: 'Position Value',
     openPrice: 'Open Price',
     margin: 'Margin',
     unrealisedPnL: 'Unrealised P&L',

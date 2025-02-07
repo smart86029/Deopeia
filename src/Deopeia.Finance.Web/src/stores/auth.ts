@@ -23,7 +23,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     if (user) {
       const payload = JSON.parse(atob(user?.access_token.split('.')[1]));
-      isOperator.value = !payload.permissions.split(',').includes('Trader');
+      isOperator.value = !payload.permissions.split(',').includes('Trade');
     }
 
     return user;

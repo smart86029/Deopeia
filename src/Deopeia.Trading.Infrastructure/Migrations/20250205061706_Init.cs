@@ -365,6 +365,28 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "transaction",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    trader_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    currency_code = table.Column<string>(type: "text", nullable: false),
+                    type = table.Column<int>(type: "integer", nullable: false),
+                    created_at = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    amount = table.Column<decimal>(type: "numeric", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_transaction", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_transaction_account_trader_id_currency_code",
+                        columns: x => new { x.trader_id, x.currency_code },
+                        principalTable: "account",
+                        principalColumns: new[] { "trader_id", "currency_code" },
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "ix_file_resource_type",
                 table: "file_resource",
@@ -385,14 +407,16 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 table: "strategy_leg",
                 column: "order_id",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "ix_transaction_trader_id_currency_code",
+                table: "transaction",
+                columns: new[] { "trader_id", "currency_code" });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "account");
-
             migrationBuilder.DropTable(
                 name: "audit_trail");
 
@@ -427,6 +451,9 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 name: "trader_favorite");
 
             migrationBuilder.DropTable(
+                name: "transaction");
+
+            migrationBuilder.DropTable(
                 name: "unit_locale");
 
             migrationBuilder.DropTable(
@@ -442,10 +469,13 @@ namespace Deopeia.Trading.Infrastructure.Migrations
                 name: "strategy");
 
             migrationBuilder.DropTable(
-                name: "trader");
+                name: "account");
 
             migrationBuilder.DropTable(
                 name: "unit");
+
+            migrationBuilder.DropTable(
+                name: "trader");
         }
     }
 }

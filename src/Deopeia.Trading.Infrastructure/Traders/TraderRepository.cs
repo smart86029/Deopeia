@@ -10,7 +10,9 @@ internal class TraderRepository(TradingContext context) : ITraderRepository
     {
         return await _traders
             .Include(x => x.Accounts)
+            .ThenInclude(x => x.Transactions)
             .Include(x => x.TraderFavorites)
+            .AsNoTracking()
             .ToListAsync();
     }
 
@@ -18,6 +20,7 @@ internal class TraderRepository(TradingContext context) : ITraderRepository
     {
         return await _traders
             .Include(x => x.Accounts)
+            .ThenInclude(x => x.Transactions)
             .Include(x => x.TraderFavorites)
             .SingleAsync(x => x.Id == id);
     }
