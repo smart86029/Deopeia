@@ -1,5 +1,10 @@
 export default {
   route: {
+    asset: {
+      view: 'Assets',
+      account: 'Accounts',
+      position: 'Positions',
+    },
     contract: {
       list: 'Contracts',
       create: 'Create Contract',

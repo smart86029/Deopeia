@@ -6,5 +6,9 @@ public class Account
 
     public decimal Balance { get; set; }
 
+    public decimal Available { get; set; }
+
+    public decimal Frozen { get; set; }
+
     public decimal ExchangeRate { get; set; }
 }

@@ -3,6 +3,7 @@ import httpClient from '../http-client';
 export interface Account {
   currencyCode: string;
   balance: number;
+  frozen: number;
   exchangeRate: number;
 }
 

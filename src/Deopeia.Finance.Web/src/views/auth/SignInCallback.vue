@@ -21,7 +21,7 @@ if (error) {
   });
   authStore.signInCallback().finally(() => {
     loading.close();
-    router.go(-1);
+    router.push('/');
   });
 }
 </script>

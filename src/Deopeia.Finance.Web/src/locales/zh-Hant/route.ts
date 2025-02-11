@@ -1,5 +1,10 @@
 export default {
   route: {
+    asset: {
+      view: '資產',
+      account: '帳戶',
+      position: '倉位',
+    },
     contract: {
       list: '合約列表',
       create: '新增合約',
