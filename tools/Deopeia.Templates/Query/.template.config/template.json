@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Bill Hsu",
+  "classifications": ["Deopeia", "Application"],
+  "identity": "Deopeia.Application.Query",
+  "name": "Deopeia Application Query",
+  "shortName": "query",
+  "tags": {
+    "language": "C#",
+    "type": "item"
+  },
+  "symbols": {
+    "Service": {
+      "type": "parameter",
+      "description": "The service of the query.",
+      "datatype": "text",
+      "replaces": "Service",
+      "fileRename": "Service"
+    },
+    "Module": {
+      "type": "parameter",
+      "description": "The module of the query.",
+      "datatype": "text",
+      "replaces": "Module",
+      "fileRename": "Module"
+    },
+    "QueryName": {
+      "type": "generated",
+      "generator": "join",
+      "replaces": "Query",
+      "fileRename": "Query",
+      "parameters": {
+        "symbols": [
+          {
+            "type": "ref",
+            "value": "name"
+          },
+          {
+            "type": "const",
+            "value": "Query"
+          }
+        ]
+      }
+    }
+  }
+}

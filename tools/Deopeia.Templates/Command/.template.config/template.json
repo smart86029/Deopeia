@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Bill Hsu",
+  "classifications": ["Deopeia", "Application"],
+  "identity": "Deopeia.Application.Command",
+  "name": "Deopeia Application Command",
+  "shortName": "command",
+  "tags": {
+    "language": "C#",
+    "type": "item"
+  },
+  "symbols": {
+    "Service": {
+      "type": "parameter",
+      "description": "The service of the command.",
+      "datatype": "text",
+      "replaces": "Service",
+      "fileRename": "Service"
+    },
+    "Module": {
+      "type": "parameter",
+      "description": "The module of the command.",
+      "datatype": "text",
+      "replaces": "Module",
+      "fileRename": "Module"
+    },
+    "CommandName": {
+      "type": "generated",
+      "generator": "join",
+      "replaces": "Command",
+      "fileRename": "Command",
+      "parameters": {
+        "symbols": [
+          {
+            "type": "ref",
+            "value": "name"
+          },
+          {
+            "type": "const",
+            "value": "Command"
+          }
+        ]
+      }
+    }
+  }
+}
