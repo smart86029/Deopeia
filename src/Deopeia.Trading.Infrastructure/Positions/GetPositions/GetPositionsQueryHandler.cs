@@ -27,7 +27,6 @@ public class GetPositionsQueryHandler(NpgsqlConnection connection)
 SELECT
     a.id,
     a.type,
-    d.account_number,
     a.symbol,
     a.volume,
     COALESCE(b.name, c.name) AS currency,
@@ -39,7 +38,6 @@ LEFT JOIN currency_locale AS b
     ON a.margin_currency_code = b.currency_code AND b.culture = @CurrentCulture
 INNER JOIN currency_locale AS c
     ON a.margin_currency_code = c.currency_code AND c.culture = @DefaultThreadCurrentCulture
-INNER JOIN account AS d ON a.opened_by = d.id
 /**where**/
 LIMIT @Limit
 OFFSET @Offset

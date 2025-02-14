@@ -1,4 +1,4 @@
-namespace Deopeia.Finance.Bff.Events;
+namespace Deopeia.Notification.Hub.Events;
 
 public record DealCreatedEvent(
     string Symbol,

@@ -1,4 +1,3 @@
-using Deopeia.Common.Events;
 using Deopeia.Trading.Domain.Contracts;
 using Deopeia.Trading.Domain.OrderBooks;
 using Deopeia.Trading.Domain.Orders;
@@ -42,6 +41,11 @@ internal class MockOrdersCommandHandler(
     {
         var contracts = await _contractRepository.GetContractsAsync();
         var traders = await _traderRepository.GetTradersAsync();
+        var tradersCount = traders.Count;
+        if (tradersCount == 0)
+        {
+            return;
+        }
 
         var ramdom = new Random();
         foreach (var contract in contracts)
@@ -72,7 +76,7 @@ internal class MockOrdersCommandHandler(
                     openPrice,
                     null,
                     null,
-                    traders[ramdom.Next(0, 10)].Id
+                    traders[ramdom.Next(0, tradersCount)].Id
                 );
 
                 await _unitOfWork.CommitAsync();

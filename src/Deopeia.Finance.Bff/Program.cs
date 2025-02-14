@@ -1,8 +1,6 @@
 using System.Text;
 using Deopeia.Common;
-using Deopeia.Common.Infrastructure.Events;
 using Deopeia.Finance.Bff;
-using Deopeia.Finance.Bff.Models.RealTime;
 using Deopeia.Finance.Bff.Models.Trading;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -10,14 +8,9 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
-builder
-    .AddEventConsumer<DealCreatedEvent, DealCreatedEventHandler>()
-    .AddEventConsumer<CandleChangedEvent, CandleChangedEventHandler>()
-    .AddEventConsumer<OrderBookChangedEvent, OrderBookChangedEventHandler>();
 
 var services = builder.Services;
 services.AddControllers();
-services.AddSignalR();
 
 var jwtOptions = new JwtOptions();
 builder.Configuration.Bind("Jwt", jwtOptions);
@@ -73,7 +66,6 @@ app.UseAuthorization();
 
 app.MapDefaultEndpoints();
 app.MapControllers();
-app.MapHub<RealTimeHub>("hub/RealTime");
 app.MapReverseProxy();
 
 app.Run();

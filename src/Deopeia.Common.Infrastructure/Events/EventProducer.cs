@@ -10,12 +10,19 @@ internal class EventProducer<TContext>(
 ) : IEventProducer
     where TContext : DbContext
 {
+    private const string EventSuffix = "Event";
+
     private readonly IServiceProvider _serviceProvider = serviceProvider;
     private readonly IProducer<string, byte[]> _producer = producer;
 
     public async Task ProduceAsync(Event @event)
     {
         var key = @event.GetType().Name;
+        if (key.EndsWith(EventSuffix))
+        {
+            key = key[..^EventSuffix.Length];
+        }
+
         var value = @event.ToUtf8Bytes();
         await _producer.ProduceAsync(key, new Message<string, byte[]> { Key = key, Value = value });
     }

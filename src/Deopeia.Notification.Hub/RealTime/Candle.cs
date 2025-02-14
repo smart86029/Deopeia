@@ -1,4 +1,4 @@
-namespace Deopeia.Finance.Bff.Models.RealTime;
+namespace Deopeia.Notification.Hub.RealTime;
 
 public record Candle(
     DateTimeOffset Timestamp,

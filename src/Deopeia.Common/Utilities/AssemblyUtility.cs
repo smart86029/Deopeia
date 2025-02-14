@@ -13,7 +13,7 @@ public static class AssemblyUtility
         return Assembly
             .GetEntryAssembly()!
             .GetReferencedAssemblies()
-            .Where(x => x.Name!.StartsWith("Deopeia."))
+            .Where(x => x.Name!.StartsWith(Prefix))
             .Select(Assembly.Load);
     }
 

@@ -1,6 +1,6 @@
-using Deopeia.Finance.Bff.Models.RealTime;
+using Deopeia.Notification.Hub.RealTime;
 
-namespace Deopeia.Finance.Bff.Events;
+namespace Deopeia.Notification.Hub.Events;
 
 public class CandleChangedEventHandler(IHubContext<RealTimeHub, IRealTime> hubContext)
     : IEventHandler<CandleChangedEvent>

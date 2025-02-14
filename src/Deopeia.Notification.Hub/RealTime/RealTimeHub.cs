@@ -1,6 +1,7 @@
 using System.Security.Claims;
+using Microsoft.AspNetCore.SignalR;
 
-namespace Deopeia.Finance.Bff.Models.RealTime;
+namespace Deopeia.Notification.Hub.RealTime;
 
 public class RealTimeHub : Hub<IRealTime>
 {

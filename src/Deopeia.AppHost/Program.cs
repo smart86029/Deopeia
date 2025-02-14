@@ -1,3 +1,5 @@
+using Deopeia.AppHost;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var jwtKey = builder.AddParameter("JwtKey");
@@ -21,21 +23,21 @@ var identityApi = builder
     .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
     .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
     .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
-    .WithReference(kafka)
-    .WaitFor(kafka)
-    .WithReference(dbIdentity)
-    .WaitFor(dbIdentity);
+    .WithReferenceAndWaitFor(kafka)
+    .WithReferenceAndWaitFor(dbIdentity);
 identityApi.WithEnvironment("Proxy", identityApi.GetEndpoint("https"));
+
+var notificationHub = builder
+    .AddProject<Projects.Deopeia_Notification_Hub>("deopeia-notification-hub")
+    .WithReferenceAndWaitFor(kafka);
 
 var quoteApi = builder
     .AddProject<Projects.Deopeia_Quote_Api>("deopeia-quote-api")
     .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
     .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
     .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
-    .WithReference(kafka)
-    .WaitFor(kafka)
-    .WithReference(dbQuote)
-    .WaitFor(dbQuote);
+    .WithReferenceAndWaitFor(kafka)
+    .WithReferenceAndWaitFor(dbQuote);
 quoteApi.WithEnvironment("Proxy", quoteApi.GetEndpoint("http"));
 
 builder
@@ -43,20 +45,16 @@ builder
     .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
     .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
     .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
-    .WithReference(kafka)
-    .WaitFor(kafka)
-    .WithReference(dbQuote)
-    .WaitFor(dbQuote);
+    .WithReferenceAndWaitFor(kafka)
+    .WithReferenceAndWaitFor(dbQuote);
 
 var tradingApi = builder
     .AddProject<Projects.Deopeia_Trading_Api>("deopeia-trading-api")
     .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
     .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
     .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
-    .WithReference(kafka)
-    .WaitFor(kafka)
-    .WithReference(dbTrading)
-    .WaitFor(dbTrading);
+    .WithReferenceAndWaitFor(kafka)
+    .WithReferenceAndWaitFor(dbTrading);
 tradingApi.WithEnvironment("Proxy", tradingApi.GetEndpoint("http"));
 
 builder
@@ -64,18 +62,15 @@ builder
     .WithEnvironment("MinIO__Endpoint", minIOEndpoint)
     .WithEnvironment("MinIO__AccessKey", minIOAccessKey)
     .WithEnvironment("MinIO__SecretKey", minIOSecretKey)
-    .WithReference(kafka)
-    .WaitFor(kafka)
-    .WithReference(dbTrading)
-    .WaitFor(dbTrading);
+    .WithReferenceAndWaitFor(kafka)
+    .WithReferenceAndWaitFor(dbTrading);
 
 builder
     .AddProject<Projects.Deopeia_Finance_Bff>("deopeia-finance-bff")
     .WithEnvironment("Jwt__Key", jwtKey)
     .WithEnvironment("Jwt__Issuer", jwtIssuer)
-    .WithReference(kafka)
-    .WaitFor(kafka)
     .WithReference(identityApi)
+    .WithReference(notificationHub)
     .WithReference(quoteApi)
     .WithReference(tradingApi);
 

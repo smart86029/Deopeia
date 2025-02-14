@@ -1,0 +1,6 @@
+@Deopeia.Notification.Hub_HostAddress = http://localhost:5122
+
+GET {{Deopeia.Notification.Hub_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
