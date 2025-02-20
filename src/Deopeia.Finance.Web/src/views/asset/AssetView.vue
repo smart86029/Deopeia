@@ -1,24 +1,27 @@
 <template>
   <div class="router-view">
     <div class="overview">
-      <el-card class="balance">
-        <el-text>{{ $t('trading.balance') }}</el-text>
-        <el-text class="amount">
-          {{ $n(balance, 'decimal') }}
-        </el-text>
-      </el-card>
-      <el-card>
-        <el-text>{{ $t('trading.account') }}</el-text>
-        <el-text class="amount">
-          {{ $n(accountBalance, 'decimal') }}
-        </el-text>
-      </el-card>
-      <el-card>
-        <el-text>{{ $t('trading.positionValue') }}</el-text>
-        <el-text class="amount">
-          {{ $n(positionValue, 'decimal') }}
-        </el-text>
-      </el-card>
+      <div class="statistic-card balance">
+        <el-statistic
+          :value="balance"
+          precision="2"
+          :title="$t('trading.balance')"
+        />
+      </div>
+      <div class="statistic-card">
+        <el-statistic
+          :value="accountBalance"
+          precision="2"
+          :title="$t('trading.account')"
+        />
+      </div>
+      <div class="statistic-card">
+        <el-statistic
+          :value="positionValue"
+          precision="2"
+          :title="$t('trading.positionValue')"
+        />
+      </div>
     </div>
     <div class="flex">
       <el-menu :default-active="activeIndex" router>
@@ -73,27 +76,21 @@ assetApi.getList().then((x) => (accounts.value = x.data));
   margin-top: 16px;
 }
 
-.el-card {
-  flex: 1;
-  background-color: var(--el-color-primary-light-5);
+.el-statistic {
+  --el-statistic-content-font-size: 28px;
+}
 
-  :deep(.el-card__body) {
-    display: flex;
-    gap: 8px;
-  }
+.statistic-card {
+  height: 100%;
+  padding: 20px;
+  border-radius: 4px;
+  background-color: var(--el-bg-color-overlay);
+  text-align: center;
+  flex: 1;
 }
 
 .balance {
   flex: 2;
-}
-
-.el-text {
-  font-size: 1.5em;
-}
-
-.amount {
-  flex: 1;
-  text-align: right;
 }
 
 .el-menu {
