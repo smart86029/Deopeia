@@ -18,7 +18,7 @@ namespace Deopeia.Identity.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -449,11 +449,43 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     b.ToTable("role_permission", (string)null);
                 });
 
+            modelBuilder.Entity("Deopeia.Identity.Domain.Users.Authenticator", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id");
+
+                    b.Property<int>("BindingStatus")
+                        .HasColumnType("integer")
+                        .HasColumnName("binding_status");
+
+                    b.Property<int>("ErrorCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("error_count");
+
+                    b.Property<DateTimeOffset?>("LockedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("locked_at");
+
+                    b.Property<string>("SecretKey")
+                        .HasColumnType("text")
+                        .HasColumnName("secret_key_ciphertext");
+
+                    b.HasKey("Id")
+                        .HasName("pk_authenticator");
+
+                    b.ToTable("authenticator", (string)null);
+                });
+
             modelBuilder.Entity("Deopeia.Identity.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<Guid>("AuthenticatorId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("authenticator_id");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -480,6 +512,9 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_user");
+
+                    b.HasIndex("AuthenticatorId")
+                        .HasDatabaseName("ix_user_authenticator_id");
 
                     b.HasIndex("UserName")
                         .IsUnique()
@@ -683,6 +718,18 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                         .WithMany("RolePermissions")
                         .HasForeignKey("RoleId")
                         .HasConstraintName("fk_role_permission_role_role_id");
+                });
+
+            modelBuilder.Entity("Deopeia.Identity.Domain.Users.User", b =>
+                {
+                    b.HasOne("Deopeia.Identity.Domain.Users.Authenticator", "Authenticator")
+                        .WithMany()
+                        .HasForeignKey("AuthenticatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_user_authenticator_authenticator_id");
+
+                    b.Navigation("Authenticator");
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Users.UserRefreshToken", b =>

@@ -5,10 +5,15 @@ namespace Deopeia.Identity.Domain.Users;
 
 public class User : AggregateRoot<UserId>
 {
+    private const int SaltLength = 32;
+
     private readonly List<UserRole> _userRoles = [];
     private readonly List<UserRefreshToken> _userRefreshTokens = [];
 
-    private User() { }
+    private User()
+    {
+        Authenticator = new(Id);
+    }
 
     public User(string userName, string password, bool isEnabled)
     {
@@ -19,6 +24,7 @@ public class User : AggregateRoot<UserId>
         UpdateSalt();
         PasswordHash = Hash(password);
         IsEnabled = isEnabled;
+        Authenticator = new(Id);
     }
 
     public string UserName { get; private init; } = string.Empty;
@@ -30,6 +36,8 @@ public class User : AggregateRoot<UserId>
     public bool IsEnabled { get; private set; }
 
     public DateTimeOffset CreatedAt { get; private init; } = DateTimeOffset.UtcNow;
+
+    public Authenticator Authenticator { get; private init; }
 
     public IReadOnlyCollection<UserRole> UserRoles => _userRoles.AsReadOnly();
 
@@ -109,6 +117,6 @@ public class User : AggregateRoot<UserId>
 
     private void UpdateSalt()
     {
-        Salt = RandomNumberGenerator.GetBytes(32).ToBase64String();
+        Salt = RandomNumberGenerator.GetHexString(SaltLength);
     }
 }

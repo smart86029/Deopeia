@@ -993,9 +993,24 @@ public static class ConvertExtensions
         return TryConvert(() => Convert.ToDecimal(value), defaultValue);
     }
 
+    public static string ToHexString(this byte[] bytes)
+    {
+        return bytes is null ? string.Empty : Convert.ToHexString(bytes);
+    }
+
+    public static byte[] FromHexString(this string hexString)
+    {
+        return Convert.FromHexString(hexString ?? string.Empty);
+    }
+
     public static string ToBase64String(this byte[] bytes)
     {
         return bytes is null ? string.Empty : Convert.ToBase64String(bytes);
+    }
+
+    public static byte[] FromBase64String(this string base64String)
+    {
+        return Convert.FromBase64String(base64String ?? string.Empty);
     }
 
     public static Guid ToGuid(this string value, Guid defaultValue = default)

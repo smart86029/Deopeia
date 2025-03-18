@@ -1,6 +1,7 @@
 using System.Text;
 using Deopeia.Common;
 using Deopeia.Finance.Bff;
+using Deopeia.Finance.Bff.Models.Identity;
 using Deopeia.Finance.Bff.Models.Trading;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -41,6 +42,14 @@ services
     .AddReverseProxy()
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
     .AddServiceDiscoveryDestinationResolver();
+
+services
+    .AddRefitClient<IIdentityApi>()
+    .ConfigureHttpClient(client =>
+    {
+        client.BaseAddress = new("http://deopeia-identity-api");
+        client.DefaultRequestHeaders.Add("Accept-Language", CultureInfo.CurrentCulture.Name);
+    });
 
 services
     .AddRefitClient<IQuoteApi>()

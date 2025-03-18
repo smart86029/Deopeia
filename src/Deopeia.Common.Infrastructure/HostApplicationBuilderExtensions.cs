@@ -73,6 +73,7 @@ public static class HostApplicationBuilderExtensions
             .Where(x =>
                 x.IsAssignableToGenericType(typeof(IRepository<,>))
                 || x.IsAssignableTo(typeof(IUnitOfWork))
+                || x.Name.EndsWith("Service")
             );
         foreach (var type in types)
         {

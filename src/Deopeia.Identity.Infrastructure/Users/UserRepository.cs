@@ -8,17 +8,17 @@ public class UserRepository(IdentityContext context) : IUserRepository
 
     public async Task<User> GetUserAsync(UserId userId)
     {
-        var result = await _users
+        return await _users
+            .Include(x => x.Authenticator)
             .Include(x => x.UserRoles)
             .Include(x => x.UserRefreshTokens)
             .FirstAsync(x => x.Id == userId);
-
-        return result;
     }
 
     public async Task<User?> GetUserAsync(string userName, string password)
     {
         var result = await _users
+            .Include(x => x.Authenticator)
             .Include(x => x.UserRoles)
             .Include(x => x.UserRefreshTokens)
             .FirstOrDefaultAsync(x => x.UserName == userName);

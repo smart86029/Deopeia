@@ -1,4 +1,5 @@
 using Deopeia.Identity.Application.Users.CreateUser;
+using Deopeia.Identity.Application.Users.GetAuthenticator;
 using Deopeia.Identity.Application.Users.GetUser;
 using Deopeia.Identity.Application.Users.GetUsers;
 using Deopeia.Identity.Application.Users.UpdateUser;
@@ -43,5 +44,14 @@ public class UsersController : ApiController<UsersController>
         await Sender.Send(command);
 
         return NoContent();
+    }
+
+    [HttpGet("{id}/Authenticator")]
+    public async Task<ActionResult<GetAuthenticatorResult>> GetAuthenticator([FromRoute] Guid id)
+    {
+        var query = new GetAuthenticatorQuery(id);
+        var result = await Sender.Send(query);
+
+        return Ok(result);
     }
 }
