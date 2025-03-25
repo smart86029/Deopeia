@@ -7,8 +7,8 @@ export const useAuthStore = defineStore('auth', () => {
     response_type: 'code',
     client_id: 'Finance',
     scope: 'openid profile email api',
-    redirect_uri: `${uri}auth/sign-in-callback`,
-    silent_redirect_uri: `${uri}auth/silent-callback`,
+    redirect_uri: `${uri}auth/callback`,
+    silent_redirect_uri: `${uri}auth/silent-refresh`,
     post_logout_redirect_uri: uri,
   });
 

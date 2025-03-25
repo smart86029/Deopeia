@@ -33,6 +33,7 @@ const memberRoute = (command: string) => {
 
     case 'settings':
       router.push({ name: 'me.view' });
+      break;
 
     case 'signOut':
       authStore.signOut();

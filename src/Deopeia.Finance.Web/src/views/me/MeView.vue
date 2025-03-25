@@ -24,40 +24,17 @@ const activeIndex = ref(menus[0] as string | undefined);
 <style lang="scss" scoped>
 .router-view {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
 
   > * {
     width: 1400px;
   }
 }
 
-.overview {
-  display: flex;
-  gap: 16px;
-}
-
 .flex {
   display: flex;
   gap: 16px;
   margin-top: 16px;
-}
-
-.el-statistic {
-  --el-statistic-content-font-size: 28px;
-}
-
-.statistic-card {
-  height: 100%;
-  padding: 20px;
-  border-radius: 4px;
-  background-color: var(--el-bg-color-overlay);
-  text-align: center;
-  flex: 1;
-}
-
-.balance {
-  flex: 2;
 }
 
 .el-menu {

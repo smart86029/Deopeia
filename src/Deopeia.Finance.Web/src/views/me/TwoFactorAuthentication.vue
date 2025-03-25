@@ -2,7 +2,7 @@
   <div>
     <h2>{{ $t('route.me.twoFactorAuthentication') }}</h2>
     <el-form label-position="top">
-      <el-form-item>
+      <el-form-item class="item-image">
         <el-image :src="authenticator.imageUrl" />
       </el-form-item>
       <el-form-item>
@@ -43,9 +43,14 @@ authenticatorApi
   width: 400px;
 }
 
+.item-image {
+  justify-items: center;
+}
+
 .el-image {
   border-radius: var(--el-border-radius-base);
 }
+
 .button-save {
   width: 100%;
 }
