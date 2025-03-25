@@ -20,12 +20,14 @@ export default {
     timeZone: 'Time Zone',
     currency: 'Currency',
     reason: 'Reason',
+    settings: 'Settings',
     message: {
       success: '{action} Successfully',
       createSuccess: 'Created Successfully',
       editSuccess: 'Updated Successfully',
       error: 'Temporary server error. Please try again later.',
       selectLocale: 'Select Locale',
+      copied: 'Copied to clipboard',
     },
   },
 };

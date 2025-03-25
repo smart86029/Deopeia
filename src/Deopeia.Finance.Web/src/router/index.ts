@@ -9,6 +9,7 @@ import asset from './asset';
 import auth from './auth';
 import identity from './identity';
 import market from './market';
+import me from './me';
 import quote from './quote';
 import setting from './setting';
 import trading from './trading';
@@ -44,6 +45,7 @@ const router = createRouter({
         ...asset,
         ...identity,
         ...market,
+        ...me,
         ...quote,
         ...setting,
         ...trading,

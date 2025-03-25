@@ -28,6 +28,9 @@ export default {
       forex: 'Forex',
       cryptocurrency: 'Cryptocurrency',
     },
+    me: {
+      twoFactorAuthentication: 'Two-Factor Authentication',
+    },
     permission: {
       list: 'Permissions',
       create: 'Create Permission',

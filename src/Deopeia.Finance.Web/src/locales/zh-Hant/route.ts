@@ -28,6 +28,9 @@ export default {
       forex: '外匯',
       cryptocurrency: '加密貨幣',
     },
+    me: {
+      twoFactorAuthentication: '二步驟驗證',
+    },
     permission: {
       list: '權限列表',
       create: '新增權限',

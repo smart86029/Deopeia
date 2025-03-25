@@ -20,12 +20,14 @@ export default {
     timeZone: '時區',
     currency: '貨幣',
     reason: '原因',
+    settings: '設定',
     message: {
       success: '{action}成功',
       createSuccess: '建立成功',
       editSuccess: '更新成功',
       error: '伺服器臨時錯誤，請稍後重試。',
       selectLocale: '選擇地區設定',
+      copied: '已複製到剪貼簿',
     },
   },
 };

@@ -11,6 +11,7 @@ export default {
     export: '匯出',
     submit: '提交',
     save: '保存',
+    link: '連結',
     cancel: '取消',
     back: '返回',
   },

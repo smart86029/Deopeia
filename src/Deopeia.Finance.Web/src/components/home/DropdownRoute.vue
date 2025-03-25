@@ -6,6 +6,9 @@
         <el-dropdown-item command="changePassword">
           {{ $t('auth.changePassword') }}
         </el-dropdown-item>
+        <el-dropdown-item command="settings">
+          {{ $t('common.settings') }}
+        </el-dropdown-item>
         <el-dropdown-item command="signOut">
           {{ $t('auth.signOut') }}
         </el-dropdown-item>
@@ -16,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router';
 import { useAuthStore } from '@/stores/auth';
 
 const authStore = useAuthStore();
@@ -26,6 +30,9 @@ const memberRoute = (command: string) => {
     case 'changePassword':
       dialogVisible.value = true;
       break;
+
+    case 'settings':
+      router.push({ name: 'me.view' });
 
     case 'signOut':
       authStore.signOut();

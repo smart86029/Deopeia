@@ -6,5 +6,6 @@ export default {
     oldPassword: 'Old Password',
     newPassword: 'New Password',
     confirmPassword: 'Confirm New Password',
+    authenticationCode: 'Authentication Code',
   },
 };
