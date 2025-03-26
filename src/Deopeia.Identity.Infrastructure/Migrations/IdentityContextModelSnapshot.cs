@@ -455,13 +455,13 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
-                    b.Property<int>("BindingStatus")
-                        .HasColumnType("integer")
-                        .HasColumnName("binding_status");
-
                     b.Property<int>("ErrorCount")
                         .HasColumnType("integer")
                         .HasColumnName("error_count");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_enabled");
 
                     b.Property<DateTimeOffset?>("LockedAt")
                         .HasColumnType("timestamp with time zone")

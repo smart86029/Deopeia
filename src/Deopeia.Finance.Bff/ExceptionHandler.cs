@@ -1,21 +1,15 @@
+using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
 
-namespace Deopeia.Common.Api;
+namespace Deopeia.Finance.Bff;
 
 internal class ExceptionHandler(
     ILogger<ExceptionHandler> logger,
-    IStringLocalizer localizer,
     IProblemDetailsService problemDetailsService,
     IWebHostEnvironment environment
 ) : IExceptionHandler
 {
     private readonly ILogger<ExceptionHandler> _logger = logger;
-    private readonly IStringLocalizer _localizer = localizer;
     private readonly IProblemDetailsService _problemDetailsService = problemDetailsService;
     private readonly IWebHostEnvironment _environment = environment;
 
@@ -26,9 +20,7 @@ internal class ExceptionHandler(
     )
     {
         var statusCode = StatusCodes.Status500InternalServerError;
-        var message = _environment.IsDevelopment()
-            ? exception.ToString()
-            : _localizer.GetErrorString("SystemException");
+        var message = exception.ToString();
 
         switch (exception)
         {
@@ -37,9 +29,10 @@ internal class ExceptionHandler(
             //    message = LocalizeMessage(accessDeniedException);
             //    break;
 
-            case LocalizableMessageException localizableMessageException:
+            case ValidationApiException validationApiException
+                when validationApiException.StatusCode == HttpStatusCode.BadRequest:
                 statusCode = StatusCodes.Status400BadRequest;
-                message = LocalizeMessage(localizableMessageException);
+                message = validationApiException.Content?.Title;
                 break;
 
             default:
@@ -58,14 +51,5 @@ internal class ExceptionHandler(
         );
 
         return result;
-    }
-
-    private string LocalizeMessage(LocalizableMessageException exception)
-    {
-        var localizeStrings = exception
-            .Messages.Select(message => _localizer.GetErrorString(message.Code, message.Argument))
-            .ToList();
-
-        return string.Join(Environment.NewLine, localizeStrings);
     }
 }

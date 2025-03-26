@@ -44,7 +44,7 @@ instance.interceptors.response.use(
       case 400:
       case 500:
         ElMessageBox.close();
-        if (response.data.title?.indexOf('\r\n') > 0) {
+        if (response.data.title) {
           ElMessageBox.alert(
             response.data.title?.replace('\r\n', '<br>') ||
               t('common.message.error'),

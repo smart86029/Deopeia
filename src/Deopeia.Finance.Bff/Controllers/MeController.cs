@@ -9,8 +9,18 @@ public class MeController(IIdentityApi identityApi) : ApiController
     [HttpGet("Authenticator")]
     public async Task<IActionResult> GetAuthenticator()
     {
-        var authenticator = await _identityApi.GetContractsAsync(User.GetUserId());
+        var authenticator = await _identityApi.GetAuthenticatorAsync(User.GetUserId());
 
         return Ok(authenticator);
+    }
+
+    [HttpPut("Authenticator")]
+    public async Task<IActionResult> EnableAuthenticator(
+        [FromBody] EnableAuthenticatorCommand command
+    )
+    {
+        await _identityApi.EnableAuthenticator(User.GetUserId(), command);
+
+        return NoContent();
     }
 }

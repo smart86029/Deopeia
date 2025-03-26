@@ -17,4 +17,9 @@ internal class GoogleAuthenticatorService : IAuthenticatorService
 
         return new SetupCode(setupCode.QrCodeSetupImageUrl, setupCode.ManualEntryKey);
     }
+
+    public bool ValidateVerificationCode(string secretKey, string verificationCode)
+    {
+        return new TwoFactorAuthenticator().ValidateTwoFactorPIN(secretKey, verificationCode, true);
+    }
 }

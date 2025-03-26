@@ -5,8 +5,8 @@ namespace Deopeia.Common.Infrastructure;
 
 public abstract class DbSeeder
 {
-    private static readonly CultureInfo EN = CultureInfo.GetCultureInfo("en");
-    private static readonly CultureInfo ZHHant = CultureInfo.GetCultureInfo("zh-Hant");
+    public static readonly CultureInfo En = CultureInfo.GetCultureInfo("en");
+    public static readonly CultureInfo ZhHant = CultureInfo.GetCultureInfo("zh-Hant");
 
     public abstract void Seed(DbContext context);
 
@@ -22,67 +22,67 @@ public abstract class DbSeeder
             new("USD", "United States dollar", "$", 2, 1),
         };
 
-        results[0].UpdateName("人民幣", ZHHant);
-        results[1].UpdateName("歐元", ZHHant);
-        results[2].UpdateName("英鎊", ZHHant);
-        results[3].UpdateName("日圓", ZHHant);
-        results[4].UpdateName("新台幣", ZHHant);
-        results[5].UpdateName("美元", ZHHant);
+        results[0].UpdateName("人民幣", ZhHant);
+        results[1].UpdateName("歐元", ZhHant);
+        results[2].UpdateName("英鎊", ZhHant);
+        results[3].UpdateName("日圓", ZhHant);
+        results[4].UpdateName("新台幣", ZhHant);
+        results[5].UpdateName("美元", ZhHant);
 
         return results;
     }
 
     protected static IEnumerable<LocaleResource> GetCommonLocaleResources()
     {
-        var resourcesEN = new LocaleResource[]
+        var resourcesEn = new LocaleResource[]
         {
-            FromNone(EN, "Name", "Name"),
-            FromError(EN, "AccessDenied", "Access denied."),
-            FromError(EN, "Number.GreaterThan", "{Property} must be greater than {Comparison}."),
+            FromNone(En, "Name", "Name"),
+            FromError(En, "AccessDenied", "Access denied."),
+            FromError(En, "Number.GreaterThan", "{Property} must be greater than {Comparison}."),
             FromError(
-                EN,
+                En,
                 "Number.GreaterThanOrEqualTo",
                 "{Property} must be greater than or equal to {Comparison}."
             ),
-            FromError(EN, "Number.LessThan", "{Property} must be less than {Comparison}."),
+            FromError(En, "Number.LessThan", "{Property} must be less than {Comparison}."),
             FromError(
-                EN,
+                En,
                 "Number.LessThanOrEqualTo",
                 "{Property} must be less than or equal to {Comparison}."
             ),
-            FromError(EN, "String.EqualTo", "{Property} must bet equal to {Comparison}."),
-            FromError(EN, "String.NotEmpty", "{Property} must not be empty."),
-            FromError(EN, "Date.OnOrBefore", "{Property} must be on or before {Comparison}."),
-            FromError(EN, "Date.OnOrBeforeNow", "{Property} must be on or before now."),
-            FromError(EN, "Date.AfterNow", "{Property} must be after now."),
-            FromError(EN, "Enum.Defined", "{Property} must be defined."),
+            FromError(En, "String.EqualTo", "{Property} must bet equal to {Comparison}."),
+            FromError(En, "String.NotEmpty", "{Property} must not be empty."),
+            FromError(En, "Date.OnOrBefore", "{Property} must be on or before {Comparison}."),
+            FromError(En, "Date.OnOrBeforeNow", "{Property} must be on or before now."),
+            FromError(En, "Date.AfterNow", "{Property} must be after now."),
+            FromError(En, "Enum.Defined", "{Property} must be defined."),
         };
 
-        var resourcesZHHant = new LocaleResource[]
+        var resourcesZhHant = new LocaleResource[]
         {
-            FromNone(ZHHant, "Name", "名稱"),
-            FromError(ZHHant, "AccessDenied", "存取被拒。"),
-            FromError(ZHHant, "Number.GreaterThan", "{Property}必須大於 {Comparison}。"),
+            FromNone(ZhHant, "Name", "名稱"),
+            FromError(ZhHant, "AccessDenied", "存取被拒。"),
+            FromError(ZhHant, "Number.GreaterThan", "{Property}必須大於 {Comparison}。"),
             FromError(
-                ZHHant,
+                ZhHant,
                 "Number.GreaterThanOrEqualTo",
                 "{Property}必須大於或等於 {Comparison}。"
             ),
-            FromError(ZHHant, "Number.LessThan", "{Property}必須小於 {Comparison}。"),
+            FromError(ZhHant, "Number.LessThan", "{Property}必須小於 {Comparison}。"),
             FromError(
-                ZHHant,
+                ZhHant,
                 "Number.LessThanOrEqualTo",
                 "{Property}必須小於或等於 {Comparison}。"
             ),
-            FromError(ZHHant, "String.EqualTo", "{Property}必須等於{Comparison}。"),
-            FromError(ZHHant, "String.NotEmpty", "{Property}不可為空。"),
-            FromError(ZHHant, "Date.OnOrBefore", "{Property}必須等於或早於{Comparison}。"),
-            FromError(ZHHant, "Date.OnOrBeforeNow", "{Property}必須等於或早於現在。"),
-            FromError(ZHHant, "Date.AfterNow", "{Property}必須晚於現在。"),
-            FromError(ZHHant, "Enum.Defined", "{Property}必須被定義。"),
+            FromError(ZhHant, "String.EqualTo", "{Property}必須等於{Comparison}。"),
+            FromError(ZhHant, "String.NotEmpty", "{Property}不可為空。"),
+            FromError(ZhHant, "Date.OnOrBefore", "{Property}必須等於或早於{Comparison}。"),
+            FromError(ZhHant, "Date.OnOrBeforeNow", "{Property}必須等於或早於現在。"),
+            FromError(ZhHant, "Date.AfterNow", "{Property}必須晚於現在。"),
+            FromError(ZhHant, "Enum.Defined", "{Property}必須被定義。"),
         };
 
-        return resourcesEN.Concat(resourcesZHHant);
+        return resourcesEn.Concat(resourcesZhHant);
     }
 
     protected static IEnumerable<Unit> GetUnits()
@@ -100,15 +100,15 @@ public abstract class DbSeeder
             new("Points", "Points", null),
         };
 
-        results[0].UpdateName("格令", ZHHant);
-        results[1].UpdateName("英錢", ZHHant);
-        results[2].UpdateName("金衡盎司", ZHHant);
-        results[3].UpdateName("金衡磅", ZHHant);
-        results[4].UpdateName("毫克", ZHHant);
-        results[5].UpdateName("公克", ZHHant);
-        results[6].UpdateName("公斤", ZHHant);
-        results[7].UpdateName("股", ZHHant);
-        results[8].UpdateName("點", ZHHant);
+        results[0].UpdateName("格令", ZhHant);
+        results[1].UpdateName("英錢", ZhHant);
+        results[2].UpdateName("金衡盎司", ZhHant);
+        results[3].UpdateName("金衡磅", ZhHant);
+        results[4].UpdateName("毫克", ZhHant);
+        results[5].UpdateName("公克", ZhHant);
+        results[6].UpdateName("公斤", ZhHant);
+        results[7].UpdateName("股", ZhHant);
+        results[8].UpdateName("點", ZhHant);
 
         return results;
     }

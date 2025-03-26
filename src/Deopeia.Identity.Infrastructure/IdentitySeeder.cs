@@ -53,13 +53,17 @@ public class IdentitySeeder : DbSeeder
 
     private static IEnumerable<LocaleResource> GetLocaleResources()
     {
-        var en = CultureInfo.GetCultureInfo("en");
-        var resourcesEN = new LocaleResource[] { };
+        var resourcesEn = new LocaleResource[]
+        {
+            FromError(En, "Auth.IncorrectVerificationCode", "Incorrect verification code."),
+        };
 
-        var zhHant = CultureInfo.GetCultureInfo("zh-Hant");
-        var resourcesZHHant = new LocaleResource[] { };
+        var resourcesZhHant = new LocaleResource[]
+        {
+            FromError(ZhHant, "Auth.IncorrectVerificationCode", "驗證碼錯誤。"),
+        };
 
-        var results = GetCommonLocaleResources().Concat(resourcesEN).Concat(resourcesZHHant);
+        var results = GetCommonLocaleResources().Concat(resourcesEn).Concat(resourcesZhHant);
 
         return results;
     }

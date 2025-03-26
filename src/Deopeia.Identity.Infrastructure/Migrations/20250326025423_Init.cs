@@ -41,8 +41,8 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 columns: table => new
                 {
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    binding_status = table.Column<int>(type: "integer", nullable: false),
                     secret_key_ciphertext = table.Column<string>(type: "text", nullable: true),
+                    is_enabled = table.Column<bool>(type: "boolean", nullable: false),
                     error_count = table.Column<int>(type: "integer", nullable: false),
                     locked_at = table.Column<DateTimeOffset>(
                         type: "timestamp with time zone",

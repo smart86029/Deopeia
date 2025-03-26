@@ -1,4 +1,5 @@
 using Deopeia.Identity.Application.Users.CreateUser;
+using Deopeia.Identity.Application.Users.EnableAuthenticator;
 using Deopeia.Identity.Application.Users.GetAuthenticator;
 using Deopeia.Identity.Application.Users.GetUser;
 using Deopeia.Identity.Application.Users.GetUsers;
@@ -53,5 +54,17 @@ public class UsersController : ApiController<UsersController>
         var result = await Sender.Send(query);
 
         return Ok(result);
+    }
+
+    [HttpPut("{id}/Authenticator")]
+    public async Task<ActionResult> EnableAuthenticator(
+        [FromRoute] Guid id,
+        [FromBody] EnableAuthenticatorCommand command
+    )
+    {
+        command = command with { Id = id };
+        await Sender.Send(command);
+
+        return NoContent();
     }
 }

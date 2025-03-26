@@ -1,18 +1,18 @@
 <template>
   <div>
     <h2>{{ $t('route.me.twoFactorAuthentication') }}</h2>
-    <el-form label-position="top">
+    <el-form label-position="top" @submit.prevent="enable">
       <el-form-item class="item-image">
         <el-image :src="authenticator.imageUrl" />
       </el-form-item>
       <el-form-item>
         <InputCopyable v-model="authenticator.manualEntryKey" />
       </el-form-item>
-      <el-form-item :label="$t('auth.authenticationCode')">
-        <AuthenticationCode v-model="authenticationCode" autofocus />
+      <el-form-item :label="$t('auth.verificationCode')">
+        <VerificationCode v-model="verificationCode" autofocus />
       </el-form-item>
       <el-form-item>
-        <ButtonSave class="button-save" text="operation.link" />
+        <ButtonSave class="button-save" text="operation.enable" />
       </el-form-item>
     </el-form>
   </div>
@@ -22,20 +22,22 @@
 import {
   authenticatorApi,
   type Authenticator,
-} from '@/api/user/authenticator-api';
+} from '@/api/me/authenticator-api';
 
 const loading = ref(false);
 const authenticator: Authenticator = reactive({
-  isBound: false,
+  isEnabled: false,
   imageUrl: '',
   manualEntryKey: '',
 });
-const authenticationCode = ref('');
+const verificationCode = ref('');
 
 authenticatorApi
   .get()
   .then((x) => Object.assign(authenticator, x.data))
   .finally(() => (loading.value = false));
+
+const enable = () => authenticatorApi.enable(verificationCode.value);
 </script>
 
 <style lang="scss" scoped>

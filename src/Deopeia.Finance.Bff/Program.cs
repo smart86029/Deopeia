@@ -12,6 +12,8 @@ builder.AddServiceDefaults();
 
 var services = builder.Services;
 services.AddControllers();
+services.AddProblemDetails();
+services.AddExceptionHandler<ExceptionHandler>();
 
 var jwtOptions = new JwtOptions();
 builder.Configuration.Bind("Jwt", jwtOptions);
@@ -69,6 +71,7 @@ services
 
 var app = builder.Build();
 app.UseRequestLocalization("en", "zh-Hant");
+app.UseExceptionHandler();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

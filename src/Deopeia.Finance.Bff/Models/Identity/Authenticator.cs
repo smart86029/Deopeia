@@ -2,7 +2,7 @@ namespace Deopeia.Finance.Bff.Models.Identity;
 
 public class Authenticator
 {
-    public bool IsBound { get; set; }
+    public bool IsEnabled { get; set; }
 
     public string ImageUrl { get; set; } = string.Empty;
 

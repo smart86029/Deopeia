@@ -11,7 +11,7 @@ export default {
     export: 'Export',
     submit: 'Submit',
     save: 'Save',
-    link: 'Link',
+    enable: 'Enable',
     cancel: 'Cancel',
     back: 'Back',
   },

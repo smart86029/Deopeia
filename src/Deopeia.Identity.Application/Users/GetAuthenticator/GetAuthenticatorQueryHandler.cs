@@ -3,12 +3,14 @@ using Deopeia.Identity.Domain.Users;
 namespace Deopeia.Identity.Application.Users.GetAuthenticator;
 
 internal class GetAuthenticatorQueryHandler(
-    IAuthenticatorService authenticatorService,
-    IUserRepository userRepository
+    IIdentityUnitOfWork unitOfWork,
+    IUserRepository userRepository,
+    IAuthenticatorService authenticatorService
 ) : IRequestHandler<GetAuthenticatorQuery, GetAuthenticatorResult>
 {
-    private readonly IAuthenticatorService _authenticatorService = authenticatorService;
+    private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
     private readonly IUserRepository _userRepository = userRepository;
+    private readonly IAuthenticatorService _authenticatorService = authenticatorService;
 
     public async Task<GetAuthenticatorResult> Handle(
         GetAuthenticatorQuery request,
@@ -20,6 +22,7 @@ internal class GetAuthenticatorQueryHandler(
         if (authenticator.SecretKey.IsNullOrWhiteSpace())
         {
             authenticator.CreateSecretKey();
+            await _unitOfWork.CommitAsync();
         }
 
         var setupCode = _authenticatorService.GenerateSetupCode(
@@ -29,7 +32,7 @@ internal class GetAuthenticatorQueryHandler(
 
         return new GetAuthenticatorResult
         {
-            IsBound = authenticator.BindingStatus == BindingStatus.Bound,
+            IsEnabled = authenticator.IsEnabled,
             ImageUrl = setupCode.ImageUrl,
             ManualEntryKey = setupCode.ManualEntryKey,
         };

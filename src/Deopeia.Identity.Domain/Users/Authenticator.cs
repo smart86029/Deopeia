@@ -16,9 +16,9 @@ public class Authenticator : Entity<UserId>
     public Authenticator(UserId userId)
         : base(userId) { }
 
-    public BindingStatus BindingStatus { get; private set; }
-
     public string? SecretKey { get; private set; }
+
+    public bool IsEnabled { get; private set; }
 
     public int ErrorCount { get; private set; }
 
@@ -26,9 +26,9 @@ public class Authenticator : Entity<UserId>
 
     public bool IsLocked => LockedAt.HasValue;
 
-    public void Bind()
+    public void Enable()
     {
-        BindingStatus = BindingStatus.Bound;
+        IsEnabled = true;
         ResetErrorCount();
     }
 
@@ -54,11 +54,6 @@ public class Authenticator : Entity<UserId>
 
     public void CreateSecretKey()
     {
-        if (BindingStatus == BindingStatus.Bound)
-        {
-            throw new DomainException("Authenticator.AlreadyBound");
-        }
-
         SecretKey = RandomNumberGenerator.GetString(Base32Alphabet, SecretKeyLength);
     }
 }

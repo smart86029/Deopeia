@@ -6,6 +6,6 @@ export default {
     oldPassword: '舊密碼',
     newPassword: '新密碼',
     confirmPassword: '確認新密碼',
-    authenticationCode: '驗證碼',
+    verificationCode: '驗證碼',
   },
 };
