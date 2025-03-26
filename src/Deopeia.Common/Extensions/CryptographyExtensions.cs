@@ -16,9 +16,9 @@ public static class CryptographyExtensions
         var bytes = Encoding.UTF8.GetBytes(plaintext ?? string.Empty);
         var computed = encryptor.TransformFinalBlock(bytes, 0, bytes.Length);
 
-        var ciphertext = new byte[computed.Length + aes.IV.Length];
-        Buffer.BlockCopy(computed, 0, ciphertext, 0, computed.Length);
-        Buffer.BlockCopy(aes.IV, 0, ciphertext, computed.Length, aes.IV.Length);
+        var ciphertext = new byte[aes.IV.Length + computed.Length];
+        Buffer.BlockCopy(aes.IV, 0, ciphertext, 0, aes.IV.Length);
+        Buffer.BlockCopy(computed, 0, ciphertext, aes.IV.Length, computed.Length);
 
         return ciphertext.ToHexString();
     }
