@@ -1,7 +1,7 @@
 <template>
   <div class="authentication-code">
     <el-input
-      v-for="(_, index) in inputs"
+      v-for="(_, index) in length"
       :key="index"
       ref="inputRefs"
       v-model="inputs[index]"
@@ -16,6 +16,8 @@
 </template>
 
 <script setup lang="ts">
+const model = defineModel<string>({ default: '' });
+
 const length = 6;
 const inputs: Ref<string[]> = ref(Array(length).fill(''));
 const inputRefs: Ref<HTMLInputElement[]> = ref([]);
@@ -45,6 +47,22 @@ const backspace = (event: KeyboardEvent, index: number) => {
 
 onMounted(() => {
   inputRefs.value[0].focus();
+});
+
+watch(model, (model) => {
+  const array = model.split('').slice(0, length);
+  for (let i = 0; i < length; i++) {
+    if (i < array.length) {
+      inputs.value[i] = array[i];
+      move(i);
+    } else {
+      inputs.value[i] = '';
+    }
+  }
+});
+
+watch(inputs, (inputs) => (model.value = inputs.join('').trim()), {
+  deep: true,
 });
 </script>
 

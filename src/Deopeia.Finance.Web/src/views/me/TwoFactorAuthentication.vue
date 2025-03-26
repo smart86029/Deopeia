@@ -37,7 +37,10 @@ authenticatorApi
   .then((x) => Object.assign(authenticator, x.data))
   .finally(() => (loading.value = false));
 
-const enable = () => authenticatorApi.enable(verificationCode.value);
+const enable = () =>
+  authenticatorApi.enable(verificationCode.value).catch(() => {
+    verificationCode.value = '';
+  });
 </script>
 
 <style lang="scss" scoped>
