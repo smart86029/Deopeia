@@ -2,7 +2,12 @@
   <h2>{{ $t('route.me.twoFactorAuthentication') }}</h2>
   <el-form label-position="top" @submit.prevent="enable">
     <el-form-item class="item-image">
-      <el-image :src="authenticator.imageUrl" />
+      <el-skeleton :loading="!authenticator.imageUrl">
+        <el-image :src="authenticator.imageUrl" />
+        <template #template>
+          <el-skeleton-item class="skeleton-image" />
+        </template>
+      </el-skeleton>
     </el-form-item>
     <el-form-item>
       <InputCopyable v-model="authenticator.manualEntryKey" />
@@ -41,6 +46,18 @@ const enable = () =>
 <style lang="scss" scoped>
 .el-form {
   width: 400px;
+}
+
+.el-skeleton {
+  line-height: 0%;
+}
+
+.skeleton-image {
+  $image-size: 159px;
+
+  height: $image-size;
+  width: $image-size;
+  border-radius: var(--el-border-radius-base);
 }
 
 .item-image {

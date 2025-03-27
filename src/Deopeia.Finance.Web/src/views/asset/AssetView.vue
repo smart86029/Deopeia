@@ -1,5 +1,5 @@
 <template>
-  <div class="router-view">
+  <div class="view">
     <div class="overview">
       <div class="statistic-card balance">
         <el-statistic
@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="flex">
-      <el-menu :default-active="activeIndex" router>
+      <el-menu :default-active="$route.name?.toString()" router>
         <el-menu-item
           v-for="menu of menus"
           :key="menu"
@@ -43,7 +43,6 @@
 import { assetApi, type Account } from '@/api/trading/asset-api';
 
 const menus = ['asset.account', 'asset.position'];
-const activeIndex = ref(menus[0] as string | undefined);
 const accounts: Ref<Account[]> = ref([]);
 const balance = computed(() => accountBalance.value + positionValue);
 const accountBalance = computed(() =>
@@ -55,13 +54,13 @@ assetApi.getList().then((x) => (accounts.value = x.data));
 </script>
 
 <style lang="scss" scoped>
-.router-view {
+.view {
   display: flex;
   flex-direction: column;
   justify-content: center;
 
   > * {
-    width: 1400px;
+    width: 1280px;
   }
 }
 
