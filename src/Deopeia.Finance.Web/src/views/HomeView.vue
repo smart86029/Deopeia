@@ -1,7 +1,7 @@
 <template>
   <el-container v-if="isOperator">
     <el-header>
-      <h1>{{ $t('common.title') }}</h1>
+      <AppTitle />
       <NavBreadcrumb />
       <FlexDivider />
       <el-switch v-model="isDark" inline-prompt />
@@ -23,7 +23,7 @@
   </el-container>
   <el-container v-else>
     <el-header>
-      <h1>{{ $t('common.title') }}</h1>
+      <AppTitle />
       <NavTrader />
       <FlexDivider />
       <el-switch v-model="isDark" inline-prompt />
