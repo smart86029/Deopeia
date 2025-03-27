@@ -8,7 +8,7 @@
       <InputCopyable v-model="authenticator.manualEntryKey" />
     </el-form-item>
     <el-form-item :label="$t('auth.verificationCode')">
-      <VerificationCode v-model="verificationCode" autofocus />
+      <VerificationCode v-model="verificationCode" />
     </el-form-item>
     <el-form-item>
       <ButtonSave class="button-save" text="operation.enable" />
