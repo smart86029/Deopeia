@@ -7,4 +7,7 @@ public interface IIdentityApi
 
     [Put("/api/Users/{userId}/Authenticator")]
     Task EnableAuthenticator(Guid userId, [Body] EnableAuthenticatorCommand command);
+
+    [Put("/api/Users/{userId}/Password")]
+    Task ChangePassword(Guid userId, [Body] ChangePasswordCommand command);
 }

@@ -46,10 +46,7 @@ public class User : AggregateRoot<UserId>
 
     public void UpdatePassword(string password)
     {
-        if (string.IsNullOrWhiteSpace(password))
-        {
-            return;
-        }
+        password.MustNotBeNullOrWhiteSpace();
 
         UpdateSalt();
         PasswordHash = Hash(password);

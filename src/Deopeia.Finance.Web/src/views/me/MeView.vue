@@ -1,5 +1,5 @@
 <template>
-  <div class="router-view">
+  <div class="view">
     <div class="flex">
       <el-menu :default-active="activeIndex" router>
         <el-menu-item
@@ -11,30 +11,29 @@
           {{ $t(`route.${menu}`) }}
         </el-menu-item>
       </el-menu>
-      <RouterView />
+      <div>
+        <RouterView />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const menus = ['me.twoFactorAuthentication', 'asset.position'];
+const menus = ['me.password', 'me.twoFactorAuthentication'];
 const activeIndex = ref(menus[0] as string | undefined);
 </script>
 
 <style lang="scss" scoped>
-.router-view {
+.view {
   display: flex;
   justify-content: center;
-
-  > * {
-    width: 1400px;
-  }
 }
 
 .flex {
   display: flex;
   gap: 16px;
   margin-top: 16px;
+  width: 1400px;
 }
 
 .el-menu {

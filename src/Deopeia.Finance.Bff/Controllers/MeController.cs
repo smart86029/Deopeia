@@ -23,4 +23,12 @@ public class MeController(IIdentityApi identityApi) : ApiController
 
         return NoContent();
     }
+
+    [HttpPut("Password")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
+    {
+        await _identityApi.ChangePassword(User.GetUserId(), command);
+
+        return NoContent();
+    }
 }

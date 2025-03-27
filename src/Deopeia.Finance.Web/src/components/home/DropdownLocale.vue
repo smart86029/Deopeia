@@ -1,6 +1,6 @@
 <template>
   <el-dropdown @command="changeLocale">
-    <IconTranslate />
+    <IconTranslate class="icon" />
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item
@@ -31,3 +31,9 @@ const changeLocale = (command: AppLocale) => {
   });
 };
 </script>
+
+<style lang="scss" scoped>
+.icon {
+  cursor: pointer;
+}
+</style>

@@ -1,3 +1,4 @@
+using Deopeia.Identity.Application.Users.ChangePassword;
 using Deopeia.Identity.Application.Users.CreateUser;
 using Deopeia.Identity.Application.Users.EnableAuthenticator;
 using Deopeia.Identity.Application.Users.GetAuthenticator;
@@ -60,6 +61,18 @@ public class UsersController : ApiController<UsersController>
     public async Task<ActionResult> EnableAuthenticator(
         [FromRoute] Guid id,
         [FromBody] EnableAuthenticatorCommand command
+    )
+    {
+        command = command with { Id = id };
+        await Sender.Send(command);
+
+        return NoContent();
+    }
+
+    [HttpPut("{id}/Password")]
+    public async Task<ActionResult> ChangePassword(
+        [FromRoute] Guid id,
+        [FromBody] ChangePasswordCommand command
     )
     {
         command = command with { Id = id };

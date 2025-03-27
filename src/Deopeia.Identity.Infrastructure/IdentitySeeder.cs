@@ -55,11 +55,13 @@ public class IdentitySeeder : DbSeeder
     {
         var resourcesEn = new LocaleResource[]
         {
+            FromError(En, "Auth.IncorrectPassword", "Incorrect password."),
             FromError(En, "Auth.IncorrectVerificationCode", "Incorrect verification code."),
         };
 
         var resourcesZhHant = new LocaleResource[]
         {
+            FromError(ZhHant, "Auth.IncorrectPassword", "密碼錯誤。"),
             FromError(ZhHant, "Auth.IncorrectVerificationCode", "驗證碼錯誤。"),
         };
 
