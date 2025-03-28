@@ -76,6 +76,7 @@ internal class GetConfigurationQueryHandler(IOptions<JwtOptions> jwtOptions)
             UiLocalesSupported = new string[] { "en", "zh-Hant" },
             IntrospectionEndpoint = Relative("/Introspections/TokenIntrospect"),
             RevocationEndpoint = Relative("/Revoke"),
+            EndSessionEndpoint = Relative("/Connect/EndSession"),
         };
 
         return Task.FromResult(result);

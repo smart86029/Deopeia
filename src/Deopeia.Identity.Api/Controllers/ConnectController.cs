@@ -1,5 +1,6 @@
 using Deopeia.Identity.Api.Models.Connect;
 using Deopeia.Identity.Application.Connect;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Deopeia.Identity.Api.Controllers;
 
@@ -53,5 +54,33 @@ public class ConnectController : ApiController<ConnectController>
         {
             return BadRequest(new ErrorResult());
         }
+    }
+
+    [HttpGet("EndSession")]
+    public async Task<IActionResult> EndSession([FromQuery] EndSessionRequest request)
+    {
+        if (User.Identity!.IsAuthenticated)
+        {
+            await HttpContext.SignOutAsync();
+        }
+
+        var command = request.ToCommand();
+        var result = await Sender.Send(command);
+
+        return Redirect(result.ReturnUrl);
+    }
+
+    [HttpPost("EndSession")]
+    public async Task<IActionResult> PostEndSession([FromBody] EndSessionRequest request)
+    {
+        if (User.Identity!.IsAuthenticated)
+        {
+            await HttpContext.SignOutAsync();
+        }
+
+        var command = request.ToCommand();
+        var result = await Sender.Send(command);
+
+        return Redirect(result.ReturnUrl);
     }
 }

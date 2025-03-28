@@ -36,7 +36,7 @@ export const useAuthStore = defineStore('auth', () => {
   const signInCallback = () => userManager.signinCallback();
 
   const signOut = () =>
-    userManager.revokeTokens().then(() => userManager.removeUser());
+    userManager.signoutRedirect().then(() => userManager.removeUser());
 
   const refresh = () => userManager.signinSilent();
 
