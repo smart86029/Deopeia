@@ -42,7 +42,10 @@
 import { useAuthStore } from '@/stores/auth';
 
 const isDark = useDark();
-const { isOperator } = storeToRefs(useAuthStore());
+const authStore = useAuthStore();
+const { isOperator } = storeToRefs(authStore);
+
+authStore.getUser();
 </script>
 
 <style scoped lang="scss">
