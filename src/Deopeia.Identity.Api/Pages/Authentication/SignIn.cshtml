@@ -1,37 +1,37 @@
 @page
-@model SignInModel
+@model Deopeia.Identity.Api.Pages.Authentication.SignInModel
 @{
-    ViewData["Title"] = "Sign In";
+  ViewData["Title"] = "Sign In";
 }
 
 <form asp-controller="Authentication" asp-action="SignIn" method="post" autocomplete="off">
-    <input type="hidden" asp-for="ReturnUrl" />
-    <div asp-validation-summary="All" class="has-text-danger"></div>
+  <input type="hidden" asp-for="ReturnUrl" />
+  <div asp-validation-summary="All" class="has-text-danger"></div>
 
-    <div class="field">
-        <label asp-for="UserName" class="label">User Name</label>
-        <div class="control">
-            <input type="text" asp-for="UserName" class="input" autofocus>
-        </div>
-        <span asp-validation-for="UserName" class="has-text-danger"></span>
+  <div class="field">
+    <label asp-for="UserName" class="label">User Name</label>
+    <div class="control">
+      <input type="text" asp-for="UserName" class="input" autofocus>
     </div>
+    <span asp-validation-for="UserName" class="has-text-danger"></span>
+  </div>
 
-    <div class="field">
-        <label asp-for="Password" class="label">Password</label>
-        <div class="control">
-            <input type="password" asp-for="Password" class="input">
-        </div>
-        <span asp-validation-for="UserName" class="has-text-danger"></span>
+  <div class="field">
+    <label asp-for="Password" class="label">Password</label>
+    <div class="control">
+      <input type="password" asp-for="Password" class="input">
     </div>
+    <span asp-validation-for="UserName" class="has-text-danger"></span>
+  </div>
 
-    <div class="field">
-        <button type="submit" class="button is-primary">Sign In</button>
-    </div>
+  <div class="field">
+    <button type="submit" class="button is-primary">Sign In</button>
+  </div>
 </form>
 
 @section Scripts
 {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+  @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+  }
 }

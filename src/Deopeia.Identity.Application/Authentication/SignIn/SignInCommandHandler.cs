@@ -7,14 +7,17 @@ internal class SignInCommandHandler(
     IIdentityUnitOfWork unitOfWork,
     IUserRepository userRepository,
     IAuthorizationCodeRepository authorizationCodeRepository
-) : IRequestHandler<SignInCommand, AuthToken>
+) : IRequestHandler<SignInCommand, SignInResult>
 {
     private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IAuthorizationCodeRepository _authorizationCodeRepository =
         authorizationCodeRepository;
 
-    public async Task<AuthToken> Handle(SignInCommand request, CancellationToken cancellationToken)
+    public async Task<SignInResult> Handle(
+        SignInCommand request,
+        CancellationToken cancellationToken
+    )
     {
         var user = await _userRepository.GetUserAsync(request.UserName, request.Password);
         if (user is not null)
@@ -29,8 +32,10 @@ internal class SignInCommandHandler(
             }
         }
 
-        var result = new AuthToken { SubjectId = user?.Id.Guid.ToString() ?? string.Empty };
-
-        return result;
+        return new SignInResult
+        {
+            UserId = user?.Id.Guid,
+            IsTwoFactorEnabled = user?.Authenticator.IsEnabled ?? false,
+        };
     }
 }

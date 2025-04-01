@@ -4,5 +4,5 @@ public interface IAuthenticatorService
 {
     SetupCode GenerateSetupCode(string secretKey, string title);
 
-    bool ValidateVerificationCode(string secretKey, string verificationCode);
+    bool ValidateTwoFactorCode(string secretKey, string verificationCode);
 }

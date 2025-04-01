@@ -1,14 +1,12 @@
-using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
+using Deopeia.Identity.Api.Services.Authentication;
 using Deopeia.Identity.Application.Authentication.SignIn;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Deopeia.Identity.Api.Pages.Authentication;
 
-public class SignInModel(ISender sender) : PageModel
+public class SignInModel(ISender sender, AuthenticationService authenticationService) : PageModel
 {
     private readonly ISender _sender = sender;
+    private readonly AuthenticationService _authenticationService = authenticationService;
 
     [Required]
     [BindProperty]
@@ -41,24 +39,18 @@ public class SignInModel(ISender sender) : PageModel
 
         var command = new SignInCommand(UserName, Password, Code);
         var signInResult = await _sender.Send(command);
-        if (signInResult.SubjectId.IsNullOrWhiteSpace())
+        if (signInResult.UserId is null)
         {
             ModelState.AddModelError(string.Empty, "Invalid username or password");
             return Page();
         }
 
-        var claims = new Claim[] { new(ClaimTypes.NameIdentifier, signInResult.SubjectId) };
-        var identity = new ClaimsIdentity(
-            claims,
-            CookieAuthenticationDefaults.AuthenticationScheme
-        );
-        var principal = new ClaimsPrincipal(identity);
-        var properties = new AuthenticationProperties
+        if (signInResult.IsTwoFactorEnabled)
         {
-            IsPersistent = true,
-            ExpiresUtc = DateTimeOffset.UtcNow.Add(TimeSpan.FromDays(30)),
-        };
-        await HttpContext.SignInAsync(principal, properties);
+            return RedirectToPage("TwoFactor", new { signInResult.UserId, ReturnUrl });
+        }
+
+        await _authenticationService.SignInAsync(signInResult.UserId.Value);
 
         if (ReturnUrl.IsNullOrWhiteSpace())
         {

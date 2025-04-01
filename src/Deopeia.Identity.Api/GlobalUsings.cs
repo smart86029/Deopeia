@@ -1,3 +1,4 @@
+global using System.ComponentModel.DataAnnotations;
 global using System.Text.Json;
 global using Deopeia.Common.Api.Controllers;
 global using Deopeia.Common.Extensions;

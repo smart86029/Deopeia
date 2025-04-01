@@ -3,6 +3,7 @@ using Deopeia.Common.Api;
 using Deopeia.Common.Application;
 using Deopeia.Common.Infrastructure;
 using Deopeia.Identity.Api;
+using Deopeia.Identity.Api.Services.Authentication;
 using Deopeia.Identity.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +19,6 @@ services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
 services.AddRazorPages();
 services.AddControllers();
 services.AddAuthentication().AddCookie();
-
 services.AddCors(options =>
 {
     options.AddPolicy(
@@ -29,6 +29,7 @@ services.AddCors(options =>
         }
     );
 });
+services.AddScoped<AuthenticationService>();
 
 var app = builder.Build();
 app.UseRequestLocalization("en", "zh-Hant");

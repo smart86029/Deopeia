@@ -24,7 +24,7 @@ public class EnableAuthenticatorCommandHandler(
             return;
         }
 
-        var isValid = _authenticatorService.ValidateVerificationCode(
+        var isValid = _authenticatorService.ValidateTwoFactorCode(
             authenticator.SecretKey!,
             request.VerificationCode
         );
