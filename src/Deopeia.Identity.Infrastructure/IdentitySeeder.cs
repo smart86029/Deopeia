@@ -26,19 +26,18 @@ public class IdentitySeeder : DbSeeder
 
         foreach (var user in users)
         {
-            foreach (var role in roles)
+            if (user.UserName == "admin")
             {
-                user.AssignRole(role);
+                user.AssignRole(roles[0]);
+            }
+            else
+            {
+                user.AssignRole(roles[1]);
             }
         }
 
-        foreach (var role in roles)
-        {
-            foreach (var permission in permissions)
-            {
-                role.AssignPermission(permission);
-            }
-        }
+        roles[0].AssignPermission(permissions[0]);
+        roles[1].AssignPermission(permissions[1]);
 
         context.Set<LocaleResource>().AddRange(GetLocaleResources());
         context.Set<User>().AddRange(users);
