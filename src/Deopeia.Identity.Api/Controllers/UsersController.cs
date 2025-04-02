@@ -5,6 +5,7 @@ using Deopeia.Identity.Application.Users.GetAuthenticator;
 using Deopeia.Identity.Application.Users.GetUser;
 using Deopeia.Identity.Application.Users.GetUsers;
 using Deopeia.Identity.Application.Users.UpdateUser;
+using Deopeia.Identity.Application.Users.UploadAvatar;
 
 namespace Deopeia.Identity.Api.Controllers;
 
@@ -61,6 +62,18 @@ public class UsersController : ApiController<UsersController>
     public async Task<ActionResult> EnableAuthenticator(
         [FromRoute] Guid id,
         [FromBody] EnableAuthenticatorCommand command
+    )
+    {
+        command = command with { Id = id };
+        await Sender.Send(command);
+
+        return NoContent();
+    }
+
+    [HttpPut("{id}/Avatar")]
+    public async Task<ActionResult> UploadAvatar(
+        [FromRoute] Guid id,
+        [FromBody] UploadAvatarCommand command
     )
     {
         command = command with { Id = id };

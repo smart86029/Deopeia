@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-const menus = ['me.password', 'me.twoFactorAuthentication'];
+const menus = ['me.profile', 'me.password', 'me.twoFactorAuthentication'];
 </script>
 
 <style lang="scss" scoped>

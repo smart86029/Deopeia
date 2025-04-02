@@ -35,6 +35,8 @@ public class User : AggregateRoot<UserId>
 
     public bool IsEnabled { get; private set; }
 
+    public FileResourceId? AvatarId { get; private set; }
+
     public DateTimeOffset CreatedAt { get; private init; } = DateTimeOffset.UtcNow;
 
     public Authenticator Authenticator { get; private init; }
@@ -62,6 +64,11 @@ public class User : AggregateRoot<UserId>
     {
         IsEnabled = false;
         AddDomainEvent(new UserDisabled(Id));
+    }
+
+    public void UpdateAvatar(Image avatar)
+    {
+        AvatarId = avatar.Id;
     }
 
     public void AssignRole(Role role)

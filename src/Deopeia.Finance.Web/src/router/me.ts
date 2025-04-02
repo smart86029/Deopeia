@@ -3,8 +3,13 @@ export default [
     path: 'me',
     name: 'me.view',
     component: () => import('../views/me/MeView.vue'),
-    redirect: { name: 'me.password' },
+    redirect: { name: 'me.profile' },
     children: [
+      {
+        path: 'profile',
+        name: 'me.profile',
+        component: () => import('../views/me/ProfilePage.vue'),
+      },
       {
         path: 'password',
         name: 'me.password',

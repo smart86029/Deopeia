@@ -24,6 +24,17 @@ public class MeController(IIdentityApi identityApi) : ApiController
         return NoContent();
     }
 
+    [HttpPut("Avatar")]
+    public async Task<IActionResult> UploadAvatar([FromForm] IFormFile file)
+    {
+        using var memoryStream = new MemoryStream();
+        await file.CopyToAsync(memoryStream);
+        var command = new UploadAvatarCommand(file.FileName, memoryStream.ToArray());
+        await _identityApi.UploadAvatar(User.GetUserId(), command);
+
+        return NoContent();
+    }
+
     [HttpPut("Password")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
     {

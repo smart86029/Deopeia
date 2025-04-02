@@ -1,5 +1,12 @@
 <template>
-  <el-upload ref="upload" :show-file-list="false" :http-request="post">
+  <el-upload
+    ref="upload"
+    :show-file-list="false"
+    :auto-upload="false"
+    :limit="1"
+    :on-change="handleChange"
+    accept="image/*"
+  >
     <el-image v-if="imageUrl" :src="imageUrl" class="image" />
     <div v-else class="icon">
       <IconAdd />
@@ -8,40 +15,20 @@
 </template>
 
 <script setup lang="ts">
-import imageApi, { type UploadImageCommand } from '@/api/image-api';
-import type { Guid } from '@/models/guid';
-import type { UploadInstance } from 'element-plus';
+import type { UploadFile, UploadInstance } from 'element-plus';
 
-const props = defineProps<{
-  imageId: Guid;
+const model = defineModel<File>();
+
+defineProps<{
   imageUrl: string;
 }>();
 
-const emits = defineEmits<{
-  'update:imageId': [imageId: Guid];
-  'update:imageUrl': [imageUrl: string];
-}>();
-
 const upload = ref<UploadInstance>();
-const imageUrl = computed({
-  get: () => props.imageUrl,
-  set: (value) => emits('update:imageUrl', value),
-});
 
-const post = (option: any) => {
-  const command: UploadImageCommand = {
-    file: option.file,
-  };
-
-  imageApi.upload(command).then((x) => {
-    emits('update:imageId', x.data.id);
-    imageUrl.value = x.data.url;
-    upload.value?.clearFiles();
-  });
-};
+const handleChange = (uploadFile: UploadFile) => (model.value = uploadFile.raw);
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 $width: 178px;
 $height: 178px;
 

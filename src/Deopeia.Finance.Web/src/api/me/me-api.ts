@@ -15,6 +15,7 @@ export const meApi = {
   getAuthenticator: () => httpClient.get<Authenticator>(`/Me/Authenticator`),
   enableAuthenticator: (verificationCode: string) =>
     httpClient.put(`/Me/Authenticator`, { verificationCode }),
+  uploadAvatar: (file: File) => httpClient.postForm(`/Me/Avatar`, { file }),
   changePassword: (command: ChangePasswordCommand) =>
     httpClient.put(`/Me/Password`, command),
 };
