@@ -24,6 +24,18 @@ public class MeController(IIdentityApi identityApi) : ApiController
         return NoContent();
     }
 
+    [HttpGet("Avatar")]
+    public async Task<IActionResult> GetAvatar()
+    {
+        var httpContent = await _identityApi.GetAvatar(User.GetUserId());
+        if (httpContent is null)
+        {
+            return NotFound();
+        }
+
+        return File(httpContent.ReadAsStream(), httpContent.Headers.ContentType!.ToString());
+    }
+
     [HttpPut("Avatar")]
     public async Task<IActionResult> UploadAvatar([FromForm] IFormFile file)
     {

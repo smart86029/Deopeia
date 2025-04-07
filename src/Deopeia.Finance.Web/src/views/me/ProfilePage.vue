@@ -1,5 +1,5 @@
 <template>
-  <h2>{{ $t('common.profile') }}</h2>
+  <h2>{{ $t('route.me.profile') }}</h2>
 
   <UploadImage v-model="avatar" :image-url="imageUrl" />
 
@@ -13,22 +13,15 @@ import { meApi } from '@/api/me/me-api';
 const userName = 'John Doe';
 const userEmail = 'john.doe@example.com';
 const avatar: Ref<File | undefined> = ref(undefined);
-const imageUrl = ref('');
+const imageUrl = ref('/api/Me/Avatar');
 
 watch(avatar, (avatar) => {
   if (!avatar) {
     return;
   }
-
-  meApi
-    .uploadAvatar(avatar)
-    .then((response) => {
-      console.log('Avatar uploaded successfully:', response);
-      imageUrl.value = response.data; // Assuming the API returns the image URL
-    })
-    .catch((error) => {
-      console.error('Error uploading avatar:', error);
-    });
+  meApi.uploadAvatar(avatar).then((response) => {
+    imageUrl.value = response.data;
+  });
 });
 </script>
 

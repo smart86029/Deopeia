@@ -233,6 +233,7 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     salt = table.Column<string>(type: "text", nullable: false),
                     password_hash = table.Column<string>(type: "text", nullable: false),
                     is_enabled = table.Column<bool>(type: "boolean", nullable: false),
+                    avatar_id = table.Column<Guid>(type: "uuid", nullable: true),
                     created_at = table.Column<DateTimeOffset>(
                         type: "timestamp with time zone",
                         nullable: false

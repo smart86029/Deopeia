@@ -1,7 +1,9 @@
+using System.Net.Mime;
 using Deopeia.Identity.Application.Users.ChangePassword;
 using Deopeia.Identity.Application.Users.CreateUser;
 using Deopeia.Identity.Application.Users.EnableAuthenticator;
 using Deopeia.Identity.Application.Users.GetAuthenticator;
+using Deopeia.Identity.Application.Users.GetAvatar;
 using Deopeia.Identity.Application.Users.GetUser;
 using Deopeia.Identity.Application.Users.GetUsers;
 using Deopeia.Identity.Application.Users.UpdateUser;
@@ -68,6 +70,20 @@ public class UsersController : ApiController<UsersController>
         await Sender.Send(command);
 
         return NoContent();
+    }
+
+    [HttpGet("{id}/Avatar")]
+    public async Task<IActionResult> GetAvatar([FromRoute] Guid id)
+    {
+        var query = new GetAvatarQuery(id);
+        var content = await Sender.Send(query);
+
+        if (content is null || content.Length == 0)
+        {
+            return NotFound();
+        }
+
+        return File(content, MediaTypeNames.Image.Jpeg);
     }
 
     [HttpPut("{id}/Avatar")]

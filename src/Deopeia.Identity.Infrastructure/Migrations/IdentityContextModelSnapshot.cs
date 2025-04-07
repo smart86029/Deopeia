@@ -487,6 +487,10 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("authenticator_id");
 
+                    b.Property<Guid?>("AvatarId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("avatar_id");
+
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");

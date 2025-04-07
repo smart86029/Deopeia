@@ -29,6 +29,7 @@ export default {
       cryptocurrency: '加密貨幣',
     },
     me: {
+      profile: '個人資料',
       password: '修改密碼',
       twoFactorAuthentication: '二步驟驗證',
     },

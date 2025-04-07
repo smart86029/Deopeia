@@ -29,6 +29,7 @@ export default {
       cryptocurrency: 'Cryptocurrency',
     },
     me: {
+      profile: 'Profile',
       password: 'Change Password',
       twoFactorAuthentication: 'Two-Factor Authentication',
     },

@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Deopeia.Identity.Infrastructure.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20250326025423_Init")]
+    [Migration("20250407061102_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -489,6 +489,10 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     b.Property<Guid>("AuthenticatorId")
                         .HasColumnType("uuid")
                         .HasColumnName("authenticator_id");
+
+                    b.Property<Guid?>("AvatarId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("avatar_id");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
