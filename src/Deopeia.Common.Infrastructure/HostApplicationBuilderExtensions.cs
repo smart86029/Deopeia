@@ -40,17 +40,11 @@ public static class HostApplicationBuilderExtensions
         builder.AddEventProducer<TContext>();
 
         var services = builder.Services;
-        var connectionString = builder.Configuration.GetConnectionString(database);
+        var configuration = builder.Configuration;
+        var connectionString = configuration.GetConnectionString(database);
         services.AddScoped(serviceProvider => new NpgsqlConnection(connectionString));
 
-        var minIOOptions = builder.Configuration.GetSection("MinIO").Get<MinIOOptions>()!;
-        services.AddMinio(client =>
-            client
-                .WithEndpoint(minIOOptions.Endpoint)
-                .WithCredentials(minIOOptions.AccessKey, minIOOptions.SecretKey)
-                .WithSSL(false)
-        );
-
+        services.AddMinIO(configuration);
         services.AddRepositories<TContext>();
         services.AddLocalization<TContext>(options =>
             options.FallbackCulture = CultureInfo.GetCultureInfo("en")
@@ -63,6 +57,21 @@ public static class HostApplicationBuilderExtensions
         SqlMapper.AddTypeHandler(new TimeOnlyTypeHandler());
 
         return builder;
+    }
+
+    private static IServiceCollection AddMinIO(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
+    {
+        services.AddMinio(client =>
+            client
+                .WithEndpoint(configuration.GetConnectionString("MinIO"))
+                .WithCredentials(configuration["MinIO:AccessKey"], configuration["MinIO:SecretKey"])
+                .WithSSL(false)
+        );
+
+        return services;
     }
 
     private static IServiceCollection AddRepositories<TContext>(this IServiceCollection services)

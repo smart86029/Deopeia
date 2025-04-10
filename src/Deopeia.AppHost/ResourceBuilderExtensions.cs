@@ -4,7 +4,7 @@ public static class ResourceBuilderExtensions
 {
     private static IResourceBuilder<ParameterResource>? _jwtKey;
     private static IResourceBuilder<ParameterResource>? _jwtIssuer;
-    private static IResourceBuilder<ParameterResource>? _minIOEndpoint;
+    private static IResourceBuilder<MinIOResource>? _minIO;
     private static IResourceBuilder<ParameterResource>? _minIOAccessKey;
     private static IResourceBuilder<ParameterResource>? _minIOSecretKey;
     private static IResourceBuilder<KafkaServerResource>? _kafka;
@@ -27,12 +27,12 @@ public static class ResourceBuilderExtensions
     )
         where TDestination : ProjectResource
     {
-        _minIOEndpoint ??= builder.ApplicationBuilder.AddParameter("MinIOEndpoint");
+        _minIO ??= builder.ApplicationBuilder.AddMinIO("minio").WithDataVolume();
         _minIOAccessKey ??= builder.ApplicationBuilder.AddParameter("MinIOAccessKey");
         _minIOSecretKey ??= builder.ApplicationBuilder.AddParameter("MinIOSecretKey");
 
         return builder
-            .WithEnvironment("MinIO__Endpoint", _minIOEndpoint)
+            .WithReferenceAndWaitFor(_minIO)
             .WithEnvironment("MinIO__AccessKey", _minIOAccessKey)
             .WithEnvironment("MinIO__SecretKey", _minIOSecretKey);
     }
@@ -42,13 +42,10 @@ public static class ResourceBuilderExtensions
     )
         where TDestination : ProjectResource
     {
-        if (_kafka is null)
-        {
-            _kafka = builder
-                .ApplicationBuilder.AddKafka("kafka")
-                .WithKafkaUI(x => x.WithHostPort(9100))
-                .WithDataVolume();
-        }
+        _kafka ??= builder
+            .ApplicationBuilder.AddKafka("kafka")
+            .WithKafkaUI(x => x.WithHostPort(9100))
+            .WithDataVolume();
 
         return builder.WithReferenceAndWaitFor(_kafka);
     }
