@@ -28,8 +28,8 @@ public class MeController(IIdentityApi identityApi, HttpClient httpClient) : Api
     [HttpGet("Profile")]
     public async Task<IActionResult> GetProfile()
     {
-        var avatar = await _identityApi.GetAvatar(User.GetUserId());
-        var result = new { AvatarUrl = avatar };
+        var response = await _identityApi.GetAvatar(User.GetUserId());
+        var result = new { AvatarUrl = response.Content };
 
         return Ok(result);
     }
