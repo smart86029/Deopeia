@@ -9,7 +9,7 @@ public interface IIdentityApi
     Task EnableAuthenticator(Guid userId, [Body] EnableAuthenticatorCommand command);
 
     [Get("/api/Users/{userId}/Avatar")]
-    Task<HttpContent> GetAvatar(Guid userId);
+    Task<Uri?> GetAvatar(Guid userId);
 
     [Put("/api/Users/{userId}/Avatar")]
     Task UploadAvatar(Guid userId, [Body] UploadAvatarCommand command);

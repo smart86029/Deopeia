@@ -76,14 +76,9 @@ public class UsersController : ApiController<UsersController>
     public async Task<IActionResult> GetAvatar([FromRoute] Guid id)
     {
         var query = new GetAvatarQuery(id);
-        var content = await Sender.Send(query);
+        var result = await Sender.Send(query);
 
-        if (content is null || content.Length == 0)
-        {
-            return NotFound();
-        }
-
-        return File(content, MediaTypeNames.Image.Jpeg);
+        return Ok(result);
     }
 
     [HttpPut("{id}/Avatar")]

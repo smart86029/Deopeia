@@ -1,28 +1,36 @@
 <template>
   <h2>{{ $t('route.me.profile') }}</h2>
 
-  <UploadImage v-model="avatar" :image-url="imageUrl" />
+  <UploadImage v-model="avatar" :image-url="profile.avatarUrl" />
 
   <p><strong>Name:</strong> {{ userName }}</p>
   <p><strong>Email:</strong> {{ userEmail }}</p>
 </template>
 
 <script setup lang="ts">
-import { meApi } from '@/api/me/me-api';
+import { meApi, type Profile } from '@/api/me/me-api';
 
 const userName = 'John Doe';
 const userEmail = 'john.doe@example.com';
 const avatar: Ref<File | undefined> = ref(undefined);
-const imageUrl = ref('/api/Me/Avatar');
+
+const profile: Profile = reactive({
+  avatarUrl: '',
+});
 
 watch(avatar, (avatar) => {
   if (!avatar) {
     return;
   }
-  meApi.uploadAvatar(avatar).then((response) => {
-    imageUrl.value = response.data;
+  meApi.uploadAvatar(avatar).then(() => {
+    getProfile();
   });
 });
+
+onMounted(() => getProfile());
+
+const getProfile = () =>
+  meApi.getProfile().then((x) => Object.assign(profile, x.data));
 </script>
 
 <style lang="scss" scoped>

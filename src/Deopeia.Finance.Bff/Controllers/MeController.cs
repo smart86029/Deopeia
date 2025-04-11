@@ -2,9 +2,10 @@ using Deopeia.Finance.Bff.Models.Identity;
 
 namespace Deopeia.Finance.Bff.Controllers;
 
-public class MeController(IIdentityApi identityApi) : ApiController
+public class MeController(IIdentityApi identityApi, HttpClient httpClient) : ApiController
 {
     private readonly IIdentityApi _identityApi = identityApi;
+    private readonly HttpClient _httpClient = httpClient;
 
     [HttpGet("Authenticator")]
     public async Task<IActionResult> GetAuthenticator()
@@ -24,16 +25,13 @@ public class MeController(IIdentityApi identityApi) : ApiController
         return NoContent();
     }
 
-    [HttpGet("Avatar")]
-    public async Task<IActionResult> GetAvatar()
+    [HttpGet("Profile")]
+    public async Task<IActionResult> GetProfile()
     {
-        var httpContent = await _identityApi.GetAvatar(User.GetUserId());
-        if (httpContent is null)
-        {
-            return NotFound();
-        }
+        var avatar = await _identityApi.GetAvatar(User.GetUserId());
+        var result = new { AvatarUrl = avatar };
 
-        return File(httpContent.ReadAsStream(), httpContent.Headers.ContentType!.ToString());
+        return Ok(result);
     }
 
     [HttpPut("Avatar")]

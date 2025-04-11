@@ -1,4 +1,5 @@
 using Deopeia.Common.Domain.Files;
+using Microsoft.Extensions.Options;
 using Minio;
 using Minio.DataModel.Args;
 
@@ -7,7 +8,6 @@ namespace Deopeia.Common.Infrastructure.Files;
 internal class ImageRepository<TContext>(TContext context, IMinioClient client) : IImageRepository
     where TContext : DbContext
 {
-    private readonly Uri _baseUri = new("http://localhost:8080");
     private readonly DbSet<Image> _images = context.Set<Image>();
     private readonly IMinioClient _client = client;
 
@@ -51,7 +51,6 @@ internal class ImageRepository<TContext>(TContext context, IMinioClient client) 
             .WithObject(image.FileName)
             .WithExpiry(TimeSpan.FromHours(1).TotalSeconds.ToInt());
         var presignedUri = new Uri(await _client.PresignedGetObjectAsync(args));
-        var replacedUri = new Uri(_baseUri, presignedUri.AbsolutePath + presignedUri.Query);
-        image.SetPresignedUri(replacedUri);
+        image.SetPresignedUri(presignedUri);
     }
 }
