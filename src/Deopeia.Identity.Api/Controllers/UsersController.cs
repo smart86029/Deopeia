@@ -77,6 +77,10 @@ public class UsersController : ApiController<UsersController>
     {
         var query = new GetAvatarQuery(id);
         var result = await Sender.Send(query);
+        if (result is null)
+        {
+            return NotFound();
+        }
 
         return Ok(result);
     }
