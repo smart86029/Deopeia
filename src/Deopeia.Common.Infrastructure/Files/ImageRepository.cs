@@ -1,5 +1,4 @@
 using Deopeia.Common.Domain.Files;
-using Microsoft.Extensions.Options;
 using Minio;
 using Minio.DataModel.Args;
 
