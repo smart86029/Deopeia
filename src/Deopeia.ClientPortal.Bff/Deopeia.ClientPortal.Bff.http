@@ -1,0 +1,6 @@
+@Deopeia.ClientPortal.Bff_HostAddress = http://localhost:5284
+
+GET {{Deopeia.ClientPortal.Bff_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

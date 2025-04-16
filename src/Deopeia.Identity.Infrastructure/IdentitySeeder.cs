@@ -74,7 +74,7 @@ public class IdentitySeeder : DbSeeder
         var results = new List<Client>
         {
             new(
-                "Finance",
+                "Back Office",
                 null,
                 GrantTypes.AuthorizationCode | GrantTypes.RefreshToken,
                 new[] { "openid", "profile", "email", "api" },
@@ -82,6 +82,17 @@ public class IdentitySeeder : DbSeeder
                 {
                     new("http://localhost:5173/auth/callback"),
                     new("http://localhost:5173/auth/silent-refresh"),
+                }
+            ),
+            new(
+                "Client Portal",
+                null,
+                GrantTypes.AuthorizationCode | GrantTypes.RefreshToken,
+                new[] { "openid", "profile", "email", "api" },
+                new Uri[]
+                {
+                    new("http://localhost:5174/auth/callback"),
+                    new("http://localhost:5174/auth/silent-refresh"),
                 }
             ),
         };

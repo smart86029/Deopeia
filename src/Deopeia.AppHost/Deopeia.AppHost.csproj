@@ -18,7 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Deopeia.Finance.Bff\Deopeia.Finance.Bff.csproj" />
+    <ProjectReference Include="..\Deopeia.BackOffice.Bff\Deopeia.BackOffice.Bff.csproj" />
+    <ProjectReference Include="..\Deopeia.ClientPortal.Bff\Deopeia.ClientPortal.Bff.csproj" />
     <ProjectReference Include="..\Deopeia.Identity.Api\Deopeia.Identity.Api.csproj" />
     <ProjectReference Include="..\Deopeia.Notification.Hub\Deopeia.Notification.Hub.csproj" />
     <ProjectReference Include="..\Deopeia.Quote.Api\Deopeia.Quote.Api.csproj" />

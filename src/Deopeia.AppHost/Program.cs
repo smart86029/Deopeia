@@ -40,14 +40,22 @@ var tradingApi = builder
     .WithReferenceAndWaitFor(dbTrading)
     .WithProxyEndpoint();
 
-builder
-    .AddProject<Projects.Deopeia_Trading_Worker>("deopeia-trading-worker")
-    .WithMinIO()
-    .WithKafka()
-    .WithReferenceAndWaitFor(dbTrading);
+// builder
+//     .AddProject<Projects.Deopeia_Trading_Worker>("deopeia-trading-worker")
+//     .WithMinIO()
+//     .WithKafka()
+//     .WithReferenceAndWaitFor(dbTrading);
 
 builder
-    .AddProject<Projects.Deopeia_Finance_Bff>("deopeia-finance-bff")
+    .AddProject<Projects.Deopeia_BackOffice_Bff>("deopeia-backoffice-bff")
+    .WithJwt()
+    .WithReference(identityApi)
+    .WithReference(notificationHub)
+    .WithReference(quoteApi)
+    .WithReference(tradingApi);
+
+builder
+    .AddProject<Projects.Deopeia_ClientPortal_Bff>("deopeia-clientportal-bff")
     .WithJwt()
     .WithReference(identityApi)
     .WithReference(notificationHub)
