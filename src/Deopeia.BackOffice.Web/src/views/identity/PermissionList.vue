@@ -13,7 +13,7 @@
     </el-form>
 
     <template #right>
-      <ButtonCreate route="permission.create" />
+      <ButtonCreate route="identity.permission.create" />
     </template>
   </TableToolbar>
 
@@ -33,7 +33,7 @@
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
         <TextLink
-          :to="{ name: 'permission.edit', params: { code: row.code } }"
+          :to="{ name: 'identity.permission.edit', params: { code: row.code } }"
         />
       </template>
     </el-table-column>

@@ -10,7 +10,7 @@
     </el-form>
 
     <template #right>
-      <ButtonCreate route="role.create" />
+      <ButtonCreate route="identity.role.create" />
     </template>
   </TableToolbar>
 
@@ -29,7 +29,9 @@
     />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
-        <TextLink :to="{ name: 'role.edit', params: { code: row.code } }" />
+        <TextLink
+          :to="{ name: 'identity.role.edit', params: { code: row.code } }"
+        />
       </template>
     </el-table-column>
   </el-table>

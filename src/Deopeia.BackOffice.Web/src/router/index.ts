@@ -6,9 +6,11 @@ import {
 } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import auth from './auth';
+import client from './client';
 import identity from './identity';
 import me from './me';
 import setting from './setting';
+import trading from './trading';
 
 const guard = async (to: RouteLocationNormalized) => {
   const { locale, locales } = storeToRefs(usePreferencesStore());
@@ -38,9 +40,11 @@ const router = createRouter({
           name: 'dashboard.default',
           component: () => import('../views/dashboard/DashboardView.vue'),
         },
+        ...client,
+        ...trading,
         ...identity,
-        ...me,
         ...setting,
+        ...me,
       ],
     },
     ...auth,

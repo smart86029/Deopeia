@@ -16,7 +16,7 @@
     </el-form>
 
     <template #right>
-      <ButtonCreate route="user.create" />
+      <ButtonCreate route="identity.user.create" />
     </template>
   </TableToolbar>
 
@@ -34,7 +34,9 @@
     </el-table-column>
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
-        <TextLink :to="{ name: 'user.edit', params: { id: row.id } }" />
+        <TextLink
+          :to="{ name: 'identity.user.edit', params: { id: row.id } }"
+        />
       </template>
     </el-table-column>
   </el-table>

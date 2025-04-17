@@ -11,7 +11,7 @@
     <el-container>
       <el-aside width="256px">
         <el-scrollbar view-class="scrollbar-view">
-          <NavOperator />
+          <NavSidebar />
         </el-scrollbar>
       </el-aside>
       <el-main>

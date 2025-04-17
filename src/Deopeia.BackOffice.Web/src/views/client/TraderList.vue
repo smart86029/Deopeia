@@ -6,7 +6,7 @@
       </el-form-item>
     </el-form>
     <template #right>
-      <ButtonCreate route="trader.create" />
+      <ButtonCreate route="client.trader.create" />
     </template>
   </TableToolbar>
 
@@ -21,7 +21,9 @@
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
         <DividerSpace>
-          <TextLink :to="{ name: 'trader.edit', params: { id: row.id } }" />
+          <TextLink
+            :to="{ name: 'client.trader.edit', params: { id: row.id } }"
+          />
           <el-link type="primary" @click="deposit(row)">
             {{ $t('finance.deposit') }}
           </el-link>

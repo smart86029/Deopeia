@@ -1,6 +1,6 @@
 export default {
   common: {
-    title: 'Finance',
+    title: 'Deopeia',
     code: '代碼',
     name: '名稱',
     abbreviation: '縮寫',

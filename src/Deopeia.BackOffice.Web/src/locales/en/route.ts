@@ -1,77 +1,90 @@
 export default {
   route: {
-    asset: {
-      view: 'Assets',
-      account: 'Accounts',
-      position: 'Positions',
+    client: {
+      module: 'Client',
+      trader: {
+        list: 'Traders',
+        create: 'Create Trader',
+        edit: 'Edit Trader',
+      },
+      introducingBroker: {
+        list: 'Introducing Brokers',
+      },
+      kyc: {
+        list: 'KYC',
+      },
     },
-    contract: {
-      list: 'Contracts',
-      create: 'Create Contract',
-      edit: 'Edit Contract {symbol}',
+    dashboard: {
+      default: 'Dashboard',
     },
-    dashboard: { default: 'Dashboard' },
-    exchange: {
-      default: 'Exchange',
-      list: 'Exchanges',
-      create: 'Create Exchange',
-      edit: 'Edit Exchange',
+    fund: {
+      module: 'Fund',
+      deposit: {
+        list: 'Deposits',
+      },
+      withdrawal: {
+        list: 'Withdrawals',
+      },
     },
     home: 'Home',
-    identity: 'Identity',
-    market: {
-      list: 'Markets',
-      favorite: 'Favorite',
-      stock: 'Stock',
-      index: 'Index',
-      commodity: 'Commodity',
-      forex: 'Forex',
-      cryptocurrency: 'Cryptocurrency',
+    identity: {
+      module: 'Identity',
+      user: {
+        list: 'Users',
+        create: 'Create User',
+        edit: 'Edit User',
+      },
+      role: {
+        list: 'Roles',
+        create: 'Create Role',
+        edit: 'Edit Role',
+      },
+      permission: {
+        list: 'Permissions',
+        create: 'Create Permission',
+        edit: 'Edit Permission',
+      },
     },
     me: {
       profile: 'Profile',
       password: 'Change Password',
       twoFactorAuthentication: 'Two-Factor Authentication',
     },
-    permission: {
-      list: 'Permissions',
-      create: 'Create Permission',
-      edit: 'Edit Permission',
+    report: {
+      module: 'Report',
+      profitAndLoss: 'Profit And Loss',
+      cashFlow: 'Cash Flow',
     },
-    position: {
-      list: 'Positions',
-      close: 'Close Position',
+    risk: {
+      module: 'Risk',
+      overview: 'Overview',
+      marginCall: {
+        list: 'Margin Calls',
+      },
+      forcedLiquidation: {
+        list: 'Forced Liquidations',
+      },
     },
-    quote: 'Quote',
-    role: {
-      list: 'Roles',
-      create: 'Create Role',
-      edit: 'Edit Role',
-    },
-    screener: {
-      default: 'Screener',
-      stock: 'Stock Screener',
-    },
-    setting: 'Setting',
-    strategy: {
-      list: 'Strategies',
-      create: 'Create Strategy',
-      edit: 'Edit Strategy',
-    },
-    trader: {
-      list: 'Traders',
-      create: 'Create Trader',
-      edit: 'Edit Trader',
+    setting: {
+      module: 'Setting',
+      contract: {
+        list: 'Contracts',
+        create: 'Create Contract',
+        edit: 'Edit Contract {symbol}',
+      },
     },
     trading: {
-      view: 'Trading',
-      chart: 'Chart',
-      info: 'Info',
-    },
-    user: {
-      list: 'Users',
-      create: 'Create User',
-      edit: 'Edit User',
+      module: 'Trading',
+      position: {
+        list: 'Positions',
+        close: 'Close Position',
+      },
+      order: {
+        list: 'Orders',
+      },
+      trade: {
+        list: 'Trades',
+      },
     },
   },
 };

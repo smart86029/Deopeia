@@ -1,7 +1,7 @@
 import { UserManager } from 'oidc-client-ts';
 
 export const useAuthStore = defineStore('auth', () => {
-  const uri = 'http://localhost:5173/';
+  const uri = 'http://localhost:5174/';
   const userManager = new UserManager({
     authority: 'https://localhost:7099/',
     response_type: 'code',

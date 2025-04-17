@@ -36,7 +36,7 @@
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
         <TextLink
-          :to="{ name: 'position.close', params: { id: row.id } }"
+          :to="{ name: 'trading.position.close', params: { id: row.id } }"
           :text="$t('trading.close')"
         />
       </template>
