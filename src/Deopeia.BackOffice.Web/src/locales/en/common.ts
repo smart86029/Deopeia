@@ -1,6 +1,6 @@
 export default {
   common: {
-    title: 'Deopeia',
+    title: 'Back Office',
     code: 'Code',
     name: 'Name',
     abbreviation: 'Abbreviation',
