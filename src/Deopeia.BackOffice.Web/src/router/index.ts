@@ -7,6 +7,7 @@ import {
 import HomeView from '../views/HomeView.vue';
 import auth from './auth';
 import client from './client';
+import fund from './fund';
 import identity from './identity';
 import me from './me';
 import setting from './setting';
@@ -41,6 +42,7 @@ const router = createRouter({
           component: () => import('../views/dashboard/DashboardView.vue'),
         },
         ...client,
+        ...fund,
         ...trading,
         ...identity,
         ...setting,
