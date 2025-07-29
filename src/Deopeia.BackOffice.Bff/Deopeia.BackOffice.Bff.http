@@ -1,6 +1,0 @@
-@Deopeia.BackOffice.Bff_HostAddress = http://localhost:5041
-
-GET {{Deopeia.BackOffice.Bff_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
