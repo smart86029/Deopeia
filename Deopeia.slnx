@@ -1,2 +1,18 @@
 <Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Common/">
+    <Project Path="src/Common/Deopeia.Common.Api/Deopeia.Common.Api.csproj" />
+    <Project Path="src/Common/Deopeia.Common.Application/Deopeia.Common.Application.csproj" />
+    <Project Path="src/Common/Deopeia.Common.Bff/Deopeia.Common.Bff.csproj" />
+    <Project Path="src/Common/Deopeia.Common.Domain/Deopeia.Common.Domain.csproj" />
+    <Project Path="src/Common/Deopeia.Common.Infrastructure/Deopeia.Common.Infrastructure.csproj" />
+    <Project Path="src/Common/Deopeia.Common.Worker/Deopeia.Common.Worker.csproj" />
+    <Project Path="src/Common/Deopeia.Common/Deopeia.Common.csproj" />
+  </Folder>
+  <Folder Name="/src/Identity/">
+    <Project Path="src/Identity/Deopeia.Identity.Api/Deopeia.Identity.Api.csproj" />
+    <Project Path="src/Identity/Deopeia.Identity.Application/Deopeia.Identity.Application.csproj" />
+    <Project Path="src/Identity/Deopeia.Identity.Domain/Deopeia.Identity.Domain.csproj" />
+    <Project Path="src/Identity/Deopeia.Identity.Infrastructure/Deopeia.Identity.Infrastructure.csproj" />
+  </Folder>
 </Solution>
