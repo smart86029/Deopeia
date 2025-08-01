@@ -1,5 +1,8 @@
 <Solution>
-  <Folder Name="/src/" />
+  <Folder Name="/src/">
+    <Project Path="src/Deopeia.AppHost/Deopeia.AppHost.csproj" />
+    <Project Path="src/Deopeia.ServiceDefaults/Deopeia.ServiceDefaults.csproj" />
+  </Folder>
   <Folder Name="/src/Common/">
     <Project Path="src/Common/Deopeia.Common.Api/Deopeia.Common.Api.csproj" />
     <Project Path="src/Common/Deopeia.Common.Application/Deopeia.Common.Application.csproj" />
