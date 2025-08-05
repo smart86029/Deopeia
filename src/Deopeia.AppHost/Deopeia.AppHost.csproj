@@ -14,4 +14,9 @@
     <PackageReference Include="Aspire.Hosting.AppHost" Version="9.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AdminPortal\Deopeia.AdminPortal.Bff\Deopeia.AdminPortal.Bff.csproj" />
+    <ProjectReference Include="..\Identity\Deopeia.Identity.Api\Deopeia.Identity.Api.csproj" />
+  </ItemGroup>
+
 </Project>
