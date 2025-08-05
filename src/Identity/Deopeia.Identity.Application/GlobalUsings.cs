@@ -1,0 +1,11 @@
+global using System.Globalization;
+global using System.Security.Claims;
+global using System.Text;
+global using System.Text.Json.Serialization;
+global using Deopeia.Common;
+global using Deopeia.Common.Application.Option;
+global using Deopeia.Common.Application.Page;
+global using Deopeia.Common.Extensions;
+global using Deopeia.Identity.Domain;
+global using Mediator;
+global using Microsoft.Extensions.Options;

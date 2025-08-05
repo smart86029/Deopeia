@@ -1,10 +1,11 @@
 using Deopeia.Common.Bff;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.AddBff();
+builder.AddServiceDefaults().AddBff();
 
 var app = builder.Build();
 
+app.MapDefaultEndpoints();
 app.MapControllers();
 app.MapScalar();
 

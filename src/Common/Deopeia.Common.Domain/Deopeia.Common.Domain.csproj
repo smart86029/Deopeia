@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Deopeia.Common\Deopeia.Common.csproj" />
+  </ItemGroup>
+
 </Project>
