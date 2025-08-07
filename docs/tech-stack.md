@@ -19,7 +19,7 @@
 -   [Dapper](https://github.com/DapperLib/Dapper) ORM
 -   [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) ORM
 -   [FluentValidation](https://docs.fluentvalidation.net/en/latest/) Validation
--   [MediatR](https://github.com/jbogard/MediatR) In-process messaging to implement CQRS
+-   [Mediator](https://github.com/martinothamar/Mediator) Implementing cross cutting concern
 -   [Serilog](https://serilog.net/) Structured logging
 -   [SignalR](https://learn.microsoft.com/en-us/aspnet/signalr/) Real-time communication
 
