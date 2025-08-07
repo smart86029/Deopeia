@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Protobuf Include="..\Deopeia.Identity.Contracts\**\*.proto" GrpcServices="Server">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Protobuf>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.64.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Deopeia.Common.Api\Deopeia.Common.Api.csproj" />
     <ProjectReference Include="..\..\Deopeia.ServiceDefaults\Deopeia.ServiceDefaults.csproj" />
     <ProjectReference Include="..\Deopeia.Identity.Application\Deopeia.Identity.Application.csproj" />
     <ProjectReference Include="..\Deopeia.Identity.Infrastructure\Deopeia.Identity.Infrastructure.csproj" />

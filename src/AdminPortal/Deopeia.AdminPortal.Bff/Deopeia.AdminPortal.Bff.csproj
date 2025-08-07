@@ -7,8 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Protobuf Include="..\..\Identity\Deopeia.Identity.Contracts\**\*.proto" GrpcServices="Client">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Protobuf>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Common\Deopeia.Common.Bff\Deopeia.Common.Bff.csproj" />
     <ProjectReference Include="..\..\Deopeia.ServiceDefaults\Deopeia.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.Tools" Version="2.72.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,9 @@
-using Deopeia.Common.Bff;
-
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults().AddBff();
+
+builder.Services.AddGrpcClient<User.UserClient>(options =>
+    options.Address = new Uri("http://deopeia-identity-api")
+);
 
 var app = builder.Build();
 
