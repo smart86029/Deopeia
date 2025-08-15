@@ -1,3 +1,3 @@
 namespace Deopeia.Common.Application.Option;
 
-public record OptionsQuery<TValue> : IRequest<ICollection<OptionResult<TValue>>> { }
+public record OptionsQuery<TValue> : IQuery<ICollection<OptionResult<TValue>>> { }

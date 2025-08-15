@@ -91,11 +91,6 @@ public class User : AggregateRoot<UserId>
         _userRoles.Remove(userRole);
     }
 
-    public void MarkAsTrader()
-    {
-        AddDomainEvent(new TraderCreated(Id.Guid, UserName));
-    }
-
     public bool IsValidRefreshToken(string refreshToken)
     {
         return _userRefreshTokens.Any(x => x.RefreshToken == refreshToken && x.IsActive);

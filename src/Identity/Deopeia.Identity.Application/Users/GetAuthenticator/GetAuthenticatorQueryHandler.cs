@@ -3,12 +3,12 @@ using Deopeia.Identity.Domain.Users;
 namespace Deopeia.Identity.Application.Users.GetAuthenticator;
 
 internal class GetAuthenticatorQueryHandler(
-    IIdentityUnitOfWork unitOfWork,
+    IUnitOfWork unitOfWork,
     IUserRepository userRepository,
     IAuthenticatorService authenticatorService
 ) : IQueryHandler<GetAuthenticatorQuery, GetAuthenticatorResult>
 {
-    private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IAuthenticatorService _authenticatorService = authenticatorService;
 

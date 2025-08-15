@@ -1,7 +1,9 @@
 using Deopeia.Identity.Api.Services;
+using Deopeia.Identity.Application;
+using Deopeia.Identity.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.AddServiceDefaults();
+builder.AddServiceDefaults().AddApplication().AddInfrastructure();
 
 builder.Services.AddGrpc();
 

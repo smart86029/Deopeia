@@ -4,12 +4,12 @@ using Deopeia.Identity.Domain.Users;
 namespace Deopeia.Identity.Application.Users.UpdateUser;
 
 public class UpdateUserCommandHandler(
-    IIdentityUnitOfWork unitOfWork,
+    IUnitOfWork unitOfWork,
     IUserRepository userRepository,
     IRoleRepository roleRepository
 ) : ICommandHandler<UpdateUserCommand>
 {
-    private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IRoleRepository _roleRepository = roleRepository;
 

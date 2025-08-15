@@ -1,8 +1,10 @@
 syntax = "proto3";
 
-option csharp_namespace = "Deopeia.Identity.Contracts";
+package deopeia.identity;
 
-package user;
+import "types.proto";
+
+option csharp_namespace = "Deopeia.Identity.Contracts";
 
 // The user service definition.
 service User {
@@ -12,11 +14,11 @@ service User {
 
 // The request message for user-related operations, containing relevant user information.
 message GetUserRequest {
-  string id = 1;
+  deopeia.common.Uuid id = 1;
 }
 
 // The response message containing the user information.
 message GetUserResponse {
-  string id = 1;
-  string name = 2;
+  deopeia.common.Uuid id = 1;
+  string user_name = 2;
 }

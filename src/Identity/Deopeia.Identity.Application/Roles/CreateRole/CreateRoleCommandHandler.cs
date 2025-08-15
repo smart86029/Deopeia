@@ -2,12 +2,10 @@ using Deopeia.Identity.Domain.Roles;
 
 namespace Deopeia.Identity.Application.Roles.CreateRole;
 
-public class CreateRoleCommandHandler(
-    IIdentityUnitOfWork unitOfWork,
-    IRoleRepository roleRepository
-) : ICommandHandler<CreateRoleCommand>
+public class CreateRoleCommandHandler(IUnitOfWork unitOfWork, IRoleRepository roleRepository)
+    : ICommandHandler<CreateRoleCommand>
 {
-    private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IRoleRepository _roleRepository = roleRepository;
 
     public async ValueTask<Unit> Handle(

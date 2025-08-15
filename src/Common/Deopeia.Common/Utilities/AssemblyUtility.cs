@@ -8,45 +8,66 @@ public static class AssemblyUtility
 
     public static string ServiceName => Assembly.GetEntryAssembly()!.FullName!.Split('.')[1];
 
-    public static IEnumerable<Assembly> GetAssemblies()
+    public static IReadOnlyList<Assembly> GetAssemblies()
     {
-        return Assembly
-            .GetEntryAssembly()!
-            .GetReferencedAssemblies()
-            .Where(x => x.Name!.StartsWith(Prefix))
-            .Select(Assembly.Load);
+        var entryAssembly = Assembly.GetEntryAssembly();
+        if (entryAssembly == null)
+        {
+            return [];
+        }
+
+        var loaded = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var toLoad = new Queue<AssemblyName>(entryAssembly.GetReferencedAssemblies());
+        var result = new List<Assembly> { entryAssembly };
+
+        loaded.Add(entryAssembly.FullName!);
+
+        while (toLoad.TryDequeue(out var assemblyName))
+        {
+            if (
+                assemblyName.Name is null
+                || !assemblyName.Name.StartsWith(Prefix, StringComparison.Ordinal)
+            )
+            {
+                continue;
+            }
+
+            if (!loaded.Add(assemblyName.FullName!))
+            {
+                continue;
+            }
+
+            try
+            {
+                var assembly = Assembly.Load(assemblyName);
+                result.Add(assembly);
+
+                foreach (var referencedAssembly in assembly.GetReferencedAssemblies())
+                {
+                    toLoad.Enqueue(referencedAssembly);
+                }
+            }
+            catch
+            {
+                continue;
+            }
+        }
+
+        return result;
     }
 
     public static IEnumerable<Type> GetTypes()
     {
-        return Assembly
-            .GetEntryAssembly()!
-            .GetReferencedAssemblies()
-            .Where(x => x.Name!.StartsWith(Prefix))
-            .Select(Assembly.Load)
-            .SelectMany(x => x.GetTypes())
-            .Where(x => x.IsClass && !x.IsAbstract && !x.IsGenericType);
-    }
-
-    public static IEnumerable<Type> GetTypes(string assemblyName)
-    {
-        return Assembly
-            .GetEntryAssembly()!
-            .GetReferencedAssemblies()
-            .Where(x => x.Name!.StartsWith(Prefix) && x.Name.EndsWith(assemblyName))
-            .Select(Assembly.Load)
+        var assemblies = GetAssemblies();
+        return assemblies
             .SelectMany(x => x.GetTypes())
             .Where(x => x.IsClass && !x.IsAbstract && !x.IsGenericType);
     }
 
     public static Type? GetType(string typeName)
     {
-        return Assembly
-            .GetEntryAssembly()!
-            .GetReferencedAssemblies()
-            .Where(x => x.Name!.StartsWith(Prefix))
-            .Select(Assembly.Load)
-            .Select(x => x.GetType(typeName))
-            .FirstOrDefault(x => x is not null);
+        var a = GetAssemblies();
+        return a.SelectMany(x => x.GetTypes())
+            .FirstOrDefault(x => x.Name == typeName || x.FullName == typeName);
     }
 }

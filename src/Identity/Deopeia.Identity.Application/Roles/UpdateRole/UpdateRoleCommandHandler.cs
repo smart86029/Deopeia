@@ -2,12 +2,10 @@ using Deopeia.Identity.Domain.Roles;
 
 namespace Deopeia.Identity.Application.Roles.UpdateRole;
 
-internal class UpdateRoleCommandHandler(
-    IIdentityUnitOfWork unitOfWork,
-    IRoleRepository roleRepository
-) : ICommandHandler<UpdateRoleCommand>
+internal class UpdateRoleCommandHandler(IUnitOfWork unitOfWork, IRoleRepository roleRepository)
+    : ICommandHandler<UpdateRoleCommand>
 {
-    private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IRoleRepository _roleRepository = roleRepository;
 
     public async ValueTask<Unit> Handle(

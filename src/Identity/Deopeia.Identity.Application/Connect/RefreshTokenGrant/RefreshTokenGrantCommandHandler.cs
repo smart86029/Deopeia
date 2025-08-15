@@ -7,7 +7,7 @@ namespace Deopeia.Identity.Application.Connect.RefreshTokenGrant;
 
 internal class RefreshTokenGrantCommandHandler(
     IOptions<JwtOptions> jwtOptions,
-    IIdentityUnitOfWork unitOfWork,
+    IUnitOfWork unitOfWork,
     IClientRepository clientRepository,
     IPermissionRepository permissionRepository,
     IRefreshTokenRepository refreshTokenRepository
@@ -20,7 +20,7 @@ internal class RefreshTokenGrantCommandHandler(
     )
 {
     private readonly TimeSpan _lifetime = TimeSpan.FromMinutes(5);
-    private readonly IIdentityUnitOfWork _identityUnitOfWork = unitOfWork;
+    private readonly IUnitOfWork _identityUnitOfWork = unitOfWork;
     private readonly IClientRepository _clientRepository = clientRepository;
     private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
 

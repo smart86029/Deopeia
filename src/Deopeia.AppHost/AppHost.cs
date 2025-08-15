@@ -1,8 +1,16 @@
+using Deopeia.AppHost;
 using Projects;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-var identityApi = builder.AddProject<Deopeia_Identity_Api>("deopeia-identity-api");
+var password = builder.AddParameter("postgresql-password", secret: true);
+var postgres = builder.AddPostgres("postgres", password: password, port: 59999).WithDataVolume();
+var dbIdentity = postgres.AddDatabase("identity");
+
+var identityApi = builder
+    .AddProject<Deopeia_Identity_Api>("deopeia-identity-api")
+    .WithMinIO()
+    .WithReferenceAndWaitFor(dbIdentity);
 
 builder.AddProject<Deopeia_AdminPortal_Bff>("deopeia-adminportal-bff").WithReference(identityApi);
 

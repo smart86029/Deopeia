@@ -4,12 +4,12 @@ using Deopeia.Identity.Domain.Users;
 namespace Deopeia.Identity.Application.Users.UploadAvatar;
 
 public class UploadAvatarCommandHandler(
-    IIdentityUnitOfWork unitOfWork,
+    IUnitOfWork unitOfWork,
     IUserRepository userRepository,
     IImageRepository imageRepository
 ) : ICommandHandler<UploadAvatarCommand>
 {
-    private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IImageRepository _imageRepository = imageRepository;
 

@@ -11,7 +11,7 @@ namespace Deopeia.Identity.Application.Connect;
 
 internal abstract class GrantCommandHandler<TCommand>(
     IOptions<JwtOptions> jwtOptions,
-    IIdentityUnitOfWork unitOfWork,
+    IUnitOfWork unitOfWork,
     IPermissionRepository permissionRepository,
     IRefreshTokenRepository refreshTokenRepository
 ) : ICommandHandler<TCommand, GrantResult>
@@ -21,7 +21,7 @@ internal abstract class GrantCommandHandler<TCommand>(
     private static readonly TimeSpan LifetimeIdToken = TimeSpan.FromDays(1);
 
     private readonly JwtOptions _jwtOptions = jwtOptions.Value;
-    private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IPermissionRepository _permissionRepository = permissionRepository;
     private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
 

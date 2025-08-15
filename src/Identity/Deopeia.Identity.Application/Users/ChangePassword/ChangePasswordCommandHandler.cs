@@ -2,12 +2,10 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Application.Users.ChangePassword;
 
-public class ChangePasswordCommandHandler(
-    IIdentityUnitOfWork unitOfWork,
-    IUserRepository userRepository
-) : ICommandHandler<ChangePasswordCommand>
+public class ChangePasswordCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
+    : ICommandHandler<ChangePasswordCommand>
 {
-    private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IUserRepository _userRepository = userRepository;
 
     public async ValueTask<Unit> Handle(

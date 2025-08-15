@@ -7,9 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\Deopeia.Identity.Contracts\**\*.proto" GrpcServices="Server">
-      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </Protobuf>
+    <Protobuf
+      Include="..\Deopeia.Identity.Contracts\**\*.proto"
+      GrpcServices="Server"
+      AdditionalImportDirs="..\..\Common\Deopeia.Common.Contracts\Protos"
+      Link="%(RecursiveDir)%(Filename)%(Extension)"
+    />
   </ItemGroup>
 
   <ItemGroup>

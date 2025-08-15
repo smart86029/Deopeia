@@ -2,12 +2,10 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Application.Users.CreateUser;
 
-public class CreateUserCommandHandler(
-    IIdentityUnitOfWork unitOfWork,
-    IUserRepository userRepository
-) : ICommandHandler<CreateUserCommand>
+public class CreateUserCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
+    : ICommandHandler<CreateUserCommand>
 {
-    private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IUserRepository _userRepository = userRepository;
 
     public async ValueTask<Unit> Handle(

@@ -4,12 +4,12 @@ using Deopeia.Identity.Domain.Grants.AuthorizationCodes;
 namespace Deopeia.Identity.Application.Connect.EndSession;
 
 internal class EndSessionCommandHandler(
-    IIdentityUnitOfWork unitOfWork,
+    IUnitOfWork unitOfWork,
     IClientRepository clientRepository,
     IAuthorizationCodeRepository authorizationCodeRepository
 ) : ICommandHandler<EndSessionCommand, EndSessionResult>
 {
-    private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IClientRepository _clientRepository = clientRepository;
     private readonly IAuthorizationCodeRepository _authorizationCodeRepository =
         authorizationCodeRepository;

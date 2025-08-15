@@ -3,11 +3,11 @@ using Deopeia.Identity.Domain.Permissions;
 namespace Deopeia.Identity.Application.Permissions.CreatePermission;
 
 internal class CreatePermissionCommandHandler(
-    IIdentityUnitOfWork unitOfWork,
+    IUnitOfWork unitOfWork,
     IPermissionRepository permissionRepository
 ) : ICommandHandler<CreatePermissionCommand>
 {
-    private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IPermissionRepository _permissionRepository = permissionRepository;
 
     public async ValueTask<Unit> Handle(

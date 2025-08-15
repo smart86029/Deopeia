@@ -1,3 +1,3 @@
 namespace Deopeia.Identity.Application.Permissions.GetPermissionOptions;
 
-public record GetPermissionOptionsQuery : OptionsQuery<string>;
+public sealed record GetPermissionOptionsQuery : OptionsQuery<string>;

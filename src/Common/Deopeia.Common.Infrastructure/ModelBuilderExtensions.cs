@@ -1,0 +1,11 @@
+namespace Deopeia.Common.Infrastructure;
+
+public static class ModelBuilderExtensions
+{
+    public static ModelBuilder ApplyCommonConfigurations(this ModelBuilder builder)
+    {
+        builder.Ignore<DomainEvent>();
+
+        return builder;
+    }
+}

@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Deopeia.Common.Contracts\Deopeia.Common.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -10,6 +10,7 @@
     <Project Path="src/Common/Deopeia.Common.Api/Deopeia.Common.Api.csproj" />
     <Project Path="src/Common/Deopeia.Common.Application/Deopeia.Common.Application.csproj" />
     <Project Path="src/Common/Deopeia.Common.Bff/Deopeia.Common.Bff.csproj" />
+    <Project Path="src/Common/Deopeia.Common.Contracts/Deopeia.Common.Contracts.csproj" />
     <Project Path="src/Common/Deopeia.Common.Domain/Deopeia.Common.Domain.csproj" />
     <Project Path="src/Common/Deopeia.Common.Infrastructure/Deopeia.Common.Infrastructure.csproj" />
     <Project Path="src/Common/Deopeia.Common.Worker/Deopeia.Common.Worker.csproj" />

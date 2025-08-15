@@ -9,7 +9,7 @@ namespace Deopeia.Identity.Application.Connect.AuthorizationCodeGrant;
 
 internal class AuthorizationCodeGrantCommandHandler(
     IOptions<JwtOptions> jwtOptions,
-    IIdentityUnitOfWork unitOfWork,
+    IUnitOfWork unitOfWork,
     IClientRepository clientRepository,
     IAuthorizationCodeRepository authorizationCodeRepository,
     IPermissionRepository permissionRepository,
@@ -23,7 +23,7 @@ internal class AuthorizationCodeGrantCommandHandler(
     )
 {
     private readonly TimeSpan _lifetime = TimeSpan.FromMinutes(5);
-    private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IClientRepository _clientRepository = clientRepository;
     private readonly IAuthorizationCodeRepository _authorizationCodeRepository =
         authorizationCodeRepository;

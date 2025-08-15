@@ -1,13 +1,18 @@
+using Deopeia.Identity.Application.Users.GetUser;
+
 namespace Deopeia.Identity.Api.Services;
 
-public class UserService(ILogger<UserService> logger) : User.UserBase
+public class UserService(IMediator mediator) : User.UserBase
 {
-    private readonly ILogger<UserService> _logger = logger;
+    private readonly IMediator _mediator = mediator;
 
-    public override Task<GetUserResponse> GetUser(GetUserRequest request, ServerCallContext context)
+    public override async Task<GetUserResponse> GetUser(
+        GetUserRequest request,
+        ServerCallContext context
+    )
     {
-        return Task.FromResult(
-            new GetUserResponse { Id = request.Id, Name = "User " + request.Id }
-        );
+        var query = new GetUserQuery(request.Id);
+        var user = await _mediator.Send(query);
+        return new GetUserResponse { Id = user.Id, UserName = user.UserName };
     }
 }

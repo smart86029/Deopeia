@@ -3,11 +3,11 @@ using Deopeia.Identity.Domain.Grants.RefreshTokens;
 namespace Deopeia.Identity.Application.Revoke.RevokeToken;
 
 internal class RevokeTokenCommandHandler(
-    IIdentityUnitOfWork unitOfWork,
+    IUnitOfWork unitOfWork,
     IRefreshTokenRepository refreshTokenRepository
 ) : ICommandHandler<RevokeTokenCommand, RevokeTokenResult>
 {
-    private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
 
     public async ValueTask<RevokeTokenResult> Handle(

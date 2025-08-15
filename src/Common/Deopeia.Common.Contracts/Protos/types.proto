@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package deopeia.common;
+
+option csharp_namespace = "Deopeia.Common.Contracts";
+
+message Uuid {
+  fixed64 high = 1;
+  fixed64 low = 2;
+}

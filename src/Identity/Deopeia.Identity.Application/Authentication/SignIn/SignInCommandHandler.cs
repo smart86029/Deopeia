@@ -4,12 +4,12 @@ using Deopeia.Identity.Domain.Users;
 namespace Deopeia.Identity.Application.Authentication.SignIn;
 
 internal class SignInCommandHandler(
-    IIdentityUnitOfWork unitOfWork,
+    IUnitOfWork unitOfWork,
     IUserRepository userRepository,
     IAuthorizationCodeRepository authorizationCodeRepository
 ) : ICommandHandler<SignInCommand, SignInResult>
 {
-    private readonly IIdentityUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IAuthorizationCodeRepository _authorizationCodeRepository =
         authorizationCodeRepository;
