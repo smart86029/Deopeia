@@ -9,7 +9,7 @@ var dbIdentity = postgres.AddDatabase("identity");
 
 var identityApi = builder
     .AddProject<Deopeia_Identity_Api>("deopeia-identity-api")
-    .WithMinIO()
+    .WithS3()
     .WithReferenceAndWaitFor(dbIdentity);
 
 builder.AddProject<Deopeia_AdminPortal_Bff>("deopeia-adminportal-bff").WithReference(identityApi);

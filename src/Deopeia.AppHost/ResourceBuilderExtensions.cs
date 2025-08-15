@@ -2,39 +2,44 @@ namespace Deopeia.AppHost;
 
 public static class ResourceBuilderExtensions
 {
-    private static IResourceBuilder<ParameterResource>? _jwtKey;
-    private static IResourceBuilder<ParameterResource>? _jwtIssuer;
-    private static IResourceBuilder<MinIOResource>? _minIO;
-    private static IResourceBuilder<ParameterResource>? _minIOAccessKey;
-    private static IResourceBuilder<ParameterResource>? _minIOSecretKey;
-    private static IResourceBuilder<KafkaServerResource>? _kafka;
+    private static IResourceBuilder<ParameterResource>? s_jwtKey;
+    private static IResourceBuilder<ParameterResource>? s_jwtIssuer;
+    private static IResourceBuilder<MinIOResource>? s_minIO;
+    private static IResourceBuilder<ParameterResource>? s_minIOAccessKey;
+    private static IResourceBuilder<ParameterResource>? s_minIOSecretKey;
+    private static IResourceBuilder<KafkaServerResource>? s_kafka;
 
     public static IResourceBuilder<TDestination> WithJwt<TDestination>(
         this IResourceBuilder<TDestination> builder
     )
         where TDestination : ProjectResource
     {
-        _jwtKey ??= builder.ApplicationBuilder.AddParameter("JwtKey");
-        _jwtIssuer ??= builder.ApplicationBuilder.AddParameter("JwtIssuer");
+        s_jwtKey ??= builder.ApplicationBuilder.AddParameter("JwtKey");
+        s_jwtIssuer ??= builder.ApplicationBuilder.AddParameter("JwtIssuer");
 
         return builder
-            .WithEnvironment("Jwt__Key", _jwtKey)
-            .WithEnvironment("Jwt__Issuer", _jwtIssuer);
+            .WithEnvironment("Jwt__Key", s_jwtKey)
+            .WithEnvironment("Jwt__Issuer", s_jwtIssuer);
     }
 
-    public static IResourceBuilder<TDestination> WithMinIO<TDestination>(
+    public static IResourceBuilder<TDestination> WithS3<TDestination>(
         this IResourceBuilder<TDestination> builder
     )
         where TDestination : ProjectResource
     {
-        _minIO ??= builder.ApplicationBuilder.AddMinIO("minio").WithDataVolume();
-        _minIOAccessKey ??= builder.ApplicationBuilder.AddParameter("MinIOAccessKey");
-        _minIOSecretKey ??= builder.ApplicationBuilder.AddParameter("MinIOSecretKey");
+        s_minIO ??= builder.ApplicationBuilder.AddMinIO("minio").WithDataVolume();
+        s_minIOAccessKey ??= builder.ApplicationBuilder.AddParameter("minio-access-key");
+        s_minIOSecretKey ??= builder.ApplicationBuilder.AddParameter("minio-secret-key");
+
+        var parts = builder.Resource.Name.Split('-');
+        var bucketName = parts.Length > 2 ? string.Join("-", parts.Take(2)) : builder.Resource.Name;
 
         return builder
-            .WithReferenceAndWaitFor(_minIO)
-            .WithEnvironment("MinIO__AccessKey", _minIOAccessKey)
-            .WithEnvironment("MinIO__SecretKey", _minIOSecretKey);
+            .WithReferenceAndWaitFor(s_minIO)
+            .WithEnvironment("S3__BucketName", bucketName)
+            .WithEnvironment("S3__ServiceUrl", s_minIO.GetEndpoint("api"))
+            .WithEnvironment("S3__AccessKeyId", s_minIOAccessKey)
+            .WithEnvironment("S3__SecretAccessKey", s_minIOSecretKey);
     }
 
     public static IResourceBuilder<TDestination> WithKafka<TDestination>(
@@ -42,12 +47,12 @@ public static class ResourceBuilderExtensions
     )
         where TDestination : ProjectResource
     {
-        _kafka ??= builder
+        s_kafka ??= builder
             .ApplicationBuilder.AddKafka("kafka")
             .WithKafkaUI(x => x.WithHostPort(9100))
             .WithDataVolume();
 
-        return builder.WithReferenceAndWaitFor(_kafka);
+        return builder.WithReferenceAndWaitFor(s_kafka);
     }
 
     public static IResourceBuilder<TDestination> WithProxyEndpoint<TDestination>(

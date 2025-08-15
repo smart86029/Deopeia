@@ -2,11 +2,9 @@ using Deopeia.Common.Application;
 using Deopeia.Common.Domain.Files;
 using Deopeia.Common.Infrastructure.Files;
 using Deopeia.Common.Infrastructure.TypeHandlers;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
-using Minio;
 using Npgsql;
 
 namespace Deopeia.Common.Infrastructure;
@@ -27,7 +25,7 @@ public static class HostApplicationBuilderExtensions
         var connectionString = configuration.GetConnectionString(database);
         services.AddScoped(serviceProvider => new NpgsqlConnection(connectionString));
 
-        services.AddMinIO(configuration);
+        services.AddObjectStorage(configuration);
         services.AddRepositories<TContext>();
 
         ConfigureDapper();
@@ -59,14 +57,13 @@ public static class HostApplicationBuilderExtensions
         );
     }
 
-    private static void AddMinIO(this IServiceCollection services, IConfiguration configuration)
+    private static void AddObjectStorage(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
     {
-        services.AddMinio(client =>
-            client
-                .WithEndpoint(configuration.GetConnectionString("MinIO"))
-                .WithCredentials(configuration["MinIO:AccessKey"], configuration["MinIO:SecretKey"])
-                .WithSSL(false)
-        );
+        services.Configure<S3Options>(options => configuration.GetSection("S3").Bind(options));
+        services.AddSingleton<IObjectStorage, S3ObjectStorage>();
     }
 
     private static void AddRepositories<TContext>(this IServiceCollection services)
