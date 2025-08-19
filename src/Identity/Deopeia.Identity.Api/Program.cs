@@ -1,3 +1,4 @@
+using Deopeia.Common.Infrastructure;
 using Deopeia.Identity.Api.Services;
 using Deopeia.Identity.Application;
 using Deopeia.Identity.Infrastructure;
@@ -8,6 +9,11 @@ builder.AddServiceDefaults().AddApplication().AddInfrastructure();
 builder.Services.AddGrpc();
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.Migrate<IdentityContext>();
+}
 
 app.MapDefaultEndpoints();
 app.MapGrpcService<UserService>();

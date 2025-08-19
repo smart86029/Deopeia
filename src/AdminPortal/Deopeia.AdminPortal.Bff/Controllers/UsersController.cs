@@ -6,7 +6,7 @@ public class UsersController(User.UserClient client) : ApiController
     private readonly User.UserClient _client = client;
 
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<ActionResult<ListUserResponse>> Get()
     {
         var request = new ListUserRequest();
         var response = await _client.ListUserAsync(request);

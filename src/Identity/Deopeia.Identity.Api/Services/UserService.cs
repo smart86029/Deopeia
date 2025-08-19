@@ -30,6 +30,7 @@ public class UserService(IMediator mediator) : User.UserBase
                     Id = u.Id,
                     UserName = u.UserName,
                     IsEnabled = u.IsEnabled,
+                    RoleCodes = { u.RoleCodes },
                 }),
             },
         };

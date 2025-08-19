@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package deopeia.identity;
 
+import "google/protobuf/wrappers.proto";
 import "types.proto";
 
 option csharp_namespace = "Deopeia.Identity.Contracts";
@@ -19,9 +20,9 @@ service User {
 message ListUserRequest {
   int32 page_index = 1;
   int32 page_size = 2;
-  string user_name = 3;
-  bool is_enabled = 4;
-  string role_code = 5;
+  google.protobuf.StringValue user_name = 3;
+  google.protobuf.BoolValue is_enabled = 4;
+  google.protobuf.StringValue role_code = 5;
 }
 
 // The response message containing the list of users.
@@ -35,6 +36,7 @@ message ListUserResponse {
     deopeia.common.Uuid id = 1;
     string user_name = 2;
     bool is_enabled = 3;
+    repeated string role_codes = 4;
   }
 }
 
