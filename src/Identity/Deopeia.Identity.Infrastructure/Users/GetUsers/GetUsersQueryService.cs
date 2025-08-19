@@ -6,7 +6,7 @@ public class GetUsersQueryService(NpgsqlConnection connection) : IGetUsersQueryS
 {
     private readonly NpgsqlConnection _connection = connection;
 
-    public async Task<PageResult<UserDto>> GetAsync(GetUsersQuery query)
+    public async Task<PagedResult<UserDto>> GetAsync(GetUsersQuery query)
     {
         var builder = new SqlBuilder();
         if (!query.UserName.IsNullOrWhiteSpace())
@@ -30,25 +30,22 @@ public class GetUsersQueryService(NpgsqlConnection connection) : IGetUsersQueryS
             );
         }
 
-        var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM \"user\" /**where**/");
-        var count = await _connection.ExecuteScalarAsync<int>(sqlCount.RawSql, sqlCount.Parameters);
-        var result = new PageResult<UserDto>(query, count);
-
-        var sql = builder.AddTemplate(
-            """
+        var counterSql = "SELECT COUNT(*) FROM \"user\" /**where**/";
+        var selectorSql = """
 SELECT
     id,
     user_name,
     is_enabled
 FROM "user"
 /**where**/
-GROUP BY id
-LIMIT @Limit
-OFFSET @Offset
-""",
-            new { result.Limit, result.Offset }
+/**pagination**/
+""";
+        var result = await _connection.QueryPagedResultAsync(
+            builder,
+            counterSql,
+            selectorSql,
+            query
         );
-        var users = await _connection.QueryAsync<UserDto>(sql.RawSql, sql.Parameters);
 
         var sqlRole = """
 SELECT
@@ -57,18 +54,15 @@ SELECT
 FROM user_role
 WHERE user_id = ANY(@UserIds)
 """;
-
         var userRoles = await _connection.QueryAsync<(Guid UserId, string RoleCode)>(
             sqlRole,
-            new { UserIds = users.Select(x => x.Id).ToList() }
+            new { UserIds = result.Items.Select(x => x.Id).ToList() }
         );
         var lookup = userRoles.ToLookup(x => x.UserId, x => x.RoleCode);
-        foreach (var user in users)
+        foreach (var user in result.Items)
         {
             user.RoleCodes = lookup[user.Id].ToList();
         }
-
-        result.Items = users.ToList();
 
         return result;
     }

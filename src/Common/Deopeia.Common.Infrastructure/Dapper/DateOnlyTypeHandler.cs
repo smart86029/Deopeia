@@ -1,4 +1,4 @@
-namespace Deopeia.Common.Infrastructure.TypeHandlers;
+namespace Deopeia.Common.Infrastructure.Dapper;
 
 internal class DateOnlyTypeHandler : SqlMapper.TypeHandler<DateOnly>
 {

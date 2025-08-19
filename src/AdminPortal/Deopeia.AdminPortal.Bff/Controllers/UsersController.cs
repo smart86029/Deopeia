@@ -8,7 +8,8 @@ public class UsersController(User.UserClient client) : ApiController
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var response = await _client.GetUserAsync(new GetUserRequest { Id = Guid.NewGuid() });
-        return Ok((Guid)response.Id);
+        var request = new ListUserRequest();
+        var response = await _client.ListUserAsync(request);
+        return Ok(response);
     }
 }

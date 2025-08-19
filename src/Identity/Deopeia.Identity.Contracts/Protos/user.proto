@@ -8,8 +8,34 @@ option csharp_namespace = "Deopeia.Identity.Contracts";
 
 // The user service definition.
 service User {
+  // ListUsers retrieves a paginated list of users.
+  rpc ListUser (ListUserRequest) returns (ListUserResponse);
+
   // GetUser retrieves a user by their ID.
   rpc GetUser (GetUserRequest) returns (GetUserResponse);
+}
+
+// The request message for listing users.
+message ListUserRequest {
+  int32 page_index = 1;
+  int32 page_size = 2;
+  string user_name = 3;
+  bool is_enabled = 4;
+  string role_code = 5;
+}
+
+// The response message containing the list of users.
+message ListUserResponse {
+  int32 page_index = 1;
+  int32 page_size = 2;
+  int32 total_count = 3;
+  repeated User users = 4;
+
+  message User {
+    deopeia.common.Uuid id = 1;
+    string user_name = 2;
+    bool is_enabled = 3;
+  }
 }
 
 // The request message for user-related operations, containing relevant user information.

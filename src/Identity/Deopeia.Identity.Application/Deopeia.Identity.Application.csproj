@@ -1,16 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Common\Deopeia.Common.Application\Deopeia.Common.Application.csproj" />
-    <ProjectReference Include="..\Deopeia.Identity.Domain\Deopeia.Identity.Domain.csproj" />
-  </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Mediator.SourceGenerator" Version="3.0.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -18,5 +11,8 @@
     </PackageReference>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.13.0" />
   </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Deopeia.Common.Application\Deopeia.Common.Application.csproj" />
+    <ProjectReference Include="..\Deopeia.Identity.Domain\Deopeia.Identity.Domain.csproj" />
+  </ItemGroup>
 </Project>

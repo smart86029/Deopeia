@@ -1,11 +1,11 @@
 namespace Deopeia.Identity.Application.Users.GetUsers;
 
 public sealed class GetUsersQueryHandler(IGetUsersQueryService queryService)
-    : IQueryHandler<GetUsersQuery, PageResult<UserDto>>
+    : IQueryHandler<GetUsersQuery, PagedResult<UserDto>>
 {
     private readonly IGetUsersQueryService _queryService = queryService;
 
-    public async ValueTask<PageResult<UserDto>> Handle(
+    public async ValueTask<PagedResult<UserDto>> Handle(
         GetUsersQuery query,
         CancellationToken cancellationToken
     )

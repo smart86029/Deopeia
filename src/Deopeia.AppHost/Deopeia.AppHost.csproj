@@ -1,7 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <Sdk Name="Aspire.AppHost.Sdk" Version="9.4.0" />
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
@@ -9,16 +7,13 @@
     <Nullable>enable</Nullable>
     <UserSecretsId>45c6d1a4-53d5-4773-9cb5-28359cfc2d47</UserSecretsId>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" Version="9.4.1" />
     <PackageReference Include="Aspire.Hosting.Kafka" Version="9.4.1" />
     <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.4.1" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\AdminPortal\Deopeia.AdminPortal.Bff\Deopeia.AdminPortal.Bff.csproj" />
     <ProjectReference Include="..\Identity\Deopeia.Identity.Api\Deopeia.Identity.Api.csproj" />
   </ItemGroup>
-
 </Project>

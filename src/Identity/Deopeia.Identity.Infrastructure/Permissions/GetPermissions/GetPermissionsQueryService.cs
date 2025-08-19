@@ -6,25 +6,21 @@ public class GetPermissionsQueryService(NpgsqlConnection connection) : IGetPermi
 {
     private readonly NpgsqlConnection _connection = connection;
 
-    public async Task<PageResult<PermissionDto>> GetAsync(GetPermissionsQuery request)
+    public async Task<PagedResult<PermissionDto>> GetAsync(GetPermissionsQuery query)
     {
         var builder = new SqlBuilder();
-        if (!request.Code.IsNullOrWhiteSpace())
+        if (!query.Code.IsNullOrWhiteSpace())
         {
-            builder.Where("code LIKE @Code", new { Code = $"%{request.Code.Trim()}%" });
+            builder.Where("code LIKE @Code", new { Code = $"%{query.Code.Trim()}%" });
         }
 
-        if (request.IsEnabled.HasValue)
+        if (query.IsEnabled.HasValue)
         {
-            builder.Where("a.is_enabled = @IsEnabled", new { request.IsEnabled });
+            builder.Where("a.is_enabled = @IsEnabled", new { query.IsEnabled });
         }
 
-        var sqlCount = builder.AddTemplate("SELECT COUNT(*) FROM permission AS a /**where**/");
-        var count = await _connection.ExecuteScalarAsync<int>(sqlCount.RawSql, sqlCount.Parameters);
-        var result = new PageResult<PermissionDto>(request, count);
-
-        var sql = builder.AddTemplate(
-            """
+        var counterSql = "SELECT COUNT(*) FROM permission AS a /**where**/";
+        var selectorSql = """
 SELECT
     a.code,
     COALESCE(b.name, c.name) AS name,
@@ -36,18 +32,16 @@ INNER JOIN permission_locale AS c ON a.code = c.permission_code AND c.culture = 
 /**where**/
 LIMIT @Limit
 OFFSET @Offset
-""",
-            new
-            {
-                CultureInfo.CurrentCulture,
-                CultureInfo.DefaultThreadCurrentCulture,
-                result.Limit,
-                result.Offset,
-            }
+""";
+        builder.AddParameters(
+            new { CultureInfo.CurrentCulture, CultureInfo.DefaultThreadCurrentCulture }
         );
-        var permissions = await _connection.QueryAsync<PermissionDto>(sql.RawSql, sql.Parameters);
-        result.Items = permissions.ToList();
-
+        var result = await _connection.QueryPagedResultAsync(
+            builder,
+            counterSql,
+            selectorSql,
+            query
+        );
         return result;
     }
 }

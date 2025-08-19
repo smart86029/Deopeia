@@ -5,7 +5,7 @@ global using System.Text.Json.Serialization;
 global using Deopeia.Common;
 global using Deopeia.Common.Application;
 global using Deopeia.Common.Application.Option;
-global using Deopeia.Common.Application.Page;
+global using Deopeia.Common.Application.Pagination;
 global using Deopeia.Common.Extensions;
 global using Deopeia.Identity.Application;
 global using Mediator;

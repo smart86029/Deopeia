@@ -1,7 +1,7 @@
 using Deopeia.Common.Application;
 using Deopeia.Common.Domain.Files;
+using Deopeia.Common.Infrastructure.Dapper;
 using Deopeia.Common.Infrastructure.Files;
-using Deopeia.Common.Infrastructure.TypeHandlers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
