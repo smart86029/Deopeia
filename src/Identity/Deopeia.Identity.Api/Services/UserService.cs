@@ -23,7 +23,7 @@ public class UserService(IMediator mediator) : User.UserBase
             PageIndex = users.PageIndex,
             PageSize = users.PageSize,
             TotalCount = users.TotalCount,
-            Users =
+            Items =
             {
                 users.Items.Select(u => new ListUserResponse.Types.User
                 {

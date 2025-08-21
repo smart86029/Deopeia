@@ -1,11 +1,22 @@
-<script setup lang="ts"></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <el-config-provider :locale="elLocale" :empty-values="emptyValues">
+    <RouterView :key="locale.key" />
+  </el-config-provider>
 </template>
 
-<style scoped></style>
+<script setup lang="ts">
+import { usePreferencesStore } from '@/stores/preferences';
+import { en, zhTw } from 'element-plus/es/locales';
+import { emptyGuid } from './models/guid';
+
+type ElLocale = typeof en | typeof zhTw;
+const map = new Map<string, ElLocale>([
+  ['en', en],
+  ['zh-Hant', zhTw],
+]);
+
+const { locale } = storeToRefs(usePreferencesStore());
+const elLocale = computed(() => map.get(locale.value.key));
+
+const emptyValues = ['', null, undefined, emptyGuid];
+</script>
