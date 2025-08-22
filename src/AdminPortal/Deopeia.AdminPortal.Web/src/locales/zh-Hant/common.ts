@@ -1,6 +1,6 @@
 export default {
   common: {
-    title: '後台',
+    title: '管理入口',
     code: '代碼',
     name: '名稱',
     abbreviation: '縮寫',

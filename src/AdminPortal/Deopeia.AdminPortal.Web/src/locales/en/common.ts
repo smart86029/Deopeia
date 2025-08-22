@@ -1,6 +1,6 @@
 export default {
   common: {
-    title: 'Back Office',
+    title: 'Admin Portal',
     code: 'Code',
     name: 'Name',
     abbreviation: 'Abbreviation',
