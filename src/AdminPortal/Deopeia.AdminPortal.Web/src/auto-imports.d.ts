@@ -6,7 +6,14 @@
 // biome-ignore lint: disable
 export {}
 declare global {
+  const ApprovalStatus: typeof import('./models/approval-status')['ApprovalStatus']
+  const DayOfWeek: typeof import('./models/day-of-week')['DayOfWeek']
   const EffectScope: typeof import('vue')['EffectScope']
+  const OrderSide: typeof import('./models/trading/order-side')['OrderSide']
+  const OrderType: typeof import('./models/trading/order-type')['OrderType']
+  const PositionType: typeof import('./models/trading/position-type')['PositionType']
+  const TimeFrame: typeof import('./models/quote/time-frame')['TimeFrame']
+  const UnderlyingType: typeof import('./models/underlying-type')['UnderlyingType']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
@@ -31,11 +38,14 @@ declare global {
   const customRef: typeof import('vue')['customRef']
   const debouncedRef: typeof import('@vueuse/core')['debouncedRef']
   const debouncedWatch: typeof import('@vueuse/core')['debouncedWatch']
+  const defaultQuery: typeof import('./models/page')['defaultQuery']
+  const defaultResult: typeof import('./models/page')['defaultResult']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
   const defineStore: typeof import('pinia')['defineStore']
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
+  const emptyGuid: typeof import('./models/guid')['emptyGuid']
   const extendRef: typeof import('@vueuse/core')['extendRef']
   const getActivePinia: typeof import('pinia')['getActivePinia']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
@@ -46,6 +56,7 @@ declare global {
   const inject: typeof import('vue')['inject']
   const injectLocal: typeof import('@vueuse/core')['injectLocal']
   const isDefined: typeof import('@vueuse/core')['isDefined']
+  const isGuid: typeof import('./models/guid')['isGuid']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
@@ -80,6 +91,7 @@ declare global {
   const onUnmounted: typeof import('vue')['onUnmounted']
   const onUpdated: typeof import('vue')['onUpdated']
   const onWatcherCleanup: typeof import('vue')['onWatcherCleanup']
+  const parseGuid: typeof import('./models/guid')['parseGuid']
   const pausableWatch: typeof import('@vueuse/core')['pausableWatch']
   const provide: typeof import('vue')['provide']
   const provideLocal: typeof import('@vueuse/core')['provideLocal']
@@ -90,6 +102,7 @@ declare global {
   const reactiveOmit: typeof import('@vueuse/core')['reactiveOmit']
   const reactivePick: typeof import('@vueuse/core')['reactivePick']
   const readonly: typeof import('vue')['readonly']
+  const reassign: typeof import('./models/page')['reassign']
   const ref: typeof import('vue')['ref']
   const refAutoReset: typeof import('@vueuse/core')['refAutoReset']
   const refDebounced: typeof import('@vueuse/core')['refDebounced']
@@ -165,6 +178,7 @@ declare global {
   const useDebounce: typeof import('@vueuse/core')['useDebounce']
   const useDebounceFn: typeof import('@vueuse/core')['useDebounceFn']
   const useDebouncedRefHistory: typeof import('@vueuse/core')['useDebouncedRefHistory']
+  const useDeferredLoading: typeof import('./composables/useDeferredLoading')['useDeferredLoading']
   const useDeviceMotion: typeof import('@vueuse/core')['useDeviceMotion']
   const useDeviceOrientation: typeof import('@vueuse/core')['useDeviceOrientation']
   const useDevicePixelRatio: typeof import('@vueuse/core')['useDevicePixelRatio']
@@ -215,6 +229,7 @@ declare global {
   const useMouse: typeof import('@vueuse/core')['useMouse']
   const useMouseInElement: typeof import('@vueuse/core')['useMouseInElement']
   const useMousePressed: typeof import('@vueuse/core')['useMousePressed']
+  const useMutation: typeof import('@tanstack/vue-query')['useMutation']
   const useMutationObserver: typeof import('@vueuse/core')['useMutationObserver']
   const useNavigatorLanguage: typeof import('@vueuse/core')['useNavigatorLanguage']
   const useNetwork: typeof import('@vueuse/core')['useNetwork']
@@ -237,6 +252,8 @@ declare global {
   const usePreferredReducedMotion: typeof import('@vueuse/core')['usePreferredReducedMotion']
   const usePreferredReducedTransparency: typeof import('@vueuse/core')['usePreferredReducedTransparency']
   const usePrevious: typeof import('@vueuse/core')['usePrevious']
+  const useQuery: typeof import('@tanstack/vue-query')['useQuery']
+  const useQueryClient: typeof import('@tanstack/vue-query')['useQueryClient']
   const useRafFn: typeof import('@vueuse/core')['useRafFn']
   const useRefHistory: typeof import('@vueuse/core')['useRefHistory']
   const useResizeObserver: typeof import('@vueuse/core')['useResizeObserver']
@@ -315,4 +332,64 @@ declare global {
   // @ts-ignore
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
+  export type { AppLocale } from './models/app-locale'
+  import('./models/app-locale')
+  // @ts-ignore
+  export type { ApprovalStatus } from './models/approval-status'
+  import('./models/approval-status')
+  // @ts-ignore
+  export type { DayOfWeek } from './models/day-of-week'
+  import('./models/day-of-week')
+  // @ts-ignore
+  export type { Guid } from './models/guid'
+  import('./models/guid')
+  // @ts-ignore
+  export type { Image } from './models/image'
+  import('./models/image')
+  // @ts-ignore
+  export type { Locale, Localizable, LocalizedContent } from './models/localization'
+  import('./models/localization')
+  // @ts-ignore
+  export type { Menu } from './models/menu'
+  import('./models/menu')
+  // @ts-ignore
+  export type { OptionResult } from './models/option-result'
+  import('./models/option-result')
+  // @ts-ignore
+  export type { PagedRequest, PagedResponse } from './models/page'
+  import('./models/page')
+  // @ts-ignore
+  export type { Candle, TimeFrameMap, CandleMap } from './models/quote/candle'
+  import('./models/quote/candle')
+  // @ts-ignore
+  export type { Order } from './models/quote/order'
+  import('./models/quote/order')
+  // @ts-ignore
+  export type { Tick } from './models/quote/tick'
+  import('./models/quote/tick')
+  // @ts-ignore
+  export type { TimeFrame } from './models/quote/time-frame'
+  import('./models/quote/time-frame')
+  // @ts-ignore
+  export type { Instrument, ContractSize, VolumeRestriction, InstrumentMap } from './models/trading/instrument'
+  import('./models/trading/instrument')
+  // @ts-ignore
+  export type { Money } from './models/trading/money'
+  import('./models/trading/money')
+  // @ts-ignore
+  export type { OrderSide } from './models/trading/order-side'
+  import('./models/trading/order-side')
+  // @ts-ignore
+  export type { OrderType } from './models/trading/order-type'
+  import('./models/trading/order-type')
+  // @ts-ignore
+  export type { PositionType } from './models/trading/position-type'
+  import('./models/trading/position-type')
+  // @ts-ignore
+  export type { Session } from './models/trading/session'
+  import('./models/trading/session')
+  // @ts-ignore
+  export type { UnderlyingType } from './models/underlying-type'
+  import('./models/underlying-type')
 }

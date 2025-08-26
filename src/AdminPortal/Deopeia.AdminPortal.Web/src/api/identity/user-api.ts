@@ -1,8 +1,8 @@
-import type { Guid } from '@/models/guid';
-import type { PageQuery, PageResult } from '@/models/page';
 import httpClient from '../http-client';
 
-export interface GetUsersQuery extends PageQuery {
+const basePath = '/Users';
+
+export interface GetUsersQuery extends PagedRequest {
   userName?: string;
   isEnabled?: boolean;
   roleCode?: string;
@@ -24,9 +24,11 @@ export interface User {
 }
 
 export const userApi = {
-  getList: (query: GetUsersQuery) =>
-    httpClient.get<PageResult<UserRow>>(`/Users`, { params: query }),
-  get: (id: Guid) => httpClient.get<User>(`/Users/${id}`),
-  create: (user: User) => httpClient.post('/Users', user),
-  update: (user: User) => httpClient.put(`/Users/${user.id}`, user),
+  getList: async (query: GetUsersQuery) =>
+    httpClient
+      .get<PagedResponse<UserRow>>(basePath, { params: query })
+      .then((response) => response.data),
+  get: (id: Guid) => httpClient.get<User>(`${basePath}/${id}`).then((response) => response.data),
+  create: (user: User) => httpClient.post(basePath, user),
+  update: (user: User) => httpClient.put(`${basePath}/${user.id}`, user),
 };

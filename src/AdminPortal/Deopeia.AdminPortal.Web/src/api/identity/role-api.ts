@@ -1,8 +1,8 @@
 import type { OptionResult } from '@/models/option-result';
-import type { PageQuery, PageResult } from '@/models/page';
+import type { PagedRequest, PagedResponse } from '@/models/page';
 import httpClient from '../http-client';
 
-export interface GetRolesQuery extends PageQuery {
+export interface GetRolesQuery extends PagedRequest {
   isEnabled?: boolean;
 }
 
@@ -27,9 +27,10 @@ export interface RoleLocale {
 }
 
 export const roleApi = {
-  getOptions: () => httpClient.get<OptionResult<string>[]>('/Roles/Options'),
+  getOptions: () =>
+    httpClient.get<OptionResult<string>[]>('/Roles/Options').then((response) => response.data),
   getList: (query: GetRolesQuery) =>
-    httpClient.get<PageResult<RoleRow>>(`/Roles`, { params: query }),
+    httpClient.get<PagedResponse<RoleRow>>(`/Roles`, { params: query }),
   get: (code: string) => httpClient.get<Role>(`/Roles/${code}`),
   create: (role: Role) => httpClient.post('/Roles', role),
   update: (role: Role) => httpClient.put(`/Roles/${role.code}`, role),

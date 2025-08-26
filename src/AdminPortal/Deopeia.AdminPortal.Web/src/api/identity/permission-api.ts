@@ -1,9 +1,9 @@
 import type { Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
-import type { PageQuery, PageResult } from '@/models/page';
+import type { PagedRequest, PagedResponse } from '@/models/page';
 import httpClient from '../http-client';
 
-export interface GetPermissionsQuery extends PageQuery {
+export interface GetPermissionsQuery extends PagedRequest {
   code?: string;
   isEnabled?: boolean;
 }
@@ -30,7 +30,7 @@ export interface PermissionLocale {
 export const permissionApi = {
   getOptions: () => httpClient.get<OptionResult<Guid>[]>('/Permissions/Options'),
   getList: (query: GetPermissionsQuery) =>
-    httpClient.get<PageResult<PermissionRow>>(`/Permissions`, {
+    httpClient.get<PagedResponse<PermissionRow>>(`/Permissions`, {
       params: query,
     }),
   get: (code: string) => httpClient.get<Permission>(`/Permissions/${code}`),

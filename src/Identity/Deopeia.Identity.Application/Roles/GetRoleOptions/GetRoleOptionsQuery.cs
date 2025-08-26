@@ -1,3 +1,3 @@
 namespace Deopeia.Identity.Application.Roles.GetRoleOptions;
 
-public record GetRoleOptionsQuery : OptionsQuery<string>;
+public sealed record GetRoleOptionsQuery : OptionsQuery<string>;

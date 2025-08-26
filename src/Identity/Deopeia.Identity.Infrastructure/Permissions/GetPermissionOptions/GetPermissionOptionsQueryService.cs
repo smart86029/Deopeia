@@ -7,7 +7,7 @@ internal class GetPermissionOptionsQueryService(NpgsqlConnection connection)
 {
     private readonly NpgsqlConnection _connection = connection;
 
-    public async Task<ICollection<OptionResult<string>>> ListAsync()
+    public async Task<IReadOnlyList<OptionResult<string>>> ListAsync()
     {
         var sql = """
 SELECT

@@ -1,6 +1,6 @@
 namespace Deopeia.Common.Bff.Pagination;
 
-public class PagedResult<TItem>
+public class PagedResponse<TItem>
 {
     public int PageIndex { get; init; }
 

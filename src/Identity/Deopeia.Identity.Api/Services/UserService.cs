@@ -1,9 +1,10 @@
 using Deopeia.Identity.Application.Users.GetUser;
 using Deopeia.Identity.Application.Users.GetUsers;
+using Deopeia.Identity.Contracts;
 
 namespace Deopeia.Identity.Api.Services;
 
-public class UserService(IMediator mediator) : User.UserBase
+public class UserService(IMediator mediator) : Contracts.UserService.UserServiceBase
 {
     private readonly IMediator _mediator = mediator;
 
@@ -22,6 +23,7 @@ public class UserService(IMediator mediator) : User.UserBase
         {
             PageIndex = users.PageIndex,
             PageSize = users.PageSize,
+            PageCount = users.PageCount,
             TotalCount = users.TotalCount,
             Items =
             {

@@ -1,33 +1,30 @@
-export interface PageQuery {
+export interface PagedRequest {
   pageIndex: number;
   pageSize: number;
 }
 
-export interface PageResult<TItem> {
+export interface PagedResponse<TItem> {
   pageIndex: number;
   pageSize: number;
-  itemCount: number;
+  pageCount: number;
+  totalCount: number;
   items: TItem[];
 }
 
-export const defaultQuery: PageQuery = {
+export const defaultQuery: PagedRequest = {
   pageIndex: 1,
   pageSize: 10,
 };
 
-export const defaultResult = <TItem>(): PageResult<TItem> => ({
+export const defaultResult = <TItem>(): PagedResponse<TItem> => ({
   pageIndex: 1,
   pageSize: 10,
-  itemCount: 0,
+  pageCount: 1,
+  totalCount: 0,
   items: [],
 });
 
-export const reassign = <TItem>(
-  query: PageQuery,
-  result: PageResult<TItem>,
-  data: PageResult<TItem>,
-): void => {
+export const reassign = <TItem>(query: PagedRequest, data: PagedResponse<TItem>): void => {
   query.pageIndex = data.pageIndex;
   query.pageSize = data.pageSize;
-  Object.assign(result, data);
 };

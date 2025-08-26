@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package deopeia.identity;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "types.proto";
+
+option csharp_namespace = "Deopeia.Identity.Contracts";
+
+// The role service definition.
+service RoleService {
+  // ListRoles retrieves a paginated list of roles.
+  rpc ListRole (ListRoleRequest) returns (ListRoleResponse);
+
+  // ListRoleOptions retrieves a list of role options for selection purposes.
+  rpc ListRoleOption (google.protobuf.Empty) returns (ListRoleOptionResponse);
+
+  // GetRole retrieves a role by their ID.
+  rpc GetRole (GetRoleRequest) returns (GetRoleResponse);
+}
+
+// The request message for listing roles.
+message ListRoleRequest {
+  int32 page_index = 1;
+  int32 page_size = 2;
+  google.protobuf.StringValue role_name = 3;
+  google.protobuf.BoolValue is_enabled = 4;
+  google.protobuf.StringValue role_code = 5;
+}
+
+// The response message containing the list of roles.
+message ListRoleResponse {
+  int32 page_index = 1;
+  int32 page_size = 2;
+  int32 page_count = 3;
+  int32 total_count = 4;
+  repeated Role items = 5;
+
+  message Role {
+    deopeia.common.Uuid id = 1;
+    string role_name = 2;
+    bool is_enabled = 3;
+    repeated string role_codes = 4;
+  }
+}
+
+// The response message containing the list of role options.
+message ListRoleOptionResponse {
+  repeated RoleOption items = 1;
+
+  message RoleOption {
+    string name = 1;
+    string value = 2;
+    bool is_enabled = 3;
+  }
+}
+
+// The request message for role-related operations, containing relevant role information.
+message GetRoleRequest {
+  deopeia.common.Uuid id = 1;
+}
+
+// The response message containing the role information.
+message GetRoleResponse {
+  deopeia.common.Uuid id = 1;
+  string role_name = 2;
+}

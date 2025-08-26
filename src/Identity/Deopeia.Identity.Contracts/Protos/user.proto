@@ -8,7 +8,7 @@ import "types.proto";
 option csharp_namespace = "Deopeia.Identity.Contracts";
 
 // The user service definition.
-service User {
+service UserService {
   // ListUsers retrieves a paginated list of users.
   rpc ListUser (ListUserRequest) returns (ListUserResponse);
 
@@ -29,8 +29,9 @@ message ListUserRequest {
 message ListUserResponse {
   int32 page_index = 1;
   int32 page_size = 2;
-  int32 total_count = 3;
-  repeated User items = 4;
+  int32 page_count = 3;
+  int32 total_count = 4;
+  repeated User items = 5;
 
   message User {
     deopeia.common.Uuid id = 1;

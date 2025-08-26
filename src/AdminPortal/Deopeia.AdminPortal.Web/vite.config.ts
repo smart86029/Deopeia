@@ -12,7 +12,17 @@ export default defineConfig({
     vue(),
     vueDevTools(),
     AutoImport({
-      imports: ['vue', 'vue-i18n', 'vue-router', 'pinia', '@vueuse/core'],
+      imports: [
+        'vue',
+        'vue-i18n',
+        'vue-router',
+        'pinia',
+        '@vueuse/core',
+        {
+          '@tanstack/vue-query': ['useQuery', 'useMutation', 'useQueryClient'],
+        },
+      ],
+      dirs: ['./src/composables', './src/models/**'],
       dts: './src/auto-imports.d.ts',
     }),
     Components({

@@ -5,10 +5,7 @@
         <el-input v-model="query.code" />
       </el-form-item>
       <el-form-item :label="$t('common.status')">
-        <SelectBoolean
-          v-model="query.isEnabled"
-          locale-key="status.isEnabled"
-        />
+        <SelectBoolean v-model="query.isEnabled" locale-key="status.isEnabled" />
       </el-form-item>
     </el-form>
 
@@ -32,9 +29,7 @@
     />
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
-        <TextLink
-          :to="{ name: 'identity.permission.edit', params: { code: row.code } }"
-        />
+        <TextLink :to="{ name: 'identity.permission.edit', params: { code: row.code } }" />
       </template>
     </el-table-column>
   </el-table>
@@ -42,7 +37,7 @@
   <TablePagination
     v-model:current-page="query.pageIndex"
     v-model:page-size="query.pageSize"
-    :total="result.itemCount"
+    :total="result.totalCount"
   />
 </template>
 
@@ -52,18 +47,13 @@ import {
   type GetPermissionsQuery,
   type PermissionRow,
 } from '@/api/identity/permission-api';
-import {
-  defaultQuery,
-  defaultResult,
-  reassign,
-  type PageResult,
-} from '@/models/page';
+import { defaultQuery, defaultResult, reassign, type PagedResponse } from '@/models/page';
 
 const loading = ref(false);
 const query: GetPermissionsQuery = reactive({
   ...defaultQuery,
 });
-const result: PageResult<PermissionRow> = reactive(defaultResult());
+const result: PagedResponse<PermissionRow> = reactive(defaultResult());
 
 watch(
   query,

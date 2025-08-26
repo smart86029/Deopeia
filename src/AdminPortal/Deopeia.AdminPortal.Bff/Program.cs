@@ -1,7 +1,10 @@
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults().AddBff();
 
-builder.Services.AddGrpcClient<User.UserClient>(options =>
+builder.Services.AddGrpcClient<RoleService.RoleServiceClient>(options =>
+    options.Address = new Uri("http://deopeia-identity-api")
+);
+builder.Services.AddGrpcClient<UserService.UserServiceClient>(options =>
     options.Address = new Uri("http://deopeia-identity-api")
 );
 

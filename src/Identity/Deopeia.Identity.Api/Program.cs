@@ -1,14 +1,16 @@
+using Deopeia.Common.Api;
 using Deopeia.Common.Infrastructure;
 using Deopeia.Identity.Api.Services;
 using Deopeia.Identity.Application;
 using Deopeia.Identity.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.AddServiceDefaults().AddApplication().AddInfrastructure();
+builder.AddServiceDefaults().AddApi().AddApplication().AddInfrastructure();
 
 builder.Services.AddGrpc();
 
 var app = builder.Build();
+app.UseRequestLocalization();
 
 if (app.Environment.IsDevelopment())
 {
@@ -16,6 +18,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapDefaultEndpoints();
+app.MapGrpcService<RoleService>();
 app.MapGrpcService<UserService>();
 app.MapGet(
     "/",

@@ -5,10 +5,7 @@
         <el-input v-model="query.userName" />
       </el-form-item>
       <el-form-item :label="$t('common.status')">
-        <SelectBoolean
-          v-model="query.isEnabled"
-          locale-key="status.isEnabled"
-        />
+        <SelectBoolean v-model="query.isEnabled" locale-key="status.isEnabled" />
       </el-form-item>
       <el-form-item :label="$t('identity.role')">
         <SelectOption v-model="query.roleCode" :options="roles" />
@@ -20,7 +17,7 @@
     </template>
   </TableToolbar>
 
-  <el-table v-loading="loading" :data="result.items">
+  <el-table v-loading="isLoading" :data="data?.items">
     <el-table-column prop="userName" :label="$t('identity.userName')" />
     <TableColumnBoolean
       prop="isEnabled"
@@ -34,9 +31,7 @@
     </el-table-column>
     <el-table-column :label="$t('common.operations')">
       <template #default="{ row }">
-        <TextLink
-          :to="{ name: 'identity.user.edit', params: { id: row.id } }"
-        />
+        <TextLink :to="{ name: 'identity.user.edit', params: { id: row.id } }" />
       </template>
     </el-table-column>
   </el-table>
@@ -44,45 +39,26 @@
   <TablePagination
     v-model:current-page="query.pageIndex"
     v-model:page-size="query.pageSize"
-    :total="result.itemCount"
+    :total="data?.totalCount"
   />
 </template>
 
 <script setup lang="ts">
 import { roleApi } from '@/api/identity/role-api';
-import {
-  userApi,
-  type GetUsersQuery,
-  type UserRow,
-} from '@/api/identity/user-api';
-import type { OptionResult } from '@/models/option-result';
-import {
-  defaultQuery,
-  defaultResult,
-  reassign,
-  type PageResult,
-} from '@/models/page';
+import { userApi, type GetUsersQuery } from '@/api/identity/user-api';
 
-const loading = ref(false);
-const roles: Ref<OptionResult<string>[]> = ref([]);
+const { data: roles } = useQuery({
+  queryKey: ['roleApi.getList'],
+  queryFn: () => roleApi.getOptions(),
+  initialData: [],
+});
+
 const query: GetUsersQuery = reactive({
   ...defaultQuery,
 });
-const result: PageResult<UserRow> = reactive(defaultResult());
-
-roleApi.getOptions().then((x) => (roles.value = x.data));
-
-watchDebounced(
-  query,
-  (query) => {
-    if (!loading.value) {
-      loading.value = true;
-      userApi
-        .getList(query)
-        .then((x) => reassign(query, result, x.data))
-        .finally(() => (loading.value = false));
-    }
-  },
-  { debounce: 500, immediate: true },
-);
+const { data, isFetching } = useQuery({
+  queryKey: ['userApi.getList', query],
+  queryFn: () => userApi.getList(query),
+});
+const { isLoading } = useDeferredLoading(isFetching);
 </script>

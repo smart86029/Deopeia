@@ -3,16 +3,16 @@ using Deopeia.AdminPortal.Bff.Models.Users;
 namespace Deopeia.AdminPortal.Bff.Controllers;
 
 [AllowAnonymous]
-public class UsersController(User.UserClient client) : ApiController
+public class UsersController(UserService.UserServiceClient client) : ApiController
 {
-    private readonly User.UserClient _client = client;
+    private readonly UserService.UserServiceClient _client = client;
 
     [HttpGet]
-    public async Task<ActionResult<PagedResult<UserDto>>> Get()
+    public async Task<ActionResult<PagedResponse<User>>> Get([FromQuery] GetRequest request)
     {
-        var request = new ListUserRequest();
-        var grpcResponse = await _client.ListUserAsync(request);
-        var response = grpcResponse.Adapt<PagedResult<UserDto>>();
+        var grpcRequest = request.Adapt<ListUserRequest>();
+        var grpcResponse = await _client.ListUserAsync(grpcRequest);
+        var response = grpcResponse.Adapt<PagedResponse<User>>();
         return Ok(response);
     }
 }

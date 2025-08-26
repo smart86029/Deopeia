@@ -18,6 +18,7 @@ public static class HostApplicationBuilderExtensions
         {
             options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
         });
+        services.AddProblemDetails();
 
         return builder;
     }
