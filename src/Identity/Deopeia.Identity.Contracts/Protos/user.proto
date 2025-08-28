@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package deopeia.identity;
 
+import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
 import "types.proto";
 
@@ -14,6 +15,12 @@ service UserService {
 
   // GetUser retrieves a user by their ID.
   rpc GetUser (GetUserRequest) returns (GetUserResponse);
+
+  // CreateUser creates a new user.
+  rpc CreateUser (CreateUserRequest) returns (google.protobuf.Empty);
+
+  // UpdateUser updates an existing user.
+  rpc UpdateUser (UpdateUserRequest) returns (google.protobuf.Empty);
 }
 
 // The request message for listing users.
@@ -50,4 +57,23 @@ message GetUserRequest {
 message GetUserResponse {
   deopeia.common.Uuid id = 1;
   string user_name = 2;
+  bool is_enabled = 3;
+  repeated string role_codes = 4;
+}
+
+// The request message for creating a new user.
+message CreateUserRequest {
+  string user_name = 1;
+  string password = 2;
+  bool is_enabled = 3;
+  repeated string role_codes = 4;
+}
+
+// The request message for updating an existing user.
+message UpdateUserRequest {
+  deopeia.common.Uuid id = 1;
+  string user_name = 2;
+  google.protobuf.StringValue password = 3;
+  bool is_enabled = 4;
+  repeated string role_codes = 5;
 }

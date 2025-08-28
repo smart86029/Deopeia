@@ -1,4 +1,4 @@
-import { type VueQueryPluginOptions, keepPreviousData } from '@tanstack/vue-query';
+import { keepPreviousData, type VueQueryPluginOptions } from '@tanstack/vue-query';
 
 const vueQueryPluginOptions: VueQueryPluginOptions = {
   queryClientConfig: {

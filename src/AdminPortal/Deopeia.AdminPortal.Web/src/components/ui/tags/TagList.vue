@@ -12,12 +12,10 @@ import type { OptionResult } from '@/models/option-result';
 const model = defineModel<TValue[]>({ default: [] });
 
 const props = defineProps<{
-  options: OptionResult<TValue>[];
+  options?: OptionResult<TValue>[];
 }>();
 
-const items = computed(() =>
-  props.options.filter((x) => model.value.includes(x.value)),
-);
+const items = computed(() => props.options?.filter((x) => model.value.includes(x.value)));
 </script>
 
 <style scoped lang="scss">

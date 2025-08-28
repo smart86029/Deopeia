@@ -1,6 +1,6 @@
 namespace Deopeia.AdminPortal.Bff.Models.Users;
 
-public sealed record User(
+public sealed record UserResponse(
     Guid Id,
     string UserName,
     bool IsEnabled,

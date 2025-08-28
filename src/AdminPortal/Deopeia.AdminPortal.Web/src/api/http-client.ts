@@ -46,7 +46,7 @@ httpClient.interceptors.response.use(
           ElMessageBox.alert(response.data.title?.replace('\r\n', '<br>'), {
             dangerouslyUseHTMLString: true,
           });
-        } else {
+        } else if (response.data) {
           ElMessage.error({
             message: response.data,
           });

@@ -1,3 +1,8 @@
 namespace Deopeia.Identity.Application.Users.CreateUser;
 
-public record CreateUserCommand(string UserName, string Password, bool IsEnabled) : ICommand;
+public sealed record CreateUserCommand(
+    string UserName,
+    string Password,
+    bool IsEnabled,
+    List<string> RoleCodes
+) : ICommand;

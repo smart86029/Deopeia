@@ -15,4 +15,30 @@ public class UsersController(UserService.UserServiceClient client) : ApiControll
         var response = grpcResponse.Adapt<PagedResponse<User>>();
         return Ok(response);
     }
+
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<UserResponse>> Get([FromRoute] Guid id)
+    {
+        var grpcRequest = new GetUserRequest { Id = id };
+        var grpcResponse = await _client.GetUserAsync(grpcRequest);
+        var response = grpcResponse.Adapt<UserResponse>();
+        return Ok(response);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> Post([FromBody] CreateRequest request)
+    {
+        var grpcRequest = request.Adapt<CreateUserRequest>();
+        await _client.CreateUserAsync(grpcRequest);
+        return NoContent();
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<ActionResult> Put([FromRoute] Guid id, [FromBody] UpdateRequest request)
+    {
+        var grpcRequest = request.Adapt<UpdateUserRequest>();
+        grpcRequest.Id = id;
+        await _client.UpdateUserAsync(grpcRequest);
+        return NoContent();
+    }
 }

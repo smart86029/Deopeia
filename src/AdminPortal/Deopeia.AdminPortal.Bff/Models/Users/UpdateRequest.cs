@@ -1,8 +1,9 @@
 namespace Deopeia.AdminPortal.Bff.Models.Users;
 
-public sealed record User(
+public sealed record UpdateRequest(
     Guid Id,
     string UserName,
+    string? Password,
     bool IsEnabled,
-    IReadOnlyList<string> RoleCodes
+    List<string> RoleCodes
 );

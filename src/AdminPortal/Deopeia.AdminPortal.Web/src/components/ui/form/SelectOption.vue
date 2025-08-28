@@ -1,6 +1,6 @@
 <template>
-  <el-select 
-    v-model="model" 
+  <el-select
+    v-model="model"
     :clearable="clearable"
     :placeholder="placeholder"
     :disabled="disabled"
@@ -26,7 +26,7 @@ const model = defineModel<TValue>();
 withDefaults(
   defineProps<{
     /** Available options for selection */
-    options: OptionResult<TValue>[];
+    options?: OptionResult<TValue>[];
     /** Whether the select can be cleared */
     clearable?: boolean;
     /** Placeholder text when no value is selected */

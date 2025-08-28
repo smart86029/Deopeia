@@ -8,7 +8,11 @@
         <SelectBoolean v-model="query.isEnabled" locale-key="status.isEnabled" />
       </el-form-item>
       <el-form-item :label="$t('identity.role')">
-        <SelectOption v-model="query.roleCode" :options="roles" />
+        <SelectOption
+          v-model="query.roleCode"
+          :options="roleOptions"
+          :loading="isRoleOptionsFetching"
+        />
       </el-form-item>
     </el-form>
 
@@ -26,7 +30,7 @@
     />
     <el-table-column :label="$t('identity.role')">
       <template #default="{ row }">
-        <TagList v-model="row.roleCodes" :options="roles" />
+        <TagList v-model="row.roleCodes" :options="roleOptions" />
       </template>
     </el-table-column>
     <el-table-column :label="$t('common.operations')">
@@ -44,15 +48,10 @@
 </template>
 
 <script setup lang="ts">
-import { roleApi } from '@/api/identity/role-api';
 import { userApi, type GetUsersQuery } from '@/api/identity/user-api';
+import { useRoleOptionsQuery } from '@/composables/identity/useRoleOptionsQuery';
 
-const { data: roles } = useQuery({
-  queryKey: ['roleApi.getList'],
-  queryFn: () => roleApi.getOptions(),
-  initialData: [],
-});
-
+const { data: roleOptions, isFetching: isRoleOptionsFetching } = useRoleOptionsQuery();
 const query: GetUsersQuery = reactive({
   ...defaultQuery,
 });

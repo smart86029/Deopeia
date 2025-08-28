@@ -1,6 +1,6 @@
-namespace Deopeia.AdminPortal.Bff.Models.Users;
+namespace Deopeia.AdminPortal.Bff.Models.Roles;
 
-public sealed record GetRequest : PagedRequest
+public record GetRequest : PagedRequest
 {
     public string? UserName { get; init; }
 

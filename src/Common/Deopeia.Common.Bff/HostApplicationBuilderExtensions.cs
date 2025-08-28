@@ -1,5 +1,7 @@
 using System.Text.Encodings.Web;
 using Deopeia.Common.Bff.OpenApi;
+using Google.Protobuf.Collections;
+using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -20,6 +22,8 @@ public static class HostApplicationBuilderExtensions
         });
         services.AddProblemDetails();
 
+        ConfigureMapster();
+
         return builder;
     }
 
@@ -31,5 +35,15 @@ public static class HostApplicationBuilderExtensions
             {
                 options.JsonSerializerOptions.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
             });
+    }
+
+    private static void ConfigureMapster()
+    {
+        TypeAdapterConfig.GlobalSettings.Default.MapToConstructor(true);
+        TypeAdapterConfig.GlobalSettings.Default.UseDestinationValue(member =>
+            member.SetterModifier == AccessModifier.None
+            && member.Type.IsGenericType
+            && member.Type.GetGenericTypeDefinition() == typeof(RepeatedField<>)
+        );
     }
 }

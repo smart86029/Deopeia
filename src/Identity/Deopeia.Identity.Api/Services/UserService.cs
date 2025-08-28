@@ -1,5 +1,7 @@
+using Deopeia.Identity.Application.Users.CreateUser;
 using Deopeia.Identity.Application.Users.GetUser;
 using Deopeia.Identity.Application.Users.GetUsers;
+using Deopeia.Identity.Application.Users.UpdateUser;
 using Deopeia.Identity.Contracts;
 
 namespace Deopeia.Identity.Api.Services;
@@ -13,29 +15,9 @@ public class UserService(IMediator mediator) : Contracts.UserService.UserService
         ServerCallContext context
     )
     {
-        var query = new GetUsersQuery(request.UserName, request.IsEnabled, request.RoleCode)
-        {
-            PageIndex = request.PageIndex,
-            PageSize = request.PageSize,
-        };
+        var query = request.Adapt<GetUsersQuery>();
         var users = await _mediator.Send(query);
-        return new ListUserResponse
-        {
-            PageIndex = users.PageIndex,
-            PageSize = users.PageSize,
-            PageCount = users.PageCount,
-            TotalCount = users.TotalCount,
-            Items =
-            {
-                users.Items.Select(u => new ListUserResponse.Types.User
-                {
-                    Id = u.Id,
-                    UserName = u.UserName,
-                    IsEnabled = u.IsEnabled,
-                    RoleCodes = { u.RoleCodes },
-                }),
-            },
-        };
+        return users.Adapt<ListUserResponse>();
     }
 
     public override async Task<GetUserResponse> GetUser(
@@ -45,6 +27,26 @@ public class UserService(IMediator mediator) : Contracts.UserService.UserService
     {
         var query = new GetUserQuery(request.Id);
         var user = await _mediator.Send(query);
-        return new GetUserResponse { Id = user.Id, UserName = user.UserName };
+        return user.Adapt<GetUserResponse>();
+    }
+
+    public override async Task<Empty> CreateUser(
+        CreateUserRequest request,
+        ServerCallContext context
+    )
+    {
+        var command = request.Adapt<CreateUserCommand>();
+        await _mediator.Send(command);
+        return new Empty();
+    }
+
+    public override async Task<Empty> UpdateUser(
+        UpdateUserRequest request,
+        ServerCallContext context
+    )
+    {
+        var command = request.Adapt<UpdateUserCommand>();
+        await _mediator.Send(command);
+        return new Empty();
     }
 }

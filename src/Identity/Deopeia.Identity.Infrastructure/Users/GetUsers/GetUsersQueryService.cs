@@ -38,6 +38,7 @@ SELECT
     is_enabled
 FROM "user"
 /**where**/
+ORDER BY id
 /**pagination**/
 """;
         var result = await _connection.QueryPagedResultAsync(
