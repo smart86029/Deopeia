@@ -2,7 +2,7 @@ using Deopeia.Identity.Domain.Permissions;
 
 namespace Deopeia.Identity.Application.Permissions.GetPermission;
 
-public sealed class GetPermissionQueryHandler(IPermissionRepository permissionRepository)
+internal sealed class GetPermissionQueryHandler(IPermissionRepository permissionRepository)
     : IQueryHandler<GetPermissionQuery, GetPermissionViewModel>
 {
     private readonly IPermissionRepository _permissionRepository = permissionRepository;

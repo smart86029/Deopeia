@@ -3,7 +3,7 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Application.Users.UploadAvatar;
 
-public class UploadAvatarCommandHandler(
+internal class UploadAvatarCommandHandler(
     IUnitOfWork unitOfWork,
     IUserRepository userRepository,
     IImageRepository imageRepository

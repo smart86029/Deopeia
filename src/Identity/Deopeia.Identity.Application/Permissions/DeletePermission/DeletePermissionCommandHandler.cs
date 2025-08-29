@@ -2,7 +2,7 @@ using Deopeia.Identity.Domain.Permissions;
 
 namespace Deopeia.Identity.Application.Permissions.DeletePermission;
 
-public sealed class DeletePermissionCommandHandler(
+internal sealed class DeletePermissionCommandHandler(
     IUnitOfWork unitOfWork,
     IPermissionRepository permissionRepository
 ) : ICommandHandler<DeletePermissionCommand>

@@ -2,7 +2,7 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Application.Users.ChangePassword;
 
-public class ChangePasswordCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
+internal class ChangePasswordCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
     : ICommandHandler<ChangePasswordCommand>
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;

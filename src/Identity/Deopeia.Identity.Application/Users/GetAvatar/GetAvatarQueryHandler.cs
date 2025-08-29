@@ -3,8 +3,10 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Application.Users.GetAvatar;
 
-public class GetAvatarQueryHandler(IUserRepository userRepository, IImageRepository imageRepository)
-    : IQueryHandler<GetAvatarQuery, Uri?>
+internal class GetAvatarQueryHandler(
+    IUserRepository userRepository,
+    IImageRepository imageRepository
+) : IQueryHandler<GetAvatarQuery, Uri?>
 {
     private readonly IUserRepository _userRepository = userRepository;
     private readonly IImageRepository _imageRepository = imageRepository;

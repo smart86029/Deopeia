@@ -1,4 +1,5 @@
 using System.Globalization;
+using Deopeia.Common.Contracts;
 using Google.Protobuf.Collections;
 using Mapster;
 using Microsoft.AspNetCore.Builder;

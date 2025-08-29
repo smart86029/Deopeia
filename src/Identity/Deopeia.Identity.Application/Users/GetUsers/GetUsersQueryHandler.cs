@@ -1,6 +1,6 @@
 namespace Deopeia.Identity.Application.Users.GetUsers;
 
-public sealed class GetUsersQueryHandler(IGetUsersQueryService queryService)
+internal sealed class GetUsersQueryHandler(IGetUsersQueryService queryService)
     : IQueryHandler<GetUsersQuery, PagedResult<UserDto>>
 {
     private readonly IGetUsersQueryService _queryService = queryService;

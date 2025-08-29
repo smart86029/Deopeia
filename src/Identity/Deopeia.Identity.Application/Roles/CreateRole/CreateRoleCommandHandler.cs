@@ -2,7 +2,7 @@ using Deopeia.Identity.Domain.Roles;
 
 namespace Deopeia.Identity.Application.Roles.CreateRole;
 
-public class CreateRoleCommandHandler(IUnitOfWork unitOfWork, IRoleRepository roleRepository)
+internal class CreateRoleCommandHandler(IUnitOfWork unitOfWork, IRoleRepository roleRepository)
     : ICommandHandler<CreateRoleCommand>
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;

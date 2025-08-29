@@ -1,4 +1,3 @@
-
 namespace Deopeia.Identity.Application.Permissions.GetPermission;
 
 public interface IGetPermissionService

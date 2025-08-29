@@ -3,7 +3,7 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Application.Users.UpdateUser;
 
-public class UpdateUserCommandHandler(
+internal class UpdateUserCommandHandler(
     IUnitOfWork unitOfWork,
     IUserRepository userRepository,
     IRoleRepository roleRepository

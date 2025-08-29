@@ -2,7 +2,7 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Application.Users.EnableAuthenticator;
 
-public class EnableAuthenticatorCommandHandler(
+internal class EnableAuthenticatorCommandHandler(
     IUnitOfWork unitOfWork,
     IUserRepository userRepository,
     IAuthenticatorService authenticatorService

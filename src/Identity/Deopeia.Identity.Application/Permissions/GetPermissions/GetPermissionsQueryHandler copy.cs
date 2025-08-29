@@ -1,6 +1,6 @@
 namespace Deopeia.Identity.Application.Permissions.GetPermissions;
 
-public class GetPermissionsQueryHandler(IGetPermissionsQueryService queryService)
+internal class GetPermissionsQueryHandler(IGetPermissionsQueryService queryService)
     : IQueryHandler<GetPermissionsQuery, PagedResult<PermissionDto>>
 {
     private readonly IGetPermissionsQueryService _queryService = queryService;

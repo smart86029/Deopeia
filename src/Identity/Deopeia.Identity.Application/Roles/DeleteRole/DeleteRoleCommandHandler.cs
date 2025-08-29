@@ -2,7 +2,7 @@ using Deopeia.Identity.Domain.Roles;
 
 namespace Deopeia.Identity.Application.Roles.DeleteRole;
 
-public class DeleteRoleCommandHandler(IUnitOfWork unitOfWork, IRoleRepository roleRepository)
+internal class DeleteRoleCommandHandler(IUnitOfWork unitOfWork, IRoleRepository roleRepository)
     : ICommandHandler<DeleteRoleCommand>
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;

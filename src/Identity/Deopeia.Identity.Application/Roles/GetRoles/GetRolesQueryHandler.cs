@@ -1,6 +1,6 @@
 namespace Deopeia.Identity.Application.Roles.GetRoles;
 
-public sealed class GetRolesQueryHandler(IGetRolesQueryService queryService)
+internal sealed class GetRolesQueryHandler(IGetRolesQueryService queryService)
     : IQueryHandler<GetRolesQuery, PagedResult<RoleDto>>
 {
     private readonly IGetRolesQueryService _queryService = queryService;

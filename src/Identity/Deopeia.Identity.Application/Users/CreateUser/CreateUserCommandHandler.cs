@@ -2,7 +2,7 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Application.Users.CreateUser;
 
-public class CreateUserCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
+internal class CreateUserCommandHandler(IUnitOfWork unitOfWork, IUserRepository userRepository)
     : ICommandHandler<CreateUserCommand>
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;

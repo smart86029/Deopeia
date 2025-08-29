@@ -1,6 +1,6 @@
 namespace Deopeia.Identity.Application.Roles.GetRoleOptions;
 
-public sealed class GetRoleOptionsQueryHandler(IGetRoleOptionsQueryService queryService)
+internal sealed class GetRoleOptionsQueryHandler(IGetRoleOptionsQueryService queryService)
     : IQueryHandler<GetRoleOptionsQuery, IReadOnlyList<OptionResult<string>>>
 {
     private readonly IGetRoleOptionsQueryService _queryService = queryService;
