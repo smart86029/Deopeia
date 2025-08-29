@@ -11,7 +11,7 @@
     </template>
   </TableToolbar>
 
-  <el-table v-loading="loading" :data="result.items">
+  <el-table v-loading="isLoading" :data="data?.items">
     <el-table-column prop="code" :label="$t('common.code')" />
     <el-table-column prop="name" :label="$t('common.name')" />
     <el-table-column prop="description" :label="$t('common.description')" show-overflow-tooltip />
@@ -30,32 +30,20 @@
   <TablePagination
     v-model:current-page="query.pageIndex"
     v-model:page-size="query.pageSize"
-    :total="result.totalCount"
+    :total="data?.totalCount"
   />
 </template>
 
 <script setup lang="ts">
-import { roleApi, type GetRolesQuery, type RoleRow } from '@/api/identity/role-api';
-import { defaultQuery, defaultResult, reassign, type PagedResponse } from '@/models/page';
+import { roleApi, type GetRolesQuery } from '@/api/identity/role-api';
 
-const loading = ref(false);
 const query: GetRolesQuery = reactive({
   isEnabled: undefined,
   ...defaultQuery,
 });
-const result: PagedResponse<RoleRow> = reactive(defaultResult());
-
-watch(
-  query,
-  (query) => {
-    if (!loading.value) {
-      loading.value = true;
-      roleApi
-        .getList(query)
-        .then((x) => reassign(query, result, x.data))
-        .finally(() => (loading.value = false));
-    }
-  },
-  { immediate: true },
-);
+const { data, isFetching } = useQuery({
+  queryKey: ['roleApi.getList', query],
+  queryFn: () => roleApi.getList(query),
+});
+const { isLoading } = useDeferredLoading(isFetching);
 </script>

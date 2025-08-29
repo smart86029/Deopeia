@@ -1,10 +1,3 @@
 namespace Deopeia.AdminPortal.Bff.Models.Users;
 
-public sealed record GetRequest : PagedRequest
-{
-    public string? UserName { get; init; }
-
-    public bool? IsEnabled { get; init; }
-
-    public string? RoleCode { get; init; }
-}
+public sealed record GetRequest(string? UserName, bool? IsEnabled, string? RoleCode) : PagedRequest;

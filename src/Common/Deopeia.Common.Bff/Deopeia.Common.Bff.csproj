@@ -13,5 +13,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deopeia.Common.Contracts\Deopeia.Common.Contracts.csproj" />
+    <ProjectReference Include="..\Deopeia.Common\Deopeia.Common.csproj" />
   </ItemGroup>
 </Project>

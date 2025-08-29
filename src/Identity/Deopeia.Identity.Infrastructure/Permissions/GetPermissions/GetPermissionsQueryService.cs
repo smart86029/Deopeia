@@ -23,25 +23,19 @@ public class GetPermissionsQueryService(NpgsqlConnection connection) : IGetPermi
         var selectorSql = """
 SELECT
     a.code,
-    COALESCE(b.name, c.name) AS name,
+    COALESCE(b.name, c.name, a.code) AS name,
     COALESCE(b.description, c.description) AS description,
     a.is_enabled
 FROM permission AS a
 LEFT JOIN permission_locale AS b ON a.code = b.permission_code AND b.culture = @CurrentCulture
-INNER JOIN permission_locale AS c ON a.code = c.permission_code AND c.culture = @DefaultThreadCurrentCulture
+LEFT JOIN permission_locale AS c ON a.code = c.permission_code AND c.culture = @DefaultThreadCurrentCulture
 /**where**/
-LIMIT @Limit
-OFFSET @Offset
+ORDER BY code
+/**pagination**/
 """;
         builder.AddParameters(
             new { CultureInfo.CurrentCulture, CultureInfo.DefaultThreadCurrentCulture }
         );
-        var result = await _connection.QueryPagedResultAsync(
-            builder,
-            counterSql,
-            selectorSql,
-            query
-        );
-        return result;
+        return await _connection.QueryPagedResultAsync(builder, counterSql, selectorSql, query);
     }
 }

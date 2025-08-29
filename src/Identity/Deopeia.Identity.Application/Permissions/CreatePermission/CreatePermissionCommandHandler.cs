@@ -2,7 +2,7 @@ using Deopeia.Identity.Domain.Permissions;
 
 namespace Deopeia.Identity.Application.Permissions.CreatePermission;
 
-internal class CreatePermissionCommandHandler(
+internal sealed class CreatePermissionCommandHandler(
     IUnitOfWork unitOfWork,
     IPermissionRepository permissionRepository
 ) : ICommandHandler<CreatePermissionCommand>

@@ -1,4 +1,3 @@
-import type { Guid } from '@/models/guid';
 import type { OptionResult } from '@/models/option-result';
 import type { PagedRequest, PagedResponse } from '@/models/page';
 import httpClient from '../http-client';
@@ -28,12 +27,18 @@ export interface PermissionLocale {
 }
 
 export const permissionApi = {
-  getOptions: () => httpClient.get<OptionResult<Guid>[]>('/Permissions/Options'),
+  getOptions: () =>
+    httpClient
+      .get<OptionResult<string>[]>('/Permissions/Options')
+      .then((response) => response.data),
   getList: (query: GetPermissionsQuery) =>
-    httpClient.get<PagedResponse<PermissionRow>>(`/Permissions`, {
-      params: query,
-    }),
-  get: (code: string) => httpClient.get<Permission>(`/Permissions/${code}`),
+    httpClient
+      .get<PagedResponse<PermissionRow>>(`/Permissions`, {
+        params: query,
+      })
+      .then((response) => response.data),
+  get: (code: string) =>
+    httpClient.get<Permission>(`/Permissions/${code}`).then((response) => response.data),
   create: (permission: Permission) => httpClient.post('/Permissions', permission),
   update: (permission: Permission) => httpClient.put(`/Permissions/${permission.code}`, permission),
 };

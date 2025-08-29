@@ -9,7 +9,7 @@ namespace Deopeia.Common.Api;
 
 public static class HostApplicationBuilderExtensions
 {
-    private static readonly string[] SupportedCultures = ["en-US", "zh-TW"];
+    private static readonly string[] SupportedCultures = ["en", "zh-Hant"];
 
     public static IHostApplicationBuilder AddApi(this IHostApplicationBuilder builder)
     {

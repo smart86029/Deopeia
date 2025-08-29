@@ -19,7 +19,6 @@
 
 <script setup lang="ts" generic="TLocale extends Locale">
 import type { Locale } from '@/models/localization';
-import { useOptionStore } from '@/stores/option';
 
 const model = defineModel<string>({ default: 'en' });
 const locales = defineModel<TLocale[]>('locales', { default: () => [] });
@@ -37,7 +36,7 @@ const props = withDefaults(
 const dialogVisible = ref(false);
 const selectedLocale = ref('');
 
-const { cultures: availableLocales } = storeToRefs(useOptionStore());
+const { data: availableLocales } = useCultureOptions();
 
 const labelWidth = computed(() =>
   typeof props.labelWidth === 'number' ? `${props.labelWidth}px` : props.labelWidth,

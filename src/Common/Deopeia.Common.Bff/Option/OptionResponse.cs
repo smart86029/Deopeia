@@ -1,10 +1,7 @@
 namespace Deopeia.Common.Bff.Option;
 
-public class OptionResponse<TValue>
+public record OptionResponse<TValue>(string Name, TValue Value, bool IsEnabled)
 {
-    public required string Name { get; init; }
-
-    public required TValue Value { get; set; }
-
-    public bool IsEnabled { get; set; }
+    public OptionResponse(string name, TValue value)
+        : this(name, value, true) { }
 }

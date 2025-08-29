@@ -10,23 +10,30 @@ option csharp_namespace = "Deopeia.Identity.Contracts";
 
 // The role service definition.
 service RoleService {
-  // ListRoles retrieves a paginated list of roles.
+  // Retrieve a paginated list of roles.
   rpc ListRole (ListRoleRequest) returns (ListRoleResponse);
 
-  // ListRoleOptions retrieves a list of role options for selection purposes.
-  rpc ListRoleOption (google.protobuf.Empty) returns (ListRoleOptionResponse);
+  // Retrieve a list of role options for selection purposes.
+  rpc ListRoleOption (google.protobuf.Empty) returns (deopeia.common.ListOptionResponse);
 
-  // GetRole retrieves a role by their ID.
+  // Retrieve a role by their ID.
   rpc GetRole (GetRoleRequest) returns (GetRoleResponse);
+
+  // Create a new role.
+  rpc CreateRole (CreateRoleRequest) returns (google.protobuf.Empty);
+
+  // Update an existing role.
+  rpc UpdateRole (UpdateRoleRequest) returns (google.protobuf.Empty);
+
+  // Delete a role by their ID.
+  rpc DeleteRole (DeleteRoleRequest) returns (google.protobuf.Empty);
 }
 
 // The request message for listing roles.
 message ListRoleRequest {
   int32 page_index = 1;
   int32 page_size = 2;
-  google.protobuf.StringValue role_name = 3;
-  google.protobuf.BoolValue is_enabled = 4;
-  google.protobuf.StringValue role_code = 5;
+  google.protobuf.BoolValue is_enabled = 3;
 }
 
 // The response message containing the list of roles.
@@ -38,31 +45,50 @@ message ListRoleResponse {
   repeated Role items = 5;
 
   message Role {
-    deopeia.common.Uuid id = 1;
-    string role_name = 2;
-    bool is_enabled = 3;
-    repeated string role_codes = 4;
-  }
-}
-
-// The response message containing the list of role options.
-message ListRoleOptionResponse {
-  repeated RoleOption items = 1;
-
-  message RoleOption {
-    string name = 1;
-    string value = 2;
-    bool is_enabled = 3;
+    string code = 1;
+    string name = 2;
+    google.protobuf.StringValue description = 3;
+    bool is_enabled = 4;
   }
 }
 
 // The request message for role-related operations, containing relevant role information.
 message GetRoleRequest {
-  deopeia.common.Uuid id = 1;
+  string code = 1;
 }
 
 // The response message containing the role information.
 message GetRoleResponse {
-  deopeia.common.Uuid id = 1;
-  string role_name = 2;
+  string code = 1;
+  bool is_enabled = 2;
+  repeated RoleLocale locales = 3;
+  repeated string permission_codes = 4;
+}
+
+// The locale information for a role.
+message RoleLocale {
+  string culture = 1;
+  string name = 2;
+  google.protobuf.StringValue description = 3;
+}
+
+// The request message for creating a new role.
+message CreateRoleRequest {
+  string code = 1;
+  bool is_enabled = 2;
+  repeated RoleLocale locales = 3;
+  repeated string permission_codes = 4;
+}
+
+// The request message for updating an existing role.
+message UpdateRoleRequest {
+  string code = 1;
+  bool is_enabled = 2;
+  repeated RoleLocale locales = 3;
+  repeated string permission_codes = 4;
+}
+
+// The request message for deleting a role.
+message DeleteRoleRequest {
+  string code = 1;
 }

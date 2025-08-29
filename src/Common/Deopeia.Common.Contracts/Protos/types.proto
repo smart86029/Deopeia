@@ -8,3 +8,13 @@ message Uuid {
   fixed64 high = 1;
   fixed64 low = 2;
 }
+
+message ListOptionResponse {
+  repeated Option items = 1;
+
+  message Option {
+    string name = 1;
+    string value = 2;
+    bool is_enabled = 3;
+  }
+}

@@ -1,3 +1,3 @@
 namespace Deopeia.Identity.Application.Roles.GetRoles;
 
-public record GetRolesQuery(bool? IsEnabled) : PagedQuery<RoleDto>;
+public sealed record GetRolesQuery(bool? IsEnabled) : PagedQuery<RoleDto>;

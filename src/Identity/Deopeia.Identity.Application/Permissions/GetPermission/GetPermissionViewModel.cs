@@ -1,6 +1,6 @@
 namespace Deopeia.Identity.Application.Permissions.GetPermission;
 
-public class GetPermissionViewModel
+public sealed class GetPermissionViewModel
 {
     public string Code { get; set; } = string.Empty;
 

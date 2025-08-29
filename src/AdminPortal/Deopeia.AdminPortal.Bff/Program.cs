@@ -1,14 +1,16 @@
+using Deopeia.AdminPortal.Bff;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults().AddBff();
 
-builder.Services.AddGrpcClient<RoleService.RoleServiceClient>(options =>
-    options.Address = new Uri("http://deopeia-identity-api")
-);
-builder.Services.AddGrpcClient<UserService.UserServiceClient>(options =>
-    options.Address = new Uri("http://deopeia-identity-api")
-);
+var services = builder.Services;
+services
+    .AddGrpcIdentity<RoleService.RoleServiceClient>()
+    .AddGrpcIdentity<UserService.UserServiceClient>()
+    .AddGrpcIdentity<PermissionService.PermissionServiceClient>();
 
 var app = builder.Build();
+app.UseRequestLocalization();
 
 app.MapDefaultEndpoints();
 app.MapControllers();

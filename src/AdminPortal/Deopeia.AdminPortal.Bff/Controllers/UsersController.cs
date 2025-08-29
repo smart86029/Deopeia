@@ -26,7 +26,7 @@ public class UsersController(UserService.UserServiceClient client) : ApiControll
     }
 
     [HttpPost]
-    public async Task<ActionResult> Post([FromBody] CreateRequest request)
+    public async Task<ActionResult> Create([FromBody] CreateRequest request)
     {
         var grpcRequest = request.Adapt<CreateUserRequest>();
         await _client.CreateUserAsync(grpcRequest);
@@ -34,7 +34,7 @@ public class UsersController(UserService.UserServiceClient client) : ApiControll
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult> Put([FromRoute] Guid id, [FromBody] UpdateRequest request)
+    public async Task<ActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRequest request)
     {
         var grpcRequest = request.Adapt<UpdateUserRequest>();
         grpcRequest.Id = id;

@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package deopeia.identity;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "types.proto";
+
+option csharp_namespace = "Deopeia.Identity.Contracts";
+
+// The permission service definition.
+service PermissionService {
+  // Retrieve a paginated list of permissions.
+  rpc ListPermission (ListPermissionRequest) returns (ListPermissionResponse);
+
+  // Retrieve a list of permission options for selection purposes.
+  rpc ListPermissionOption (google.protobuf.Empty) returns (deopeia.common.ListOptionResponse);
+
+  // Retrieve a permission by their ID.
+  rpc GetPermission (GetPermissionRequest) returns (GetPermissionResponse);
+
+  // Create a new permission.
+  rpc CreatePermission (CreatePermissionRequest) returns (google.protobuf.Empty);
+
+  // Update an existing permission.
+  rpc UpdatePermission (UpdatePermissionRequest) returns (google.protobuf.Empty);
+
+  // Delete a permission by their ID.
+  rpc DeletePermission (DeletePermissionRequest) returns (google.protobuf.Empty);
+}
+
+// The request message for listing permissions.
+message ListPermissionRequest {
+  int32 page_index = 1;
+  int32 page_size = 2;
+  google.protobuf.StringValue code = 3;
+  google.protobuf.BoolValue is_enabled = 4;
+}
+
+// The response message containing the list of permissions.
+message ListPermissionResponse {
+  int32 page_index = 1;
+  int32 page_size = 2;
+  int32 page_count = 3;
+  int32 total_count = 4;
+  repeated Permission items = 5;
+
+  message Permission {
+    string code = 1;
+    string name = 2;
+    google.protobuf.StringValue description = 3;
+    bool is_enabled = 4;
+  }
+}
+
+// The request message for permission-related operations, containing relevant permission information.
+message GetPermissionRequest {
+  string code = 1;
+}
+
+// The response message containing the permission information.
+message GetPermissionResponse {
+  string code = 1;
+  bool is_enabled = 4;
+  repeated PermissionLocale locales = 3;
+}
+
+// The locale information for a permission.
+message PermissionLocale {
+  string culture = 1;
+  string name = 2;
+  google.protobuf.StringValue description = 3;
+}
+
+// The request message for creating a new permission.
+message CreatePermissionRequest {
+  string code = 1;
+  bool is_enabled = 2;
+  repeated PermissionLocale locales = 3;
+}
+
+// The request message for updating an existing permission.
+message UpdatePermissionRequest {
+  string code = 1;
+  bool is_enabled = 2;
+  repeated PermissionLocale locales = 3;
+}
+
+// The request message for deleting a permission.
+message DeletePermissionRequest {
+  string code = 1;
+}

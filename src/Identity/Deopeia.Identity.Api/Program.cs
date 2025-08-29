@@ -20,6 +20,7 @@ if (app.Environment.IsDevelopment())
 app.MapDefaultEndpoints();
 app.MapGrpcService<RoleService>();
 app.MapGrpcService<UserService>();
+app.MapGrpcService<PermissionService>();
 app.MapGet(
     "/",
     () =>

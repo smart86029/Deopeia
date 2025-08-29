@@ -38,7 +38,6 @@ withDefaults(
   }>(),
   {
     clearable: true,
-    placeholder: '',
     disabled: false,
     loading: false,
   },

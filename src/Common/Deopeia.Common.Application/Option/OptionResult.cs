@@ -2,7 +2,8 @@ namespace Deopeia.Common.Application.Option;
 
 public class OptionResult<TValue>
 {
-    public OptionResult() { }
+    public OptionResult()
+        : this(string.Empty, default!) { }
 
     public OptionResult(string name, TValue value)
         : this(name, value, true) { }
@@ -14,9 +15,9 @@ public class OptionResult<TValue>
         IsEnabled = isEnabled;
     }
 
-    public string Name { get; private set; } = string.Empty;
+    public string Name { get; private set; }
 
-    public TValue Value { get; private set; } = default!;
+    public TValue Value { get; private set; }
 
-    public bool IsEnabled { get; private set; } = true;
+    public bool IsEnabled { get; private set; }
 }

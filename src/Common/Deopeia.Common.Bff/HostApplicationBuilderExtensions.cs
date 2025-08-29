@@ -1,7 +1,9 @@
+using System.Globalization;
 using System.Text.Encodings.Web;
 using Deopeia.Common.Bff.OpenApi;
 using Google.Protobuf.Collections;
 using Mapster;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -9,6 +11,8 @@ namespace Deopeia.Common.Bff;
 
 public static class HostApplicationBuilderExtensions
 {
+    private static readonly string[] SupportedCultures = ["en", "zh-Hant"];
+
     public static IHostApplicationBuilder AddBff(this IHostApplicationBuilder builder)
     {
         var configuration = builder.Configuration;
@@ -22,6 +26,7 @@ public static class HostApplicationBuilderExtensions
         });
         services.AddProblemDetails();
 
+        services.ConfigureLocalization();
         ConfigureMapster();
 
         return builder;
@@ -35,6 +40,15 @@ public static class HostApplicationBuilderExtensions
             {
                 options.JsonSerializerOptions.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
             });
+    }
+
+    private static void ConfigureLocalization(this IServiceCollection services)
+    {
+        services.Configure<RequestLocalizationOptions>(options =>
+            options.SetDefaultCulture(SupportedCultures[0]).AddSupportedCultures(SupportedCultures)
+        );
+
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo("en");
     }
 
     private static void ConfigureMapster()

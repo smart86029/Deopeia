@@ -14,14 +14,10 @@
     </template>
   </TableToolbar>
 
-  <el-table v-loading="loading" :data="result.items">
+  <el-table v-loading="isLoading" :data="data?.items">
     <el-table-column prop="code" :label="$t('identity.code')" />
     <el-table-column prop="name" :label="$t('common.name')" />
-    <el-table-column prop="description" :label="$t('common.description')">
-      <template #default="{ row }">
-        <el-text truncated>{{ row.description }}</el-text>
-      </template>
-    </el-table-column>
+    <el-table-column prop="description" :label="$t('common.description')" show-overflow-tooltip />
     <TableColumnBoolean
       prop="isEnabled"
       :label="$t('common.status')"
@@ -37,35 +33,21 @@
   <TablePagination
     v-model:current-page="query.pageIndex"
     v-model:page-size="query.pageSize"
-    :total="result.totalCount"
+    :total="data?.totalCount"
   />
 </template>
 
 <script setup lang="ts">
-import {
-  permissionApi,
-  type GetPermissionsQuery,
-  type PermissionRow,
-} from '@/api/identity/permission-api';
-import { defaultQuery, defaultResult, reassign, type PagedResponse } from '@/models/page';
+import { permissionApi, type GetPermissionsQuery } from '@/api/identity/permission-api';
 
-const loading = ref(false);
 const query: GetPermissionsQuery = reactive({
+  code: undefined,
+  isEnabled: undefined,
   ...defaultQuery,
 });
-const result: PagedResponse<PermissionRow> = reactive(defaultResult());
-
-watch(
-  query,
-  (query) => {
-    if (!loading.value) {
-      loading.value = true;
-      permissionApi
-        .getList(query)
-        .then((x) => reassign(query, result, x.data))
-        .finally(() => (loading.value = false));
-    }
-  },
-  { immediate: true },
-);
+const { data, isFetching } = useQuery({
+  queryKey: ['permissionApi.getList', query],
+  queryFn: () => permissionApi.getList(query),
+});
+const { isLoading } = useDeferredLoading(isFetching);
 </script>

@@ -30,8 +30,10 @@ export const roleApi = {
   getOptions: () =>
     httpClient.get<OptionResult<string>[]>('/Roles/Options').then((response) => response.data),
   getList: (query: GetRolesQuery) =>
-    httpClient.get<PagedResponse<RoleRow>>(`/Roles`, { params: query }),
-  get: (code: string) => httpClient.get<Role>(`/Roles/${code}`),
+    httpClient
+      .get<PagedResponse<RoleRow>>(`/Roles`, { params: query })
+      .then((response) => response.data),
+  get: (code: string) => httpClient.get<Role>(`/Roles/${code}`).then((response) => response.data),
   create: (role: Role) => httpClient.post('/Roles', role),
   update: (role: Role) => httpClient.put(`/Roles/${role.code}`, role),
 };

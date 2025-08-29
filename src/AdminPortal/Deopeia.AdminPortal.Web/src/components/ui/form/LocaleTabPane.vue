@@ -1,18 +1,19 @@
 <template>
-  <el-tab-pane
-    :label="cultures.find((x) => x.value === locale.culture)?.name"
-    :name="locale.culture"
-    :closable="locale.culture !== 'en'"
-  >
+  <el-tab-pane :label="label" :name="locale.culture" :closable="closable">
     <slot></slot>
   </el-tab-pane>
 </template>
 
 <script setup lang="ts">
-import type { Locale } from '@/models/localization';
-import { useOptionStore } from '@/stores/option';
+import { useCultureOptions } from '@/composables/useCultureOptions';
 
-defineProps<{ locale: Locale }>();
+const props = defineProps<{ locale: Locale }>();
 
-const { cultures } = storeToRefs(useOptionStore());
+const { data } = useCultureOptions();
+
+const label = computed(
+  () => data.value?.find((x) => x.value === props.locale.culture)?.name ?? props.locale.culture,
+);
+
+const closable = computed(() => props.locale.culture !== 'en');
 </script>
