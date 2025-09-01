@@ -7,7 +7,7 @@ export default {
     description: '描述',
     type: '類別',
     status: '狀態',
-    operations: '操作',
+    actions: '操作',
     locale: '地區設定',
     date: '日期',
     time: '時間',

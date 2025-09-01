@@ -7,7 +7,7 @@ export default {
     description: 'Description',
     type: 'Type',
     status: 'Status',
-    operations: 'Operations',
+    actions: 'Actions',
     locale: 'Locale',
     date: 'Date',
     time: 'Time',

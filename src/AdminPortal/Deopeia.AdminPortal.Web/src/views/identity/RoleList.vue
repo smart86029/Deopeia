@@ -20,7 +20,7 @@
       :label="$t('common.status')"
       localeKey="status.isEnabled"
     />
-    <el-table-column :label="$t('common.operations')">
+    <el-table-column :label="$t('common.actions')">
       <template #default="{ row }">
         <TextLink :to="{ name: 'identity.role.edit', params: { code: row.code } }" />
       </template>

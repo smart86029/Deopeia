@@ -33,7 +33,7 @@
         <TagList v-model="row.roleCodes" :options="roleOptions" />
       </template>
     </el-table-column>
-    <el-table-column :label="$t('common.operations')">
+    <el-table-column :label="$t('common.actions')">
       <template #default="{ row }">
         <TextLink :to="{ name: 'identity.user.edit', params: { id: row.id } }" />
       </template>

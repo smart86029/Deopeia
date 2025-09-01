@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="form" label-width="200" @submit.prevent="mutate">
+  <el-form v-loading="isLoading" :model="form" label-width="200" @submit.prevent="mutate">
     <el-form-item :label="$t('common.code')">
       <el-input v-if="action === 'create'" v-model="form.code" />
       <template v-else>{{ form.code }}</template>
@@ -56,11 +56,12 @@ const form: Role = reactive({
   permissionCodes: [],
 });
 
-useQuery({
+const { isFetching } = useQuery({
   queryKey: ['roleApi.get', props.code],
   queryFn: () => roleApi.get(props.code).then((x) => Object.assign(form, x)),
   enabled: props.action === 'edit',
 });
+const { isLoading } = useDeferredLoading(isFetching);
 
 const { isPending, mutate } = useMutation({
   mutationFn: () => (props.action === 'create' ? roleApi.create(form) : roleApi.update(form)),

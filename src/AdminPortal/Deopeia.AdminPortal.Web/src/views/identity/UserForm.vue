@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="form" label-width="200" @submit.prevent="mutate">
+  <el-form v-loading="isLoading" :model="form" label-width="200" @submit.prevent="mutate">
     <el-form-item :label="$t('identity.userName')">
       <el-input v-model="form.userName" />
     </el-form-item>
@@ -46,11 +46,12 @@ const form: User = reactive({
   roleCodes: [],
 });
 
-useQuery({
+const { isFetching } = useQuery({
   queryKey: ['userApi.get', props.id],
   queryFn: () => userApi.get(props.id).then((x) => Object.assign(form, x)),
   enabled: props.action === 'edit',
 });
+const { isLoading } = useDeferredLoading(isFetching);
 
 const { isPending, mutate } = useMutation({
   mutationFn: () => (props.action === 'create' ? userApi.create(form) : userApi.update(form)),
