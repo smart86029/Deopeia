@@ -39,5 +39,8 @@ public static class HostApplicationBuilderExtensions
             && member.Type.IsGenericType
             && member.Type.GetGenericTypeDefinition() == typeof(RepeatedField<>)
         );
+
+        TypeAdapterConfig<Guid, Uuid>.NewConfig().MapWith(src => (Uuid)src);
+        TypeAdapterConfig<Uuid, Guid>.NewConfig().MapWith(src => (Guid)src);
     }
 }

@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Text.Encodings.Web;
 using Deopeia.Common.Bff.OpenApi;
+using Deopeia.Common.Contracts;
 using Google.Protobuf.Collections;
 using Mapster;
 using Microsoft.AspNetCore.Builder;
@@ -59,5 +60,8 @@ public static class HostApplicationBuilderExtensions
             && member.Type.IsGenericType
             && member.Type.GetGenericTypeDefinition() == typeof(RepeatedField<>)
         );
+
+        TypeAdapterConfig<Guid, Uuid>.NewConfig().MapWith(src => (Uuid)src);
+        TypeAdapterConfig<Uuid, Guid>.NewConfig().MapWith(src => (Guid)src);
     }
 }
