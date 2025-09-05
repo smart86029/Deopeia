@@ -40,8 +40,6 @@ internal static class MinIOResourceBuilderExtensions
         string? name = null
     )
     {
-        builder.WithVolume(name ?? VolumeNameGenerator.Generate(builder, "data"), "/data");
-
-        return builder;
+        return builder.WithVolume(name ?? VolumeNameGenerator.Generate(builder, "data"), "/data");
     }
 }

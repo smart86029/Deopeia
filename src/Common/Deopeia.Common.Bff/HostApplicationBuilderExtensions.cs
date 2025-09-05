@@ -1,12 +1,18 @@
 using System.Globalization;
+using System.Net.Mime;
 using System.Text.Encodings.Web;
 using Deopeia.Common.Bff.OpenApi;
 using Deopeia.Common.Contracts;
+using Deopeia.Common.Utilities;
 using Google.Protobuf.Collections;
 using Mapster;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace Deopeia.Common.Bff;
 
@@ -21,10 +27,11 @@ public static class HostApplicationBuilderExtensions
         var services = builder.Services;
 
         services.AddControllers();
+        services.AddAuthentication();
+        services.AddAuthorization();
         services.AddOpenApi(options =>
-        {
-            options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
-        });
+            options.AddDocumentTransformer<BearerSecuritySchemeTransformer>()
+        );
         services.AddProblemDetails();
 
         services.ConfigureLocalization();
@@ -38,9 +45,54 @@ public static class HostApplicationBuilderExtensions
         services
             .AddControllers(options => { })
             .AddJsonOptions(options =>
+                options.JsonSerializerOptions.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            );
+    }
+
+    private static void AddAuthentication(this IServiceCollection services)
+    {
+        services
+            .AddAuthentication(options =>
             {
-                options.JsonSerializerOptions.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+            .AddCookie()
+            .AddOpenIdConnect(options =>
+            {
+                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.Authority = "https://localhost:7058";
+                options.ClientId = AssemblyUtility.ServiceName;
+                options.ClientSecret = "secret";
+                options.ResponseType = OpenIdConnectResponseType.Code;
+                options.SaveTokens = true;
+                options.GetClaimsFromUserInfoEndpoint = true;
+                options.Scope.Add(OpenIdConnectScope.OfflineAccess);
+
+                options.Events.OnRedirectToIdentityProvider = context =>
+                {
+                    if (IsApiRequest(context.HttpContext.Request))
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        context.HandleResponse();
+                        return Task.CompletedTask;
+                    }
+
+                    return Task.CompletedTask;
+                };
             });
+
+        services.AddSingleton<CookieOidcRefresher>();
+        services
+            .AddOptions<CookieAuthenticationOptions>()
+            .Configure<CookieOidcRefresher>(
+                (options, refresher) =>
+                    options.Events.OnValidatePrincipal = context =>
+                        refresher.ValidateOrRefreshCookieAsync(
+                            context,
+                            OpenIdConnectDefaults.AuthenticationScheme
+                        )
+            );
     }
 
     private static void ConfigureLocalization(this IServiceCollection services)
@@ -63,5 +115,33 @@ public static class HostApplicationBuilderExtensions
 
         TypeAdapterConfig<Guid, Uuid>.NewConfig().MapWith(src => (Uuid)src);
         TypeAdapterConfig<Uuid, Guid>.NewConfig().MapWith(src => (Guid)src);
+    }
+
+    private static bool IsApiRequest(HttpRequest request)
+    {
+        if (request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+
+        if (
+            request.Headers.TryGetValue("X-Requested-With", out var xrw)
+            && string.Equals(xrw.ToString(), "XMLHttpRequest", StringComparison.OrdinalIgnoreCase)
+        )
+        {
+            return true;
+        }
+
+        if (
+            request.Headers.TryGetValue("Accept", out var accept)
+            && accept
+                .ToString()
+                .Contains(MediaTypeNames.Application.Json, StringComparison.OrdinalIgnoreCase)
+        )
+        {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -31,7 +31,12 @@ export default defineConfig({
   ],
   server: {
     proxy: {
-      '/api': {
+      '/api/': {
+        target: 'https://localhost:7042/',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/oidc/': {
         target: 'https://localhost:7042/',
         changeOrigin: true,
         secure: false,

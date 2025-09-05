@@ -1,15 +1,14 @@
 namespace Deopeia.AdminPortal.Bff;
 
-public static class ServiceCollectionExtension
+internal static class ServiceCollectionExtension
 {
     public static IServiceCollection AddGrpcIdentity<TClient>(this IServiceCollection services)
         where TClient : class
     {
         services
             .AddGrpcClient<TClient>(options =>
-            {
-                options.Address = new Uri("http://deopeia-identity-api");
-            })
+                options.Address = new Uri("https://deopeia-identity-api")
+            )
             .ConfigureHttpClient(options =>
             {
                 options.DefaultRequestHeaders.AcceptLanguage.Clear();

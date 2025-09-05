@@ -2,7 +2,6 @@ using Deopeia.AdminPortal.Bff.Models.Permissions;
 
 namespace Deopeia.AdminPortal.Bff.Controllers;
 
-[AllowAnonymous]
 public class PermissionsController(PermissionService.PermissionServiceClient client) : ApiController
 {
     private readonly PermissionService.PermissionServiceClient _client = client;

@@ -1,5 +1,14 @@
+global using System.ComponentModel.DataAnnotations;
+global using System.Security.Claims;
+global using System.Text.Json;
 global using Deopeia.Common.Contracts;
+global using Deopeia.Common.Extensions;
 global using Google.Protobuf.WellKnownTypes;
 global using Grpc.Core;
 global using Mapster;
 global using Mediator;
+global using Microsoft.AspNetCore.Authentication;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Cors;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Mvc.RazorPages;

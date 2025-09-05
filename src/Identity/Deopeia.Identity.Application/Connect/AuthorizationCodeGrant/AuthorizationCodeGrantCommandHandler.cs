@@ -1,34 +1,25 @@
+using Deopeia.Identity.Application.Tokens;
 using Deopeia.Identity.Domain.Clients;
 using Deopeia.Identity.Domain.Grants;
 using Deopeia.Identity.Domain.Grants.AuthorizationCodes;
-using Deopeia.Identity.Domain.Grants.RefreshTokens;
-using Deopeia.Identity.Domain.Permissions;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Deopeia.Identity.Application.Connect.AuthorizationCodeGrant;
 
-internal class AuthorizationCodeGrantCommandHandler(
-    IOptions<JwtOptions> jwtOptions,
+internal sealed class AuthorizationCodeGrantCommandHandler(
+    ITokenService tokenService,
     IUnitOfWork unitOfWork,
     IClientRepository clientRepository,
-    IAuthorizationCodeRepository authorizationCodeRepository,
-    IPermissionRepository permissionRepository,
-    IRefreshTokenRepository refreshTokenRepository
+    IAuthorizationCodeRepository authorizationCodeRepository
 )
-    : GrantCommandHandler<AuthorizationCodeGrantCommand>(
-        jwtOptions,
-        unitOfWork,
-        permissionRepository,
-        refreshTokenRepository
-    )
 {
     private readonly TimeSpan _lifetime = TimeSpan.FromMinutes(5);
+    private readonly ITokenService _tokenService = tokenService;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IClientRepository _clientRepository = clientRepository;
     private readonly IAuthorizationCodeRepository _authorizationCodeRepository =
         authorizationCodeRepository;
 
-    public override async ValueTask<GrantResult> Handle(
+    public async ValueTask<GrantResult> Handle(
         AuthorizationCodeGrantCommand command,
         CancellationToken cancellationToken
     )
@@ -79,12 +70,12 @@ internal class AuthorizationCodeGrantCommandHandler(
 
         await ConsumeAsync(authorizationCode);
 
-        var isFromClient = IsFromClient(
-            command.CodeVerifier,
+        var isVerified = _tokenService.VerifyPkce(
+            authorizationCode.CodeChallengeMethod,
             authorizationCode.CodeChallenge,
-            authorizationCode.CodeChallengeMethod
+            command.CodeVerifier
         );
-        if (!isFromClient)
+        if (!isVerified)
         {
             return new AuthorizationCodeGrantResult(GrantError.InvalidGrant);
         }
@@ -95,9 +86,9 @@ internal class AuthorizationCodeGrantCommandHandler(
             return new AuthorizationCodeGrantResult(GrantError.InvalidGrant);
         }
 
-        var accessToken = await GenerateAccessTokenAsync(authorizationCode);
-        var refreshToken = await GenerateRefreshTokenAsync(client, authorizationCode);
-        var idToken = GenerateIdToken(authorizationCode);
+        var accessToken = await _tokenService.GenerateAccessTokenAsync(authorizationCode);
+        var refreshToken = await _tokenService.GenerateRefreshTokenAsync(authorizationCode, client);
+        var idToken = _tokenService.GenerateIdToken(authorizationCode);
         var result = new AuthorizationCodeGrantResult
         {
             AccessToken = accessToken,
@@ -113,22 +104,5 @@ internal class AuthorizationCodeGrantCommandHandler(
     {
         authorizationCode.Consume();
         await _unitOfWork.CommitAsync();
-    }
-
-    private static bool IsFromClient(
-        string codeVerifier,
-        string codeChallenge,
-        string codeChallengeMethod
-    )
-    {
-        var result = codeChallengeMethod switch
-        {
-            ChallengeMethods.Plain => codeChallenge == codeVerifier,
-            ChallengeMethods.Sha256 => codeChallenge
-                == Base64UrlEncoder.Encode(Encoding.ASCII.GetBytes(codeVerifier).Sha256()),
-            _ => false,
-        };
-
-        return result;
     }
 }

@@ -56,10 +56,8 @@ internal class AuthorizeCommandHandler(
             request.CodeChallengeMethod
         );
         _authorizationCodeRepository.Add(authorizationCode);
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.CommitAsync(cancellationToken);
 
-        var result = new AuthorizeResult(authorizationCode, request.State);
-
-        return result;
+        return new AuthorizeResult(authorizationCode, request.State);
     }
 }

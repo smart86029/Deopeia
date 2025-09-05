@@ -6,5 +6,6 @@ global using Deopeia.Common.Extensions;
 global using Deopeia.Identity.Contracts;
 global using Google.Protobuf.WellKnownTypes;
 global using Mapster;
+global using Microsoft.AspNetCore.Authentication;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;

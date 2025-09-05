@@ -1,30 +1,24 @@
+using Deopeia.Identity.Application.Tokens;
 using Deopeia.Identity.Domain.Clients;
 using Deopeia.Identity.Domain.Grants;
 using Deopeia.Identity.Domain.Grants.RefreshTokens;
-using Deopeia.Identity.Domain.Permissions;
 
 namespace Deopeia.Identity.Application.Connect.RefreshTokenGrant;
 
 internal class RefreshTokenGrantCommandHandler(
-    IOptions<JwtOptions> jwtOptions,
+    ITokenService tokenService,
     IUnitOfWork unitOfWork,
     IClientRepository clientRepository,
-    IPermissionRepository permissionRepository,
     IRefreshTokenRepository refreshTokenRepository
 )
-    : GrantCommandHandler<RefreshTokenGrantCommand>(
-        jwtOptions,
-        unitOfWork,
-        permissionRepository,
-        refreshTokenRepository
-    )
 {
     private readonly TimeSpan _lifetime = TimeSpan.FromMinutes(5);
-    private readonly IUnitOfWork _identityUnitOfWork = unitOfWork;
+    private readonly ITokenService _tokenService = tokenService;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IClientRepository _clientRepository = clientRepository;
     private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
 
-    public override async ValueTask<GrantResult> Handle(
+    public async ValueTask<GrantResult> Handle(
         RefreshTokenGrantCommand command,
         CancellationToken cancellationToken
     )
@@ -67,8 +61,8 @@ internal class RefreshTokenGrantCommandHandler(
 
         await ConsumeAsync(refreshToken);
 
-        var accessToken = await GenerateAccessTokenAsync(refreshToken);
-        var newRefreshToken = await GenerateRefreshTokenAsync(client, refreshToken);
+        var accessToken = await _tokenService.GenerateAccessTokenAsync(refreshToken);
+        var newRefreshToken = await _tokenService.GenerateRefreshTokenAsync(refreshToken, client);
         var result = new RefreshTokenGrantResult
         {
             AccessToken = accessToken,
@@ -83,6 +77,6 @@ internal class RefreshTokenGrantCommandHandler(
     {
         refreshToken.Consume();
         _refreshTokenRepository.Update(refreshToken);
-        await _identityUnitOfWork.CommitAsync();
+        await _unitOfWork.CommitAsync();
     }
 }

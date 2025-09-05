@@ -17,7 +17,7 @@ export const useAuthStore = defineStore('auth', () => {
   const getUser = async () => {
     let user = await userManager.getUser();
     if (user === null) {
-      await signIn();
+      signIn();
       user = await userManager.getUser();
     }
 
@@ -30,13 +30,14 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   const signIn = () => {
-    return userManager.signinRedirect();
+    console.log('Redirecting to OIDC login...');
+
+    window.location.href = `/oidc/Login?t=${new Date().getTime()}`;
   };
 
   const signInCallback = () => userManager.signinCallback();
 
-  const signOut = () =>
-    userManager.signoutRedirect().then(() => userManager.removeUser());
+  const signOut = () => userManager.signoutRedirect().then(() => userManager.removeUser());
 
   const refresh = () => userManager.signinSilent();
 

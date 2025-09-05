@@ -9,7 +9,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.13.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Deopeia.Common.Application\Deopeia.Common.Application.csproj" />

@@ -2,25 +2,10 @@ namespace Deopeia.AppHost;
 
 public static class ResourceBuilderExtensions
 {
-    private static IResourceBuilder<ParameterResource>? s_jwtKey;
-    private static IResourceBuilder<ParameterResource>? s_jwtIssuer;
     private static IResourceBuilder<MinIOResource>? s_minIO;
     private static IResourceBuilder<ParameterResource>? s_minIOAccessKey;
     private static IResourceBuilder<ParameterResource>? s_minIOSecretKey;
     private static IResourceBuilder<KafkaServerResource>? s_kafka;
-
-    public static IResourceBuilder<TDestination> WithJwt<TDestination>(
-        this IResourceBuilder<TDestination> builder
-    )
-        where TDestination : ProjectResource
-    {
-        s_jwtKey ??= builder.ApplicationBuilder.AddParameter("JwtKey");
-        s_jwtIssuer ??= builder.ApplicationBuilder.AddParameter("JwtIssuer");
-
-        return builder
-            .WithEnvironment("Jwt__Key", s_jwtKey)
-            .WithEnvironment("Jwt__Issuer", s_jwtIssuer);
-    }
 
     public static IResourceBuilder<TDestination> WithS3<TDestination>(
         this IResourceBuilder<TDestination> builder

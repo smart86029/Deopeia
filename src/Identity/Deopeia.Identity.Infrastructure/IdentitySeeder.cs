@@ -49,17 +49,17 @@ public sealed class IdentitySeeder : DbSeeder
         var results = new List<Client>
         {
             new(
-                "Admin Portal",
+                "AdminPortal",
                 null,
                 GrantTypes.AuthorizationCode | GrantTypes.RefreshToken,
                 ["openid", "profile", "email", "api"],
                 [
-                    new("http://localhost:5173/auth/callback"),
-                    new("http://localhost:5173/auth/silent-refresh"),
+                    new("https://localhost:7042/signin-oidc"),
+                    new("https://localhost:7042/signout-callback-oidc"),
                 ]
             ),
             new(
-                "Client Portal",
+                "ClientPortal",
                 null,
                 GrantTypes.AuthorizationCode | GrantTypes.RefreshToken,
                 ["openid", "profile", "email", "api"],

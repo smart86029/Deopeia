@@ -1,0 +1,32 @@
+﻿@page
+@model Deopeia.Identity.Api.Pages.Authentication.TwoFactorModel
+@{
+  ViewData["Title"] = "Two-Factor Authentication";
+}
+
+<p>Please enter the verification code.</p>
+
+<form asp-controller="Authentication" asp-action="TwoFactor" method="post" autocomplete="off">
+  <input type="hidden" asp-for="UserId" />
+  <input type="hidden" asp-for="ReturnUrl" />
+  <div asp-validation-summary="All" class="has-text-danger"></div>
+
+  <div class="field">
+    <label asp-for="VerificationCode">Verification Code</label>
+    <div class="control">
+      <input type="text" asp-for="VerificationCode" class="input" autofocus />
+    </div>
+    <span asp-validation-for="VerificationCode" class="has-text-danger"></span>
+  </div>
+
+  <div class="field">
+    <button type="submit" class="button is-primary">Verify</button>
+  </div>
+</form>
+
+@section Scripts
+{
+  @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+  }
+}

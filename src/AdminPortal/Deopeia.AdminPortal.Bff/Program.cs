@@ -11,6 +11,8 @@ services
 
 var app = builder.Build();
 app.UseRequestLocalization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapDefaultEndpoints();
 app.MapControllers();

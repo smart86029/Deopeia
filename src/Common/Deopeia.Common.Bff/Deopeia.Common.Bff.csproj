@@ -5,11 +5,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.31.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.32.0" />
     <PackageReference Include="Grpc.Net.ClientFactory" Version="2.71.0" />
     <PackageReference Include="Mapster" Version="7.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
-    <PackageReference Include="Scalar.AspNetCore" Version="2.6.9" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.7.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deopeia.Common.Contracts\Deopeia.Common.Contracts.csproj" />
