@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -27,7 +28,7 @@ public static class HostApplicationBuilderExtensions
         var services = builder.Services;
 
         services.AddControllers();
-        services.AddAuthentication();
+        services.AddAuthentication(configuration);
         services.AddAuthorization();
         services.AddOpenApi(options =>
             options.AddDocumentTransformer<BearerSecuritySchemeTransformer>()
@@ -49,7 +50,10 @@ public static class HostApplicationBuilderExtensions
             );
     }
 
-    private static void AddAuthentication(this IServiceCollection services)
+    private static void AddAuthentication(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
     {
         services
             .AddAuthentication(options =>
@@ -62,7 +66,7 @@ public static class HostApplicationBuilderExtensions
             {
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.Authority = "https://localhost:7058";
-                options.ClientId = AssemblyUtility.ServiceName;
+                options.ClientId = configuration.GetValue<string>("OpenIdConnect:ClientId");
                 options.ClientSecret = "secret";
                 options.ResponseType = OpenIdConnectResponseType.Code;
                 options.SaveTokens = true;

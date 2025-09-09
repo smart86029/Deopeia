@@ -4,8 +4,8 @@ namespace Deopeia.AdminPortal.Bff.Controllers;
 public class OidcController : ControllerBase
 {
     [AllowAnonymous]
-    [HttpGet("Login")]
-    public IActionResult Login(string? returnUrl)
+    [HttpGet("SignIn")]
+    public IActionResult SignIn(string? returnUrl)
     {
         var properties = GetProperties(returnUrl);
         return Challenge(properties);

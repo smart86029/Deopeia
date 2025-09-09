@@ -23,6 +23,8 @@ public class AuthorizeRequest
     [ModelBinder(Name = "code_challenge_method")]
     public string CodeChallengeMethod { get; init; } = string.Empty;
 
+    public string Nonce { get; init; } = string.Empty;
+
     public ICollection<string> Scopes =>
         Scope.Split(' ', StringSplitOptions.RemoveEmptyEntries) ?? [];
 
@@ -36,7 +38,8 @@ public class AuthorizeRequest
             Scopes,
             State,
             CodeChallenge,
-            CodeChallengeMethod
+            CodeChallengeMethod,
+            Nonce
         );
 
         return result;

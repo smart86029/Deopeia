@@ -8,5 +8,6 @@ public record AuthorizeCommand(
     ICollection<string> Scopes,
     string State,
     string CodeChallenge,
-    string CodeChallengeMethod
+    string CodeChallengeMethod,
+    string Nonce
 ) : ICommand<AuthorizeResult>;

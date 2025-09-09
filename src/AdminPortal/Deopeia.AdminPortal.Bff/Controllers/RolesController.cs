@@ -2,7 +2,6 @@ using Deopeia.AdminPortal.Bff.Models.Roles;
 
 namespace Deopeia.AdminPortal.Bff.Controllers;
 
-[AllowAnonymous]
 public class RolesController(RoleService.RoleServiceClient client) : ApiController
 {
     private readonly RoleService.RoleServiceClient _client = client;

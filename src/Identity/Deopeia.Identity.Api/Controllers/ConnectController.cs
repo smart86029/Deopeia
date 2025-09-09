@@ -45,7 +45,7 @@ public class ConnectController(IMediator mediator) : ControllerBase
         {
             var command = request.ToCommand();
             var result = await _mediator.Send(command);
-            return result.Error is not null ? BadRequest(result.Error) : Ok(result);
+            return result.Error is null ? Ok(result) : BadRequest(result.Error);
         }
         catch (Exception)
         {

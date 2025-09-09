@@ -10,7 +10,7 @@ internal sealed class AuthorizationCodeGrantCommandHandler(
     IUnitOfWork unitOfWork,
     IClientRepository clientRepository,
     IAuthorizationCodeRepository authorizationCodeRepository
-)
+) : ICommandHandler<AuthorizationCodeGrantCommand, GrantResult>
 {
     private readonly TimeSpan _lifetime = TimeSpan.FromMinutes(5);
     private readonly ITokenService _tokenService = tokenService;
@@ -24,7 +24,9 @@ internal sealed class AuthorizationCodeGrantCommandHandler(
         CancellationToken cancellationToken
     )
     {
-        var client = await _clientRepository.GetClientAsync(command.ClientId);
+        var client = await _clientRepository.GetClientAsync(
+            new ClientId(command.ClientId.ToGuid())
+        );
         if (client is null || !client.GrantTypes.HasFlag(GrantTypes.AuthorizationCode))
         {
             return new AuthorizationCodeGrantResult(GrantError.UnauthorizedClient);

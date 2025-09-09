@@ -15,46 +15,42 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Deopeia.Identity.Infrastructure.Tokens;
 
-internal sealed class TokenService : ITokenService
+internal sealed class TokenService(
+    IOptions<JwtOptions> jwtOptions,
+    IUnitOfWork unitOfWork,
+    IPermissionRepository permissionRepository,
+    IRefreshTokenRepository refreshTokenRepository
+) : ITokenService
 {
     private static readonly TimeSpan LifetimeAccessToken = TimeSpan.FromMinutes(5);
     private static readonly TimeSpan LifetimeIdToken = TimeSpan.FromDays(1);
+    private static readonly RSA Rsa;
+    private static readonly SigningCredentials Credential;
+    private static readonly JsonWebKeyDto Jwk;
 
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IPermissionRepository _permissionRepository;
-    private readonly IRefreshTokenRepository _refreshTokenRepository;
-    private readonly string _issuer;
-    private readonly SigningCredentials _credential;
-    private readonly JsonWebKeyDto _jsonWebKey;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IPermissionRepository _permissionRepository = permissionRepository;
+    private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
+    private readonly string _issuer = jwtOptions.Value.Issuer;
 
-    public TokenService(
-        IOptions<JwtOptions> jwtOptions,
-        IUnitOfWork unitOfWork,
-        IPermissionRepository permissionRepository,
-        IRefreshTokenRepository refreshTokenRepository
-    )
+    static TokenService()
     {
-        _unitOfWork = unitOfWork;
-        _permissionRepository = permissionRepository;
-        _refreshTokenRepository = refreshTokenRepository;
-        _issuer = jwtOptions.Value.Issuer;
-
-        using var rsa = RSA.Create(2048);
-        var rsaSecurityKey = new RsaSecurityKey(rsa) { KeyId = Guid.NewGuid().ToString("N") };
-        _credential = new SigningCredentials(rsaSecurityKey, SecurityAlgorithms.RsaSha256);
+        Rsa = RSA.Create(2048);
+        var rsaSecurityKey = new RsaSecurityKey(Rsa) { KeyId = Guid.NewGuid().ToString("N") };
+        Credential = new SigningCredentials(rsaSecurityKey, SecurityAlgorithms.RsaSha256);
 
         var jsonWebKey = JsonWebKeyConverter.ConvertFromRSASecurityKey(rsaSecurityKey);
-        _jsonWebKey = new JsonWebKeyDto(
+        Jwk = new JsonWebKeyDto(
             jsonWebKey.Kty,
             "sig",
             SecurityAlgorithms.RsaSha256,
             jsonWebKey.Kid,
-            jsonWebKey.E,
-            jsonWebKey.N
+            jsonWebKey.N,
+            jsonWebKey.E
         );
     }
 
-    public JsonWebKeyDto JsonWebKey => _jsonWebKey;
+    public JsonWebKeyDto JsonWebKey => Jwk;
 
     public bool VerifyPkce(string codeChallengeMethod, string codeChallenge, string codeVerifier)
     {
@@ -71,13 +67,16 @@ internal sealed class TokenService : ITokenService
     {
         var subjectId = authorizationCode.SubjectId.ToString()!;
         var issuedAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        var expirationTime = issuedAt + (long)LifetimeIdToken.TotalSeconds;
         var claims = new List<Claim>
         {
-            new(JwtRegisteredClaimNames.Sub, subjectId, ClaimValueTypes.String),
-            new(JwtRegisteredClaimNames.GivenName, string.Empty, ClaimValueTypes.String),
+            new(JwtRegisteredClaimNames.Iss, _issuer),
+            new(JwtRegisteredClaimNames.Sub, subjectId),
+            new(JwtRegisteredClaimNames.Aud, authorizationCode.ClientId.ToString()),
+            new(JwtRegisteredClaimNames.Exp, expirationTime.ToString(), ClaimValueTypes.Integer64),
             new(JwtRegisteredClaimNames.Iat, issuedAt.ToString(), ClaimValueTypes.Integer64),
-            new(JwtRegisteredClaimNames.Nonce, authorizationCode.Nonce, ClaimValueTypes.String),
-            new(JwtRegisteredClaimNames.Amr, "pwd", ClaimValueTypes.String),
+            new(JwtRegisteredClaimNames.Nonce, authorizationCode.Nonce),
+            new(JwtRegisteredClaimNames.Amr, "pwd"),
         };
         return CreateToken(claims, LifetimeIdToken);
     }
@@ -92,7 +91,7 @@ internal sealed class TokenService : ITokenService
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, grant.SubjectId.ToString()!, ClaimValueTypes.String),
-            new(JwtRegisteredClaimNames.Aud, "https://localhost:7042"),
+            new(JwtRegisteredClaimNames.Aud, grant.ClientId.ToString(), ClaimValueTypes.String),
             new(JwtRegisteredClaimNames.Iat, issuedAt.ToString(), ClaimValueTypes.Integer64),
             new("scope", string.Join(' ', grant.Scopes)),
             new("permissions", string.Join(',', permissionCodes.Select(x => x.Value))),
@@ -121,7 +120,7 @@ internal sealed class TokenService : ITokenService
             issuer: _issuer,
             claims: claims,
             expires: DateTime.UtcNow.Add(lifetime),
-            signingCredentials: _credential
+            signingCredentials: Credential
         );
         return handler.WriteToken(token);
     }

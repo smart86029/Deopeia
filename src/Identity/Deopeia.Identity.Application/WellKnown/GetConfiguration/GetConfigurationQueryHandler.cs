@@ -21,7 +21,7 @@ internal sealed class GetConfigurationQueryHandler(IOptions<JwtOptions> jwtOptio
             AcrValuesSupported = ["urn:mace:incommon:iap:silver", "urn:mace:incommon:iap:bronze"],
             ResponseTypesSupported = ["code", "code id_token", "id_token", "token id_token"],
             SubjectTypesSupported = ["public", "pairwise"],
-            UserinfoEndpoint = Relative("/api/UserInfo/GetUserInfo"),
+            // UserinfoEndpoint = Relative("/UserInfo"),
             UserinfoEncryptionEncValuesSupported = ["A128CBC-HS256", "A128GCM"],
             IdTokenSigningAlgValuesSupported = ["RS256", "ES256", "HS256", "SHA256"],
             IdTokenEncryptionAlgValuesSupported = ["RSA1_5", "A128KW"],

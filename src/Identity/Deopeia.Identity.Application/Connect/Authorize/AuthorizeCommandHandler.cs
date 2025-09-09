@@ -24,7 +24,9 @@ internal class AuthorizeCommandHandler(
             throw new Exception("response type is required or is not valid");
         }
 
-        var client = await _clientRepository.GetClientAsync(request.ClientId);
+        var client = await _clientRepository.GetClientAsync(
+            new ClientId(request.ClientId.ToGuid())
+        );
         if (client is null || !client.IsEnabled)
         {
             throw new Exception("UnAuthoriazedClient");
@@ -51,7 +53,7 @@ internal class AuthorizeCommandHandler(
             client,
             clientScopes,
             request.RedirectUri!,
-            string.Empty,
+            request.Nonce,
             request.CodeChallenge,
             request.CodeChallengeMethod
         );

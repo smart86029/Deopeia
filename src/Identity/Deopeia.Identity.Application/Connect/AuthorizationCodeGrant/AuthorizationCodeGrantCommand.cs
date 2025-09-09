@@ -1,6 +1,6 @@
 namespace Deopeia.Identity.Application.Connect.AuthorizationCodeGrant;
 
-public record AuthorizationCodeGrantCommand(
+public sealed record AuthorizationCodeGrantCommand(
     string ClientId,
     Uri? RedirectUri,
     string GrantType,

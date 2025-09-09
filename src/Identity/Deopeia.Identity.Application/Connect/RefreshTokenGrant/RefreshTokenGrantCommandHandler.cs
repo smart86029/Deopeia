@@ -10,7 +10,7 @@ internal class RefreshTokenGrantCommandHandler(
     IUnitOfWork unitOfWork,
     IClientRepository clientRepository,
     IRefreshTokenRepository refreshTokenRepository
-)
+) : ICommandHandler<RefreshTokenGrantCommand, GrantResult>
 {
     private readonly TimeSpan _lifetime = TimeSpan.FromMinutes(5);
     private readonly ITokenService _tokenService = tokenService;
@@ -23,7 +23,9 @@ internal class RefreshTokenGrantCommandHandler(
         CancellationToken cancellationToken
     )
     {
-        var client = await _clientRepository.GetClientAsync(command.ClientId);
+        var client = await _clientRepository.GetClientAsync(
+            new ClientId(command.ClientId.ToGuid())
+        );
         if (
             client is null
             || !client.IsEnabled

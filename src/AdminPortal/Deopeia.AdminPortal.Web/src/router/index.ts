@@ -1,7 +1,6 @@
 import { usePreferencesStore } from '@/stores/preferences';
 import { createRouter, createWebHistory, type RouteLocationNormalized } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import auth from './auth';
 import identity from './identity';
 import me from './me';
 
@@ -35,7 +34,6 @@ const router = createRouter({
         ...me,
       ],
     },
-    ...auth,
     { path: '/:pathMatch(.*)*', name: '404', redirect: { name: 'home' } },
   ],
 });

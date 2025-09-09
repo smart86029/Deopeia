@@ -2,7 +2,6 @@ using Deopeia.AdminPortal.Bff.Models.Users;
 
 namespace Deopeia.AdminPortal.Bff.Controllers;
 
-[AllowAnonymous]
 public class UsersController(UserService.UserServiceClient client) : ApiController
 {
     private readonly UserService.UserServiceClient _client = client;
