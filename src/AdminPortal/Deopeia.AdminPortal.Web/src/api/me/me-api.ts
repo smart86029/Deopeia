@@ -2,7 +2,7 @@ import httpClient from '../http-client';
 
 export interface Authenticator {
   isEnabled: boolean;
-  imageUrl: string;
+  qrCodeImageUrl: string;
   manualEntryKey: string;
 }
 
@@ -16,11 +16,10 @@ export interface ChangePasswordCommand {
 }
 
 export const meApi = {
-  getAuthenticator: () => httpClient.get<Authenticator>(`/Me/Authenticator`),
+  getAuthenticator: () => httpClient.get<Authenticator>(`/Me/2fa`),
   enableAuthenticator: (verificationCode: string) =>
-    httpClient.put(`/Me/Authenticator`, { verificationCode }),
+    httpClient.put(`/Me/2fa`, { verificationCode }),
   getProfile: () => httpClient.get<Profile>(`/Me/Profile`),
   uploadAvatar: (file: File) => httpClient.putForm(`/Me/Avatar`, { file }),
-  changePassword: (command: ChangePasswordCommand) =>
-    httpClient.put(`/Me/Password`, command),
+  changePassword: (command: ChangePasswordCommand) => httpClient.put(`/Me/Password`, command),
 };

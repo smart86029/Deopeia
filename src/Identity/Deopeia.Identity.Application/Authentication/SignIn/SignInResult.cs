@@ -1,8 +1,8 @@
 namespace Deopeia.Identity.Application.Authentication.SignIn;
 
-public class SignInResult
+public sealed record SignInResult
 {
-    public Guid? UserId { get; set; }
+    public Guid? UserId { get; init; }
 
-    public bool IsTwoFactorEnabled { get; set; }
+    public bool IsTwoFactorEnabled { get; init; }
 }

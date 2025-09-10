@@ -10,17 +10,23 @@ option csharp_namespace = "Deopeia.Identity.Contracts";
 
 // The user service definition.
 service UserService {
-  // ListUsers retrieves a paginated list of users.
+  // Lists users with pagination.
   rpc ListUser (ListUserRequest) returns (ListUserResponse);
 
-  // GetUser retrieves a user by their ID.
+  // Gets a user by their ID.
   rpc GetUser (GetUserRequest) returns (GetUserResponse);
 
-  // CreateUser creates a new user.
+  // Creates a new user.
   rpc CreateUser (CreateUserRequest) returns (google.protobuf.Empty);
 
-  // UpdateUser updates an existing user.
+  // Updates an existing user.
   rpc UpdateUser (UpdateUserRequest) returns (google.protobuf.Empty);
+
+  // Gets the authenticator details for a user.
+  rpc GetAuthenticator (GetAuthenticatorRequest) returns (GetAuthenticatorResponse);
+
+  // Enables the authenticator for a user.
+  rpc EnableAuthenticator (EnableAuthenticatorRequest) returns (google.protobuf.Empty);
 }
 
 // The request message for listing users.
@@ -76,4 +82,22 @@ message UpdateUserRequest {
   google.protobuf.StringValue password = 3;
   bool is_enabled = 4;
   repeated string role_codes = 5;
+}
+
+// The request message for getting authenticator details.
+message GetAuthenticatorRequest {
+  deopeia.common.Uuid user_id = 1;
+}
+
+// The response message containing the authenticator details.
+message GetAuthenticatorResponse {
+  bool is_enabled = 1;
+  google.protobuf.StringValue qr_code_image_url = 2;
+  google.protobuf.StringValue manual_entry_key = 3;
+}
+
+// The request message for enabling the authenticator.
+message EnableAuthenticatorRequest {
+  deopeia.common.Uuid user_id = 1;
+  string verification_code = 2;
 }

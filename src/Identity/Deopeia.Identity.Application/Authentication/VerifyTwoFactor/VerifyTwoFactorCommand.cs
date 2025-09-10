@@ -1,3 +1,3 @@
 namespace Deopeia.Identity.Application.Authentication.VerifyTwoFactor;
 
-public record VerifyTwoFactorCommand(Guid UserId, string TwoFactorCode) : ICommand<bool> { }
+public sealed record VerifyTwoFactorCommand(Guid UserId, string TwoFactorCode) : ICommand<bool>;

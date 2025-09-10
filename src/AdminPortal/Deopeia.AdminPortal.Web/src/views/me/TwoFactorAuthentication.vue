@@ -2,8 +2,8 @@
   <h2>{{ $t('route.me.twoFactorAuthentication') }}</h2>
   <el-form label-position="top" @submit.prevent="enable">
     <el-form-item class="item-image">
-      <el-skeleton :loading="!authenticator.imageUrl">
-        <el-image :src="authenticator.imageUrl" />
+      <el-skeleton :loading="!authenticator.qrCodeImageUrl">
+        <el-image :src="authenticator.qrCodeImageUrl" />
         <template #template>
           <el-skeleton-item class="skeleton-image" />
         </template>
@@ -27,7 +27,7 @@ import { meApi, type Authenticator } from '@/api/me/me-api';
 const loading = ref(false);
 const authenticator: Authenticator = reactive({
   isEnabled: false,
-  imageUrl: '',
+  qrCodeImageUrl: '',
   manualEntryKey: '',
 });
 const verificationCode = ref('');

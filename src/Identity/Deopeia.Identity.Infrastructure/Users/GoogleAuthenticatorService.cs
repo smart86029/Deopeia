@@ -4,22 +4,23 @@ using SetupCode = Deopeia.Identity.Application.Users.SetupCode;
 
 namespace Deopeia.Identity.Infrastructure.Users;
 
-internal class GoogleAuthenticatorService : IAuthenticatorService
+internal sealed class GoogleAuthenticatorService : IAuthenticatorService
 {
+    private readonly TwoFactorAuthenticator _twoFactorAuthenticator = new();
+
     public SetupCode GenerateSetupCode(string secretKey, string title)
     {
-        var setupCode = new TwoFactorAuthenticator().GenerateSetupCode(
+        var setupCode = _twoFactorAuthenticator.GenerateSetupCode(
             "Deopeia",
             title,
             secretKey,
             true
         );
-
         return new SetupCode(setupCode.QrCodeSetupImageUrl, setupCode.ManualEntryKey);
     }
 
     public bool ValidateTwoFactorCode(string secretKey, string verificationCode)
     {
-        return new TwoFactorAuthenticator().ValidateTwoFactorPIN(secretKey, verificationCode, true);
+        return _twoFactorAuthenticator.ValidateTwoFactorPIN(secretKey, verificationCode, true);
     }
 }

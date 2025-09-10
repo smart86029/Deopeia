@@ -3,7 +3,7 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Application.Authentication.VerifyTwoFactor;
 
-internal class VerifyTwoFactorCommandHandler(
+internal sealed class VerifyTwoFactorCommandHandler(
     IUserRepository userRepository,
     IAuthenticatorService authenticatorService
 ) : ICommandHandler<VerifyTwoFactorCommand, bool>
@@ -23,7 +23,7 @@ internal class VerifyTwoFactorCommandHandler(
         }
 
         return _authenticatorService.ValidateTwoFactorCode(
-            user.Authenticator.SecretKey!,
+            user.Authenticator.SecretKey,
             command.TwoFactorCode
         );
     }

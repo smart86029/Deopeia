@@ -1,3 +1,4 @@
 namespace Deopeia.Identity.Application.Authentication.SignIn;
 
-public record SignInCommand(string UserName, string Password, string Code) : ICommand<SignInResult>;
+public sealed record SignInCommand(string UserName, string Password, string Code)
+    : ICommand<SignInResult>;

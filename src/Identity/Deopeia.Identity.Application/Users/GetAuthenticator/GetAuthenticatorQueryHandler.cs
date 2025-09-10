@@ -19,6 +19,11 @@ internal class GetAuthenticatorQueryHandler(
     {
         var user = await _userRepository.GetUserAsync(new UserId(request.UserId));
         var authenticator = user.Authenticator;
+        if (authenticator.IsEnabled)
+        {
+            return new GetAuthenticatorResult { IsEnabled = authenticator.IsEnabled };
+        }
+
         if (authenticator.SecretKey.IsNullOrWhiteSpace())
         {
             authenticator.CreateSecretKey();
@@ -29,11 +34,10 @@ internal class GetAuthenticatorQueryHandler(
             authenticator.SecretKey!,
             user.UserName
         );
-
         return new GetAuthenticatorResult
         {
             IsEnabled = authenticator.IsEnabled,
-            ImageUrl = setupCode.ImageUrl,
+            QrCodeImageUrl = setupCode.QrCodeImageUrl,
             ManualEntryKey = setupCode.ManualEntryKey,
         };
     }

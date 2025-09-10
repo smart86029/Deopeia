@@ -3,7 +3,7 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Application.Authentication.SignIn;
 
-internal class SignInCommandHandler(
+internal sealed class SignInCommandHandler(
     IUnitOfWork unitOfWork,
     IUserRepository userRepository,
     IAuthorizationCodeRepository authorizationCodeRepository
@@ -20,22 +20,24 @@ internal class SignInCommandHandler(
     )
     {
         var user = await _userRepository.GetUserAsync(request.UserName, request.Password);
-        if (user is not null)
+        if (user is null)
         {
-            var authorizationCode = await _authorizationCodeRepository.GetAuthorizationCodeAsync(
-                request.Code
-            );
-            if (authorizationCode is not null)
-            {
-                authorizationCode.UpdateSubjectId(user.Id.Guid);
-                await _unitOfWork.CommitAsync();
-            }
+            return new SignInResult();
+        }
+
+        var authorizationCode = await _authorizationCodeRepository.GetAuthorizationCodeAsync(
+            request.Code
+        );
+        if (authorizationCode is not null)
+        {
+            authorizationCode.UpdateSubjectId(user.Id.Guid);
+            await _unitOfWork.CommitAsync();
         }
 
         return new SignInResult
         {
-            UserId = user?.Id.Guid,
-            IsTwoFactorEnabled = user?.Authenticator.IsEnabled ?? false,
+            UserId = user.Id.Guid,
+            IsTwoFactorEnabled = user.Authenticator.IsEnabled,
         };
     }
 }

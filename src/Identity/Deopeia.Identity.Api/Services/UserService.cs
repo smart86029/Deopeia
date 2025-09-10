@@ -1,4 +1,6 @@
 using Deopeia.Identity.Application.Users.CreateUser;
+using Deopeia.Identity.Application.Users.EnableAuthenticator;
+using Deopeia.Identity.Application.Users.GetAuthenticator;
 using Deopeia.Identity.Application.Users.GetUser;
 using Deopeia.Identity.Application.Users.GetUsers;
 using Deopeia.Identity.Application.Users.UpdateUser;
@@ -46,6 +48,26 @@ public class UserService(IMediator mediator) : Contracts.UserService.UserService
     )
     {
         var command = request.Adapt<UpdateUserCommand>();
+        await _mediator.Send(command);
+        return new Empty();
+    }
+
+    public override async Task<GetAuthenticatorResponse> GetAuthenticator(
+        GetAuthenticatorRequest request,
+        ServerCallContext context
+    )
+    {
+        var query = request.Adapt<GetAuthenticatorQuery>();
+        var response = await _mediator.Send(query);
+        return response.Adapt<GetAuthenticatorResponse>();
+    }
+
+    public override async Task<Empty> EnableAuthenticator(
+        EnableAuthenticatorRequest request,
+        ServerCallContext context
+    )
+    {
+        var command = request.Adapt<EnableAuthenticatorCommand>();
         await _mediator.Send(command);
         return new Empty();
     }

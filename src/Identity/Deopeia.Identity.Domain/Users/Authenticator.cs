@@ -16,6 +16,7 @@ public class Authenticator : Entity<UserId>
 
     public string? SecretKey { get; private set; }
 
+    [MemberNotNullWhen(true, nameof(SecretKey))]
     public bool IsEnabled { get; private set; }
 
     public int ErrorCount { get; private set; }
