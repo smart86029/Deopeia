@@ -82,8 +82,7 @@ internal sealed class AuthorizationCodeGrantCommandHandler(
             return new AuthorizationCodeGrantResult(GrantError.InvalidGrant);
         }
 
-        var subjectId = authorizationCode.SubjectId.ToString();
-        if (subjectId.IsNullOrWhiteSpace())
+        if (authorizationCode.SubjectId is null)
         {
             return new AuthorizationCodeGrantResult(GrantError.InvalidGrant);
         }
@@ -91,15 +90,13 @@ internal sealed class AuthorizationCodeGrantCommandHandler(
         var accessToken = await _tokenService.GenerateAccessTokenAsync(authorizationCode);
         var refreshToken = await _tokenService.GenerateRefreshTokenAsync(authorizationCode, client);
         var idToken = _tokenService.GenerateIdToken(authorizationCode);
-        var result = new AuthorizationCodeGrantResult
+        return new AuthorizationCodeGrantResult
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken,
             IdToken = idToken,
             Lifetime = _lifetime,
         };
-
-        return result;
     }
 
     private async Task ConsumeAsync(AuthorizationCode authorizationCode)

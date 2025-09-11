@@ -1,3 +1,3 @@
 namespace Deopeia.Identity.Application.Users.GetAvatar;
 
-public record GetAvatarQuery(Guid UserId) : IQuery<Uri?>;
+public sealed record GetAvatarQuery(Guid UserId) : IQuery<Uri?>;

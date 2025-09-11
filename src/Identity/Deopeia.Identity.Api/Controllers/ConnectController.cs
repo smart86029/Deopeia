@@ -20,7 +20,7 @@ public class ConnectController(IMediator mediator) : ControllerBase
             var command = request.ToCommand(userId);
             var authorizeResult = await _mediator.Send(command);
 
-            if (User.Identity is null || User.Identity.IsAuthenticated)
+            if (User.Identity is null || !User.Identity.IsAuthenticated)
             {
                 return RedirectToPage(
                     "/Authentication/SignIn",
@@ -47,9 +47,15 @@ public class ConnectController(IMediator mediator) : ControllerBase
             var result = await _mediator.Send(command);
             return result.Error is null ? Ok(result) : BadRequest(result.Error);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
-            return BadRequest(new ErrorResult());
+            return BadRequest(
+                new ErrorResult
+                {
+                    Error = exception.Message,
+                    ErrorDescription = exception.StackTrace ?? string.Empty,
+                }
+            );
         }
     }
 

@@ -22,6 +22,43 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Deopeia.Common.Domain.Files.FileResource", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Extension")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("extension");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.Property<int>("Size")
+                        .HasColumnType("integer")
+                        .HasColumnName("size");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer")
+                        .HasColumnName("type");
+
+                    b.HasKey("Id")
+                        .HasName("pk_file_resource");
+
+                    b.HasIndex("Type")
+                        .HasDatabaseName("ix_file_resource_type");
+
+                    b.ToTable("file_resource", (string)null);
+
+                    b.HasDiscriminator<int>("Type");
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("Deopeia.Identity.Domain.Clients.Client", b =>
                 {
                     b.Property<Guid>("Id")
@@ -370,6 +407,15 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                         .HasDatabaseName("ix_user_role_role_id");
 
                     b.ToTable("user_role", (string)null);
+                });
+
+            modelBuilder.Entity("Deopeia.Common.Domain.Files.Image", b =>
+                {
+                    b.HasBaseType("Deopeia.Common.Domain.Files.FileResource");
+
+                    b.ToTable("file_resource", (string)null);
+
+                    b.HasDiscriminator().HasValue(1);
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Grants.AuthorizationCodes.AuthorizationCode", b =>

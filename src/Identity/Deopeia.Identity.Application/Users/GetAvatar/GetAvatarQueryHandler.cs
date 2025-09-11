@@ -3,7 +3,7 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Application.Users.GetAvatar;
 
-internal class GetAvatarQueryHandler(
+internal sealed class GetAvatarQueryHandler(
     IUserRepository userRepository,
     IImageRepository imageRepository
 ) : IQueryHandler<GetAvatarQuery, Uri?>
@@ -20,7 +20,6 @@ internal class GetAvatarQueryHandler(
         }
 
         var avatar = await _imageRepository.GetImageAsync(user.AvatarId.Value);
-
         return avatar.PresignedUri;
     }
 }

@@ -65,13 +65,12 @@ internal sealed class TokenService(
 
     public string GenerateIdToken(AuthorizationCode authorizationCode)
     {
-        var subjectId = authorizationCode.SubjectId.ToString()!;
         var issuedAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         var expirationTime = issuedAt + (long)LifetimeIdToken.TotalSeconds;
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Iss, _issuer),
-            new(JwtRegisteredClaimNames.Sub, subjectId),
+            new(JwtRegisteredClaimNames.Sub, authorizationCode.SubjectId.ToString()!),
             new(JwtRegisteredClaimNames.Aud, authorizationCode.ClientId.ToString()),
             new(JwtRegisteredClaimNames.Exp, expirationTime.ToString(), ClaimValueTypes.Integer64),
             new(JwtRegisteredClaimNames.Iat, issuedAt.ToString(), ClaimValueTypes.Integer64),

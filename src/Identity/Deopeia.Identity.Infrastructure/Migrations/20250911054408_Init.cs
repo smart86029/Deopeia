@@ -44,6 +44,21 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "file_resource",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    type = table.Column<int>(type: "integer", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    extension = table.Column<string>(type: "text", nullable: false),
+                    size = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_file_resource", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "grant",
                 columns: table => new
                 {
@@ -225,6 +240,11 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "ix_file_resource_type",
+                table: "file_resource",
+                column: "type");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_grant_client_id",
                 table: "grant",
                 column: "client_id");
@@ -278,6 +298,9 @@ namespace Deopeia.Identity.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "client");
+
+            migrationBuilder.DropTable(
+                name: "file_resource");
 
             migrationBuilder.DropTable(
                 name: "grant");

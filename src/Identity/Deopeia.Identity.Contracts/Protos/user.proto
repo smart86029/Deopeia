@@ -27,6 +27,12 @@ service UserService {
 
   // Enables the authenticator for a user.
   rpc EnableAuthenticator (EnableAuthenticatorRequest) returns (google.protobuf.Empty);
+
+  // Gets the avatar URL for a user.
+  rpc GetAvatar (GetAvatarRequest) returns (GetAvatarResponse);
+
+  // Uploads an avatar for a user.
+  rpc UploadAvatar (stream UploadAvatarRequest) returns (google.protobuf.Empty);
 }
 
 // The request message for listing users.
@@ -100,4 +106,21 @@ message GetAuthenticatorResponse {
 message EnableAuthenticatorRequest {
   deopeia.common.Uuid user_id = 1;
   string verification_code = 2;
+}
+
+// The request message for getting a user's avatar.
+message GetAvatarRequest {
+  deopeia.common.Uuid user_id = 1;
+}
+
+// The response message containing the avatar URL.
+message GetAvatarResponse {
+  google.protobuf.StringValue url = 1;
+}
+
+// The request message for uploading an avatar, sent as a stream of data chunks.
+message UploadAvatarRequest {
+  deopeia.common.Uuid user_id = 1;
+  string file_name = 2;
+  bytes content = 3;
 }
