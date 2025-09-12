@@ -89,7 +89,7 @@ internal sealed class AuthorizationCodeGrantCommandHandler(
 
         var accessToken = await _tokenService.GenerateAccessTokenAsync(authorizationCode);
         var refreshToken = await _tokenService.GenerateRefreshTokenAsync(authorizationCode, client);
-        var idToken = _tokenService.GenerateIdToken(authorizationCode);
+        var idToken = await _tokenService.GenerateIdTokenAsync(authorizationCode);
         return new AuthorizationCodeGrantResult
         {
             AccessToken = accessToken,

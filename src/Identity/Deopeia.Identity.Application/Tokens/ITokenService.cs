@@ -10,7 +10,7 @@ public interface ITokenService
 
     bool VerifyPkce(string codeChallengeMethod, string codeChallenge, string codeVerifier);
 
-    string GenerateIdToken(AuthorizationCode authorizationCode);
+    Task<string> GenerateIdTokenAsync(AuthorizationCode authorizationCode);
 
     Task<string> GenerateAccessTokenAsync(Grant grant);
 

@@ -18,6 +18,7 @@ namespace Deopeia.Identity.Infrastructure.Tokens;
 internal sealed class TokenService(
     IOptions<JwtOptions> jwtOptions,
     IUnitOfWork unitOfWork,
+    IUserRepository userRepository,
     IPermissionRepository permissionRepository,
     IRefreshTokenRepository refreshTokenRepository
 ) : ITokenService
@@ -29,6 +30,7 @@ internal sealed class TokenService(
     private static readonly JsonWebKeyDto Jwk;
 
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUserRepository _userRepository = userRepository;
     private readonly IPermissionRepository _permissionRepository = permissionRepository;
     private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
     private readonly string _issuer = jwtOptions.Value.Issuer;
@@ -63,10 +65,14 @@ internal sealed class TokenService(
         };
     }
 
-    public string GenerateIdToken(AuthorizationCode authorizationCode)
+    public async Task<string> GenerateIdTokenAsync(AuthorizationCode authorizationCode)
     {
         var issuedAt = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         var expirationTime = issuedAt + (long)LifetimeIdToken.TotalSeconds;
+
+        var userId = new UserId(authorizationCode.SubjectId!.Value);
+        var user = await _userRepository.GetUserAsync(userId);
+
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Iss, _issuer),
@@ -76,6 +82,7 @@ internal sealed class TokenService(
             new(JwtRegisteredClaimNames.Iat, issuedAt.ToString(), ClaimValueTypes.Integer64),
             new(JwtRegisteredClaimNames.Nonce, authorizationCode.Nonce),
             new(JwtRegisteredClaimNames.Amr, "pwd"),
+            new(JwtRegisteredClaimNames.Name, user.UserName),
         };
         return CreateToken(claims, LifetimeIdToken);
     }

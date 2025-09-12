@@ -3,9 +3,7 @@ using Deopeia.Identity.Application.Connect;
 
 namespace Deopeia.Identity.Api.Controllers;
 
-[Route("[controller]")]
-[EnableCors(CorsPolicies.Oidc)]
-public class ConnectController(IMediator mediator) : ControllerBase
+public class ConnectController(IMediator mediator) : OidcController
 {
     private readonly IMediator _mediator = mediator;
 

@@ -36,7 +36,7 @@ public class MeController(UserService.UserServiceClient client) : ApiController
         var grpcRequest = new GetAvatarRequest { UserId = User.GetUserId() };
         var grpcResponse = await _client.GetAvatarAsync(grpcRequest);
         var result = new ProfileResponse(grpcResponse.Url);
-        var a = User;
+        var a = User.Claims.FirstOrDefault(x => x.Type == "name")?.Value;
         return Ok(result);
     }
 

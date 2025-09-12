@@ -6,6 +6,7 @@ using Deopeia.Common.Contracts;
 using Deopeia.Common.Utilities;
 using Google.Protobuf.Collections;
 using Mapster;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -70,7 +71,6 @@ public static class HostApplicationBuilderExtensions
                 options.ClientSecret = "secret";
                 options.ResponseType = OpenIdConnectResponseType.Code;
                 options.SaveTokens = true;
-                options.GetClaimsFromUserInfoEndpoint = true;
                 options.Scope.Add(OpenIdConnectScope.OfflineAccess);
 
                 options.Events.OnRedirectToIdentityProvider = context =>
