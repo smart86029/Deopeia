@@ -9,8 +9,12 @@ public static class ClaimsPrincipalExtensions
         var nameIdentifier = claimsPrincipal
             .Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)
             ?.Value;
-        var result = nameIdentifier?.ToGuid() ?? Guid.Empty;
+        return nameIdentifier?.ToGuid() ?? Guid.Empty;
+    }
 
-        return result;
+    public static string GetUserName(this ClaimsPrincipal claimsPrincipal)
+    {
+        var name = claimsPrincipal.Claims.FirstOrDefault(x => x.Type == "name")?.Value;
+        return name ?? string.Empty;
     }
 }
