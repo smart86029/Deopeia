@@ -1,6 +1,6 @@
 <template>
   <h2>{{ $t('auth.changePassword') }}</h2>
-  <el-form label-position="top" @submit.prevent="save">
+  <el-form label-position="top" @submit.prevent="mutate">
     <el-form-item :label="$t('auth.currentPassword')">
       <el-input v-model="form.currentPassword" type="password" show-password />
     </el-form-item>
@@ -8,7 +8,7 @@
       <el-input v-model="form.newPassword" type="password" show-password />
     </el-form-item>
     <el-form-item>
-      <ButtonSave class="button-save" />
+      <ButtonSave class="button-save" :loading="isPending" />
     </el-form-item>
   </el-form>
 </template>
@@ -21,11 +21,13 @@ const form: ChangePasswordCommand = reactive({
   newPassword: '',
 });
 
-const save = () =>
-  meApi.changePassword(form).then(() => {
+const { isPending, mutate } = useMutation({
+  mutationFn: () => meApi.changePassword(form),
+  onSuccess: () => {
     form.currentPassword = '';
     form.newPassword = '';
-  });
+  },
+});
 </script>
 
 <style lang="scss" scoped>

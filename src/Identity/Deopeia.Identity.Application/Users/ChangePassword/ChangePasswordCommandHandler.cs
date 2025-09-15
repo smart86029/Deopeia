@@ -13,7 +13,7 @@ internal class ChangePasswordCommandHandler(IUnitOfWork unitOfWork, IUserReposit
         CancellationToken cancellationToken
     )
     {
-        var user = await _userRepository.GetUserAsync(new UserId(command.Id));
+        var user = await _userRepository.GetUserAsync(new UserId(command.UserId));
         if (user.Hash(command.CurrentPassword) != user.PasswordHash)
         {
             throw new Exception("Auth.IncorrectPassword");

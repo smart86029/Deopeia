@@ -33,6 +33,9 @@ service UserService {
 
   // Uploads an avatar for a user.
   rpc UploadAvatar (stream UploadAvatarRequest) returns (google.protobuf.Empty);
+
+  // Changes the password for a user.
+  rpc ChangePassword (ChangePasswordRequest) returns (google.protobuf.Empty);
 }
 
 // The request message for listing users.
@@ -123,4 +126,11 @@ message UploadAvatarRequest {
   deopeia.common.Uuid user_id = 1;
   string file_name = 2;
   bytes content = 3;
+}
+
+// The request message for changing a user's password.
+message ChangePasswordRequest {
+  deopeia.common.Uuid user_id = 1;
+  string current_password = 2;
+  string new_password = 3;
 }

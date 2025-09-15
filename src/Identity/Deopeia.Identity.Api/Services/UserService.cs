@@ -1,3 +1,4 @@
+using Deopeia.Identity.Application.Users.ChangePassword;
 using Deopeia.Identity.Application.Users.CreateUser;
 using Deopeia.Identity.Application.Users.EnableAuthenticator;
 using Deopeia.Identity.Application.Users.GetAuthenticator;
@@ -112,6 +113,16 @@ public class UserService(IMediator mediator) : Contracts.UserService.UserService
         }
 
         var command = new UploadAvatarCommand(userId, fileName, memoryStream.ToArray());
+        await _mediator.Send(command);
+        return new Empty();
+    }
+
+    public override async Task<Empty> ChangePassword(
+        ChangePasswordRequest request,
+        ServerCallContext context
+    )
+    {
+        var command = request.Adapt<ChangePasswordCommand>();
         await _mediator.Send(command);
         return new Empty();
     }

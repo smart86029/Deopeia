@@ -75,11 +75,16 @@ public class MeController(UserService.UserServiceClient client) : ApiController
         return NoContent();
     }
 
-    // [HttpPut("Password")]
-    // public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCommand command)
-    // {
-    //     await _identityApi.ChangePassword(User.GetUserId(), command);
-
-    //     return NoContent();
-    // }
+    [HttpPut("Password")]
+    public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordRequest request)
+    {
+        var grpcRequest = new ChangePasswordRequest
+        {
+            UserId = User.GetUserId(),
+            CurrentPassword = request.CurrentPassword,
+            NewPassword = request.NewPassword,
+        };
+        await _client.ChangePasswordAsync(grpcRequest);
+        return NoContent();
+    }
 }
