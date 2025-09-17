@@ -1,8 +1,8 @@
 namespace Deopeia.Common.Domain;
 
-public interface ILocalizable<TLocale, TEntityId>
-    where TLocale : EntityLocale<TEntityId>
+public interface ILocalizable<TLocalization, TEntityId>
+    where TLocalization : EntityLocalization<TEntityId>
     where TEntityId : struct, IEntityId
 {
-    IReadOnlyCollection<TLocale> Locales { get; }
+    IReadOnlyList<TLocalization> Localizations { get; }
 }

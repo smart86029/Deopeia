@@ -1,3 +1,3 @@
 namespace Deopeia.Identity.Application.Users.GetUser;
 
-public sealed record GetUserQuery(Guid Id) : IQuery<GetUserViewModel>;
+public sealed record GetUserQuery(Guid Id) : IQuery<GetUserResult>;

@@ -28,16 +28,16 @@ internal class UpdatePermissionCommandHandler(
             permission.Disable();
         }
 
-        var removed = permission
-            .Locales.Where(x => !command.Locales.Any(y => y.Culture.Equals(x.Culture)))
+        var localizationsToRemove = permission
+            .Localizations.Where(x => !command.Localizations.Any(y => y.Culture.Equals(x.Culture)))
             .ToArray();
-        permission.RemoveLocales(removed);
+        permission.RemoveLocalizations(localizationsToRemove);
 
-        foreach (var locale in command.Locales)
+        foreach (var localization in command.Localizations)
         {
-            var culture = CultureInfo.GetCultureInfo(locale.Culture);
-            permission.UpdateName(locale.Name, culture);
-            permission.UpdateDescription(locale.Description, culture);
+            var culture = CultureInfo.GetCultureInfo(localization.Culture);
+            permission.UpdateName(localization.Name, culture);
+            permission.UpdateDescription(localization.Description, culture);
         }
 
         await _unitOfWork.CommitAsync();

@@ -1,11 +1,11 @@
 namespace Deopeia.Common.Domain;
 
-public abstract class EntityLocale<TEntityId>
+public abstract class EntityLocalization<TEntityId>
     where TEntityId : struct, IEntityId
 {
-    protected EntityLocale() { }
+    protected EntityLocalization() { }
 
-    protected EntityLocale(TEntityId entityId, CultureInfo culture)
+    protected EntityLocalization(TEntityId entityId, CultureInfo culture)
     {
         EntityId = entityId;
         Culture = culture;

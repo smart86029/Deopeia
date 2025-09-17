@@ -2,13 +2,13 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Infrastructure.Users;
 
-public class UserRepository(IdentityContext context) : IUserRepository
+public sealed class UserRepository(IdentityContext context) : IUserRepository
 {
     private readonly DbSet<User> _users = context.Set<User>();
 
-    public async Task<User> GetUserAsync(UserId userId)
+    public Task<User> GetUserAsync(UserId userId)
     {
-        return await _users
+        return _users
             .Include(x => x.Authenticator)
             .Include(x => x.UserRoles)
             .Include(x => x.UserRefreshTokens)
@@ -17,24 +17,22 @@ public class UserRepository(IdentityContext context) : IUserRepository
 
     public async Task<User?> GetUserAsync(string userName, string password)
     {
-        var result = await _users
+        var user = await _users
             .Include(x => x.Authenticator)
             .Include(x => x.UserRoles)
             .Include(x => x.UserRefreshTokens)
             .FirstOrDefaultAsync(x => x.UserName == userName);
-        if (result is not null && result.PasswordHash != result.Hash(password))
+        if (user is not null && user.PasswordHash != user.Hash(password))
         {
             return null;
         }
 
-        return result;
+        return user;
     }
 
-    public async Task<bool> ContainsAsync(UserId userId)
+    public Task<bool> ContainsAsync(UserId userId)
     {
-        var result = await _users.AnyAsync(x => x.Id == userId);
-
-        return result;
+        return _users.AnyAsync(x => x.Id == userId);
     }
 
     public void Add(User user)

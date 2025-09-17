@@ -2,7 +2,7 @@ using Deopeia.Identity.Domain.Roles;
 
 namespace Deopeia.Identity.Infrastructure.Roles;
 
-internal class RoleConfiguration : IEntityTypeConfiguration<Role>
+internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
     public void Configure(EntityTypeBuilder<Role> builder)
     {

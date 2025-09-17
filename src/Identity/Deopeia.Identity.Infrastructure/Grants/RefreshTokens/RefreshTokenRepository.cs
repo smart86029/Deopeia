@@ -2,15 +2,13 @@ using Deopeia.Identity.Domain.Grants.RefreshTokens;
 
 namespace Deopeia.Identity.Infrastructure.Grants.RefreshTokens;
 
-internal class RefreshTokenRepository(IdentityContext context) : IRefreshTokenRepository
+internal sealed class RefreshTokenRepository(IdentityContext context) : IRefreshTokenRepository
 {
     private readonly DbSet<RefreshToken> _refreshTokens = context.Set<RefreshToken>();
 
     public Task<RefreshToken?> GetRefreshTokenAsync(string refreshToken)
     {
-        var result = _refreshTokens.FirstOrDefaultAsync(x => x.Key == refreshToken);
-
-        return result;
+        return _refreshTokens.FirstOrDefaultAsync(x => x.Key == refreshToken);
     }
 
     public void Add(RefreshToken refreshToken)

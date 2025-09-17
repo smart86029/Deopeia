@@ -1,6 +1,6 @@
-namespace Deopeia.Identity.Application.Permissions;
+namespace Deopeia.Identity.Application.Roles;
 
-public class PermissionLocaleDto
+public class RoleLocalizationDto
 {
     public string Culture { get; set; } = string.Empty;
 

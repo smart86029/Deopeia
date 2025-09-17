@@ -61,12 +61,12 @@ message GetRoleRequest {
 message GetRoleResponse {
   string code = 1;
   bool is_enabled = 2;
-  repeated RoleLocale locales = 3;
+  repeated RoleLocalization localizations = 3;
   repeated string permission_codes = 4;
 }
 
-// The locale information for a role.
-message RoleLocale {
+// The localization information for a role.
+message RoleLocalization {
   string culture = 1;
   string name = 2;
   google.protobuf.StringValue description = 3;
@@ -76,7 +76,7 @@ message RoleLocale {
 message CreateRoleRequest {
   string code = 1;
   bool is_enabled = 2;
-  repeated RoleLocale locales = 3;
+  repeated RoleLocalization localizations = 3;
   repeated string permission_codes = 4;
 }
 
@@ -84,7 +84,7 @@ message CreateRoleRequest {
 message UpdateRoleRequest {
   string code = 1;
   bool is_enabled = 2;
-  repeated RoleLocale locales = 3;
+  repeated RoleLocalization localizations = 3;
   repeated string permission_codes = 4;
 }
 

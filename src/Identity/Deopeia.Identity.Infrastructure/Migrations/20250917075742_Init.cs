@@ -130,7 +130,7 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "permission_locale",
+                name: "permission_localization",
                 columns: table => new
                 {
                     permission_code = table.Column<string>(type: "text", nullable: false),
@@ -140,9 +140,9 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_permission_locale", x => new { x.permission_code, x.culture });
+                    table.PrimaryKey("pk_permission_localization", x => new { x.permission_code, x.culture });
                     table.ForeignKey(
-                        name: "fk_permission_locale_permission_permission_id",
+                        name: "fk_permission_localization_permission_permission_id",
                         column: x => x.permission_code,
                         principalTable: "permission",
                         principalColumn: "code",
@@ -150,7 +150,7 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "role_locale",
+                name: "role_localization",
                 columns: table => new
                 {
                     role_code = table.Column<string>(type: "text", nullable: false),
@@ -160,9 +160,9 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_role_locale", x => new { x.role_code, x.culture });
+                    table.PrimaryKey("pk_role_localization", x => new { x.role_code, x.culture });
                     table.ForeignKey(
-                        name: "fk_role_locale_role_role_id",
+                        name: "fk_role_localization_role_role_id",
                         column: x => x.role_code,
                         principalTable: "role",
                         principalColumn: "code",
@@ -306,10 +306,10 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                 name: "grant");
 
             migrationBuilder.DropTable(
-                name: "permission_locale");
+                name: "permission_localization");
 
             migrationBuilder.DropTable(
-                name: "role_locale");
+                name: "role_localization");
 
             migrationBuilder.DropTable(
                 name: "role_permission");

@@ -4,7 +4,7 @@ using Deopeia.Identity.Domain.Grants.RefreshTokens;
 
 namespace Deopeia.Identity.Infrastructure.Grants;
 
-internal class GrantConfiguration : IEntityTypeConfiguration<Grant>
+internal sealed class GrantConfiguration : IEntityTypeConfiguration<Grant>
 {
     public void Configure(EntityTypeBuilder<Grant> builder)
     {

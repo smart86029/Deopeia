@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace Deopeia.Identity.Infrastructure;
 
-internal class IdentityContextFactory : IDesignTimeDbContextFactory<IdentityContext>
+internal sealed class IdentityContextFactory : IDesignTimeDbContextFactory<IdentityContext>
 {
     public IdentityContext CreateDbContext(string[] args)
     {

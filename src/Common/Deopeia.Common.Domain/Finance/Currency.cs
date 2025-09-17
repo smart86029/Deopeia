@@ -1,21 +1,26 @@
 namespace Deopeia.Common.Domain.Finance;
 
-public class Currency : AggregateRoot<CurrencyCode>, ILocalizable<CurrencyLocale, CurrencyCode>
+public class Currency
+    : AggregateRoot<CurrencyCode>,
+        ILocalizable<CurrencyLocalization, CurrencyCode>
 {
-    private readonly EntityLocaleCollection<CurrencyLocale, CurrencyCode> _locales = [];
+    private readonly EntityLocalizationCollection<
+        CurrencyLocalization,
+        CurrencyCode
+    > _localizations = [];
 
     private Currency() { }
 
     public Currency(string code, string name, string? symbol, int decimals, decimal exchangeRate)
         : base(new CurrencyCode(code))
     {
-        _locales.Default.UpdateName(name);
+        _localizations.Default.UpdateName(name);
         Symbol = symbol;
         Decimals = decimals;
         ExchangeRate = exchangeRate;
     }
 
-    public string Name => _locales[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
+    public string Name => _localizations[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
 
     public string? Symbol { get; private init; }
 
@@ -23,15 +28,15 @@ public class Currency : AggregateRoot<CurrencyCode>, ILocalizable<CurrencyLocale
 
     public decimal ExchangeRate { get; private set; }
 
-    public IReadOnlyCollection<CurrencyLocale> Locales => _locales;
+    public IReadOnlyList<CurrencyLocalization> Localizations => _localizations;
 
     public void UpdateName(string name, CultureInfo culture)
     {
-        _locales[culture].UpdateName(name);
+        _localizations[culture].UpdateName(name);
     }
 
-    public void RemoveLocales(IEnumerable<CurrencyLocale> locales)
+    public void RemoveLocalizations(IEnumerable<CurrencyLocalization> localizations)
     {
-        _locales.Remove(locales);
+        _localizations.RemoveRange(localizations);
     }
 }

@@ -2,7 +2,7 @@ using Deopeia.Identity.Domain.Roles;
 
 namespace Deopeia.Identity.Infrastructure.Roles;
 
-internal sealed class RoleLocalizationConfiguration
+internal sealed class RoleLocaleConfiguration
     : EntityLocalizationConfiguration<Role, RoleLocalization, RoleCode>
 {
     public override void Configure(EntityTypeBuilder<RoleLocalization> builder)

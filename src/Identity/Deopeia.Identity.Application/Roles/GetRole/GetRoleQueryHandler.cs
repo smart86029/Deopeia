@@ -1,11 +1,11 @@
 namespace Deopeia.Identity.Application.Roles.GetRole;
 
 internal sealed class GetRoleQueryHandler(IGetRoleQueryService queryService)
-    : IQueryHandler<GetRoleQuery, GetRoleViewModel>
+    : IQueryHandler<GetRoleQuery, GetRoleResult>
 {
     private readonly IGetRoleQueryService _queryService = queryService;
 
-    public async ValueTask<GetRoleViewModel> Handle(
+    public async ValueTask<GetRoleResult> Handle(
         GetRoleQuery query,
         CancellationToken cancellationToken
     )

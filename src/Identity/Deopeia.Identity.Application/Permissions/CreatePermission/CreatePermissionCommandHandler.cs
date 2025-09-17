@@ -15,13 +15,13 @@ internal sealed class CreatePermissionCommandHandler(
         CancellationToken cancellationToken
     )
     {
-        var en = command.Locales.First(x => x.Culture == "en");
+        var en = command.Localizations.First(x => x.Culture == "en");
         var permission = new Permission(command.Code, en.Name, en.Description, command.IsEnabled);
-        foreach (var locale in command.Locales)
+        foreach (var localization in command.Localizations)
         {
-            var culture = CultureInfo.GetCultureInfo(locale.Culture);
-            permission.UpdateName(locale.Name, culture);
-            permission.UpdateDescription(locale.Description, culture);
+            var culture = CultureInfo.GetCultureInfo(localization.Culture);
+            permission.UpdateName(localization.Name, culture);
+            permission.UpdateDescription(localization.Description, culture);
         }
 
         _permissionRepository.Add(permission);

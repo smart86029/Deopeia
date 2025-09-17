@@ -6,7 +6,7 @@ public class GetUserQueryService(NpgsqlConnection connection) : IGetUserQuerySer
 {
     private readonly NpgsqlConnection _connection = connection;
 
-    public async Task<GetUserViewModel> GetAsync(GetUserQuery query)
+    public async Task<GetUserResult> GetAsync(GetUserQuery query)
     {
         var sql = """
 SELECT
@@ -21,7 +21,7 @@ FROM user_role
 WHERE user_id = @Id;
 """;
         using var multiple = await _connection.QueryMultipleAsync(sql, query);
-        var result = multiple.ReadFirst<GetUserViewModel>();
+        var result = multiple.ReadFirst<GetUserResult>();
         result.RoleCodes = multiple.Read<string>().ToList();
 
         return result;

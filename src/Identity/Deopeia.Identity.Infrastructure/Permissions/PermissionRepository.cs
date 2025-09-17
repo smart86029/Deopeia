@@ -4,14 +4,14 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Infrastructure.Permissions;
 
-internal class PermissionRepository(IdentityContext context) : IPermissionRepository
+internal sealed class PermissionRepository(IdentityContext context) : IPermissionRepository
 {
     private readonly IdentityContext _context = context;
     private readonly DbSet<Permission> _permissions = context.Set<Permission>();
 
     public async Task<ICollection<Permission>> GetPermissionsAsync()
     {
-        return await _permissions.Include(x => x.Locales).ToListAsync();
+        return await _permissions.Include(x => x.Localizations).ToListAsync();
     }
 
     public async Task<ICollection<Permission>> GetPermissionsAsync(
@@ -19,7 +19,7 @@ internal class PermissionRepository(IdentityContext context) : IPermissionReposi
     )
     {
         return await _permissions
-            .Include(x => x.Locales)
+            .Include(x => x.Localizations)
             .Where(x => permissionCodes.Contains(x.Id))
             .ToListAsync();
     }
@@ -41,7 +41,9 @@ internal class PermissionRepository(IdentityContext context) : IPermissionReposi
 
     public async Task<Permission> GetPermissionAsync(PermissionCode permissionCode)
     {
-        return await _permissions.Include(x => x.Locales).SingleAsync(x => x.Id == permissionCode);
+        return await _permissions
+            .Include(x => x.Localizations)
+            .SingleAsync(x => x.Id == permissionCode);
     }
 
     public void Add(Permission permission)

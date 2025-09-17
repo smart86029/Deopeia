@@ -16,11 +16,11 @@ export interface RoleRow {
 export interface Role {
   code: string;
   isEnabled: boolean;
-  locales: RoleLocale[];
+  localizations: RoleLocalization[];
   permissionCodes: string[];
 }
 
-export interface RoleLocale {
+export interface RoleLocalization {
   culture: string;
   name: string;
   description?: string;

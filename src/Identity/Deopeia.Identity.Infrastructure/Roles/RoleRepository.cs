@@ -2,14 +2,14 @@ using Deopeia.Identity.Domain.Roles;
 
 namespace Deopeia.Identity.Infrastructure.Roles;
 
-internal class RoleRepository(IdentityContext context) : IRoleRepository
+internal sealed class RoleRepository(IdentityContext context) : IRoleRepository
 {
     private readonly DbSet<Role> _roles = context.Set<Role>();
 
     public async Task<ICollection<Role>> GetRolesAsync()
     {
         return await _roles
-            .Include(x => x.Locales)
+            .Include(x => x.Localizations)
             .Include(x => x.UserRoles)
             .Include(x => x.RolePermissions)
             .ToListAsync();
@@ -18,7 +18,7 @@ internal class RoleRepository(IdentityContext context) : IRoleRepository
     public async Task<ICollection<Role>> GetRolesAsync(IEnumerable<RoleCode> roleCodes)
     {
         return await _roles
-            .Include(x => x.Locales)
+            .Include(x => x.Localizations)
             .Include(x => x.UserRoles)
             .Include(x => x.RolePermissions)
             .Where(x => roleCodes.Contains(x.Id))
@@ -28,7 +28,7 @@ internal class RoleRepository(IdentityContext context) : IRoleRepository
     public async Task<Role> GetRoleAsync(RoleCode roleCode)
     {
         return await _roles
-            .Include(x => x.Locales)
+            .Include(x => x.Localizations)
             .Include(x => x.UserRoles)
             .Include(x => x.RolePermissions)
             .SingleAsync(x => x.Id == roleCode);

@@ -1,10 +1,10 @@
-namespace Deopeia.Identity.Domain.Roles;
+namespace Deopeia.Identity.Domain.Permissions;
 
-public class RoleLocale : EntityLocale<RoleCode>
+public class PermissionLocalization : EntityLocalization<PermissionCode>
 {
     public string Name { get; private set; } = string.Empty;
 
-    public string? Description { get; private set; } = string.Empty;
+    public string? Description { get; private set; }
 
     public void UpdateName(string name)
     {

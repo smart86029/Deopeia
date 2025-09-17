@@ -11,7 +11,7 @@ using Deopeia.Identity.Infrastructure.Users;
 
 namespace Deopeia.Identity.Infrastructure;
 
-public class IdentityContext(DbContextOptions<IdentityContext> options) : DbContext(options)
+public sealed class IdentityContext(DbContextOptions<IdentityContext> options) : DbContext(options)
 {
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {

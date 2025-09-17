@@ -13,13 +13,13 @@ internal class CreateRoleCommandHandler(IUnitOfWork unitOfWork, IRoleRepository 
         CancellationToken cancellationToken
     )
     {
-        var en = command.Locales.First(x => x.Culture == "en");
+        var en = command.Localizations.First(x => x.Culture == "en");
         var role = new Role(command.Code, en.Name, en.Description, command.IsEnabled);
-        foreach (var locale in command.Locales)
+        foreach (var localization in command.Localizations)
         {
-            var culture = CultureInfo.GetCultureInfo(locale.Culture);
-            role.UpdateName(locale.Name, culture);
-            role.UpdateDescription(locale.Description, culture);
+            var culture = CultureInfo.GetCultureInfo(localization.Culture);
+            role.UpdateName(localization.Name, culture);
+            role.UpdateDescription(localization.Description, culture);
         }
 
         _roleRepository.Add(role);

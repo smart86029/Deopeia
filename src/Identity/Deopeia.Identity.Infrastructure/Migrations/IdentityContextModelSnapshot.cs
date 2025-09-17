@@ -172,7 +172,7 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     b.ToTable("permission", (string)null);
                 });
 
-            modelBuilder.Entity("Deopeia.Identity.Domain.Permissions.PermissionLocale", b =>
+            modelBuilder.Entity("Deopeia.Identity.Domain.Permissions.PermissionLocalization", b =>
                 {
                     b.Property<string>("EntityId")
                         .HasColumnType("text")
@@ -192,9 +192,9 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                         .HasColumnName("name");
 
                     b.HasKey("EntityId", "Culture")
-                        .HasName("pk_permission_locale");
+                        .HasName("pk_permission_localization");
 
-                    b.ToTable("permission_locale", (string)null);
+                    b.ToTable("permission_localization", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Roles.Role", b =>
@@ -213,7 +213,7 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     b.ToTable("role", (string)null);
                 });
 
-            modelBuilder.Entity("Deopeia.Identity.Domain.Roles.RoleLocale", b =>
+            modelBuilder.Entity("Deopeia.Identity.Domain.Roles.RoleLocalization", b =>
                 {
                     b.Property<string>("EntityId")
                         .HasColumnType("text")
@@ -233,9 +233,9 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                         .HasColumnName("name");
 
                     b.HasKey("EntityId", "Culture")
-                        .HasName("pk_role_locale");
+                        .HasName("pk_role_localization");
 
-                    b.ToTable("role_locale", (string)null);
+                    b.ToTable("role_localization", (string)null);
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Roles.RolePermission", b =>
@@ -456,24 +456,24 @@ namespace Deopeia.Identity.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue(4);
                 });
 
-            modelBuilder.Entity("Deopeia.Identity.Domain.Permissions.PermissionLocale", b =>
+            modelBuilder.Entity("Deopeia.Identity.Domain.Permissions.PermissionLocalization", b =>
                 {
                     b.HasOne("Deopeia.Identity.Domain.Permissions.Permission", null)
-                        .WithMany("Locales")
+                        .WithMany("Localizations")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_permission_locale_permission_permission_id");
+                        .HasConstraintName("fk_permission_localization_permission_permission_id");
                 });
 
-            modelBuilder.Entity("Deopeia.Identity.Domain.Roles.RoleLocale", b =>
+            modelBuilder.Entity("Deopeia.Identity.Domain.Roles.RoleLocalization", b =>
                 {
                     b.HasOne("Deopeia.Identity.Domain.Roles.Role", null)
-                        .WithMany("Locales")
+                        .WithMany("Localizations")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_role_locale_role_role_id");
+                        .HasConstraintName("fk_role_localization_role_role_id");
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Roles.RolePermission", b =>
@@ -528,14 +528,14 @@ namespace Deopeia.Identity.Infrastructure.Migrations
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Permissions.Permission", b =>
                 {
-                    b.Navigation("Locales");
+                    b.Navigation("Localizations");
 
                     b.Navigation("RolePermissions");
                 });
 
             modelBuilder.Entity("Deopeia.Identity.Domain.Roles.Role", b =>
                 {
-                    b.Navigation("Locales");
+                    b.Navigation("Localizations");
 
                     b.Navigation("RolePermissions");
 

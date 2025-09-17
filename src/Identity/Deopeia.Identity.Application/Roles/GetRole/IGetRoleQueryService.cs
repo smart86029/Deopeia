@@ -2,5 +2,5 @@ namespace Deopeia.Identity.Application.Roles.GetRole;
 
 public interface IGetRoleQueryService
 {
-    Task<GetRoleViewModel> GetAsync(GetRoleQuery query);
+    Task<GetRoleResult> GetAsync(GetRoleQuery query);
 }

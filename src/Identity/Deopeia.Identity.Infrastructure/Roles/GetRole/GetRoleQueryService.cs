@@ -7,7 +7,7 @@ public class GetRoleQueryService(NpgsqlConnection connection) : IGetRoleQuerySer
 {
     private readonly NpgsqlConnection _connection = connection;
 
-    public async Task<GetRoleViewModel> GetAsync(GetRoleQuery query)
+    public async Task<GetRoleResult> GetAsync(GetRoleQuery query)
     {
         var sql = """
 SELECT
@@ -20,7 +20,7 @@ SELECT
     culture,
     name,
     description
-FROM role_locale
+FROM role_localization
 WHERE role_code = @Code;
 
 SELECT permission_code
@@ -28,8 +28,8 @@ FROM role_permission
 WHERE role_code = @Code;
 """;
         using var multiple = await _connection.QueryMultipleAsync(sql, query);
-        var result = multiple.ReadFirst<GetRoleViewModel>();
-        result.Locales = multiple.Read<RoleLocaleDto>().ToList();
+        var result = multiple.ReadFirst<GetRoleResult>();
+        result.Localizations = multiple.Read<RoleLocalizationDto>().ToList();
         result.PermissionCodes = multiple.Read<string>().ToList();
         return result;
     }

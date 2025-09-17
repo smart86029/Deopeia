@@ -1,8 +1,8 @@
 using Deopeia.Identity.Domain.Grants.RefreshTokens;
 
-namespace Deopeia.Identity.Infrastructure.Grants.AuthorizationCodes;
+namespace Deopeia.Identity.Infrastructure.Grants.RefreshTokens;
 
-internal class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
+internal sealed class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
 {
     public void Configure(EntityTypeBuilder<RefreshToken> builder) { }
 }

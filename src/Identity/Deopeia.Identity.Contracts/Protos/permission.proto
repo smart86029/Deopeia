@@ -62,11 +62,11 @@ message GetPermissionRequest {
 message GetPermissionResponse {
   string code = 1;
   bool is_enabled = 4;
-  repeated PermissionLocale locales = 3;
+  repeated PermissionLocalization localizations = 3;
 }
 
-// The locale information for a permission.
-message PermissionLocale {
+// The localization information for a permission.
+message PermissionLocalization {
   string culture = 1;
   string name = 2;
   google.protobuf.StringValue description = 3;
@@ -76,14 +76,14 @@ message PermissionLocale {
 message CreatePermissionRequest {
   string code = 1;
   bool is_enabled = 2;
-  repeated PermissionLocale locales = 3;
+  repeated PermissionLocalization localizations = 3;
 }
 
 // The request message for updating an existing permission.
 message UpdatePermissionRequest {
   string code = 1;
   bool is_enabled = 2;
-  repeated PermissionLocale locales = 3;
+  repeated PermissionLocalization localizations = 3;
 }
 
 // The request message for deleting a permission.

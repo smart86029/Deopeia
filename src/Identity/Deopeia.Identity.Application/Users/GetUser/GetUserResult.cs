@@ -1,6 +1,6 @@
 namespace Deopeia.Identity.Application.Users.GetUser;
 
-public class GetUserViewModel
+public class GetUserResult
 {
     public Guid Id { get; set; }
 

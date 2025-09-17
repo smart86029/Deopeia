@@ -2,7 +2,7 @@ using Deopeia.Identity.Domain.Clients;
 
 namespace Deopeia.Identity.Infrastructure.Clients;
 
-internal class ClientConfiguration : IEntityTypeConfiguration<Client>
+internal sealed class ClientConfiguration : IEntityTypeConfiguration<Client>
 {
     public void Configure(EntityTypeBuilder<Client> builder)
     {

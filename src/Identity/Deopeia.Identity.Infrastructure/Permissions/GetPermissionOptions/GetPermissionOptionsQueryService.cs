@@ -15,8 +15,8 @@ SELECT
     a.code AS value,
     a.is_enabled
 FROM permission AS a
-LEFT JOIN permission_locale AS b ON a.code = b.permission_code AND b.culture = @CurrentCulture
-LEFT JOIN permission_locale AS c ON a.code = c.permission_code AND c.culture = @DefaultThreadCurrentCulture
+LEFT JOIN permission_localization AS b ON a.code = b.permission_code AND b.culture = @CurrentCulture
+LEFT JOIN permission_localization AS c ON a.code = c.permission_code AND c.culture = @DefaultThreadCurrentCulture
 """;
         var optoins = await _connection.QueryAsync<OptionResult<string>>(
             sql,

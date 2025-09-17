@@ -2,7 +2,7 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Infrastructure.Users;
 
-internal class AuthenticatorConfiguration : IEntityTypeConfiguration<Authenticator>
+internal sealed class AuthenticatorConfiguration : IEntityTypeConfiguration<Authenticator>
 {
     private const string Key = "63D203DF364FD2FB2293B496E6C92CD4";
 

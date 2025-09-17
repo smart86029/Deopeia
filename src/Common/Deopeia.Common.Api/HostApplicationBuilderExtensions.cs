@@ -28,7 +28,7 @@ public static class HostApplicationBuilderExtensions
             options.SetDefaultCulture(SupportedCultures[0]).AddSupportedCultures(SupportedCultures)
         );
 
-        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo("en-US");
+        CultureInfo.DefaultThreadCurrentCulture = CultureInfo.GetCultureInfo("en");
     }
 
     private static void ConfigureMapster()

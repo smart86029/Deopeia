@@ -5,8 +5,8 @@
       <template v-else>{{ form.code }}</template>
     </el-form-item>
 
-    <LocaleTabs v-model:locales="form.locales" :add="add">
-      <LocaleTabPane v-for="locale in form.locales" :locale="locale" :key="locale.culture">
+    <LocaleTabs v-model:locales="form.localizations" :add="add">
+      <LocaleTabPane v-for="locale in form.localizations" :locale="locale" :key="locale.culture">
         <el-form-item :label="$t('common.name')">
           <el-input v-model="locale.name" />
         </el-form-item>
@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Permission, PermissionLocale } from '@/api/identity/permission-api';
+import type { Permission, PermissionLocalization } from '@/api/identity/permission-api';
 import { permissionApi } from '@/api/identity/permission-api';
 import { success } from '@/plugins/element';
 
@@ -56,7 +56,7 @@ const { isPending, mutate } = useMutation({
   onSuccess: () => success(props.action),
 });
 
-const add = (culture: string): PermissionLocale => ({
+const add = (culture: string): PermissionLocalization => ({
   culture: culture,
   name: '',
 });

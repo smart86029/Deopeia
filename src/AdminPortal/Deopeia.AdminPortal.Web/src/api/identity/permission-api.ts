@@ -17,10 +17,10 @@ export interface PermissionRow {
 export interface Permission {
   code: string;
   isEnabled: boolean;
-  locales: PermissionLocale[];
+  localizations: PermissionLocalization[];
 }
 
-export interface PermissionLocale {
+export interface PermissionLocalization {
   culture: string;
   name: string;
   description?: string;

@@ -2,16 +2,15 @@ using Deopeia.Identity.Domain.Grants.AuthorizationCodes;
 
 namespace Deopeia.Identity.Infrastructure.Grants.AuthorizationCodes;
 
-internal class AuthorizationCodeRepository(IdentityContext context) : IAuthorizationCodeRepository
+internal sealed class AuthorizationCodeRepository(IdentityContext context)
+    : IAuthorizationCodeRepository
 {
     private readonly DbSet<AuthorizationCode> _authorizationCodes =
         context.Set<AuthorizationCode>();
 
     public Task<AuthorizationCode?> GetAuthorizationCodeAsync(string code)
     {
-        var result = _authorizationCodes.FirstOrDefaultAsync(x => x.Key == code);
-
-        return result;
+        return _authorizationCodes.FirstOrDefaultAsync(x => x.Key == code);
     }
 
     public void Add(AuthorizationCode authorizationCode)

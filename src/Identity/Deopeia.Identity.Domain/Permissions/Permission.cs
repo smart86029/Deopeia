@@ -4,9 +4,12 @@ namespace Deopeia.Identity.Domain.Permissions;
 
 public class Permission
     : AggregateRoot<PermissionCode>,
-        ILocalizable<PermissionLocale, PermissionCode>
+        ILocalizable<PermissionLocalization, PermissionCode>
 {
-    private readonly EntityLocaleCollection<PermissionLocale, PermissionCode> _locales = [];
+    private readonly EntityLocalizationCollection<
+        PermissionLocalization,
+        PermissionCode
+    > _localizations = [];
     private readonly List<RolePermission> _rolePermissions = [];
 
     private Permission() { }
@@ -14,29 +17,29 @@ public class Permission
     public Permission(string code, string name, string? description, bool isEnabled)
         : base(new PermissionCode(code))
     {
-        _locales.Default.UpdateName(name);
-        _locales.Default.UpdateDescription(description);
+        _localizations.Default.UpdateName(name);
+        _localizations.Default.UpdateDescription(description);
         IsEnabled = isEnabled;
     }
 
-    public string Name => _locales[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
+    public string Name => _localizations[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
 
-    public string? Description => _locales[CultureInfo.CurrentCulture]?.Description;
+    public string? Description => _localizations[CultureInfo.CurrentCulture]?.Description;
 
     public bool IsEnabled { get; private set; }
 
-    public IReadOnlyCollection<PermissionLocale> Locales => _locales;
+    public IReadOnlyList<PermissionLocalization> Localizations => _localizations;
 
-    public IReadOnlyCollection<RolePermission> RolePermissions => _rolePermissions;
+    public IReadOnlyList<RolePermission> RolePermissions => _rolePermissions;
 
     public void UpdateName(string name, CultureInfo culture)
     {
-        _locales[culture].UpdateName(name);
+        _localizations[culture].UpdateName(name);
     }
 
     public void UpdateDescription(string? description, CultureInfo culture)
     {
-        _locales[culture].UpdateDescription(description);
+        _localizations[culture].UpdateDescription(description);
     }
 
     public void Enable()
@@ -49,8 +52,8 @@ public class Permission
         IsEnabled = false;
     }
 
-    public void RemoveLocales(IEnumerable<PermissionLocale> locales)
+    public void RemoveLocalizations(IEnumerable<PermissionLocalization> localizations)
     {
-        _locales.Remove(locales);
+        _localizations.RemoveRange(localizations);
     }
 }

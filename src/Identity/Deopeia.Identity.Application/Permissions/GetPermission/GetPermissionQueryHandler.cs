@@ -3,11 +3,11 @@ using Deopeia.Identity.Domain.Permissions;
 namespace Deopeia.Identity.Application.Permissions.GetPermission;
 
 internal sealed class GetPermissionQueryHandler(IPermissionRepository permissionRepository)
-    : IQueryHandler<GetPermissionQuery, GetPermissionViewModel>
+    : IQueryHandler<GetPermissionQuery, GetPermissionResult>
 {
     private readonly IPermissionRepository _permissionRepository = permissionRepository;
 
-    public async ValueTask<GetPermissionViewModel> Handle(
+    public async ValueTask<GetPermissionResult> Handle(
         GetPermissionQuery query,
         CancellationToken cancellationToken
     )
@@ -15,12 +15,12 @@ internal sealed class GetPermissionQueryHandler(IPermissionRepository permission
         var permissionCode = new PermissionCode(query.Code);
         var permission = await _permissionRepository.GetPermissionAsync(permissionCode);
 
-        return new GetPermissionViewModel
+        return new GetPermissionResult
         {
             Code = permission.Id.Value,
             IsEnabled = permission.IsEnabled,
-            Locales = permission
-                .Locales.Select(l => new PermissionLocaleDto
+            Localizations = permission
+                .Localizations.Select(l => new PermissionLocalizationDto
                 {
                     Culture = l.Culture.Name,
                     Name = l.Name,

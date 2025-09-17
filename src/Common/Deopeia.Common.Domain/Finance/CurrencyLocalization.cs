@@ -1,6 +1,6 @@
-namespace Deopeia.Common.Domain.Measurement;
+namespace Deopeia.Common.Domain.Finance;
 
-public class UnitLocale : EntityLocale<UnitCode>
+public class CurrencyLocalization : EntityLocalization<CurrencyCode>
 {
     public string Name { get; private set; } = string.Empty;
 

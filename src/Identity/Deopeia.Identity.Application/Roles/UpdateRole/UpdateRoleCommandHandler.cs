@@ -23,16 +23,16 @@ internal class UpdateRoleCommandHandler(IUnitOfWork unitOfWork, IRoleRepository 
             role.Disable();
         }
 
-        var removed = role
-            .Locales.Where(x => !command.Locales.Any(y => y.Culture.Equals(x.Culture)))
+        var localizationsToRemove = role
+            .Localizations.Where(x => !command.Localizations.Any(y => y.Culture.Equals(x.Culture)))
             .ToArray();
-        role.RemoveLocales(removed);
+        role.RemoveLocalizations(localizationsToRemove);
 
-        foreach (var locale in command.Locales)
+        foreach (var localization in command.Localizations)
         {
-            var culture = CultureInfo.GetCultureInfo(locale.Culture);
-            role.UpdateName(locale.Name, culture);
-            role.UpdateDescription(locale.Description, culture);
+            var culture = CultureInfo.GetCultureInfo(localization.Culture);
+            role.UpdateName(localization.Name, culture);
+            role.UpdateDescription(localization.Description, culture);
         }
 
         await _unitOfWork.CommitAsync();

@@ -22,8 +22,8 @@ SELECT
     COALESCE(b.description, c.description) AS description,
     a.is_enabled
 FROM role AS a
-LEFT JOIN role_locale AS b ON a.code = b.role_code AND b.culture = @CurrentCulture
-LEFT JOIN role_locale AS c ON a.code = c.role_code AND c.culture = @DefaultThreadCurrentCulture
+LEFT JOIN role_localization AS b ON a.code = b.role_code AND b.culture = @CurrentCulture
+LEFT JOIN role_localization AS c ON a.code = c.role_code AND c.culture = @DefaultThreadCurrentCulture
 /**where**/
 ORDER BY code
 /**pagination**/

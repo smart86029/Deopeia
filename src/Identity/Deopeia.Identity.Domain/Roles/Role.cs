@@ -3,9 +3,9 @@ using Deopeia.Identity.Domain.Users;
 
 namespace Deopeia.Identity.Domain.Roles;
 
-public class Role : AggregateRoot<RoleCode>, ILocalizable<RoleLocale, RoleCode>
+public class Role : AggregateRoot<RoleCode>, ILocalizable<RoleLocalization, RoleCode>
 {
-    private readonly EntityLocaleCollection<RoleLocale, RoleCode> _locales = [];
+    private readonly EntityLocalizationCollection<RoleLocalization, RoleCode> _localizations = [];
     private readonly List<UserRole> _userRoles = [];
     private readonly List<RolePermission> _rolePermissions = [];
 
@@ -14,31 +14,31 @@ public class Role : AggregateRoot<RoleCode>, ILocalizable<RoleLocale, RoleCode>
     public Role(string code, string name, string? description, bool isEnabled)
         : base(new RoleCode(code))
     {
-        _locales.Default.UpdateName(name);
-        _locales.Default.UpdateDescription(description);
+        _localizations.Default.UpdateName(name);
+        _localizations.Default.UpdateDescription(description);
         IsEnabled = isEnabled;
     }
 
-    public string Name => _locales[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
+    public string Name => _localizations[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
 
-    public string? Description => _locales[CultureInfo.CurrentCulture]?.Description;
+    public string? Description => _localizations[CultureInfo.CurrentCulture]?.Description;
 
     public bool IsEnabled { get; private set; }
 
-    public IReadOnlyCollection<RoleLocale> Locales => _locales;
+    public IReadOnlyList<RoleLocalization> Localizations => _localizations;
 
-    public IReadOnlyCollection<UserRole> UserRoles => _userRoles.AsReadOnly();
+    public IReadOnlyList<UserRole> UserRoles => _userRoles.AsReadOnly();
 
-    public IReadOnlyCollection<RolePermission> RolePermissions => _rolePermissions.AsReadOnly();
+    public IReadOnlyList<RolePermission> RolePermissions => _rolePermissions.AsReadOnly();
 
     public void UpdateName(string name, CultureInfo culture)
     {
-        _locales[culture].UpdateName(name);
+        _localizations[culture].UpdateName(name);
     }
 
     public void UpdateDescription(string? description, CultureInfo culture)
     {
-        _locales[culture].UpdateDescription(description);
+        _localizations[culture].UpdateDescription(description);
     }
 
     public void Enable()
@@ -51,9 +51,9 @@ public class Role : AggregateRoot<RoleCode>, ILocalizable<RoleLocale, RoleCode>
         IsEnabled = false;
     }
 
-    public void RemoveLocales(IEnumerable<RoleLocale> locales)
+    public void RemoveLocalizations(IEnumerable<RoleLocalization> localizations)
     {
-        _locales.Remove(locales);
+        _localizations.RemoveRange(localizations);
     }
 
     public void AssignPermission(Permission permission)
