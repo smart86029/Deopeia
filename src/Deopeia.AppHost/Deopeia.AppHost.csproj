@@ -15,5 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\AdminPortal\Deopeia.AdminPortal.Bff\Deopeia.AdminPortal.Bff.csproj" />
     <ProjectReference Include="..\Identity\Deopeia.Identity.Api\Deopeia.Identity.Api.csproj" />
+    <ProjectReference Include="..\Product\Deopeia.Product.Api\Deopeia.Product.Api.csproj" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.8">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Deopeia.Common.Infrastructure\Deopeia.Common.Infrastructure.csproj" />
+    <ProjectReference Include="..\Deopeia.Product.Application\Deopeia.Product.Application.csproj" />
+    <ProjectReference Include="..\Deopeia.Product.Domain\Deopeia.Product.Domain.csproj" />
+  </ItemGroup>
+</Project>

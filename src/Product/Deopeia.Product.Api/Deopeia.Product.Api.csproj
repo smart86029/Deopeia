@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Protobuf
+      Include="..\Deopeia.Product.Contracts\**\*.proto"
+      GrpcServices="Server"
+      AdditionalImportDirs="..\..\Common\Deopeia.Common.Contracts\Protos"
+      Link="%(RecursiveDir)%(Filename)%(Extension)"
+    />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Deopeia.Common.Api\Deopeia.Common.Api.csproj" />
+    <ProjectReference Include="..\..\Deopeia.ServiceDefaults\Deopeia.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\Deopeia.Product.Application\Deopeia.Product.Application.csproj" />
+    <ProjectReference Include="..\Deopeia.Product.Infrastructure\Deopeia.Product.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

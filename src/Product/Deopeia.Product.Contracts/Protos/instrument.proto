@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package deopeia.product;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "types.proto";
+
+option csharp_namespace = "Deopeia.Product.Contracts";
+
+// The instrument service definition.
+service InstrumentService {
+  // Lists instruments with pagination.
+  rpc ListInstrument (ListInstrumentRequest) returns (ListInstrumentResponse);
+}
+
+// The request message for listing instruments.
+message ListInstrumentRequest {
+  int32 page_index = 1;
+  int32 page_size = 2;
+  google.protobuf.StringValue name = 3;
+  google.protobuf.BoolValue is_enabled = 4;
+  google.protobuf.StringValue type = 5;
+}
+
+// The response message containing the list of instruments.
+message ListInstrumentResponse {
+  int32 page_index = 1;
+  int32 page_size = 2;
+  int32 page_count = 3;
+  int32 total_count = 4;
+  repeated Instrument items = 5;
+
+  message Instrument {
+    deopeia.common.Uuid id = 1;
+    string name = 2;
+    bool is_enabled = 3;
+  }
+}

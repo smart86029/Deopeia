@@ -22,4 +22,10 @@
     <Project Path="src/Identity/Deopeia.Identity.Domain/Deopeia.Identity.Domain.csproj" />
     <Project Path="src/Identity/Deopeia.Identity.Infrastructure/Deopeia.Identity.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/src/Product/">
+    <Project Path="src/Product/Deopeia.Product.Api/Deopeia.Product.Api.csproj" />
+    <Project Path="src/Product/Deopeia.Product.Application/Deopeia.Product.Application.csproj" />
+    <Project Path="src/Product/Deopeia.Product.Domain/Deopeia.Product.Domain.csproj" />
+    <Project Path="src/Product/Deopeia.Product.Infrastructure/Deopeia.Product.Infrastructure.csproj" />
+  </Folder>
 </Solution>
