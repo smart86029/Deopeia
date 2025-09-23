@@ -1,5 +1,7 @@
 using Deopeia.Common.Domain.Files;
+using Deopeia.Common.Domain.Finance;
 using Deopeia.Common.Infrastructure.Files;
+using Deopeia.Common.Infrastructure.Finance;
 
 namespace Deopeia.Common.Infrastructure;
 
@@ -13,6 +15,7 @@ public static class ModelConfigurationBuilderExtensions
         builder.Properties<TimeZoneInfo>().HaveConversion<TimeZoneInfoConverter>();
 
         builder.Properties<FileResourceId>().HaveConversion<FileResourceIdConverter>();
+        builder.Properties<Symbol>().HaveConversion<SymbolConverter>();
 
         return builder;
     }

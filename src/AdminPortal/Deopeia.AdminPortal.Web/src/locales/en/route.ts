@@ -67,10 +67,10 @@ export default {
     },
     setting: {
       module: 'Setting',
-      contract: {
-        list: 'Contracts',
-        create: 'Create Contract',
-        edit: 'Edit Contract {symbol}',
+      instrument: {
+        list: 'Instruments',
+        create: 'Create Instrument',
+        edit: 'Edit Instrument {symbol}',
       },
     },
     trading: {

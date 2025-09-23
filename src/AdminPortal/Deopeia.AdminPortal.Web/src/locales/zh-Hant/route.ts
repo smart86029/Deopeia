@@ -67,10 +67,10 @@ export default {
     },
     setting: {
       module: '設定',
-      contract: {
-        list: '合約列表',
-        create: '新增合約',
-        edit: '編輯合約 {symbol}',
+      instrument: {
+        list: '標的列表',
+        create: '新增標的',
+        edit: '編輯標的 {symbol}',
       },
     },
     trading: {

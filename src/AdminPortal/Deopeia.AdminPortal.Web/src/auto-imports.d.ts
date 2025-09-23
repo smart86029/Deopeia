@@ -9,10 +9,11 @@ declare global {
   const ApprovalStatus: typeof import('./models/approval-status')['ApprovalStatus']
   const DayOfWeek: typeof import('./models/day-of-week')['DayOfWeek']
   const EffectScope: typeof import('vue')['EffectScope']
+  const InstrumentType: typeof import('./models/instrument-type')['InstrumentType']
   const OrderSide: typeof import('./models/trading/order-side')['OrderSide']
   const OrderType: typeof import('./models/trading/order-type')['OrderType']
   const PositionType: typeof import('./models/trading/position-type')['PositionType']
-  const ROLE_OPTIONS_QUERY_KEY: typeof import('./composables/identity/useRole')['ROLE_OPTIONS_QUERY_KEY']
+  const ROLE_OPTIONS_QUERY_KEY: (typeof import('./composables/identity/useRole'))['ROLE_OPTIONS_QUERY_KEY']
   const TimeFrame: typeof import('./models/quote/time-frame')['TimeFrame']
   const UnderlyingType: typeof import('./models/underlying-type')['UnderlyingType']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
@@ -259,8 +260,8 @@ declare global {
   const useRafFn: typeof import('@vueuse/core')['useRafFn']
   const useRefHistory: typeof import('@vueuse/core')['useRefHistory']
   const useResizeObserver: typeof import('@vueuse/core')['useResizeObserver']
-  const useRole: typeof import('./composables/identity/useRole')['useRole']
-  const useRoleOptionsQuery: typeof import('./composables/identity/useRoleOptionsQuery')['useRoleOptionsQuery']
+  const useRole: (typeof import('./composables/identity/useRole'))['useRole']
+  const useRoleOptionsQuery: (typeof import('./composables/identity/useRoleOptionsQuery'))['useRoleOptionsQuery']
   const useRoute: typeof import('vue-router')['useRoute']
   const useRouter: typeof import('vue-router')['useRouter']
   const useSSRWidth: typeof import('@vueuse/core')['useSSRWidth']
@@ -352,6 +353,9 @@ declare global {
   export type { Image } from './models/image'
   import('./models/image')
   // @ts-ignore
+  export type { InstrumentType } from './models/instrument-type'
+  import('./models/instrument-type')
+  // @ts-ignore
   export type { Locale, Localizable, LocalizedContent } from './models/localization'
   import('./models/localization')
   // @ts-ignore
@@ -393,7 +397,4 @@ declare global {
   // @ts-ignore
   export type { Session } from './models/trading/session'
   import('./models/trading/session')
-  // @ts-ignore
-  export type { UnderlyingType } from './models/underlying-type'
-  import('./models/underlying-type')
 }

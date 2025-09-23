@@ -3,6 +3,7 @@ import { createRouter, createWebHistory, type RouteLocationNormalized } from 'vu
 import HomeView from '../views/HomeView.vue';
 import identity from './identity';
 import me from './me';
+import setting from './setting';
 
 const guard = async (to: RouteLocationNormalized) => {
   const { locale, locales } = storeToRefs(usePreferencesStore());
@@ -32,6 +33,7 @@ const router = createRouter({
         },
         ...identity,
         ...me,
+        ...setting,
       ],
     },
     { path: '/:pathMatch(.*)*', name: '404', redirect: { name: 'home' } },

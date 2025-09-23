@@ -1,12 +1,9 @@
 global using System.Globalization;
 global using Dapper;
-global using Deopeia.Common;
-global using Deopeia.Common.Application.Option;
 global using Deopeia.Common.Application.Pagination;
+global using Deopeia.Common.Domain.Finance;
 global using Deopeia.Common.Extensions;
 global using Deopeia.Common.Infrastructure;
-global using Deopeia.Common.Infrastructure.Comparers;
-global using Deopeia.Common.Infrastructure.Converters;
 global using Deopeia.Common.Infrastructure.Dapper;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;

@@ -64,7 +64,7 @@ const menus = [
   },
   {
     name: 'setting.module',
-    children: [{ name: 'setting.contract.list' }],
+    children: [{ name: 'setting.instrument.list' }],
   },
   {
     name: 'identity.module',

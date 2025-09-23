@@ -18,9 +18,8 @@ service InstrumentService {
 message ListInstrumentRequest {
   int32 page_index = 1;
   int32 page_size = 2;
-  google.protobuf.StringValue name = 3;
-  google.protobuf.BoolValue is_enabled = 4;
-  google.protobuf.StringValue type = 5;
+  google.protobuf.StringValue keyword = 3;
+  google.protobuf.Int32Value type = 4;
 }
 
 // The response message containing the list of instruments.
@@ -33,7 +32,8 @@ message ListInstrumentResponse {
 
   message Instrument {
     deopeia.common.Uuid id = 1;
-    string name = 2;
-    bool is_enabled = 3;
+    string symbol = 2;
+    string name = 3;
+    int32 type = 4;
   }
 }

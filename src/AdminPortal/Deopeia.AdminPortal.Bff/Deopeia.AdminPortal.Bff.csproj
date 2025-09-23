@@ -11,6 +11,12 @@
       AdditionalImportDirs="..\..\Common\Deopeia.Common.Contracts\Protos"
       Link="%(RecursiveDir)%(Filename)%(Extension)"
     />
+    <Protobuf
+      Include="..\..\Product\Deopeia.Product.Contracts\**\*.proto"
+      GrpcServices="Client"
+      AdditionalImportDirs="..\..\Common\Deopeia.Common.Contracts\Protos"
+      Link="%(RecursiveDir)%(Filename)%(Extension)"
+    />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Grpc.Tools" Version="2.72.0">

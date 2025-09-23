@@ -1,4 +1,4 @@
-using System;
+using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -8,12 +8,13 @@ namespace Deopeia.Common.Domain;
 
 public static partial class ValidationExtensions
 {
-    public static void MustGreaterThan(
-        this decimal value,
-        decimal comparison,
+    public static void MustGreaterThan<TNumber>(
+        this TNumber value,
+        TNumber comparison,
         [CallerFilePath] string filePath = "",
         [CallerArgumentExpression(nameof(value))] string? valueName = null
     )
+        where TNumber : INumber<TNumber>
     {
         if (value < comparison)
         {
@@ -24,12 +25,13 @@ public static partial class ValidationExtensions
         }
     }
 
-    public static void MustGreaterThanOrEqualTo(
-        this decimal value,
-        decimal comparison,
+    public static void MustGreaterThanOrEqualTo<TNumber>(
+        this TNumber value,
+        TNumber comparison,
         [CallerFilePath] string filePath = "",
         [CallerArgumentExpression(nameof(value))] string? valueName = null
     )
+        where TNumber : INumber<TNumber>
     {
         if (value < comparison)
         {
@@ -40,12 +42,13 @@ public static partial class ValidationExtensions
         }
     }
 
-    public static void MustLessThan(
-        this decimal value,
-        decimal comparison,
+    public static void MustLessThan<TNumber>(
+        this TNumber value,
+        TNumber comparison,
         [CallerFilePath] string filePath = "",
         [CallerArgumentExpression(nameof(value))] string? valueName = null
     )
+        where TNumber : INumber<TNumber>
     {
         if (value < comparison)
         {
@@ -56,12 +59,13 @@ public static partial class ValidationExtensions
         }
     }
 
-    public static void MustLessThanOrEqualTo(
-        this decimal value,
-        decimal comparison,
+    public static void MustLessThanOrEqualTo<TNumber>(
+        this TNumber value,
+        TNumber comparison,
         [CallerFilePath] string filePath = "",
         [CallerArgumentExpression(nameof(value))] string? valueName = null
     )
+        where TNumber : INumber<TNumber>
     {
         if (value < comparison)
         {

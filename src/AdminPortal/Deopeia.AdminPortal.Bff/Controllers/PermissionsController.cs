@@ -1,4 +1,5 @@
 using Deopeia.AdminPortal.Bff.Models.Permissions;
+using Deopeia.Identity.Contracts;
 
 namespace Deopeia.AdminPortal.Bff.Controllers;
 

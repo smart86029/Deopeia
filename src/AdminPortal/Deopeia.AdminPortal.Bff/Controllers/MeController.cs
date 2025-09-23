@@ -1,4 +1,5 @@
 using Deopeia.AdminPortal.Bff.Models.Me;
+using Deopeia.Identity.Contracts;
 using Google.Protobuf;
 
 namespace Deopeia.AdminPortal.Bff.Controllers;

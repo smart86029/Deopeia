@@ -16,4 +16,7 @@
     <ProjectReference Include="..\Deopeia.Common.Application\Deopeia.Common.Application.csproj" />
     <ProjectReference Include="..\Deopeia.Common.Domain\Deopeia.Common.Domain.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Finance\" />
+  </ItemGroup>
 </Project>
