@@ -16,7 +16,7 @@
       <VerificationCode v-model="verificationCode" />
     </el-form-item>
     <el-form-item>
-      <ButtonSave class="button-save" text="operation.enable" />
+      <ButtonSave class="button-save" text="action.enable" />
     </el-form-item>
   </el-form>
 </template>

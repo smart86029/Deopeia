@@ -1,7 +1,7 @@
 <template>
   <router-link custom :to="{ name: route }" v-slot="{ navigate }">
     <el-button type="primary" plain @click="navigate">
-      {{ text ?? $t('operation.create') }}
+      {{ text ?? $t('action.create') }}
     </el-button>
   </router-link>
 </template>

@@ -1,5 +1,5 @@
 <template>
   <el-button @click="$router.back()">
-    {{ $t('operation.back') }}
+    {{ $t('action.back') }}
   </el-button>
 </template>

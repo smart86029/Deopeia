@@ -1,12 +1,7 @@
 <template>
   <router-link custom :to="to" v-slot="{ navigate, href }">
-    <el-link
-      :type="type ?? 'primary'"
-      :href="href"
-      :disabled="disabled"
-      @click="navigate"
-    >
-      {{ text ?? $t('operation.edit') }}
+    <el-link :type="type ?? 'primary'" :href="href" :disabled="disabled" @click="navigate">
+      {{ text ?? $t('action.edit') }}
     </el-link>
   </router-link>
 </template>

@@ -9,6 +9,6 @@ withDefaults(
   defineProps<{
     text?: string;
   }>(),
-  { text: 'operation.save' },
+  { text: 'action.save' },
 );
 </script>

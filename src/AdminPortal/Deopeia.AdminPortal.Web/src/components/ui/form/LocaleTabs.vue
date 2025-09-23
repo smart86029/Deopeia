@@ -10,7 +10,7 @@
       </el-form>
       <template #footer>
         <el-button type="primary" @click="addLocale">
-          {{ $t('operation.add') }}
+          {{ $t('action.add') }}
         </el-button>
       </template>
     </el-dialog>
