@@ -70,7 +70,7 @@ export default {
       instrument: {
         list: 'Instruments',
         create: 'Create Instrument',
-        edit: 'Edit Instrument {symbol}',
+        edit: 'Edit Instrument',
       },
     },
     trading: {

@@ -52,8 +52,8 @@ public class Permission
         IsEnabled = false;
     }
 
-    public void RemoveLocalizations(IEnumerable<PermissionLocalization> localizations)
+    public void RemoveLocalizations(IEnumerable<CultureInfo> cultures)
     {
-        _localizations.RemoveRange(localizations);
+        _localizations.RemoveRange(cultures);
     }
 }

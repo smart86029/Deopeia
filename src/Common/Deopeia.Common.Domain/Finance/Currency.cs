@@ -35,8 +35,8 @@ public class Currency
         _localizations[culture].UpdateName(name);
     }
 
-    public void RemoveLocalizations(IEnumerable<CurrencyLocalization> localizations)
+    public void RemoveLocalizations(IEnumerable<CultureInfo> cultures)
     {
-        _localizations.RemoveRange(localizations);
+        _localizations.RemoveRange(cultures);
     }
 }

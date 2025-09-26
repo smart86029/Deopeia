@@ -16,29 +16,37 @@ public class InstrumentsController(InstrumentService.InstrumentServiceClient cli
         return Ok(response);
     }
 
-    // [HttpGet("{id:guid}")]
-    // public async Task<ActionResult<UserResponse>> Get([FromRoute] Guid id)
-    // {
-    //     var grpcRequest = new GetUserRequest { Id = id };
-    //     var grpcResponse = await _client.GetUserAsync(grpcRequest);
-    //     var response = grpcResponse.Adapt<UserResponse>();
-    //     return Ok(response);
-    // }
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<InstrumentResponse>> Get([FromRoute] Guid id)
+    {
+        var grpcRequest = new GetInstrumentRequest { Id = id };
+        var grpcResponse = await _client.GetInstrumentAsync(grpcRequest);
+        var response = grpcResponse.Adapt<InstrumentResponse>();
+        return Ok(response);
+    }
 
-    // [HttpPost]
-    // public async Task<ActionResult> Create([FromBody] CreateRequest request)
-    // {
-    //     var grpcRequest = request.Adapt<CreateUserRequest>();
-    //     await _client.CreateUserAsync(grpcRequest);
-    //     return NoContent();
-    // }
+    [HttpPost]
+    public async Task<ActionResult> Create([FromBody] CreateRequest request)
+    {
+        var grpcRequest = request.Adapt<CreateInstrumentRequest>();
+        await _client.CreateInstrumentAsync(grpcRequest);
+        return NoContent();
+    }
 
-    // [HttpPut("{id:guid}")]
-    // public async Task<ActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRequest request)
-    // {
-    //     var grpcRequest = request.Adapt<UpdateUserRequest>();
-    //     grpcRequest.Id = id;
-    //     await _client.UpdateUserAsync(grpcRequest);
-    //     return NoContent();
-    // }
+    [HttpPut("{id:guid}")]
+    public async Task<ActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRequest request)
+    {
+        var grpcRequest = request.Adapt<UpdateInstrumentRequest>();
+        grpcRequest.Id = id;
+        await _client.UpdateInstrumentAsync(grpcRequest);
+        return NoContent();
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<ActionResult> Delete([FromRoute] Guid id)
+    {
+        var grpcRequest = new DeleteInstrumentRequest { Id = id };
+        await _client.DeleteInstrumentAsync(grpcRequest);
+        return NoContent();
+    }
 }

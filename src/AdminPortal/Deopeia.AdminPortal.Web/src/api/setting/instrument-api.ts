@@ -1,3 +1,4 @@
+import type { Guid } from '@/models/guid';
 import httpClient from '../http-client';
 
 export interface GetInstrumentsRequest extends PagedRequest {
@@ -6,29 +7,28 @@ export interface GetInstrumentsRequest extends PagedRequest {
 }
 
 export interface InstrumentRow {
+  id: Guid;
   symbol: string;
   name: string;
-  currency: string;
-  underlyingType: string;
+  type: InstrumentType;
 }
 
 export interface Instrument {
+  id: Guid;
+  type: InstrumentType;
   symbol: string;
-  underlyingType: number;
-  currencyCode: string;
+  baseAsset: string;
+  quoteAsset: string;
   pricePrecision: number;
-  tickSize: number;
-  instrumentSizeQuantity: number;
-  instrumentSizeUnitCode: string;
-  leverages: string[];
-  sessions: Session[];
-  locales: InstrumentLocale[];
+  quantityPrecision: number;
+  minQuantity: number;
+  minNotional: number;
+  localizations: InstrumentLocalization[];
 }
 
-export interface InstrumentLocale {
+export interface InstrumentLocalization {
   culture: string;
   name: string;
-  description?: string;
 }
 
 export const instrumentApi = {
@@ -42,8 +42,8 @@ export const instrumentApi = {
         params: request,
       })
       .then((response) => response.data),
-  get: (symbol: string) => httpClient.get<Instrument>(`/Instruments/${symbol}`),
+  get: (id: Guid) =>
+    httpClient.get<Instrument>(`/Instruments/${id}`).then((response) => response.data),
   create: (instrument: Instrument) => httpClient.post('/Instruments', instrument),
-  update: (instrument: Instrument) =>
-    httpClient.put(`/Instruments/${instrument.symbol}`, instrument),
+  update: (instrument: Instrument) => httpClient.put(`/Instruments/${instrument.id}`, instrument),
 };

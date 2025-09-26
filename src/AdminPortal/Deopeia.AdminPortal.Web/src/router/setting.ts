@@ -1,4 +1,4 @@
-import type { RouteLocationNormalized } from 'vue-router';
+import { createId, editId } from './props';
 
 export default [
   {
@@ -20,17 +20,13 @@ export default [
             path: 'create',
             name: 'setting.instrument.create',
             component: () => import('../views/setting/InstrumentForm.vue'),
-            props: () => ({ default: true, action: 'create', symbol: '' }),
+            props: createId,
           },
           {
-            path: ':symbol',
+            path: ':id',
             name: 'setting.instrument.edit',
             component: () => import('../views/setting/InstrumentForm.vue'),
-            props: (route: RouteLocationNormalized) => ({
-              default: true,
-              action: 'edit',
-              symbol: route.params.symbol,
-            }),
+            props: editId,
           },
         ],
       },

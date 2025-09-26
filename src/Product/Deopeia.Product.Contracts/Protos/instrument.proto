@@ -12,6 +12,18 @@ option csharp_namespace = "Deopeia.Product.Contracts";
 service InstrumentService {
   // Lists instruments with pagination.
   rpc ListInstrument (ListInstrumentRequest) returns (ListInstrumentResponse);
+
+  // Gets an instrument by its ID.
+  rpc GetInstrument (GetInstrumentRequest) returns (GetInstrumentResponse);
+
+  // Creates a new instrument.
+  rpc CreateInstrument (CreateInstrumentRequest) returns (google.protobuf.Empty);
+
+  // Updates an existing instrument.
+  rpc UpdateInstrument (UpdateInstrumentRequest) returns (google.protobuf.Empty);
+
+  // Deletes an instrument by its ID.
+  rpc DeleteInstrument (DeleteInstrumentRequest) returns (google.protobuf.Empty);
 }
 
 // The request message for listing instruments.
@@ -36,4 +48,61 @@ message ListInstrumentResponse {
     string name = 3;
     int32 type = 4;
   }
+}
+
+// The request message for getting an instrument by its ID.
+message GetInstrumentRequest {
+  deopeia.common.Uuid id = 1;
+}
+
+// The response message containing the instrument details.
+message GetInstrumentResponse {
+  deopeia.common.Uuid id = 1;
+  int32 type = 2;
+  string symbol = 3;
+  string base_asset = 4;
+  string quote_asset = 5;
+  int32 price_precision = 6;
+  int32 quantity_precision = 7;
+  int32 min_quantity = 8;
+  int32 min_notional = 9;
+  repeated InstrumentLocalization localizations = 10;
+}
+
+// The localization information for an instrument.
+message InstrumentLocalization {
+  string culture = 1;
+  string name = 2;
+}
+
+// The request message for creating an instrument.
+message CreateInstrumentRequest {
+  int32 type = 1;
+  string symbol = 2;
+  string base_asset = 3;
+  string quote_asset = 4;
+  int32 price_precision = 5;
+  int32 quantity_precision = 6;
+  int32 min_quantity = 7;
+  int32 min_notional = 8;
+   repeated InstrumentLocalization localizations = 9;
+}
+
+// The request message for updating an instrument.
+message UpdateInstrumentRequest {
+  deopeia.common.Uuid id = 1;
+  int32 type = 2;
+  string symbol = 3;
+  string base_asset = 4;
+  string quote_asset = 5;
+  int32 price_precision = 6;
+  int32 quantity_precision = 7;
+  int32 min_quantity = 8;
+  int32 min_notional = 9;
+   repeated InstrumentLocalization localizations = 10;
+}
+
+// The request message for deleting an instrument by its ID.
+message DeleteInstrumentRequest {
+  deopeia.common.Uuid id = 1;
 }

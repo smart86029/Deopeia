@@ -40,10 +40,14 @@ public class EntityLocalizationCollection<TLocalization, TEntityId> : List<TLoca
 
     public TLocalization Default => this[CultureInfo.DefaultThreadCurrentCulture!];
 
-    public void RemoveRange(IEnumerable<TLocalization> localizations)
+    public void RemoveRange(IEnumerable<CultureInfo> cultures)
     {
-        ArgumentNullException.ThrowIfNull(localizations);
+        ArgumentNullException.ThrowIfNull(cultures);
 
+        var localizations = this.Where(x =>
+                cultures.Contains(x.Culture) && x.Culture != CultureInfo.DefaultThreadCurrentCulture
+            )
+            .ToList();
         foreach (var localization in localizations)
         {
             Remove(localization);

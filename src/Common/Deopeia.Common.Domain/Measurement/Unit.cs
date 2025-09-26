@@ -24,8 +24,8 @@ public class Unit : AggregateRoot<UnitCode>, ILocalizable<UnitLocalization, Unit
         _localizations[culture].UpdateName(name);
     }
 
-    public void RemoveLocalizations(IEnumerable<UnitLocalization> localizations)
+    public void RemoveLocalizations(IEnumerable<CultureInfo> cultures)
     {
-        _localizations.RemoveRange(localizations);
+        _localizations.RemoveRange(cultures);
     }
 }

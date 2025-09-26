@@ -23,7 +23,12 @@
     <TableColumnEnum prop="type" :label="$t('common.type')" localeKey="product.instrumentType" />
     <el-table-column :label="$t('common.actions')">
       <template #default="{ row }">
-        <TextLink :to="{ name: 'setting.instrument.edit', params: { symbol: row.symbol } }" />
+        <DividerSpace>
+          <ButtonLink :to="{ name: 'setting.instrument.edit', params: { id: row.id } }" />
+          <el-button type="danger" link @click="$emit('delete', row)">
+            {{ $t('action.delete') }}
+          </el-button>
+        </DividerSpace>
       </template>
     </el-table-column>
   </el-table>

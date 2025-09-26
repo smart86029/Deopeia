@@ -28,10 +28,11 @@ internal class UpdatePermissionCommandHandler(
             permission.Disable();
         }
 
-        var localizationsToRemove = permission
+        var culturesToRemove = permission
             .Localizations.Where(x => !command.Localizations.Any(y => y.Culture.Equals(x.Culture)))
+            .Select(x => x.Culture)
             .ToArray();
-        permission.RemoveLocalizations(localizationsToRemove);
+        permission.RemoveLocalizations(culturesToRemove);
 
         foreach (var localization in command.Localizations)
         {

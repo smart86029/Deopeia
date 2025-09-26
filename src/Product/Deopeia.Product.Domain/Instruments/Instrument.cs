@@ -41,31 +41,54 @@ public abstract class Instrument
 
     public InstrumentType Type { get; private init; }
 
-    public Symbol Symbol { get; private init; }
+    public Symbol Symbol { get; private set; }
 
     public string Name => _localizations[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
 
-    public string BaseAsset { get; private init; } = string.Empty;
+    public string BaseAsset { get; private set; } = string.Empty;
 
-    public string QuoteAsset { get; private init; } = string.Empty;
+    public string QuoteAsset { get; private set; } = string.Empty;
 
-    public int PricePrecision { get; private init; }
+    public int PricePrecision { get; private set; }
 
-    public int QuantityPrecision { get; private init; }
+    public int QuantityPrecision { get; private set; }
 
-    public decimal MinQuantity { get; private init; }
+    public decimal MinQuantity { get; private set; }
 
-    public decimal MinNotional { get; private init; }
+    public decimal MinNotional { get; private set; }
 
     public IReadOnlyList<InstrumentLocalization> Localizations => _localizations;
 
-    public void UpdateName(string name, CultureInfo culture)
+    public void Rename(string name, CultureInfo culture)
     {
         _localizations[culture].UpdateName(name);
     }
 
-    public void RemoveLocalizations(IEnumerable<InstrumentLocalization> localizations)
+    public void ChangeSymbol(Symbol symbol)
     {
-        _localizations.RemoveRange(localizations);
+        Symbol = symbol;
+    }
+
+    public void ChangeAssets(string baseAsset, string quoteAsset)
+    {
+        baseAsset.MustNotBeNullOrWhiteSpace();
+        quoteAsset.MustNotBeNullOrWhiteSpace();
+
+        BaseAsset = baseAsset;
+        QuoteAsset = quoteAsset;
+    }
+
+    public void ChangePrecision(int pricePrecision, int quantityPrecision)
+    {
+        pricePrecision.MustGreaterThan(0);
+        quantityPrecision.MustGreaterThan(0);
+
+        PricePrecision = pricePrecision;
+        QuantityPrecision = quantityPrecision;
+    }
+
+    public void RemoveLocalizations(IEnumerable<CultureInfo> cultures)
+    {
+        _localizations.RemoveRange(cultures);
     }
 }

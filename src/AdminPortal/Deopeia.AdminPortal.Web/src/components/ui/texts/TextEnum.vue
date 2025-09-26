@@ -4,12 +4,12 @@
   </el-text>
 </template>
 
-<script setup lang="ts" generic="TEnum extends object">
+<script setup lang="ts" generic="TValue extends string | number">
 const props = defineProps<{
-  value: TEnum;
+  value: TValue;
   localeKey: string;
-  success?: TEnum | TEnum[];
-  danger?: TEnum | TEnum[];
+  success?: TValue | TValue[];
+  danger?: TValue | TValue[];
 }>();
 
 const type = computed(() => {
@@ -23,10 +23,7 @@ const type = computed(() => {
 
   const success = props.success;
   if (success !== undefined) {
-    if (
-      success === value ||
-      (Array.isArray(success) && success.includes(value))
-    ) {
+    if (success === value || (Array.isArray(success) && success.includes(value))) {
       return 'success';
     }
   }

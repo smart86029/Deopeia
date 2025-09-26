@@ -23,10 +23,11 @@ internal class UpdateRoleCommandHandler(IUnitOfWork unitOfWork, IRoleRepository 
             role.Disable();
         }
 
-        var localizationsToRemove = role
+        var culturesToRemove = role
             .Localizations.Where(x => !command.Localizations.Any(y => y.Culture.Equals(x.Culture)))
+            .Select(x => x.Culture)
             .ToArray();
-        role.RemoveLocalizations(localizationsToRemove);
+        role.RemoveLocalizations(culturesToRemove);
 
         foreach (var localization in command.Localizations)
         {

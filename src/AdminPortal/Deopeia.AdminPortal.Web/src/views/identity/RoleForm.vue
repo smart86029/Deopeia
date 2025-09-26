@@ -52,7 +52,7 @@ const { data: permissionOptions } = usePermissionOptionsQuery();
 const form: Role = reactive({
   code: '',
   isEnabled: true,
-  locales: [{ culture: 'en', name: '' }],
+  localizations: [{ culture: 'en', name: '' }],
   permissionCodes: [],
 });
 

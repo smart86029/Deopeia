@@ -51,9 +51,9 @@ public class Role : AggregateRoot<RoleCode>, ILocalizable<RoleLocalization, Role
         IsEnabled = false;
     }
 
-    public void RemoveLocalizations(IEnumerable<RoleLocalization> localizations)
+    public void RemoveLocalizations(IEnumerable<CultureInfo> cultures)
     {
-        _localizations.RemoveRange(localizations);
+        _localizations.RemoveRange(cultures);
     }
 
     public void AssignPermission(Permission permission)
