@@ -8,9 +8,9 @@
     <UserSecretsId>45c6d1a4-53d5-4773-9cb5-28359cfc2d47</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.4.2" />
-    <PackageReference Include="Aspire.Hosting.Kafka" Version="9.4.2" />
-    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.4.2" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.5.0" />
+    <PackageReference Include="Aspire.Hosting.Kafka" Version="9.5.0" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.5.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AdminPortal\Deopeia.AdminPortal.Bff\Deopeia.AdminPortal.Bff.csproj" />
