@@ -25,7 +25,7 @@
       <template #default="{ row }">
         <DividerSpace>
           <ButtonLink :to="{ name: 'setting.instrument.edit', params: { id: row.id } }" />
-          <el-button type="danger" link @click="$emit('delete', row)">
+          <el-button type="danger" link @click="deleteInstrument(row.id, row.symbol)">
             {{ $t('action.delete') }}
           </el-button>
         </DividerSpace>
@@ -42,14 +42,25 @@
 
 <script setup lang="ts">
 import { instrumentApi, type GetInstrumentsRequest } from '@/api/setting/instrument-api';
+import type { Guid } from '@/models/guid';
 import { InstrumentType } from '@/models/instrument-type';
 
 const request: GetInstrumentsRequest = reactive({
   ...defaultQuery,
 });
+const queryClient = useQueryClient();
 const { data, isFetching } = useQuery({
   queryKey: ['instrumentApi.getList', request],
   queryFn: () => instrumentApi.getList(request),
 });
 const { isLoading } = useDeferredLoading(isFetching);
+const { confirmDelete } = useConfirm();
+
+const deleteInstrument = (id: Guid, name: string) => {
+  confirmDelete('product.instrument', name).then(() => {
+    instrumentApi
+      .delete(id)
+      .then(() => queryClient.invalidateQueries({ queryKey: ['instrumentApi.getList', request] }));
+  });
+};
 </script>

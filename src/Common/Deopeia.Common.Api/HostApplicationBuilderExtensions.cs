@@ -40,6 +40,8 @@ public static class HostApplicationBuilderExtensions
             && member.Type.GetGenericTypeDefinition() == typeof(RepeatedField<>)
         );
 
+        TypeAdapterConfig<decimal, DecimalValue>.NewConfig().MapWith(src => (DecimalValue)src);
+        TypeAdapterConfig<DecimalValue, decimal>.NewConfig().MapWith(src => (decimal)src);
         TypeAdapterConfig<Guid, Uuid>.NewConfig().MapWith(src => (Uuid)src);
         TypeAdapterConfig<Uuid, Guid>.NewConfig().MapWith(src => (Guid)src);
     }

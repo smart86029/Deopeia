@@ -17,45 +17,33 @@ public abstract class Instrument
         string name,
         string baseAsset,
         string quoteAsset,
-        int pricePrecision,
-        int quantityPrecision,
-        decimal minQuantity,
-        decimal minNotional
+        PriceConstraints priceConstraints,
+        QuantityConstraints quantityConstraints
     )
     {
-        pricePrecision.MustGreaterThan(0);
-        quantityPrecision.MustGreaterThan(0);
-        minQuantity.MustGreaterThan(0);
-        minNotional.MustGreaterThan(0);
-
         Type = type;
         Symbol = symbol;
         _localizations.Default.UpdateName(name);
         BaseAsset = baseAsset;
         QuoteAsset = quoteAsset;
-        PricePrecision = pricePrecision;
-        QuantityPrecision = quantityPrecision;
-        MinQuantity = minQuantity;
-        MinNotional = minNotional;
+        PriceConstraints = priceConstraints;
+        QuantityConstraints = quantityConstraints;
     }
 
     public InstrumentType Type { get; private init; }
 
     public Symbol Symbol { get; private set; }
 
-    public string Name => _localizations[CultureInfo.CurrentCulture]?.Name ?? string.Empty;
+    public string Name =>
+        _localizations[CultureInfo.CurrentCulture]?.Name ?? _localizations.Default.Name;
 
     public string BaseAsset { get; private set; } = string.Empty;
 
     public string QuoteAsset { get; private set; } = string.Empty;
 
-    public int PricePrecision { get; private set; }
+    public PriceConstraints PriceConstraints { get; private set; }
 
-    public int QuantityPrecision { get; private set; }
-
-    public decimal MinQuantity { get; private set; }
-
-    public decimal MinNotional { get; private set; }
+    public QuantityConstraints QuantityConstraints { get; private set; }
 
     public IReadOnlyList<InstrumentLocalization> Localizations => _localizations;
 
@@ -78,13 +66,14 @@ public abstract class Instrument
         QuoteAsset = quoteAsset;
     }
 
-    public void ChangePrecision(int pricePrecision, int quantityPrecision)
+    public void ChangePriceConstraints(PriceConstraints priceConstraints)
     {
-        pricePrecision.MustGreaterThan(0);
-        quantityPrecision.MustGreaterThan(0);
+        PriceConstraints = priceConstraints;
+    }
 
-        PricePrecision = pricePrecision;
-        QuantityPrecision = quantityPrecision;
+    public void ChangeQuantityConstraints(QuantityConstraints quantityConstraints)
+    {
+        QuantityConstraints = quantityConstraints;
     }
 
     public void RemoveLocalizations(IEnumerable<CultureInfo> cultures)

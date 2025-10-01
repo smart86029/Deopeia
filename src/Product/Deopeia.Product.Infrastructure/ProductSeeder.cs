@@ -26,20 +26,16 @@ public sealed class ProductSeeder : DbSeeder
                 "Bitcoin / TetherUS",
                 "BTC",
                 "USDT",
-                2,
-                6,
-                0.000001M,
-                10M
+                new PriceConstraints(0.01M),
+                new QuantityConstraints(0.00001M, 0.00001M, 1)
             ),
             new Spot(
                 new Symbol("ETHUSDT"),
                 "Ethereum / TetherUS",
                 "ETH",
                 "USDT",
-                2,
-                6,
-                0.000001M,
-                10M
+                new PriceConstraints(0.01M),
+                new QuantityConstraints(0.0001M, 0.0001M, 1)
             ),
         ];
     }

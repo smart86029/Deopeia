@@ -5,9 +5,7 @@ public sealed record UpdateRequest(
     string Symbol,
     string BaseAsset,
     string QuoteAsset,
-    int PricePrecision,
-    int QuantityPrecision,
-    decimal MinQuantity,
-    decimal MinNotional,
+    PriceConstraints PriceConstraints,
+    QuantityConstraints QuantityConstraints,
     IReadOnlyList<InstrumentLocalization> Localizations
 );

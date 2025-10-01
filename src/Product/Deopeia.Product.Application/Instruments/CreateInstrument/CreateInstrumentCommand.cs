@@ -7,9 +7,7 @@ public sealed record CreateInstrumentCommand(
     string Symbol,
     string BaseAsset,
     string QuoteAsset,
-    int PricePrecision,
-    int QuantityPrecision,
-    decimal MinQuantity,
-    decimal MinNotional,
+    PriceConstraintsDto PriceConstraints,
+    QuantityConstraintsDto QuantityConstraints,
     IEnumerable<InstrumentLocalizationDto> Localizations
 ) : ICommand;

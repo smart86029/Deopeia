@@ -28,17 +28,33 @@
     <el-form-item :label="$t('product.quoteAsset')">
       <el-input v-model="form.quoteAsset" />
     </el-form-item>
-    <el-form-item :label="$t('product.pricePrecision')">
-      <el-input-number v-model="form.pricePrecision" :min="0" :step="1" />
+    <el-form-item :label="$t('product.tickSize')">
+      <el-input-number
+        v-model="form.priceConstraints.tickSize"
+        :min="0"
+        :step="form.priceConstraints.tickSize"
+      />
     </el-form-item>
-    <el-form-item :label="$t('product.quantityPrecision')">
-      <el-input-number v-model="form.quantityPrecision" :min="0" :step="1" />
+    <el-form-item :label="$t('product.stepSize')">
+      <el-input-number
+        v-model="form.quantityConstraints.stepSize"
+        :min="0"
+        :step="form.quantityConstraints.stepSize"
+      />
     </el-form-item>
     <el-form-item :label="$t('product.minQuantity')">
-      <el-input-number v-model="form.minQuantity" :min="0" :step="0.00000001" />
+      <el-input-number
+        v-model="form.quantityConstraints.minQuantity"
+        :min="form.quantityConstraints.stepSize"
+        :step="form.quantityConstraints.stepSize"
+      />
     </el-form-item>
     <el-form-item :label="$t('product.minNotional')">
-      <el-input-number v-model="form.minNotional" :min="0" :step="0.00000001" />
+      <el-input-number
+        v-model="form.quantityConstraints.minNotional"
+        :min="0"
+        :step="form.quantityConstraints.stepSize"
+      />
     </el-form-item>
 
     <el-form-item>
@@ -68,10 +84,8 @@ const form: Instrument = reactive({
   symbol: '',
   baseAsset: '',
   quoteAsset: '',
-  pricePrecision: 0,
-  quantityPrecision: 0,
-  minQuantity: 0,
-  minNotional: 0,
+  priceConstraints: { tickSize: 0 },
+  quantityConstraints: { minQuantity: 0, stepSize: 0, minNotional: 0 },
   localizations: [{ culture: 'en', name: '' }],
 });
 

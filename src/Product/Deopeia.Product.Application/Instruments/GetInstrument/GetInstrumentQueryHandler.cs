@@ -21,10 +21,12 @@ internal sealed class GetInstrumentQueryHandler(ISpotRepository spotRepository)
             Symbol = spot.Symbol.Value,
             BaseAsset = spot.BaseAsset,
             QuoteAsset = spot.QuoteAsset,
-            PricePrecision = spot.PricePrecision,
-            QuantityPrecision = spot.QuantityPrecision,
-            MinQuantity = spot.MinQuantity,
-            MinNotional = spot.MinNotional,
+            PriceConstraints = new PriceConstraintsDto(spot.PriceConstraints.TickSize),
+            QuantityConstraints = new QuantityConstraintsDto(
+                spot.QuantityConstraints.MinQuantity,
+                spot.QuantityConstraints.StepSize,
+                spot.QuantityConstraints.MinNotional
+            ),
             Localizations = spot
                 .Localizations.Select(x => new InstrumentLocalizationDto
                 {

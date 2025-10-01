@@ -9,6 +9,10 @@ internal sealed class InstrumentConfiguration : IEntityTypeConfiguration<Instrum
     {
         builder.HasDiscriminator(x => x.Type).HasValue<Spot>(InstrumentType.Spot);
 
+        builder.ComplexProperty(x => x.PriceConstraints);
+
+        builder.ComplexProperty(x => x.QuantityConstraints);
+
         builder.HasIndex(x => x.Symbol).IsUnique();
     }
 }

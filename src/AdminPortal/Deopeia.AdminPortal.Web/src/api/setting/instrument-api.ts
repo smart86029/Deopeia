@@ -19,11 +19,19 @@ export interface Instrument {
   symbol: string;
   baseAsset: string;
   quoteAsset: string;
-  pricePrecision: number;
-  quantityPrecision: number;
-  minQuantity: number;
-  minNotional: number;
+  priceConstraints: PriceConstraints;
+  quantityConstraints: QuantityConstraints;
   localizations: InstrumentLocalization[];
+}
+
+export interface PriceConstraints {
+  tickSize: number;
+}
+
+export interface QuantityConstraints {
+  minQuantity: number;
+  stepSize: number;
+  minNotional: number;
 }
 
 export interface InstrumentLocalization {
@@ -46,4 +54,5 @@ export const instrumentApi = {
     httpClient.get<Instrument>(`/Instruments/${id}`).then((response) => response.data),
   create: (instrument: Instrument) => httpClient.post('/Instruments', instrument),
   update: (instrument: Instrument) => httpClient.put(`/Instruments/${instrument.id}`, instrument),
+  delete: (id: Guid) => httpClient.delete(`/Instruments/${id}`),
 };

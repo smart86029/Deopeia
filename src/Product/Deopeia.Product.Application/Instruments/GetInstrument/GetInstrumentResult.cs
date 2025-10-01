@@ -14,13 +14,9 @@ public sealed class GetInstrumentResult
 
     public string QuoteAsset { get; set; } = string.Empty;
 
-    public int PricePrecision { get; set; }
+    public required PriceConstraintsDto PriceConstraints { get; set; }
 
-    public int QuantityPrecision { get; set; }
-
-    public decimal MinQuantity { get; set; }
-
-    public decimal MinNotional { get; set; }
+    public required QuantityConstraintsDto QuantityConstraints { get; set; }
 
     public IReadOnlyList<InstrumentLocalizationDto> Localizations { get; set; } = [];
 }

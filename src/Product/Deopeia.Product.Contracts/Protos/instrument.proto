@@ -62,11 +62,21 @@ message GetInstrumentResponse {
   string symbol = 3;
   string base_asset = 4;
   string quote_asset = 5;
-  int32 price_precision = 6;
-  int32 quantity_precision = 7;
-  int32 min_quantity = 8;
-  int32 min_notional = 9;
-  repeated InstrumentLocalization localizations = 10;
+  PriceConstraints price_constraints = 6;
+  QuantityConstraints quantity_constraints = 7;
+  repeated InstrumentLocalization localizations = 8;
+}
+
+// The price constraints for an instrument.
+message PriceConstraints {
+  deopeia.common.DecimalValue tick_size = 1;
+}
+
+// The quantity constraints for an instrument.
+message QuantityConstraints {
+  deopeia.common.DecimalValue step_size = 1;
+  deopeia.common.DecimalValue min_quantity = 2;
+  deopeia.common.DecimalValue min_notional = 3;
 }
 
 // The localization information for an instrument.
@@ -81,11 +91,9 @@ message CreateInstrumentRequest {
   string symbol = 2;
   string base_asset = 3;
   string quote_asset = 4;
-  int32 price_precision = 5;
-  int32 quantity_precision = 6;
-  int32 min_quantity = 7;
-  int32 min_notional = 8;
-   repeated InstrumentLocalization localizations = 9;
+  PriceConstraints price_constraints = 5;
+  QuantityConstraints quantity_constraints = 6;
+  repeated InstrumentLocalization localizations = 7;
 }
 
 // The request message for updating an instrument.
@@ -95,11 +103,9 @@ message UpdateInstrumentRequest {
   string symbol = 3;
   string base_asset = 4;
   string quote_asset = 5;
-  int32 price_precision = 6;
-  int32 quantity_precision = 7;
-  int32 min_quantity = 8;
-  int32 min_notional = 9;
-   repeated InstrumentLocalization localizations = 10;
+  PriceConstraints price_constraints = 6;
+  QuantityConstraints quantity_constraints = 7;
+  repeated InstrumentLocalization localizations = 8;
 }
 
 // The request message for deleting an instrument by its ID.

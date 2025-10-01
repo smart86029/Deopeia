@@ -1,3 +1,4 @@
+using Deopeia.Product.Domain.Instruments;
 using Deopeia.Product.Domain.Instruments.Spots;
 
 namespace Deopeia.Product.Application.Instruments.CreateInstrument;
@@ -16,15 +17,19 @@ public sealed class CreateInstrumentCommandHandler(
     )
     {
         var en = command.Localizations.First(x => x.Culture == "en");
+        var priceConstraints = new PriceConstraints(command.PriceConstraints.TickSize);
+        var quantityConstraints = new QuantityConstraints(
+            command.QuantityConstraints.MinQuantity,
+            command.QuantityConstraints.StepSize,
+            command.QuantityConstraints.MinNotional
+        );
         var spot = new Spot(
             new Symbol(command.Symbol),
             en.Name,
             command.BaseAsset,
             command.QuoteAsset,
-            command.PricePrecision,
-            command.QuantityPrecision,
-            command.MinQuantity,
-            command.MinNotional
+            priceConstraints,
+            quantityConstraints
         );
         foreach (var localization in command.Localizations)
         {

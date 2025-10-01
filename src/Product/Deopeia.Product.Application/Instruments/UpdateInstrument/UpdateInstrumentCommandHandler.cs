@@ -19,6 +19,14 @@ internal sealed class UpdateInstrumentCommandHandler(
         var spot =
             await _spotRepository.GetSpotAsync(new InstrumentId(command.Id))
             ?? throw new InvalidOperationException("Spot not found");
+        spot.ChangePriceConstraints(new PriceConstraints(command.PriceConstraints.TickSize));
+        spot.ChangeQuantityConstraints(
+            new QuantityConstraints(
+                command.QuantityConstraints.MinQuantity,
+                command.QuantityConstraints.StepSize,
+                command.QuantityConstraints.MinNotional
+            )
+        );
 
         foreach (var localization in command.Localizations)
         {

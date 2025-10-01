@@ -9,10 +9,8 @@ public class Spot : Instrument
         string name,
         string baseAsset,
         string quoteAsset,
-        int pricePrecision,
-        int quantityPrecision,
-        decimal minQuantity,
-        decimal minNotional
+        PriceConstraints priceConstraints,
+        QuantityConstraints orderConstraints
     )
         : base(
             InstrumentType.Spot,
@@ -20,9 +18,7 @@ public class Spot : Instrument
             name,
             baseAsset,
             quoteAsset,
-            pricePrecision,
-            quantityPrecision,
-            minQuantity,
-            minNotional
+            priceConstraints,
+            orderConstraints
         ) { }
 }

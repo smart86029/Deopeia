@@ -1,6 +1,7 @@
 import action from './action';
 import auth from './auth';
 import common from './common';
+import confirm from './confirm';
 import fund from './fund';
 import identity from './identity';
 import product from './product';
@@ -12,6 +13,7 @@ export default {
   ...action,
   ...auth,
   ...common,
+  ...confirm,
   ...fund,
   ...identity,
   ...product,
