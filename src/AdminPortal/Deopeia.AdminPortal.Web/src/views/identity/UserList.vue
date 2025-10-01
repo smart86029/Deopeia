@@ -35,7 +35,9 @@
     </el-table-column>
     <el-table-column :label="$t('common.actions')">
       <template #default="{ row }">
-        <TextLink :to="{ name: 'identity.user.edit', params: { id: row.id } }" />
+        <DividerSpace>
+          <ButtonLink :to="{ name: 'identity.user.edit', params: { id: row.id } }" />
+        </DividerSpace>
       </template>
     </el-table-column>
   </el-table>

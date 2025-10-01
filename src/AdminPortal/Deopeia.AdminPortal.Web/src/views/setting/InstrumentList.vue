@@ -55,12 +55,12 @@ const { data, isFetching } = useQuery({
 });
 const { isLoading } = useDeferredLoading(isFetching);
 const { confirmDelete } = useConfirm();
+const { success } = useNotify();
 
-const deleteInstrument = (id: Guid, name: string) => {
-  confirmDelete('product.instrument', name).then(() => {
-    instrumentApi
-      .delete(id)
-      .then(() => queryClient.invalidateQueries({ queryKey: ['instrumentApi.getList', request] }));
-  });
+const deleteInstrument = async (id: Guid, name: string) => {
+  await confirmDelete('product.instrument', name);
+  await instrumentApi.delete(id);
+  queryClient.invalidateQueries({ queryKey: ['instrumentApi.getList', request] });
+  success('delete');
 };
 </script>

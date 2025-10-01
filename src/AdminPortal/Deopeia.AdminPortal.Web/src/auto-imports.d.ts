@@ -48,6 +48,7 @@ declare global {
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const emptyGuid: typeof import('./models/guid')['emptyGuid']
+  const error: typeof import('./composables/useNotify')['error']
   const extendRef: typeof import('@vueuse/core')['extendRef']
   const getActivePinia: typeof import('pinia')['getActivePinia']
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
@@ -120,6 +121,7 @@ declare global {
   const shallowReadonly: typeof import('vue')['shallowReadonly']
   const shallowRef: typeof import('vue')['shallowRef']
   const storeToRefs: typeof import('pinia')['storeToRefs']
+  const success: typeof import('./composables/useNotify')['success']
   const syncRef: typeof import('@vueuse/core')['syncRef']
   const syncRefs: typeof import('@vueuse/core')['syncRefs']
   const templateRef: typeof import('@vueuse/core')['templateRef']
@@ -237,6 +239,7 @@ declare global {
   const useMutationObserver: typeof import('@vueuse/core')['useMutationObserver']
   const useNavigatorLanguage: typeof import('@vueuse/core')['useNavigatorLanguage']
   const useNetwork: typeof import('@vueuse/core')['useNetwork']
+  const useNotify: typeof import('./composables/useNotify')['useNotify']
   const useNow: typeof import('@vueuse/core')['useNow']
   const useObjectUrl: typeof import('@vueuse/core')['useObjectUrl']
   const useOffsetPagination: typeof import('@vueuse/core')['useOffsetPagination']
@@ -316,6 +319,7 @@ declare global {
   const useWindowFocus: typeof import('@vueuse/core')['useWindowFocus']
   const useWindowScroll: typeof import('@vueuse/core')['useWindowScroll']
   const useWindowSize: typeof import('@vueuse/core')['useWindowSize']
+  const warning: typeof import('./composables/useNotify')['warning']
   const watch: typeof import('vue')['watch']
   const watchArray: typeof import('@vueuse/core')['watchArray']
   const watchAtMost: typeof import('@vueuse/core')['watchAtMost']
@@ -338,6 +342,9 @@ declare global {
   // @ts-ignore
   export type { Component, Slot, Slots, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, ShallowRef, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
+  export type { ActionType } from './composables/useNotify'
+  import('./composables/useNotify')
   // @ts-ignore
   export type { AppLocale } from './models/app-locale'
   import('./models/app-locale')

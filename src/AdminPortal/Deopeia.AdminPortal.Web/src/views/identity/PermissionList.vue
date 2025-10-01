@@ -1,11 +1,11 @@
 <template>
   <TableToolbar>
-    <el-form :model="query" :inline="true">
+    <el-form :model="request" :inline="true">
       <el-form-item :label="$t('identity.code')">
-        <el-input v-model="query.code" />
+        <el-input v-model="request.code" />
       </el-form-item>
       <el-form-item :label="$t('common.status')">
-        <SelectBoolean v-model="query.isEnabled" locale-key="status.isEnabled" />
+        <SelectBoolean v-model="request.isEnabled" locale-key="status.isEnabled" />
       </el-form-item>
     </el-form>
 
@@ -25,29 +25,44 @@
     />
     <el-table-column :label="$t('common.actions')">
       <template #default="{ row }">
-        <TextLink :to="{ name: 'identity.permission.edit', params: { code: row.code } }" />
+        <DividerSpace>
+          <ButtonLink :to="{ name: 'identity.permission.edit', params: { code: row.code } }" />
+          <el-button type="danger" link @click="deletePermission(row.code)">
+            {{ $t('action.delete') }}
+          </el-button>
+        </DividerSpace>
       </template>
     </el-table-column>
   </el-table>
 
   <TablePagination
-    v-model:current-page="query.pageIndex"
-    v-model:page-size="query.pageSize"
+    v-model:current-page="request.pageIndex"
+    v-model:page-size="request.pageSize"
     :total="data?.totalCount"
   />
 </template>
 
 <script setup lang="ts">
-import { permissionApi, type GetPermissionsQuery } from '@/api/identity/permission-api';
+import { permissionApi, type GetPermissionsRequest } from '@/api/identity/permission-api';
 
-const query: GetPermissionsQuery = reactive({
+const request: GetPermissionsRequest = reactive({
   code: undefined,
   isEnabled: undefined,
   ...defaultQuery,
 });
+const queryClient = useQueryClient();
 const { data, isFetching } = useQuery({
-  queryKey: ['permissionApi.getList', query],
-  queryFn: () => permissionApi.getList(query),
+  queryKey: ['permissionApi.getList', request],
+  queryFn: () => permissionApi.getList(request),
 });
 const { isLoading } = useDeferredLoading(isFetching);
+const { confirmDelete } = useConfirm();
+const { success } = useNotify();
+
+const deletePermission = async (code: string) => {
+  await confirmDelete('identity.permission', code);
+  await permissionApi.delete(code);
+  queryClient.invalidateQueries({ queryKey: ['permissionApi.getList', request] });
+  success('delete');
+};
 </script>

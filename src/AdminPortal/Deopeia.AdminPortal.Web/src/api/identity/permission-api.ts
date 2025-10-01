@@ -2,7 +2,7 @@ import type { OptionResult } from '@/models/option-result';
 import type { PagedRequest, PagedResponse } from '@/models/page';
 import httpClient from '../http-client';
 
-export interface GetPermissionsQuery extends PagedRequest {
+export interface GetPermissionsRequest extends PagedRequest {
   code?: string;
   isEnabled?: boolean;
 }
@@ -31,7 +31,7 @@ export const permissionApi = {
     httpClient
       .get<OptionResult<string>[]>('/Permissions/Options')
       .then((response) => response.data),
-  getList: (query: GetPermissionsQuery) =>
+  getList: (query: GetPermissionsRequest) =>
     httpClient
       .get<PagedResponse<PermissionRow>>(`/Permissions`, {
         params: query,
@@ -41,4 +41,5 @@ export const permissionApi = {
     httpClient.get<Permission>(`/Permissions/${code}`).then((response) => response.data),
   create: (permission: Permission) => httpClient.post('/Permissions', permission),
   update: (permission: Permission) => httpClient.put(`/Permissions/${permission.code}`, permission),
+  delete: (code: string) => httpClient.delete(`/Permissions/${code}`),
 };

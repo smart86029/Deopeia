@@ -2,7 +2,7 @@ import type { OptionResult } from '@/models/option-result';
 import type { PagedRequest, PagedResponse } from '@/models/page';
 import httpClient from '../http-client';
 
-export interface GetRolesQuery extends PagedRequest {
+export interface GetRolesRequest extends PagedRequest {
   isEnabled?: boolean;
 }
 
@@ -29,11 +29,12 @@ export interface RoleLocalization {
 export const roleApi = {
   getOptions: () =>
     httpClient.get<OptionResult<string>[]>('/Roles/Options').then((response) => response.data),
-  getList: (query: GetRolesQuery) =>
+  getList: (query: GetRolesRequest) =>
     httpClient
       .get<PagedResponse<RoleRow>>(`/Roles`, { params: query })
       .then((response) => response.data),
   get: (code: string) => httpClient.get<Role>(`/Roles/${code}`).then((response) => response.data),
   create: (role: Role) => httpClient.post('/Roles', role),
   update: (role: Role) => httpClient.put(`/Roles/${role.code}`, role),
+  delete: (code: string) => httpClient.delete(`/Roles/${code}`),
 };

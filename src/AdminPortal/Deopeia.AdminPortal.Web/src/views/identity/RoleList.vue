@@ -1,8 +1,8 @@
 <template>
   <TableToolbar>
-    <el-form :model="query" :inline="true">
+    <el-form :model="request" :inline="true">
       <el-form-item :label="$t('common.status')">
-        <SelectBoolean v-model="query.isEnabled" locale-key="status.isEnabled" />
+        <SelectBoolean v-model="request.isEnabled" locale-key="status.isEnabled" />
       </el-form-item>
     </el-form>
 
@@ -22,28 +22,43 @@
     />
     <el-table-column :label="$t('common.actions')">
       <template #default="{ row }">
-        <TextLink :to="{ name: 'identity.role.edit', params: { code: row.code } }" />
+        <DividerSpace>
+          <ButtonLink :to="{ name: 'identity.role.edit', params: { code: row.code } }" />
+          <el-button type="danger" link @click="deleteRole(row.code)">
+            {{ $t('action.delete') }}
+          </el-button>
+        </DividerSpace>
       </template>
     </el-table-column>
   </el-table>
 
   <TablePagination
-    v-model:current-page="query.pageIndex"
-    v-model:page-size="query.pageSize"
+    v-model:current-page="request.pageIndex"
+    v-model:page-size="request.pageSize"
     :total="data?.totalCount"
   />
 </template>
 
 <script setup lang="ts">
-import { roleApi, type GetRolesQuery } from '@/api/identity/role-api';
+import { roleApi, type GetRolesRequest } from '@/api/identity/role-api';
 
-const query: GetRolesQuery = reactive({
+const request: GetRolesRequest = reactive({
   isEnabled: undefined,
   ...defaultQuery,
 });
+const queryClient = useQueryClient();
 const { data, isFetching } = useQuery({
-  queryKey: ['roleApi.getList', query],
-  queryFn: () => roleApi.getList(query),
+  queryKey: ['roleApi.getList', request],
+  queryFn: () => roleApi.getList(request),
 });
 const { isLoading } = useDeferredLoading(isFetching);
+const { confirmDelete } = useConfirm();
+const { success } = useNotify();
+
+const deleteRole = async (code: string) => {
+  await confirmDelete('identity.role', code);
+  await roleApi.delete(code);
+  queryClient.invalidateQueries({ queryKey: ['roleApi.getList', request] });
+  success('delete');
+};
 </script>
