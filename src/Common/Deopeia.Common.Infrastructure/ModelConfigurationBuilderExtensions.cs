@@ -14,6 +14,7 @@ public static class ModelConfigurationBuilderExtensions
         builder.Properties<Type>().HaveConversion<TypeConverter>();
         builder.Properties<TimeZoneInfo>().HaveConversion<TimeZoneInfoConverter>();
 
+        builder.Properties<Amount>().HaveConversion<AmountConverter>();
         builder.Properties<FileResourceId>().HaveConversion<FileResourceIdConverter>();
         builder.Properties<Symbol>().HaveConversion<SymbolConverter>();
 

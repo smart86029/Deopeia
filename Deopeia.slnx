@@ -16,6 +16,9 @@
     <Project Path="src/Common/Deopeia.Common.Worker/Deopeia.Common.Worker.csproj" />
     <Project Path="src/Common/Deopeia.Common/Deopeia.Common.csproj" />
   </Folder>
+  <Folder Name="/src/Funds/">
+    <Project Path="src/Funds/Deopeia.Funds.Domain/Deopeia.Funds.Domain.csproj" />
+  </Folder>
   <Folder Name="/src/Identity/">
     <Project Path="src/Identity/Deopeia.Identity.Api/Deopeia.Identity.Api.csproj" />
     <Project Path="src/Identity/Deopeia.Identity.Application/Deopeia.Identity.Application.csproj" />
